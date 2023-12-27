@@ -21,15 +21,7 @@ export default {
 
       },
       fontFamily: {
-        _black: 'PretendardBlack',
-        _bold: 'PretendardBold',
-        _extraBold: 'PretendardExtraBold',
-        _extraLight: 'PretendardExtraLight',
-        _light: 'PretendardLight',
-        _medium: 'PretendardMedium',
-        _regular: 'PretendardRegular',
-        _semiBold: 'PretendardSemiBold',
-        _thin: 'PretendardThin',
+        "pretendard": ['PretendardVariable']
       },
 
       fontSize: {
