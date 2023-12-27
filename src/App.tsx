@@ -1,10 +1,14 @@
 import "./index.css";
-
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import SignUp from "./pages/singUp/SignUp";
 function App() {
   return (
     <>
-      <h1 className="font-_extraBold text-_h2">hello</h1>
-      <div className="font-_bold text-_h1">hello2</div>
+      <Router>
+        <Routes>
+          <Route path="/signUp" element={<SignUp />} />
+        </Routes>
+      </Router>
     </>
   );
 }
