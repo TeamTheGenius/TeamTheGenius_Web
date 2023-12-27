@@ -31,6 +31,10 @@ export default {
         _h4: "1.8rem",
         _body1: "1.6rem",
         _caption: "1.4rem",
+      },
+
+      lineHeight: {
+        _normal: 'normal',
       }
     },
   },
