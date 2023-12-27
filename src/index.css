@@ -2,71 +2,58 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-style: normal;
+}
+.pretendard {
+  font-family: "Pretendard-Regular", sans-serif;
+}
+.nomal {
+  font-family: "";
+  color: #6054ff;
+}
+.mobView-card {
+  width: 600px;
+  height: 100vh;
+  box-shadow: 0 0 50px -3px rgba(0, 0, 0, 0.14);
+  padding: 188px 64px;
+}
+.font-head {
+  font-size: 1.75rem;
+}
+.btn1 {
+  width: 472px;
+  height: 68px;
+  background-color: #6054ff;
+  border-radius: 12px;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+/* SignUp*/
+.signUp-placeholder::placeholder {
+  font-family: "Pretendard-Regular", sans-serif;
+  font-size: 16px;
+  letter-spacing: -0.32px;
 }
-a:hover {
-  color: #535bf2;
+.signUp-input {
+  @apply border-b-2 focus:border-black w-full text-lg outline-none py-4;
 }
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+.signUp-lable {
+  @apply text-lg font-semibold;
 }
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.mb50 {
+  margin-bottom: 50px;
 }
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+.required::after {
+  content: "*";
+  color: #6054ff;
+  margin-left: 5px;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.singUp-err {
+  color: #fd3259;
+  font-size: 16px;
+  margin-left: auto;
 }
