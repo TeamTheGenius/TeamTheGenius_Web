@@ -13,8 +13,11 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "formik": "^2.4.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.21.1",
+    "yup": "^1.3.3"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "7.6.6",
