@@ -21,7 +21,7 @@ html {
 }
 
 .mobView-card {
-  max-width: 600px;
+  width: 600px;
   min-height: 100vh;
   padding: 20px 64px;
   background: white;
