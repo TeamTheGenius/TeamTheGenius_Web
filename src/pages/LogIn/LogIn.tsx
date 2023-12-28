@@ -1,5 +1,12 @@
+import MobCard from "@/components/MobCard";
+import Comment from "./Comment/Comment";
+
 function LogIn() {
-  return <div></div>;
+  return (
+    <MobCard>
+      <Comment />
+    </MobCard>
+  );
 }
 
 export default LogIn;
