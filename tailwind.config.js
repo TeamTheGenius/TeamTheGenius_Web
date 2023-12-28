@@ -36,7 +36,7 @@ export default {
 
       lineHeight: {
         _normal: 'normal',
-      }
+      },
     },
   },
   plugins: [],
