@@ -5,7 +5,7 @@ function Image() {
     <img
       src={landingImage}
       alt="landing page image"
-      className="w-[472px] px-[18px]"
+      className="w-[47.2rem] px-[1.8rem]"
     />
   );
 }

@@ -21,7 +21,8 @@ export default {
 
       },
       fontFamily: {
-        "pretendard": ['PretendardVariable']
+        "pretendard": ['PretendardVariable'],
+        "RobotoMdium": ['RobotoMdium']
       },
 
       fontSize: {
