@@ -1,3 +1,4 @@
+import GoogleButton from "../GoogleButton/GoogleButton";
 import KakaoButton from "../KakaoButton/KakaoButton";
 import NaverButton from "../NaverButton/NaverButton";
 
@@ -6,6 +7,7 @@ function Buttons() {
     <>
       <KakaoButton />
       <NaverButton />
+      <GoogleButton />
     </>
   );
 }

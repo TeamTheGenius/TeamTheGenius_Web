@@ -20,6 +20,11 @@ html {
   src: url("./assets/font/PretendardVariable.woff2") format("woff2");
 }
 
+@font-face {
+  font-family: "RobotoMdium";
+  src: url("./assets/font/Roboto-Medium.ttf") format("truetype");
+}
+
 .mobView-card {
   width: 600px;
   min-height: 100vh;
