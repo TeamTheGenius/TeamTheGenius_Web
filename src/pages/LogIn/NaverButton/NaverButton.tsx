@@ -7,7 +7,7 @@ function NaverButton() {
         alt="naver logo"
         className="ml-10 shrink-0  w-[20px]"
       />
-      <p className="flex justify-center items-center w-full text-white text-[1.5rem] font-semibold leading-[2.25rem]">
+      <p className="flex justify-center items-center w-full text-white text-[1.5rem] font-medium leading-[2.25rem]">
         네이버 로그인
       </p>
     </div>

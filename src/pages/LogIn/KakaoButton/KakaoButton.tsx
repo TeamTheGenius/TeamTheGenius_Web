@@ -8,7 +8,7 @@ function KakaoButton() {
         alt="kakao logo"
         className="ml-10 shrink-0 w-[20px]"
       />
-      <p className="flex justify-center items-center w-full text-black text-opacity-85 text-[1.5rem] font-semibold leading-[2.25rem]">
+      <p className="flex justify-center items-center w-full text-black text-opacity-85 text-[1.5rem] font-medium leading-[2.25rem]">
         카카오 로그인
       </p>
     </div>
