@@ -2,6 +2,7 @@ interface ButtonWrapperProps {
   backgroundColor: string;
   children: React.ReactNode;
   className?: string;
+  oncClick: () => void;
 }
 
 interface ButtonLogoProps {
