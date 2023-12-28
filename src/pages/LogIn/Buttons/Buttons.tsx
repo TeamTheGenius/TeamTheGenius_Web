@@ -5,7 +5,7 @@ import NaverButton from "../NaverButton/NaverButton";
 
 function Buttons() {
   return (
-    <div className="flex flex-col gap-[1.3rem] p-[8px]">
+    <div className="flex flex-col gap-[1.3rem] p-[0.8rem] w-full">
       <KakaoButton />
       <NaverButton />
       <FacebookButton />

@@ -6,9 +6,11 @@ import Buttons from "./Buttons/Buttons";
 function LogIn() {
   return (
     <MobCard>
-      <Comment />
-      <Image />
-      <Buttons />
+      <div className="flex flex-col gap-[5.6rem] justify-center items-center">
+        <Comment />
+        <Image />
+        <Buttons />
+      </div>
     </MobCard>
   );
 }

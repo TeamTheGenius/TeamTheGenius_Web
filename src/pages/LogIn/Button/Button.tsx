@@ -22,17 +22,17 @@ function ButtonMain({
   className,
 }: ButtonWrapperProps) {
   return (
-    <div
-      className={` ${backgroundColor} flex justify-center items-center w-[456px] h-[53px] py-0 px-[15px] rounded-xl  ${className}`}
+    <button
+      className={` ${backgroundColor} flex justify-center items-center w-full h-[5.3rem] py-0 px-[1.5rem] rounded-xl ${className}`}
     >
       {children}
-    </div>
+    </button>
   );
 }
 
 function ButtonLogo({ imageSrc, imageAlt }: ButtonLogoProps) {
   return (
-    <img src={imageSrc} alt={imageAlt} className="ml-10 shrink-0 w-[20px]" />
+    <img src={imageSrc} alt={imageAlt} className="ml-10 shrink-0 w-[2rem]" />
   );
 }
 

@@ -1,6 +1,6 @@
 function Comment() {
   return (
-    <div className="flex flex-col items-start gap-[37px] self-stretch">
+    <div className="flex flex-col items-start gap-[3.7rem] self-stretch">
       <h1 className="font-pretendard text-_h1 font-bold leading-_normal">
         안녕하세요:)
       </h1>

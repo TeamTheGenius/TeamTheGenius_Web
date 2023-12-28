@@ -11,7 +11,7 @@ function Landing() {
     <Button
       content={"시작하기"}
       width={"w-full"}
-      height={"h-[61px]"}
+      height={"h-[6.1rem]"}
       backgroundColor={"bg-_primary-50"}
       textSize={"text-_h2"}
       textColor={"text-white"}
