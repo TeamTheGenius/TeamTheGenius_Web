@@ -16,12 +16,7 @@ html {
 }
 
 @font-face {
-  font-family: "PretendardVariable";
-  src: url("./assets/font/PretendardVariable.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "RobotoMdium";
+  font-family: "RobotoMedium";
   src: url("./assets/font/Roboto-Medium.ttf") format("truetype");
 }
 

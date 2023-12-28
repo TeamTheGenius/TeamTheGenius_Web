@@ -13,7 +13,7 @@ function GoogleButton() {
       <Button.Coontent
         content="Google 로그인"
         textColor="text-black"
-        className="font-RobotoMdium"
+        className="font-RobotoMedium"
       />
     </Button>
   );
