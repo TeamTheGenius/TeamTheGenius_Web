@@ -1,4 +1,4 @@
-import MobCard from "@/components/common/MobCard";
+import MobCard from "@/components/Common/MobCard";
 import Comment from "./Comment/Comment";
 import Image from "./Image/Image";
 import Button from "./Button/Button";

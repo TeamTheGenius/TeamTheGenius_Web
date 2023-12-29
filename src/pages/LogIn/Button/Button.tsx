@@ -2,7 +2,7 @@ interface ButtonWrapperProps {
   backgroundColor: string;
   children: React.ReactNode;
   className?: string;
-  oncClick: () => void;
+  onClick: () => void;
 }
 
 interface ButtonLogoProps {
@@ -20,9 +20,11 @@ function ButtonMain({
   backgroundColor,
   children,
   className,
+  onClick,
 }: ButtonWrapperProps) {
   return (
     <button
+      onClick={onClick}
       className={` ${backgroundColor} flex justify-center items-center w-full h-[5.3rem] py-0 px-[1.5rem] rounded-xl ${className}`}
     >
       {children}

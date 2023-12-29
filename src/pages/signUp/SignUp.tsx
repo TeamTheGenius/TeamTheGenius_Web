@@ -1,13 +1,13 @@
-import MobView from "@/components/common/MobCard";
+import MobView from "@/components/Common/MobCard";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import "@/pages/signUp/signUpStyle.css";
-import SignUpHeader from "@/components/signUp/SignUpHeader";
-import SignUpInput from "@/components/signUp/SignUpInput";
-import Button from "@/components/common/Button";
+import SignUpHeader from "@/components/SignUp/SignUpHeader";
+import SignUpInput from "@/components/SignUp/SignUpInput";
+import Button from "@/components/Common/Button";
 // import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import SignUpModal from "@/components/signUpModal/SignUpModal";
+import SignUpModal from "@/components/SignUpModal/SignUpModal";
 
 const SignUp = () => {
   // const navigate = useNavigate();

@@ -13,7 +13,7 @@ function KakaoButton() {
   };
 
   return (
-    <Button backgroundColor="bg-[#FEE500]" oncClick={onClick}>
+    <Button backgroundColor="bg-[#FEE500]" onClick={onClick}>
       <Button.Logo imageSrc={kakaoLogo} imageAlt="kakao logo" />
       <Button.Coontent content="카카오 로그인" textColor="text-black" />
     </Button>

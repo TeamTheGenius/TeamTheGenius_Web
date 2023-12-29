@@ -1,10 +1,12 @@
 import ErrorHeader from "@/components/Error/ErrorHeader";
-import Button from "@/components/common/Button";
-import MobCard from "@/components/common/MobCard";
+import Button from "@/components/Common/Button";
+import MobCard from "@/components/Common/MobCard";
+import { useNavigate } from "react-router-dom";
 
 const Error = () => {
+  const navigate = useNavigate();
   const back = () => {
-    history.back();
+    navigate(-1);
   };
   return (
     <MobCard>

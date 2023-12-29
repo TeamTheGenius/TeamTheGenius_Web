@@ -15,7 +15,7 @@ function GoogleButton() {
     <Button
       backgroundColor="bg-white"
       className="border border-[#6D6D6D]"
-      oncClick={onClick}
+      onClick={onClick}
     >
       <Button.Logo imageSrc={googleLogo} imageAlt="google logo" />
       <Button.Coontent
