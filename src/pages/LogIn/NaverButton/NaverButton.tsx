@@ -1,5 +1,5 @@
 import naverLogo from "@/assets/image/naver-logo.png";
-import Button from "../Button/Button";
+import Button from "@/pages/LogIn/Button/Button";
 import { useNavigate } from "react-router-dom";
 
 function NaverButton() {

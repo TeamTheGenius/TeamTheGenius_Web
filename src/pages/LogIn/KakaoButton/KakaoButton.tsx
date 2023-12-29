@@ -1,5 +1,5 @@
 import kakaoLogo from "@/assets/image/kakao-logo.png";
-import Button from "../Button/Button";
+import Button from "@/pages/LogIn/Button/Button";
 
 function KakaoButton() {
   const REST_API_KEY = import.meta.env.VITE_APP_KAKAO_REST_API_KEY;
