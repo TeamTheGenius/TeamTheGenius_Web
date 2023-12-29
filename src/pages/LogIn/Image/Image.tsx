@@ -5,7 +5,7 @@ function Image() {
       <img
         src={heroImage}
         alt="login page comment"
-        className="w-full absolute top-0 left-0"
+        className="w-full h-full absolute top-0 left-0"
       />
     </div>
   );

@@ -5,9 +5,9 @@ import Button from "./Button/Button";
 function Landing() {
   return (
     <MobCard>
-      <div className="flex flex-col gap-[2.35rem] justify-center items-center">
+      <div className="flex flex-col gap-[2.35rem] items-center justify-center">
         <Comment />
-        <div className="w-[472px] px-[1.8rem]">
+        <div className="w-full max-w-[472px] px-[1.8rem]">
           <Image />
         </div>
         <Button />

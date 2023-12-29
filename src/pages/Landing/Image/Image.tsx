@@ -1,4 +1,4 @@
-import landingImage from "../../../assets/image/landing-image.png";
+import landingImage from "@/assets/image/landing-image.png";
 
 function Image() {
   return (
@@ -6,7 +6,7 @@ function Image() {
       <img
         src={landingImage}
         alt="landing page image"
-        className="w-full absolute top-0 left-0"
+        className="w-full h-full absolute top-0 left-0"
       />
     </div>
   );

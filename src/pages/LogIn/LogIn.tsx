@@ -7,9 +7,9 @@ import TermsOfService from "./TermsOfService/TermsOfService";
 function LogIn() {
   return (
     <MobCard>
-      <div className="flex flex-col gap-[5.6rem] justify-center items-center">
+      <div className="w-full flex flex-col gap-[5.6rem] justify-center items-center">
         <Comment />
-        <div className="w-[202px]">
+        <div className="w-full max-w-[202px]">
           <Image />
         </div>
         <Buttons />
