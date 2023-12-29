@@ -7,7 +7,9 @@ function Landing() {
     <MobCard>
       <div className="flex flex-col gap-[2.35rem]">
         <Comment />
-        <Image />
+        <div className="w-[472px]">
+          <Image />
+        </div>
         <Button />
       </div>
     </MobCard>

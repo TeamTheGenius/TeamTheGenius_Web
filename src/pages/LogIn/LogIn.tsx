@@ -14,7 +14,7 @@ function LogIn() {
         </div>
         <Buttons />
       </div>
-      <div className="mb-[2.1rem]"></div>
+      <div className="mb-[2.1rem]" />
       <TermsOfService />
     </MobCard>
   );

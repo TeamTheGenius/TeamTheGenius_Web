@@ -7,7 +7,6 @@ function Image() {
         alt="login page comment"
         className="w-full absolute top-0 left-0"
       />
-      ;
     </div>
   );
 }
