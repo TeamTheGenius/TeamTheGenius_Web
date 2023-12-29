@@ -1,5 +1,5 @@
 import facebookLogo from "@/assets/image/facebook-logo.png";
-import Button from "../Button/Button";
+import Button from "@/pages/LogIn/Button/Button";
 import FacebookLogin from "@greatsumini/react-facebook-login";
 
 function FacebookButton() {

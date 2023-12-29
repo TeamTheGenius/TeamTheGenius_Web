@@ -1,5 +1,5 @@
 import googleLogo from "@/assets/image/google-logo.png";
-import Button from "../Button/Button";
+import Button from "@/pages/LogIn/Button/Button";
 
 function GoogleButton() {
   const REST_API_KEY = import.meta.env.VITE_APP_GOOGLE_REST_API_KEY;
