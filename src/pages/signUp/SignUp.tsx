@@ -5,10 +5,21 @@ import "@/pages/signUp/signUpStyle.css";
 import SignUpHeader from "@/components/signUp/SignUpHeader";
 import SignUpInput from "@/components/signUp/SignUpInput";
 import Button from "@/components/common/Button";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import SignUpModal from "@/components/signUpModal/SignUpModal";
 
 const SignUp = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
 
   const validationSchema = Yup.object().shape({
     nickName: Yup.string()
@@ -30,7 +41,8 @@ const SignUp = () => {
   });
 
   const buttonapi = () => {
-    navigate("/error");
+    openModal();
+    // navigate("/error");
   };
 
   return (
@@ -86,6 +98,13 @@ const SignUp = () => {
           />
         </form>
       </MobView>
+      {modalIsOpen && (
+        <SignUpModal
+          modalIsOpen={modalIsOpen}
+          closeModal={closeModal}
+          setModalIsOpen={setModalIsOpen}
+        />
+      )}
     </div>
   );
 };
