@@ -2,11 +2,11 @@ import landingImage from "../../../assets/image/landing-image.png";
 
 function Image() {
   return (
-    <div className="relative w-full pb-[110.04%]">
+    <div className="relative w-full pb-[119.5%]">
       <img
         src={landingImage}
         alt="landing page image"
-        className="w-full absolute top-0 left-0 px-[1.8rem]"
+        className="w-full absolute top-0 left-0"
       />
     </div>
   );
