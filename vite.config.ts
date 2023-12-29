@@ -7,6 +7,9 @@ import path from "path";
 export default defineConfig({
   assetsInclude: ["/sb-preview/runtime.js"],
   plugins: [react(), WindiCSS()],
+  define: {
+    "process.env": {},
+  },
   resolve: {
     alias: [
       { find: "@", replacement: path.resolve(__dirname, "src") },
