@@ -21,7 +21,7 @@ const SignUpModal: React.FC<ModalProps> = ({
       margin: "auto",
       border: "1px solid #ccc",
       background: "#fff",
-      borderRadius: "4px",
+      borderRadius: "12px",
       outline: "none",
     },
   };

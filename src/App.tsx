@@ -4,6 +4,7 @@ import SignUp from "./pages/signUp/SignUp";
 import Landing from "./pages/Landing/Landing";
 import LogIn from "./pages/LogIn/LogIn";
 import Error from "./pages/error/Error";
+import SignComplate from "./pages/signComplate/SignComplate";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           <Route path="/login/signup" element={<SignUp />} />
           <Route path="/error" element={<Error />} />
+          <Route path="/signcomplate" element={<SignComplate />} />
         </Routes>
       </Router>
     </>
