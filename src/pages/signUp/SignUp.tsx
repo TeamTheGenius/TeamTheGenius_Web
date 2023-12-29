@@ -1,11 +1,15 @@
-import MobView from "@/components/MobCard";
+import MobView from "@/components/common/MobCard";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import "@/pages/signUp/signUpStyle.css";
 import SignUpHeader from "@/components/signUp/SignUpHeader";
 import SignUpInput from "@/components/signUp/SignUpInput";
-import Button from "@/components/Button";
+import Button from "@/components/common/Button";
+import { useNavigate } from "react-router-dom";
+
 const SignUp = () => {
+  const navigate = useNavigate();
+
   const validationSchema = Yup.object().shape({
     nickName: Yup.string()
       .required("닉네임을 입력해주세요.")
@@ -24,9 +28,11 @@ const SignUp = () => {
       console.log(values);
     },
   });
+
   const buttonapi = () => {
-    console.log("가입하기");
+    navigate("/error");
   };
+
   return (
     <div>
       <MobView>
