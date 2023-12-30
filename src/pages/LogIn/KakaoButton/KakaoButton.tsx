@@ -1,5 +1,5 @@
 import kakaoLogo from "@/assets/image/kakao-logo.png";
-import Button from "../Button/Button";
+import Button from "@/pages/LogIn/Button/Button";
 
 function KakaoButton() {
   const REST_API_KEY = import.meta.env.VITE_APP_KAKAO_REST_API_KEY;
@@ -13,7 +13,7 @@ function KakaoButton() {
   };
 
   return (
-    <Button backgroundColor="bg-[#FEE500]" oncClick={onClick}>
+    <Button backgroundColor="bg-[#FEE500]" onClick={onClick}>
       <Button.Logo imageSrc={kakaoLogo} imageAlt="kakao logo" />
       <Button.Coontent content="카카오 로그인" textColor="text-black" />
     </Button>

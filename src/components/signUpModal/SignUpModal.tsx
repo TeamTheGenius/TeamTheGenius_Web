@@ -1,5 +1,5 @@
-import Button from "@/components/common/Button";
-import SignComplateHeader from "@/components/signUpModal/SignComplateHeader";
+import Button from "@/components/Common/Button";
+import SignComplateHeader from "@/components/SignUpModal/SignComplateHeader";
 import Modal from "react-modal";
 type ModalProps = {
   modalIsOpen: boolean;

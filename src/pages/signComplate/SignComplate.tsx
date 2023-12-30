@@ -1,6 +1,6 @@
-import MobCard from "@/components/common/MobCard";
-import Button from "@/components/common/Button";
-import SignComplateHeader from "@/components/signComplate/SignComplateHeader";
+import MobCard from "@/components/Common/MobCard";
+import Button from "@/components/Common/Button";
+import SignComplateHeader from "@/components/SignUpModal/SignComplateHeader";
 const SignComplate = () => {
   const todoLink = () => {
     console.log("첫 투두 만들기 링크입니다.");

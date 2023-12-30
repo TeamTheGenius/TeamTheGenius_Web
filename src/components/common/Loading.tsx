@@ -1,4 +1,4 @@
-import MobCard from "./MobCard";
+import MobCard from "@/components/Common/MobCard";
 
 function Loading() {
   return (
