@@ -43,7 +43,7 @@ const SignUpInput: React.FC<SignUpInputProps> = ({
         onChange={onChange}
         onBlur={onBlur}
       />
-      {error && <div className="font-pretendard singUp-err">{error}</div>}
+      {error && <div className="font-pretendard signUp-err">{error}</div>}
     </li>
   );
 };

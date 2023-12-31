@@ -1,44 +1,31 @@
 import Button from "@/components/Common/Button";
-import SignComplateHeader from "@/components/SignUpModal/SignComplateHeader";
+import SignComplateHeader from "@/components/Interest/SignUpModal/SignComplateHeader";
+import { modalCard } from "@/utils/modalCard";
 import Modal from "react-modal";
 type ModalProps = {
-  modalIsOpen: boolean;
-  setModalIsOpen: (isOpen: boolean) => void;
+  signUpModalIsOpen: boolean;
+  setSignUpModalIsOpen: (isOpen: boolean) => void;
   closeModal: () => void;
 };
 const SignUpModal: React.FC<ModalProps> = ({
-  modalIsOpen,
+  signUpModalIsOpen,
   closeModal,
-  setModalIsOpen,
+  setSignUpModalIsOpen,
 }) => {
-  const customStyles = {
-    overlay: {
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
-    },
-    content: {
-      width: "474px",
-      height: "280px",
-      margin: "auto",
-      border: "1px solid #ccc",
-      background: "#fff",
-      borderRadius: "12px",
-      outline: "none",
-    },
-  };
   const todoLink = () => {
     alert("제작 중");
   };
   const mainLink = () => {
-    setModalIsOpen(false);
+    setSignUpModalIsOpen(false);
   };
   return (
     <Modal
-      isOpen={modalIsOpen}
+      isOpen={signUpModalIsOpen}
       onRequestClose={closeModal}
       contentLabel="sign complate message"
       shouldCloseOnOverlayClick={false}
       ariaHideApp={false}
-      style={customStyles}
+      style={modalCard}
     >
       <SignComplateHeader />
       <div className="flex flex-col justify-between h-36">

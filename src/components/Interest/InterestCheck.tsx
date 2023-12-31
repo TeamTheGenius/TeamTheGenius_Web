@@ -33,8 +33,8 @@ const InterestCheck = ({
   const style = {
     width: "100%",
     height: "40rem",
-    marginTop: "10.8rem",
-    marginBottom: "10.8rem",
+    marginTop: "6rem",
+    marginBottom: "6rem",
   };
 
   return (
@@ -56,15 +56,15 @@ const InterestCheck = ({
                   <Checkbox value={valueInterest.name}>
                     {checkedValues.includes(valueInterest.name) ? (
                       <InterestBtn
-                        bgColor="bg-_primary-10"
-                        textColor="text-black"
+                        bgColor="bg-_primary-30"
+                        textColor="text-white"
                         checkText={valueInterest.name}
                         icon={faCheck}
                       />
                     ) : (
                       <InterestBtn
-                        bgColor="bg-_primary-30"
-                        textColor="text-white"
+                        bgColor="bg-_primary-10"
+                        textColor="text-black"
                         checkText={valueInterest.name}
                         icon={faPlus}
                       />

@@ -21,6 +21,7 @@
     "@types/react-custom-scrollbars": "^4.0.13",
     "@types/react-facebook-login": "^4.1.10",
     "@types/react-modal": "^3.16.3",
+    "@types/yup": "^0.32.0",
     "antd": "^5.12.5",
     "formik": "^2.4.5",
     "modal": "^1.2.0",
