@@ -2,14 +2,10 @@ import kakaoLogo from "@/assets/image/kakao-logo.png";
 import Button from "@/pages/LogIn/Button/Button";
 
 function KakaoButton() {
-  const REST_API_KEY = import.meta.env.VITE_APP_KAKAO_REST_API_KEY;
-  const REDIRECT_URI = import.meta.env.VITE_APP_KAKAO_REDIRECT_URI;
-  console.log(REST_API_KEY, REDIRECT_URI);
-
-  const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  const KAKAO_REDIRECT_URI = "http://localhost:8080/oauth2/authorization/kakao";
 
   const onClick = () => {
-    window.location.href = KAKAO_AUTH_URI;
+    window.location.href = KAKAO_REDIRECT_URI;
   };
 
   return (
