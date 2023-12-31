@@ -5,21 +5,10 @@ import "@/pages/signUp/signUpStyle.css";
 import SignUpHeader from "@/components/SignUp/SignUpHeader";
 import SignUpInput from "@/components/SignUp/SignUpInput";
 import Button from "@/components/Common/Button";
-// import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import SignUpModal from "@/components/SignUpModal/SignUpModal";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
-  // const navigate = useNavigate();
-  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
-
-  const openModal = () => {
-    setModalIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalIsOpen(false);
-  };
+  const navigate = useNavigate();
 
   const validationSchema = Yup.object().shape({
     nickName: Yup.string()
@@ -41,8 +30,7 @@ const SignUp = () => {
   });
 
   const buttonapi = () => {
-    openModal();
-    // navigate("/error");
+    navigate("interest");
   };
 
   return (
@@ -87,7 +75,7 @@ const SignUp = () => {
             />
           </ul>
           <Button
-            content={"가입하기"}
+            content={"계속하기"}
             width={"w-full"}
             height={"h-[6.1rem]"}
             backgroundColor={"bg-_primary-50"}
@@ -98,13 +86,6 @@ const SignUp = () => {
           />
         </form>
       </MobView>
-      {modalIsOpen && (
-        <SignUpModal
-          modalIsOpen={modalIsOpen}
-          closeModal={closeModal}
-          setModalIsOpen={setModalIsOpen}
-        />
-      )}
     </div>
   );
 };

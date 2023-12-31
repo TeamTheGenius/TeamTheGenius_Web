@@ -4,8 +4,10 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Landing from "./pages/Landing/Landing";
 import LogIn from "./pages/LogIn/LogIn";
 import Error from "./pages/error/Error";
-import SignUp from "./pages/signUp/SignUp";
+import SignUp from "./pages/SignUp/SignUp";
 import SignComplate from "./pages/signComplate/SignComplate";
+import Interest from "./pages/Interest/Interest";
+
 
 function App() {
   return (
@@ -15,6 +17,7 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/login/signup" element={<SignUp />} />
+          <Route path="/login/signup/interest" element={<Interest />} />
           <Route path="/error" element={<Error />} />
           <Route path="/signcomplate" element={<SignComplate />} />
         </Routes>
