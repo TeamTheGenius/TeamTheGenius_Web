@@ -33,8 +33,8 @@ const InterestCheck = ({
   const style = {
     width: "100%",
     height: "40rem",
-    marginTop: "10.8rem",
-    marginBottom: "10.8rem",
+    marginTop: "6rem",
+    marginBottom: "6rem",
   };
 
   return (
