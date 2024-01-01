@@ -5,8 +5,11 @@ function Landing() {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate("/login");
+    fetch("http://localhost:8080/api/auth/test?text-test text")
+      .then((res) => res.json())
+      .then((res) => console.log(res));
   };
+
   return (
     <Button
       content={"시작하기"}
