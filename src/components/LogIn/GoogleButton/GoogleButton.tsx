@@ -1,5 +1,5 @@
 import googleLogo from "@/assets/image/google-logo.png";
-import Button from "@/pages/LogIn/Button/Button";
+import Button from "@/components/LogIn/Button/Button";
 
 function GoogleButton() {
   const GOOGLE_REDIRECT_URI =

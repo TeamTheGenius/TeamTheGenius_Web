@@ -1,7 +1,7 @@
 import { Checkbox, Col, Row } from "antd";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import InterestBtn from "@/components/Interest/InterestBtn";
+import InterestBtn from "@/components/Interest/InterestButton/InterestBtn";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import ScrolloBar from "@/components/Common/ScrolloBar";
 

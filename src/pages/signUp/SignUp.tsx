@@ -2,8 +2,8 @@ import MobView from "@/components/Common/MobCard";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import "@/pages/signUp/signUpStyle.css";
-import SignUpHeader from "@/components/SignUp/SignUpHeader";
-import SignUpInput from "@/components/SignUp/SignUpInput";
+import SignUpHeader from "@/components/SignUp/SignUpHeader/SignUpHeader";
+import SignUpInput from "@/components/SignUp/SignUpInput/SignUpInput";
 import Button from "@/components/Common/Button";
 import { useNavigate } from "react-router-dom";
 

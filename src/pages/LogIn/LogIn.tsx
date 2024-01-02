@@ -1,8 +1,8 @@
 import MobCard from "@/components/Common/MobCard";
-import Buttons from "./Buttons/Buttons";
-import Comment from "./Comment/Comment";
-import Image from "./Image/Image";
-import TermsOfService from "./TermsOfService/TermsOfService";
+import Buttons from "@/components/LogIn/Buttons/Buttons";
+import Comment from "@/components/LogIn/Comment/Comment";
+import Image from "@/components/LogIn/Image/Image";
+import TermsOfService from "@/components/LogIn/TermsOfService/TermsOfService";
 
 function LogIn() {
   return (
