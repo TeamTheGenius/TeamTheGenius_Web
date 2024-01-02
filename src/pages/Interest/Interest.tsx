@@ -4,10 +4,10 @@ import "@/pages/Interest/antdCheckbox.css";
 import interestsData from "./interests.json";
 import Button from "@/components/Common/Button";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
-import InterestCheck from "@/components/Interest/InterestCheck";
-import InterestHeader from "@/components/Interest/InterestHeader";
+import InterestCheck from "@/components/Interest/InterestCheck/InterestCheck";
+import InterestHeader from "@/components/Interest/InterestHeader/InterestHeader";
 import SignUpModal from "@/components/Interest/SignUpModal/SignUpModal";
-import InterestInputBtn from "@/components/Interest/InterestInputBtn";
+import InterestInputBtn from "@/components/Interest/InterestInputButton/InterestInputBtn";
 import InterestInputModal from "@/components/Interest/InterestInputModal/InterestInputModal";
 type Interest = {
   id: number;

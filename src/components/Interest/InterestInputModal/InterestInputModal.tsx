@@ -4,8 +4,8 @@ import { modalCard } from "@/utils/modalCard";
 import Modal from "react-modal";
 
 import Button from "@/components/Common/Button";
-import InterestModalHeader from "./InterestModalHeader";
-import InterestModalInput from "./InterestModalInput";
+import InterestModalHeader from "../Temp/InterestModalHeader";
+import InterestModalInput from "../Temp/InterestModalInput";
 import { ChangeEvent, useState } from "react";
 type ModalProps = {
   inputModalIsOpen: boolean;
