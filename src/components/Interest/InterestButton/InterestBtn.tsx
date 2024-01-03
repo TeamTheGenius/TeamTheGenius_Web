@@ -19,7 +19,7 @@ const InterestBtn = ({
     >
       {/* 아이콘 */}
       <FontAwesomeIcon icon={icon} className={`${textColor} mr-4`} />
-      <span className={`font-pretendard ${textColor} whitespace-nowrap`}>
+      <span className={`${textColor} whitespace-nowrap`}>
         {checkText.length > 6 ? `${checkText.slice(0, 5)}...` : checkText}
       </span>
     </div>

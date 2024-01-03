@@ -1,6 +1,6 @@
 function TermsOfService() {
   return (
-    <p className="font-pretendard text-_caption font-normal leading-_normal text-center text-_neutral-50">
+    <p className="text-_caption font-normal leading-_normal text-center text-_neutral-50">
       <a
         href="#"
         className="underline underline-offset-[0.2rem] decoration-_neutral-50"

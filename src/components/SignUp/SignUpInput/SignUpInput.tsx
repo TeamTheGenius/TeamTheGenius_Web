@@ -33,7 +33,7 @@ const SignUpInput: React.FC<SignUpInputProps> = ({
         {label}
       </label>
       <input
-        className="font-pretendard signUp-placeholder signUp-input"
+        className="signUp-placeholder signUp-input"
         type="text"
         id={id}
         name={name}
@@ -43,7 +43,7 @@ const SignUpInput: React.FC<SignUpInputProps> = ({
         onChange={onChange}
         onBlur={onBlur}
       />
-      {error && <div className="font-pretendard signUp-err">{error}</div>}
+      {error && <div className="signUp-err">{error}</div>}
     </li>
   );
 };
