@@ -5,7 +5,6 @@ import Landing from "./pages/Landing/Landing";
 import LogIn from "./pages/LogIn/LogIn";
 import Error from "./pages/Error/Error";
 import SignUp from "./pages/SignUp/SignUp";
-import SignComplate from "./pages/SignComplete/SignComplete";
 import Interest from "./pages/Interest/Interest";
 import Main from "./pages/Main/Main";
 
@@ -19,7 +18,6 @@ function App() {
           <Route path="/login/signup" element={<SignUp />} />
           <Route path="/login/signup/interest" element={<Interest />} />
           <Route path="/error" element={<Error />} />
-          <Route path="/signcomplate" element={<SignComplate />} />
           <Route path="/main" element={<Main />} />
         </Routes>
       </Router>

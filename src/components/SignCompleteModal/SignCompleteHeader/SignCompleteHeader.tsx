@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
-import complateIcon from "@/assets/image/complate-icon.png";
+import completeIcon from "@/assets/image/complete-icon.png";
 
-const SignComplateHeader: React.FC = () => {
+const SignCompleteHeader: React.FC = () => {
   const imageRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
@@ -28,8 +28,8 @@ const SignComplateHeader: React.FC = () => {
     <>
       <img
         ref={imageRef}
-        data-src={complateIcon}
-        alt="complate icon"
+        data-src={completeIcon}
+        alt="complete icon"
         className="w-[4.8rem]"
       />
       <h1 className="font-pretendard text-_h1 font-bold mb-12">
@@ -40,4 +40,4 @@ const SignComplateHeader: React.FC = () => {
   );
 };
 
-export default SignComplateHeader;
+export default SignCompleteHeader;
