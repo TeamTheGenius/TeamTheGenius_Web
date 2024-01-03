@@ -1,11 +1,14 @@
 import SignCompleteModal from "@/components/SignCompleteModal/SignCompleteModal/SignCompleteModal";
+import FriendsInOnline from "@/components/Main/FriendsInOnline/FriendsInOnline";
 
-const Main = () => {
+function Main() {
   return (
     <>
-      <SignCompleteModal />
-    </>
-  );
-};
+    <SignCompleteModal />
+    <FriendsInOnline />;
+     </>
+    )
+}
+
 
 export default Main;
