@@ -1,33 +1,31 @@
 import Button from "@/components/Common/Button";
-import SignCompleateHeader from "@/components/SignCompleteModal/SignCompleteHeader/SignCompleteHeader";
+import SignCompleteHeader from "@/components/SignCompleteModal/SignCompleteHeader/SignCompleteHeader";
 import { modalCard } from "@/utils/modalCard";
 import Modal from "react-modal";
 type ModalProps = {
   signUpModalIsOpen: boolean;
-  setSignUpModalIsOpen: (isOpen: boolean) => void;
-  closeModal: () => void;
+  signUpcloseModal: () => void;
 };
-const SignUpModal: React.FC<ModalProps> = ({
+const SignCompletePropsModal: React.FC<ModalProps> = ({
   signUpModalIsOpen,
-  closeModal,
-  setSignUpModalIsOpen,
+  signUpcloseModal,
 }) => {
   const todoLink = () => {
     alert("제작 중");
   };
   const mainLink = () => {
-    setSignUpModalIsOpen(false);
+    signUpcloseModal();
   };
   return (
     <Modal
       isOpen={signUpModalIsOpen}
-      onRequestClose={closeModal}
-      contentLabel="sign compleate message"
+      onRequestClose={signUpcloseModal}
+      contentLabel="sign complete message"
       shouldCloseOnOverlayClick={false}
       ariaHideApp={false}
       style={modalCard}
     >
-      <SignCompleateHeader />
+      <SignCompleteHeader />
       <div className="flex flex-col justify-between h-36">
         <Button
           content={"첫 투두 만들러 가기"}
@@ -54,4 +52,4 @@ const SignUpModal: React.FC<ModalProps> = ({
   );
 };
 
-export default SignUpModal;
+export default SignCompletePropsModal;

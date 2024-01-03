@@ -1,10 +1,10 @@
-import { createProxyMiddleware } from 'http-proxy-middleware';
+import { createProxyMiddleware } from "http-proxy-middleware";
 
 export default (app) => {
   app.use(
-    '/api',
+    "/api",
     createProxyMiddleware({
-      target: 'http://localhost:8080',
+      target: "http://localhost:8080",
       changeOrigin: true,
     })
   );
