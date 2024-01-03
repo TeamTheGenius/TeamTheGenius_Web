@@ -14,11 +14,7 @@ interface UserCircleNameProps {
 }
 
 function UserCircleWrapper({ children }: UserCircleMainProps) {
-  return (
-    <div className="flex flex-col gap-[0.5rem] font-pretendard ">
-      {children}
-    </div>
-  );
+  return <div className="flex flex-col gap-[0.5rem]">{children}</div>;
 }
 
 function UserCircleImage({ userImage, children }: UserCircleImageProps) {

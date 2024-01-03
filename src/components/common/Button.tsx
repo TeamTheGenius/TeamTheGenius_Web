@@ -21,7 +21,7 @@ function Button({
 }: Props) {
   return (
     <button
-      className={`${width} ${height} ${backgroundColor} ${textColor} ${textSize} ${fontWeight} font-pretendard rounded-xl hover:opacity-65`}
+      className={`${width} ${height} ${backgroundColor} ${textColor} ${textSize} ${fontWeight} rounded-xl hover:opacity-65`}
       onClick={handleClick}
     >
       {content}

@@ -1,6 +1,6 @@
 const SignUpHeader = () => {
   return (
-    <div className="flex font-pretendard flex-col mb-44">
+    <div className="flex flex-col mb-44">
       <h1 className="font-bold text-_h1 flex">
         투두핀에
         <br />

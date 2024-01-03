@@ -25,7 +25,7 @@ const InterestModalInput = ({
   return (
     <div className="flex flex-col mb-16 relative">
       <input
-        className="font-pretendard interest-placeholder interest-input"
+        className="interest-placeholder interest-input"
         type="text"
         id={id}
         name={name}
@@ -36,7 +36,7 @@ const InterestModalInput = ({
         onChange={handleInputChange}
       />
       {error && (
-        <div className="font-pretendard interest-err absolute bottom-[-25px] right-0">
+        <div className="interest-err absolute bottom-[-25px] right-0">
           {error}
         </div>
       )}

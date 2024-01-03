@@ -32,7 +32,7 @@ const SignCompleteHeader: React.FC = () => {
         alt="complete icon"
         className="w-[4.8rem]"
       />
-      <h1 className="font-pretendard text-_h1 font-bold mb-12">
+      <h1 className="text-_h1 font-bold mb-12">
         {/* 가입한 프로필네임 */}
         <span>유저님,</span> 반갑습니다 <i>:)</i>
       </h1>
