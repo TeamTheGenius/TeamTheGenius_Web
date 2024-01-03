@@ -1,4 +1,4 @@
-import circleGradient from "@/assets/icon/circle-gradient.svg";
+import circleGradient from "@/assets/icon/circle-gradient-orange.svg";
 
 interface UserCircleMainProps {
   children: React.ReactNode;

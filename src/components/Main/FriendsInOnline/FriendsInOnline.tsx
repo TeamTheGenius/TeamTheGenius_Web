@@ -20,14 +20,16 @@ function FriendsInOnline() {
         <img src={toggleButton} alt="friends-list toggle button" />
       </div>
 
-      {friendsInOnlineData.friendsInOnlineData.map((friend, index) => (
-        <UserCircle key={`${index} ${friend.name}`}>
-          <UserCircle.UserImage userImage={friend.image}>
-            <UserCircle.LiveTag />
-          </UserCircle.UserImage>
-          <UserCircle.UserName userName={friend.name} />
-        </UserCircle>
-      ))}
+      <div className="flex gap-[1.7rem]">
+        {friendsInOnlineData.friendsInOnlineData.map((friend, index) => (
+          <UserCircle key={`${index} ${friend.name}`}>
+            <UserCircle.UserImage userImage={friend.image}>
+              <UserCircle.LiveTag />
+            </UserCircle.UserImage>
+            <UserCircle.UserName userName={friend.name} />
+          </UserCircle>
+        ))}
+      </div>
     </div>
   );
 }
