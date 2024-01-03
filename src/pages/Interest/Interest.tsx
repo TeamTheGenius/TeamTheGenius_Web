@@ -1,14 +1,14 @@
 import { useState } from "react";
-import MobCard from "@/components/Common/MobCard";
+import { CheckboxValueType } from "antd/es/checkbox/Group";
 import "@/pages/Interest/antdCheckbox.css";
 import interestsData from "./interests.json";
+import MobCard from "@/components/Common/MobCard";
 import Button from "@/components/Common/Button";
-import { CheckboxValueType } from "antd/es/checkbox/Group";
 import InterestCheck from "@/components/Interest/InterestCheck/InterestCheck";
 import InterestHeader from "@/components/Interest/InterestHeader/InterestHeader";
-import SignUpModal from "@/components/Interest/SignUpModal/SignUpModal";
 import InterestInputBtn from "@/components/Interest/InterestInputButton/InterestInputBtn";
 import InterestInputModal from "@/components/Interest/InterestInputModal/InterestInputModal";
+import SignCompleteModal from "@/components/SignCompleteModal/SignCompleteModal";
 type Interest = {
   id: number;
   name: string;
@@ -63,7 +63,7 @@ const Interest = () => {
         </div>
       </MobCard>
       {signUpModalIsOpen && (
-        <SignUpModal
+        <SignCompleteModal
           signUpModalIsOpen={signUpModalIsOpen}
           closeModal={closeModal}
           setSignUpModalIsOpen={setSignUpModalIsOpen}

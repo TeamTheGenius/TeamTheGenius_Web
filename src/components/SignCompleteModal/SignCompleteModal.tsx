@@ -1,5 +1,5 @@
 import Button from "@/components/Common/Button";
-import SignComplateHeader from "@/components/Interest/SignUpModal/SignComplateHeader";
+import SignCompleateHeader from "@/components/SignCompleteModal/SignCompleteHeader/SignCompleteHeader";
 import { modalCard } from "@/utils/modalCard";
 import Modal from "react-modal";
 type ModalProps = {
@@ -22,12 +22,12 @@ const SignUpModal: React.FC<ModalProps> = ({
     <Modal
       isOpen={signUpModalIsOpen}
       onRequestClose={closeModal}
-      contentLabel="sign complate message"
+      contentLabel="sign compleate message"
       shouldCloseOnOverlayClick={false}
       ariaHideApp={false}
       style={modalCard}
     >
-      <SignComplateHeader />
+      <SignCompleateHeader />
       <div className="flex flex-col justify-between h-36">
         <Button
           content={"첫 투두 만들러 가기"}
