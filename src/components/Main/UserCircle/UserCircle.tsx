@@ -32,7 +32,7 @@ function UserCircleImage({ userImage, children }: UserCircleImageProps) {
       <img
         src={userImage}
         alt="friends in online"
-        className="absolute w-[5.6rem] h-[5.6rem] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]  rounded-full bg-orange-300"
+        className="absolute w-[5.6rem] h-[5.6rem] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]  rounded-full"
       />
 
       {children}
