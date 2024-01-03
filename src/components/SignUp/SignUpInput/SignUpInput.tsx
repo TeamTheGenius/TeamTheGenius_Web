@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FocusEvent } from "react";
+import React, { ChangeEvent, FocusEvent, KeyboardEventHandler } from "react";
 
 type SignUpInputProps = {
   label: string;

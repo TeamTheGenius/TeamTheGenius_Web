@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import "@/pages/Interest/antdCheckbox.css";
 import interestsData from "./interests.json";
@@ -8,7 +9,7 @@ import InterestCheck from "@/components/Interest/InterestCheck/InterestCheck";
 import InterestHeader from "@/components/Interest/InterestHeader/InterestHeader";
 import InterestInputBtn from "@/components/Interest/InterestInputButton/InterestInputBtn";
 import InterestInputModal from "@/components/Interest/InterestInputModal/InterestInputModal";
-import SignCompleteModal from "@/components/SignCompleteModal/SignCompleteModal";
+import axios from "axios";
 type Interest = {
   id: number;
   name: string;
@@ -21,22 +22,31 @@ type InterestsData = {
 const Interest = () => {
   const [checkedValues, setCheckedValues] = useState<CheckboxValueType[]>([]);
   const [inputModalIsOpen, setInputModalIsOpen] = useState<boolean>(false);
-  const [signUpModalIsOpen, setSignUpModalIsOpen] = useState<boolean>(false);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const locationState = location.state;
+  console.log("lo", location.state);
   // json data
   const InterestValue: InterestsData = interestsData;
 
-  const openSignupModal = () => {
-    setSignUpModalIsOpen(true);
-  };
-  // 나중에하기 버튼
-  const closeModal = () => {
-    setSignUpModalIsOpen(false);
-  };
-
-  const submit = () => {
-    openSignupModal();
-    console.log("저장된 데이터:", checkedValues);
+  const signUpApi = async () => {
+    const body = {
+      email: locationState.email,
+      nickname: locationState.nickName,
+      information: locationState.myInfo,
+      interest: ["흥미1"],
+    };
+    axios
+      .post(`http://localhost:8080/api/auth/signup`, body)
+      .then((res) => {
+        console.log("res", res);
+        sessionStorage.setItem("signToken", "signToken");
+        navigate("/main");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -58,17 +68,10 @@ const Interest = () => {
             textSize={"text-_h2"}
             textColor={"text-white"}
             fontWeight={"font-semibold"}
-            handleClick={submit}
+            handleClick={signUpApi}
           />
         </div>
       </MobCard>
-      {signUpModalIsOpen && (
-        <SignCompleteModal
-          signUpModalIsOpen={signUpModalIsOpen}
-          closeModal={closeModal}
-          setSignUpModalIsOpen={setSignUpModalIsOpen}
-        />
-      )}
       {inputModalIsOpen && (
         <InterestInputModal
           inputModalIsOpen={inputModalIsOpen}
