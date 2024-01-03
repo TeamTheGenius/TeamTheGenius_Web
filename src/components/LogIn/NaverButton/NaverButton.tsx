@@ -1,5 +1,5 @@
 import naverLogo from "@/assets/image/naver-logo.png";
-import Button from "@/pages/LogIn/Button/Button";
+import Button from "@/components/LogIn/Button/Button";
 
 function NaverButton() {
   const NAVER_REDIRECT_URI = "http://localhost:8080/oauth2/authorization/naver";

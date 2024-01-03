@@ -1,5 +1,5 @@
 import facebookLogo from "@/assets/image/facebook-logo.png";
-import Button from "@/pages/LogIn/Button/Button";
+import Button from "@/components/LogIn/Button/Button";
 
 function FacebookButton() {
   const FACEBOOK_REDIRECT_URI =

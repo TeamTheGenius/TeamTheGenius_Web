@@ -1,7 +1,8 @@
+import Button from "@/components/Landing/Button/Button";
 import MobCard from "@/components/Common/MobCard";
-import Comment from "./Comment/Comment";
-import Image from "./Image/Image";
-import Button from "./Button/Button";
+import Comment from "@/components/Landing/Comment/Comment";
+import Image from "@/components/Landing/Image/Image";
+
 function Landing() {
   return (
     <MobCard>

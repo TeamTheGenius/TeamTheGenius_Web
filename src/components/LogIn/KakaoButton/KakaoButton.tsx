@@ -1,5 +1,5 @@
 import kakaoLogo from "@/assets/image/kakao-logo.png";
-import Button from "@/pages/LogIn/Button/Button";
+import Button from "@/components/LogIn/Button/Button";
 
 function KakaoButton() {
   const KAKAO_REDIRECT_URI = "http://localhost:8080/oauth2/authorization/kakao";

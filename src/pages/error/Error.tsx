@@ -1,4 +1,4 @@
-import ErrorHeader from "@/components/Error/ErrorHeader";
+import ErrorHeader from "@/components/Error/ErrorHeader/ErrorHeader";
 import Button from "@/components/Common/Button";
 import MobCard from "@/components/Common/MobCard";
 import { useNavigate } from "react-router-dom";
