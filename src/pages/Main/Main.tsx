@@ -1,7 +1,7 @@
-import UserCircle from "@/components/Main/UserCircle/UserCircle";
+import FriendsInOnline from "@/components/Main/FriendsInOnline/FriendsInOnline";
 
 function Main() {
-  return <UserCircle />;
+  return <FriendsInOnline />;
 }
 
 export default Main;
