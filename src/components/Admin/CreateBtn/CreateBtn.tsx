@@ -1,10 +1,10 @@
 import Button from "@/components/Common/Button";
 type CreateBtnType = {
-  setTopicModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const CreateBtn = ({ setTopicModalIsOpen }: CreateBtnType) => {
+const CreateBtn = ({ setModal }: CreateBtnType) => {
   const createBtnOpen = () => {
-    setTopicModalIsOpen(true);
+    setModal(true);
   };
   return (
     <div className="flex justify-end mb-10">

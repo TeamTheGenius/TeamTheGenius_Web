@@ -1,49 +1,50 @@
 import { adminmodalCard } from "@/utils/modalCard";
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Select, Upload } from "antd";
-import { useState } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 
-type TopicModalType = {
-  setTopicModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  topicModalIsOpen: boolean;
+type TopicEditModalType = {
+  setTopicEditModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  TopicEditModalIsOpen: boolean;
+  topicEditModalData: any;
 };
 
-const TopicModal = ({
-  topicModalIsOpen,
-  setTopicModalIsOpen,
-}: TopicModalType) => {
-  const TopicModalClose = () => {
-    setTopicModalIsOpen(false);
+const TopicEditModal = ({
+  setTopicEditModalIsOpen,
+  TopicEditModalIsOpen,
+  topicEditModalData,
+}: TopicEditModalType) => {
+  const TopicEditModalClose = () => {
+    setTopicEditModalIsOpen(false);
   };
-
   const topicSubmit = (values: any) => {
     console.log("토픽 값", values);
   };
+  console.log("topicEditModalData", topicEditModalData);
   return (
-    <div>
-      <Modal
-        isOpen={topicModalIsOpen}
-        onRequestClose={TopicModalClose}
-        contentLabel="sign complete message"
-        shouldCloseOnOverlayClick={true}
-        ariaHideApp={false}
-        style={adminmodalCard}
+    <Modal
+      isOpen={TopicEditModalIsOpen}
+      onRequestClose={TopicEditModalClose}
+      contentLabel="sign complete message"
+      shouldCloseOnOverlayClick={true}
+      ariaHideApp={false}
+      style={adminmodalCard}
+    >
+      <Form
+        onFinish={topicSubmit}
+        labelCol={{ span: 4 }}
+        wrapperCol={{ span: 19 }}
+        className="w-full"
       >
-        <Form
-          onFinish={topicSubmit}
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 19 }}
-          className="w-full"
-        >
-          <FormTitle />
-          <FormDesc />
-          <FormImg />
-          <FormTag />
-          <SubmitButtom TopicModalClose={TopicModalClose} />
-        </Form>
-      </Modal>
-    </div>
+        <FormTitle />
+        <FormDesc />
+        <FormImg />
+        <FormInterest />
+        <FormPoint />
+        <SubmitButtom TopicEditModalClose={TopicEditModalClose} />
+      </Form>
+    </Modal>
   );
 };
 
@@ -126,7 +127,7 @@ const FormImg = () => {
     </>
   );
 };
-const FormTag = () => {
+const FormInterest = () => {
   const options = [
     { value: "javascript", label: "javascript" },
     { value: "java", label: "java" },
@@ -159,6 +160,27 @@ const FormTag = () => {
     </>
   );
 };
+const FormPoint = () => {
+  return (
+    <>
+      <Form.Item
+        label="포인트"
+        rules={[
+          {
+            validator: async (_, names) => {
+              if (!names || names.length < 1) {
+                return Promise.reject(new Error("인당 포인트를 입력해주세요"));
+              }
+            },
+          },
+        ]}
+        name="title"
+      >
+        <Input />
+      </Form.Item>
+    </>
+  );
+};
 const SubmitButtom = ({ TopicModalClose }: any) => {
   return (
     <>
@@ -179,4 +201,4 @@ const SubmitButtom = ({ TopicModalClose }: any) => {
     </>
   );
 };
-export default TopicModal;
+export default TopicEditModal;

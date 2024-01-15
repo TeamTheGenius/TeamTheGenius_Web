@@ -7,7 +7,8 @@ import Error from "./pages/Error/Error";
 import SignUp from "./pages/SignUp/SignUp";
 import Interest from "./pages/Interest/Interest";
 import Main from "./pages/Main/Main";
-import AdminTopic from "./pages/AdminTopic/Admin";
+import AdminTopic from "./pages/Admin/AdminTopic/AdminTopic";
+import AdminInstance from "./pages/Admin/AdminInstance/AdminInstance";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/error" element={<Error />} />
           <Route path="/main" element={<Main />} />
           <Route path="/admin" element={<AdminTopic />} />
+          <Route path="/admin/instance/:id" element={<AdminInstance />} />
         </Routes>
       </Router>
     </>
