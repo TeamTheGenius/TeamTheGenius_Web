@@ -3,6 +3,7 @@ import TopicCreateModal from "@/components/Admin/AdminTopic/TopicCreateModal/Top
 import CreateBtn from "@/components/Admin/CreateBtn/CreateBtn";
 import Title from "@/components/Admin/Title/Title";
 import { useState } from "react";
+import { Pagination } from "antd";
 
 const AdminTopic = () => {
   const [topicModalIsOpen, setTopicModalIsOpen] = useState<boolean>(false);
@@ -18,6 +19,12 @@ const AdminTopic = () => {
           <CreateBtn setModal={setTopicModalIsOpen} />
           <TopicListComponents />
         </div>
+        <Pagination
+          defaultCurrent={1}
+          total={50}
+          defaultPageSize={5}
+          className="mt-10"
+        />
       </section>
       {topicModalIsOpen && (
         <TopicCreateModal

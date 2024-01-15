@@ -2,6 +2,7 @@ import InstanceCreateModal from "@/components/Admin/AdminInstance/InstanceCreate
 import InstanceListComponent from "@/components/Admin/AdminInstance/InstanceListComponent/InstanceListComponent";
 import CreateBtn from "@/components/Admin/CreateBtn/CreateBtn";
 import Title from "@/components/Admin/Title/Title";
+import { Pagination } from "antd";
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -32,6 +33,12 @@ const AdminInstance = () => {
           <CreateBtn setModal={setInstanceModalIsOpen} />
           <InstanceListComponent />
         </div>
+        <Pagination
+          defaultCurrent={1}
+          total={50}
+          defaultPageSize={5}
+          className="mt-10"
+        />
       </section>
       {instanceModalIsOpen && (
         <InstanceCreateModal
