@@ -14,3 +14,20 @@ export const modalCard = {
     outline: "none",
   },
 };
+export const adminmodalCard = {
+  overlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  content: {
+    width: "40%",
+    height: "600px",
+    margin: "auto",
+    border: "1px solid #ccc",
+    background: "#fff",
+    borderRadius: "12px",
+    outline: "none",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+};
