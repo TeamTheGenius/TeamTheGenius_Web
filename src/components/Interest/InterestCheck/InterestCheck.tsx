@@ -5,7 +5,6 @@ import InterestBtn from "@/components/Interest/InterestButton/InterestBtn";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import ScrolloBar from "@/components/Common/ScrolloBar";
 import "@/components/Interest/InterestCheck/antdCheckbox.css";
-
 type Interest = {
   id: number;
   name: string;
@@ -58,10 +57,6 @@ const InterestCheck = ({
                     value={valueInterest.name}
                     className="checkboxHidden"
                   >
-                  <Checkbox
-                    value={valueInterest.name}
-                    className="checkboxHidden"
-                  >
                     {checkedValues.includes(valueInterest.name) ? (
                       <InterestBtn
                         bgColor="bg-_primary-30"
@@ -99,8 +94,6 @@ const InterestCheck = ({
             {InterestValue.interests.map((valueInterest: Interest) => (
               <Col key={valueInterest.id}>
                 <Checkbox value={valueInterest.name} className="checkboxHidden">
-              <Col key={valueInterest.id}>
-                <Checkbox value={valueInterest.name} className="checkboxHidden">
                   {checkedValues.includes(valueInterest.name) ? (
                     <InterestBtn
                       bgColor="bg-[#282828]"
@@ -111,6 +104,7 @@ const InterestCheck = ({
                   ) : (
                     <InterestBtn
                       bgColor="bg-[#dddddd]"
+                      className="hover:shadow-md"
                       textColor="text-black"
                       checkText={valueInterest.name}
                       icon={faPlus}
