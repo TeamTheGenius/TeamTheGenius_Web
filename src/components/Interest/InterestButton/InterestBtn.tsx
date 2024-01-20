@@ -6,12 +6,14 @@ type InterestBtnProps = {
   textColor: string;
   checkText: string;
   icon: IconProp;
+  className?: string;
 };
 const InterestBtn = ({
   bgColor,
   textColor,
   checkText,
   icon,
+  className,
 }: InterestBtnProps) => {
   return (
     <div
@@ -20,6 +22,8 @@ const InterestBtn = ({
       {/* 아이콘 */}
       <FontAwesomeIcon icon={icon} className={`${textColor} mr-4`} />
       <span className={`${textColor} whitespace-nowrap`}>
+        {/* {checkText.length > 6 ? `${checkText.slice(0, 5)}...` : checkText} */}
+        {checkText}
         {/* {checkText.length > 6 ? `${checkText.slice(0, 5)}...` : checkText} */}
         {checkText}
       </span>
