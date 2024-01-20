@@ -18,7 +18,9 @@ export default {
           10: '#E6E6E6',
           50: '#858587',
         },
-
+        _coral: {
+          70: `#FF4356`
+        }
       },
       fontFamily: {
         "pretendard": ["Pretendard Variable", "-apple-system", "BlinkMacSystemFont", "system-ui", "Roboto", "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "sans-serif"],

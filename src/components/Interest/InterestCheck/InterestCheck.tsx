@@ -4,7 +4,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import InterestBtn from "@/components/Interest/InterestButton/InterestBtn";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import ScrolloBar from "@/components/Common/ScrolloBar";
-
+import "@/components/Interest/InterestCheck/antdCheckbox.css";
 type Interest = {
   id: number;
   name: string;
@@ -53,7 +53,10 @@ const InterestCheck = ({
             <Row>
               {InterestValue.interests.map((valueInterest: Interest) => (
                 <Col key={valueInterest.id}>
-                  <Checkbox value={valueInterest.name}>
+                  <Checkbox
+                    value={valueInterest.name}
+                    className="checkboxHidden"
+                  >
                     {checkedValues.includes(valueInterest.name) ? (
                       <InterestBtn
                         bgColor="bg-_primary-30"
@@ -88,19 +91,19 @@ const InterestCheck = ({
         >
           <Row>
             {InterestValue.interests.map((valueInterest: Interest) => (
-              <Col span={6} key={valueInterest.id}>
-                <Checkbox value={valueInterest.name}>
+              <Col key={valueInterest.id}>
+                <Checkbox value={valueInterest.name} className="checkboxHidden">
                   {checkedValues.includes(valueInterest.name) ? (
                     <InterestBtn
-                      bgColor="bg-_primary-10"
-                      textColor="text-black"
+                      bgColor="bg-[#282828]"
+                      textColor="text-white"
                       checkText={valueInterest.name}
                       icon={faCheck}
                     />
                   ) : (
                     <InterestBtn
-                      bgColor="bg-_primary-30"
-                      textColor="text-white"
+                      bgColor="bg-[#dddddd]"
+                      textColor="text-black"
                       checkText={valueInterest.name}
                       icon={faPlus}
                     />
