@@ -5,7 +5,7 @@ import InterestBtn from "@/components/Interest/InterestButton/InterestBtn";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import ScrolloBar from "@/components/Common/ScrolloBar";
 import "@/components/Interest/InterestCheck/antdCheckbox.css";
-import "@/components/Interest/InterestCheck/antdCheckbox.css";
+
 type Interest = {
   id: number;
   name: string;
