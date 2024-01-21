@@ -6,12 +6,14 @@ import TermsOfService from "@/components/LogIn/TermsOfService/TermsOfService";
 function LogIn() {
   return (
     <MobCard>
-      <div className="w-full flex flex-col gap-[5.6rem] justify-center items-center">
+      <div className="max-w-[39.3rem] mx-auto">
         <Comment />
-        <GithubLoginButton />
+        <div className="w-full mx-auto mt-[25.2rem]">
+          <GithubLoginButton />
+        </div>
+        <div className="mb-[28.6rem]" />
+        <TermsOfService />
       </div>
-      <div className="mb-[2.1rem]" />
-      <TermsOfService />
     </MobCard>
   );
 }
