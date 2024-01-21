@@ -135,9 +135,9 @@ html {
 }
 
 .mobView-card {
-  width: 600px;
+  width: 773px;
   min-height: 100vh;
-  padding: 20px 64px;
+  padding: 0 2rem;
   background: white;
 }
 

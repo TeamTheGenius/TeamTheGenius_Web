@@ -25,7 +25,7 @@ function ButtonMain({
   return (
     <button
       onClick={onClick}
-      className={` ${backgroundColor} flex justify-center items-center w-full h-[5.3rem] py-0 px-[1.5rem] rounded-xl ${className}`}
+      className={` ${backgroundColor} flex justify-center items-center gap-[0.7rem] w-full h-[5.6rem] rounded-[1rem] ${className}`}
     >
       {children}
     </button>
@@ -33,15 +33,13 @@ function ButtonMain({
 }
 
 function ButtonLogo({ imageSrc, imageAlt }: ButtonLogoProps) {
-  return (
-    <img src={imageSrc} alt={imageAlt} className="ml-10 shrink-0 w-[2rem]" />
-  );
+  return <img src={imageSrc} alt={imageAlt} className="w-[2.6rem]" />;
 }
 
 function ButtonContent({ content, textColor, className }: ButtonContentProps) {
   return (
     <p
-      className={` ${textColor} flex justify-center items-center w-full text-[1.5rem] leading-[2.25rem] ${className}`}
+      className={` ${textColor} text-[1.7rem] font-medium leading-_normal ${className}`}
     >
       {content}
     </p>

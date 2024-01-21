@@ -1,21 +1,19 @@
 import MobCard from "@/components/Common/MobCard";
-import Buttons from "@/components/LogIn/Buttons/Buttons";
 import Comment from "@/components/LogIn/Comment/Comment";
-import Image from "@/components/LogIn/Image/Image";
+import GithubLoginButton from "@/components/LogIn/GithubLoginButton";
 import TermsOfService from "@/components/LogIn/TermsOfService/TermsOfService";
 
 function LogIn() {
   return (
     <MobCard>
-      <div className="w-full flex flex-col gap-[5.6rem] justify-center items-center">
+      <div className="max-w-[39.3rem] mx-auto">
         <Comment />
-        <div className="w-full max-w-[202px]">
-          <Image />
+        <div className="w-full mx-auto mt-[25.2rem]">
+          <GithubLoginButton />
         </div>
-        <Buttons />
+        <div className="mb-[28.6rem]" />
+        <TermsOfService />
       </div>
-      <div className="mb-[2.1rem]" />
-      <TermsOfService />
     </MobCard>
   );
 }
