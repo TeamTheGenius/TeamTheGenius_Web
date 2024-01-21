@@ -1,6 +1,6 @@
 import MobCard from "@/components/Common/MobCard";
-import Buttons from "@/components/LogIn/Buttons/Buttons";
 import Comment from "@/components/LogIn/Comment/Comment";
+import GithubLoginButton from "@/components/LogIn/GithubLoginButton";
 import Image from "@/components/LogIn/Image/Image";
 import TermsOfService from "@/components/LogIn/TermsOfService/TermsOfService";
 
@@ -12,7 +12,7 @@ function LogIn() {
         <div className="w-full max-w-[202px]">
           <Image />
         </div>
-        <Buttons />
+        <GithubLoginButton />
       </div>
       <div className="mb-[2.1rem]" />
       <TermsOfService />
