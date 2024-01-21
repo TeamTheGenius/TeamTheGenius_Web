@@ -1,13 +1,26 @@
 import { cls } from "@/utils/mergeTailwind";
+import { useNavigate, useLocation } from "react-router-dom";
+
+interface TabProps {
+  tab: "home" | "popular" | "new" | "suggestion";
+}
 
 interface Props {
   content: string;
-  isActive: boolean;
+  keyUrl: TabProps["tab"];
 }
 
-function Tab({ content, isActive }: Props) {
+function Tab({ content, keyUrl }: Props) {
+  const navigate = useNavigate();
+  const onClickTab = (keyUrl: TabProps["tab"]) => {
+    navigate(`/main/${keyUrl}`);
+  };
+  const lastUrl = useLocation().pathname.split("/").pop();
+  const isActive = lastUrl === keyUrl;
+
   return (
-    <div
+    <button
+      onClick={() => onClickTab(keyUrl)}
       className={cls(
         "w-full max-w-[17rem] h-[4.6rem] flex justify-center items-center text-[1.6rem] font-medium leading-_normal relative",
         isActive ? "text-black" : "text-[#777]"
@@ -17,7 +30,7 @@ function Tab({ content, isActive }: Props) {
       {isActive && (
         <div className="w-[93%] h-[0.3rem] bg-black absolute bottom-0 left-1/2 -translate-x-1/2 " />
       )}
-    </div>
+    </button>
   );
 }
 
