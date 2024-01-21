@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
-import "@/pages/Interest/antdCheckbox.css";
 import interestsData from "./interests.json";
 import MobCard from "@/components/Common/MobCard";
 import Button from "@/components/Common/Button";
 import InterestCheck from "@/components/Interest/InterestCheck/InterestCheck";
 import InterestHeader from "@/components/Interest/InterestHeader/InterestHeader";
-import InterestInputBtn from "@/components/Interest/InterestInputButton/InterestInputBtn";
-import InterestInputModal from "@/components/Interest/InterestInputModal/InterestInputModal";
+
 import axios from "axios";
 type Interest = {
   id: number;
@@ -21,7 +19,6 @@ type InterestsData = {
 
 const Interest = () => {
   const [checkedValues, setCheckedValues] = useState<CheckboxValueType[]>([]);
-  const [inputModalIsOpen, setInputModalIsOpen] = useState<boolean>(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -59,12 +56,11 @@ const Interest = () => {
           checkedValues={checkedValues}
         />
         <div className="flex flex-col justify-between h-40">
-          <InterestInputBtn setInputModalIsOpen={setInputModalIsOpen} />
           <Button
             content={"가입하기"}
             width={"w-full"}
             height={"h-[6.1rem]"}
-            backgroundColor={"bg-_primary-50"}
+            backgroundColor={"bg-_coral-70"}
             textSize={"text-_h2"}
             textColor={"text-white"}
             fontWeight={"font-semibold"}
@@ -72,12 +68,6 @@ const Interest = () => {
           />
         </div>
       </MobCard>
-      {inputModalIsOpen && (
-        <InterestInputModal
-          inputModalIsOpen={inputModalIsOpen}
-          setInputModalIsOpen={setInputModalIsOpen}
-        />
-      )}
     </>
   );
 };

@@ -3,7 +3,7 @@ import { Button, Checkbox, DatePicker, Form, Input, Select } from "antd";
 import React, { useState } from "react";
 import { OptionType } from "@/pages/Admin/AdminInstance/AdminInstance";
 
-import "@/components/Admin/AdminInstance/InstanceCreateModal/antdCheck.css";
+import "@/components/Admin/AdminInstance/InstanceCreateModal/antdCheck.module.css";
 import Modal from "react-modal";
 type TopicModalType = {
   setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
