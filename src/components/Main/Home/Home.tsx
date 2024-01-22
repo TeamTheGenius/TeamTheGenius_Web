@@ -1,5 +1,5 @@
-import HorizontalScroll from "@/components/HorizontalScroll/HorizontalScroll";
 import ChallengeItem from "../ChallengeItem/ChallengeItem";
+import HorizontalScroll from "../HorizontalScroll/HorizontalScroll";
 import MoreButton from "../MoreButton/MoreButton";
 import Title from "../Title/Title";
 import { popularChallengeData } from "@/data/pupularChallengeData";
