@@ -18,7 +18,7 @@ function MoreButton({ keyUrl }: Props) {
     <img
       src={moreIcon}
       alt="챌린지 더보기 아이콘"
-      className="w-[1.155rem]"
+      className="w-[1.155rem] cursor-pointer"
       onClick={onClick}
     />
   );
