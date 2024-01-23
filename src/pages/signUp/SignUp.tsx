@@ -1,14 +1,14 @@
 import "@/pages/signUp/signUpStyle.css";
 import SignUpHeader from "@/components/SignUp/SignUpHeader/SignUpHeader";
-import MobView from "@/components/Common/MobCard";
+import LoginMobCard from "@/components/Common/LoginMobCard";
 import SignUpForm from "@/components/SignUp/SignUpForm/SignUpForm";
 const SignUp = () => {
   return (
     <div>
-      <MobView>
+      <LoginMobCard>
         <SignUpHeader />
         <SignUpForm />
-      </MobView>
+      </LoginMobCard>
     </div>
   );
 };

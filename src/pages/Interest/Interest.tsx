@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import interestsData from "./interests.json";
-import MobCard from "@/components/Common/MobCard";
+import LoginMobCard from "@/components/Common/LoginMobCard";
 import Button from "@/components/Common/Button";
 import InterestCheck from "@/components/Interest/InterestCheck/InterestCheck";
 import InterestHeader from "@/components/Interest/InterestHeader/InterestHeader";
@@ -48,7 +48,7 @@ const Interest = () => {
 
   return (
     <>
-      <MobCard>
+      <LoginMobCard>
         <InterestHeader />
         <InterestCheck
           InterestValue={InterestValue}
@@ -67,7 +67,7 @@ const Interest = () => {
             handleClick={signUpApi}
           />
         </div>
-      </MobCard>
+      </LoginMobCard>
     </>
   );
 };
