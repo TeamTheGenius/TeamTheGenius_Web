@@ -7,7 +7,9 @@ function Main() {
   return (
     <MobCard>
       <SignCompleteModal />
-      <Tabs />
+      <div className="px-[2.2rem]">
+        <Tabs />
+      </div>
       <Outlet />
     </MobCard>
   );

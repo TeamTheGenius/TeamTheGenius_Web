@@ -14,10 +14,14 @@ function Home() {
       </div>
 
       <HorizontalScroll>
-        <div className="flex gap-[2.2rem]">
+        <div className="max-w-[18.8rem] flex gap-[2.2rem]">
           {suggestionChallengeData.map((item, index) => (
             <ChallengeItem key={index}>
-              <ChallengeItem.Image imgSrc={item.imgSrc} alt={item.alt}>
+              <ChallengeItem.Image
+                imgSrc={item.imgSrc}
+                alt={item.alt}
+                direction="horizontal"
+              >
                 <ChallengeItem.NumberOfParticipant
                   numberOfParticipants={item.numberOfParticipants}
                 />
@@ -34,10 +38,14 @@ function Home() {
       </div>
 
       <HorizontalScroll>
-        <div className="flex gap-[2.2rem] ">
+        <div className="max-w-[18.8rem] flex gap-[2.2rem]">
           {popularChallengeData.map((item, index) => (
             <ChallengeItem key={index}>
-              <ChallengeItem.Image imgSrc={item.imgSrc} alt={item.alt}>
+              <ChallengeItem.Image
+                imgSrc={item.imgSrc}
+                alt={item.alt}
+                direction="horizontal"
+              >
                 <ChallengeItem.NumberOfParticipant
                   numberOfParticipants={item.numberOfParticipants}
                 />
