@@ -1,14 +1,16 @@
+import MobCard from "@/components/Common/MobCard";
+import Tabs from "@/components/Main/Tabs/Tabs";
 import SignCompleteModal from "@/components/SignCompleteModal/SignCompleteModal/SignCompleteModal";
-import FriendsInOnline from "@/components/Main/FriendsInOnline/FriendsInOnline";
+import { Outlet } from "react-router-dom";
 
 function Main() {
   return (
-    <>
-    <SignCompleteModal />
-    <FriendsInOnline />;
-     </>
-    )
+    <MobCard>
+      <SignCompleteModal />
+      <Tabs />
+      <Outlet />
+    </MobCard>
+  );
 }
-
 
 export default Main;
