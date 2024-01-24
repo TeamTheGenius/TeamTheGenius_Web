@@ -133,15 +133,3 @@ html {
       format("truetype");
   font-display: swap;
 }
-
-.mobView-card {
-  width: 773px;
-  min-height: 100vh;
-  background: white;
-}
-
-.btn1 {
-  width: 472px;
-  height: 68px;
-  border-radius: 12px;
-}
