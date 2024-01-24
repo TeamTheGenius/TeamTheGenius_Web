@@ -1,0 +1,6 @@
+.nav-pending {
+  @apply w-full h-[64px] flex items-center justify-center text-_body1;
+}
+.nav-active {
+  @apply w-full h-[64px] flex items-center justify-center text-_coral-70 text-_body1;
+}

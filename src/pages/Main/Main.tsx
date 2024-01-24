@@ -1,3 +1,4 @@
+import BottomNav from "@/components/Common/BottomNav/BottomNav";
 import MobCard from "@/components/Common/MobCard";
 import Tabs from "@/components/Main/Tabs/Tabs";
 import SignCompleteModal from "@/components/SignCompleteModal/SignCompleteModal/SignCompleteModal";
@@ -11,6 +12,7 @@ function Main() {
         <Tabs />
       </div>
       <Outlet />
+      <BottomNav />
     </MobCard>
   );
 }
