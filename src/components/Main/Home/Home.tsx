@@ -8,7 +8,7 @@ import { suggestionChallengeData } from "@/data/suggestionChallengeData";
 function Home() {
   return (
     <div className="pl-[2.2rem]">
-      <div className="flex gap-[2.851rem] justify-between items-center pr-[2.2rem] py-[1.5rem]">
+      <div className="flex gap-[2.851rem] justify-between items-center pr-[2.2rem] mb-[1.5rem]">
         <Title content="추천 챌린지" />
         <MoreButton keyUrl="suggestion" />
       </div>
@@ -32,7 +32,7 @@ function Home() {
         </div>
       </HorizontalScroll>
 
-      <div className="flex gap-[2.851rem] justify-between items-center pr-[2.2rem] py-[1.5rem]">
+      <div className="flex gap-[2.851rem] justify-between items-center pr-[2.2rem] mb-[1.5rem]">
         <Title content="인기 챌린지" />
         <MoreButton keyUrl="popular" />
       </div>

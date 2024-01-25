@@ -7,7 +7,7 @@ function Main() {
   return (
     <MobCard>
       <SignCompleteModal />
-      <div className="px-[2.2rem]">
+      <div className="px-[2.2rem] mb-[1.5rem]">
         <Tabs />
       </div>
       <Outlet />
