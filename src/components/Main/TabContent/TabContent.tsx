@@ -4,7 +4,7 @@ import Tabs from "../Tabs/Tabs";
 function TabContent() {
   return (
     <>
-      <div className="px-[2.2rem] mb-[1.5rem]">
+      <div className="px-[2.2rem]">
         <Tabs />
       </div>
       <Outlet />
