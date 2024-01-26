@@ -1,5 +1,5 @@
+import Tabs from "@/components/Main/Tabs/Tabs";
 import { Outlet } from "react-router-dom";
-import Tabs from "../Tabs/Tabs";
 
 function TabContent() {
   return (

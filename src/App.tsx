@@ -9,12 +9,12 @@ import Interest from "./pages/Interest/Interest";
 import Main from "./pages/Main/Main";
 import AdminTopic from "./pages/Admin/AdminTopic/AdminTopic";
 import AdminInstance from "./pages/Admin/AdminInstance/AdminInstance";
-import TabContent from "./components/Main/TabContent/TabContent";
 import Home from "./pages/Main/Home/Home";
 import PopularChallenge from "./pages/Main/PopularChallenge/PopularChallenge";
 import NewChallenge from "./pages/Main/NewChallenge/NewChallenge";
 import SuggestionChallenge from "./pages/Main/SuggestionChallenge/SuggestionChallenge";
 import Search from "./pages/Main/Search/Search";
+import TabContent from "./pages/Main/TabContent/TabContent";
 
 function App() {
   return (
