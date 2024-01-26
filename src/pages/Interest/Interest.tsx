@@ -8,6 +8,7 @@ import InterestCheck from "@/components/Interest/InterestCheck/InterestCheck";
 import InterestHeader from "@/components/Interest/InterestHeader/InterestHeader";
 
 import axios from "axios";
+import { PATH } from "@/constants/path";
 type Interest = {
   id: number;
   name: string;
@@ -39,7 +40,7 @@ const Interest = () => {
       .then((res) => {
         console.log("res", res);
         sessionStorage.setItem("signToken", "signToken");
-        navigate("/main");
+        navigate(PATH.HOME);
       })
       .catch((err) => {
         console.log(err);

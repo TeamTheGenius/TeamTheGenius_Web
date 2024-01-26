@@ -1,6 +1,7 @@
 import { ChangeEvent, KeyboardEvent, SetStateAction, Dispatch } from "react";
 import searchIcon from "@/assets/icon/search-icon.svg";
 import { useLocation, useNavigate } from "react-router-dom";
+import { PATH } from "@/constants/path";
 
 interface Props {
   setSearchQuery: Dispatch<SetStateAction<string>>;
@@ -12,8 +13,8 @@ function MainHeader({ searchQuery, setSearchQuery }: Props) {
   const currentUrl = useLocation().pathname;
 
   const onClickKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter" && currentUrl !== "/main/search") {
-      navigate("/main/search");
+    if (event.key === "Enter" && currentUrl !== PATH.SEARCH) {
+      navigate(PATH.SEARCH);
     }
   };
 
