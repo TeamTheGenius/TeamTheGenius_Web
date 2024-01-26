@@ -12,7 +12,7 @@ interface Props {
 function MoreButton({ keyUrl }: Props) {
   const navigate = useNavigate();
   const onClick = () => {
-    navigate(`/main/${keyUrl}`);
+    navigate(`/main/tab/${keyUrl}`);
   };
   return (
     <img
