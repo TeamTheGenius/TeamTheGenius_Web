@@ -2,6 +2,7 @@ import Button from "@/components/Common/Button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TopicEditModal from "../TopicEditModal/TopicEditModal";
+import { PATH } from "@/constants/path";
 
 const TopicListComponent = () => {
   const [TopicEditModalIsOpen, setTopicEditModalIsOpen] =
@@ -15,7 +16,7 @@ const TopicListComponent = () => {
     setTopicEditModalIsOpen(true);
   };
   const InstanceLink = (i: number) => {
-    navigate(`instance/${i}`);
+    navigate(`${PATH.ADMIN_INSTANCE}/${i}`);
   };
 
   const data = [
