@@ -1,5 +1,5 @@
+import VerticalChallengeItems from "@/components/Main/VerticalChallengeItems/VerticalChallengeItems";
 import { popularChallengeData } from "@/data/pupularChallengeData";
-import VerticalChallengeItems from "../VerticalChallengeItems/VerticalChallengeItems";
 
 function PopularChallenge() {
   return (

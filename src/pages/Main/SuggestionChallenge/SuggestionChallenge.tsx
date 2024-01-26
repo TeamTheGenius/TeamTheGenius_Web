@@ -1,5 +1,5 @@
+import VerticalChallengeItems from "@/components/Main/VerticalChallengeItems/VerticalChallengeItems";
 import { suggestionChallengeData } from "@/data/suggestionChallengeData";
-import VerticalChallengeItems from "../VerticalChallengeItems/VerticalChallengeItems";
 
 function SuggestionChallenge() {
   return (

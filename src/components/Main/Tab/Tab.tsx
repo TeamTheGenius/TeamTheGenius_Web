@@ -13,7 +13,7 @@ interface Props {
 function Tab({ content, keyUrl }: Props) {
   const navigate = useNavigate();
   const onClickTab = (keyUrl: TabProps["tab"]) => {
-    navigate(`/main/tab/${keyUrl}`);
+    navigate(`/main/tab/${keyUrl}`, { replace: true });
   };
   const lastUrl = useLocation().pathname.split("/").pop();
   const isActive = lastUrl === keyUrl;

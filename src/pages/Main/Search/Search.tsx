@@ -8,7 +8,7 @@ interface Props {
 function Search() {
   const { searchQuery } = useOutletContext<Props>();
 
-  return <div>{searchQuery}</div>;
+  return <p> {searchQuery}</p>;
 }
 
 export default Search;

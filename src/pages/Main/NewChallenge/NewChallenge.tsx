@@ -1,4 +1,4 @@
-import VerticalChallengeItems from "../VerticalChallengeItems/VerticalChallengeItems";
+import VerticalChallengeItems from "@/components/Main/VerticalChallengeItems/VerticalChallengeItems";
 import { newChallengeData } from "@/data/newChallengeData";
 
 function NewChallenge() {

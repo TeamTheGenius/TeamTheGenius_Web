@@ -1,7 +1,7 @@
-import ChallengeItem from "../ChallengeItem/ChallengeItem";
-import HorizontalScroll from "../HorizontalScroll/HorizontalScroll";
-import MoreButton from "../MoreButton/MoreButton";
-import Title from "../Title/Title";
+import ChallengeItem from "@/components/Main/ChallengeItem/ChallengeItem";
+import HorizontalScroll from "@/components/Main/HorizontalScroll/HorizontalScroll";
+import MoreButton from "@/components/Main/MoreButton/MoreButton";
+import Title from "@/components/Main/Title/Title";
 import { popularChallengeData } from "@/data/pupularChallengeData";
 import { suggestionChallengeData } from "@/data/suggestionChallengeData";
 
