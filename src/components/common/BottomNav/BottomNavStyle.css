@@ -1,6 +1,12 @@
 .nav-pending {
-  @apply w-full h-[64px] flex items-center justify-center text-_body1;
+  @apply w-full h-[90px] _sm:h-[64px] flex items-center justify-center flex-col text-_body1;
 }
 .nav-active {
-  @apply w-full h-[64px] flex items-center justify-center text-_coral-70 text-_body1;
+  @apply w-full h-[90px] _sm:h-[64px] flex items-center justify-center flex-col text-_coral-70 text-_body1;
+}
+.loaded {
+  @apply _sm:w-[30px] _sm:h-[30px] w-[50px] h-[50px];
+}
+.pending {
+  @apply _sm:w-[30px] _sm:h-[30px] w-[50px] h-[50px];
 }
