@@ -1,11 +1,18 @@
 import MobCard from "@/components/Common/MobCard";
 import MainHeader from "@/components/Main/MainHeader/MainHeader";
 import SignCompleteModal from "@/components/SignCompleteModal/SignCompleteModal/SignCompleteModal";
-import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { PATH } from "@/constants/path";
+import { useEffect, useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 
 function Main() {
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const currentPath = useLocation().pathname;
+  useEffect(() => {
+    if (currentPath == PATH.SEARCH) return;
+    setSearchQuery("");
+  }, [currentPath]);
+
   return (
     <MobCard>
       <SignCompleteModal />
