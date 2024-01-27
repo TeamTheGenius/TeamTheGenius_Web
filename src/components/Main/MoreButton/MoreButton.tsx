@@ -1,18 +1,14 @@
 import moreIcon from "@/assets/icon/next-icon.svg";
 import { useNavigate } from "react-router-dom";
 
-interface TabProps {
-  tab: "home" | "popular" | "new" | "suggestion";
-}
-
 interface Props {
-  keyUrl: TabProps["tab"];
+  path: string;
 }
 
-function MoreButton({ keyUrl }: Props) {
+function MoreButton({ path }: Props) {
   const navigate = useNavigate();
   const onClick = () => {
-    navigate(`/main/${keyUrl}`);
+    navigate(path);
   };
   return (
     <img

@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import * as qs from "qs";
 import SignUpInput from "./SignUpInput/SignUpInput";
 import Button from "@/components/Common/Button";
+import { PATH } from "@/constants/path";
 const SignUpForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -38,7 +39,7 @@ const SignUpForm = () => {
   });
 
   const naviState = () => {
-    navigate("interest", {
+    navigate(PATH.INTEREST, {
       state: {
         email: query.email,
         nickName: formik.values.nickName,
