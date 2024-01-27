@@ -16,11 +16,12 @@ function Search() {
   );
   return (
     <div className="px-[2.2rem]">
-      <p>{searchQuery}</p>
-      <div className="px-[1rem] py-[1rem]">
+      <div className="fixed w-full z-10 bg-white px-[1rem] py-[1rem]">
         <FilterButtons filter={filter} setFilter={setFilter} />
       </div>
-      <VerticalChallengeItems data={newChallengeData} />
+      <div className="pt-[5rem]">
+        <VerticalChallengeItems data={newChallengeData} />
+      </div>
     </div>
   );
 }

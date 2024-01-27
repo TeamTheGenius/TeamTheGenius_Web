@@ -8,7 +8,7 @@ import { suggestionChallengeData } from "@/data/suggestionChallengeData";
 
 function Home() {
   return (
-    <div className="pl-[2.2rem]  mt-[1.5rem] flex flex-col gap-[1.5rem]">
+    <div className="pt-[4.6rem] pl-[2.2rem] mt-[1.5rem] flex flex-col gap-[1.5rem]">
       <div>
         <div className="flex gap-[2.851rem] _sm:justify-between items-center pr-[2.2rem] mb-[1.5rem]">
           <Title content="추천 챌린지" />

@@ -3,7 +3,7 @@ import { suggestionChallengeData } from "@/data/suggestionChallengeData";
 
 function SuggestionChallenge() {
   return (
-    <div className="mx-[2.2rem] mt-[1rem]">
+    <div className="pt-[4.6rem] mx-[2.2rem] mt-[1rem]">
       <VerticalChallengeItems data={suggestionChallengeData} />
     </div>
   );

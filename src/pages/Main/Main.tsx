@@ -5,8 +5,10 @@ import { Outlet } from "react-router-dom";
 function Main() {
   return (
     <MobCard>
+      <div className="pb-[9rem] _sm:pb-[6.1rem]">
+        <Outlet />
+      </div>
       <BottomNav />
-      <Outlet />
     </MobCard>
   );
 }

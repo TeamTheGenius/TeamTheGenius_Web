@@ -42,7 +42,7 @@ function BottomNav() {
 
   return (
     <>
-      <ul className="z-10 fixed w-full bottom-0 bg-white shadow-md flex items-center justify-around max-w-[773px] mx-auto">
+      <ul className="fixed w-full bottom-0 bg-white shadow-md flex items-center justify-around max-w-[773px] mx-auto">
         {navData.map((data, i) => {
           const offIcon = iconOff[i];
           const onIcon = iconOn[i];
