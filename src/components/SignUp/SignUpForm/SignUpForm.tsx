@@ -1,16 +1,17 @@
 import { useFormik } from "formik";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import * as qs from "qs";
-import SignUpInput from "./SignUpInput/SignUpInput";
 import Button from "@/components/Common/Button";
 import { PATH } from "@/constants/path";
+import SignUpDesc from "./SignUpInput/SignUpDesc";
+import SignUpName from "./SignUpName/SignUpName";
+import { useState } from "react";
 const SignUpForm = () => {
+  const [signUpBoolean, setsignUpBoolean] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const query = qs.parse(location.search, {
-    ignoreQueryPrefix: true,
-  });
+  const searchParams = new URLSearchParams(location.search);
+  const gitName = searchParams.get("identifier");
 
   const validationSchema = Yup.object().shape({
     nickName: Yup.string()
@@ -39,20 +40,30 @@ const SignUpForm = () => {
   });
 
   const naviState = () => {
-    navigate(PATH.INTEREST, {
-      state: {
-        email: query.email,
-        nickName: formik.values.nickName,
-        myInfo: formik.values.myInfo,
-      },
-    });
+    if (formik.values.nickName && signUpBoolean) {
+      if (/[^ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-Z0-9]/.test(formik.values.nickName)) {
+        alert("닉네임에는 특수문자를 사용할 수 없습니다.");
+      } else {
+        navigate(PATH.INTEREST, {
+          state: {
+            gitNickName: gitName,
+            nickName: formik.values.nickName,
+            myInfo: formik.values.myInfo,
+          },
+        });
+      }
+    } else if (!formik.values.nickName) {
+      alert("닉네임을 입력해주세요.");
+    } else if (!signUpBoolean) {
+      alert("닉네임 중복확인을 해주세요.");
+    }
   };
 
   return (
     <>
       <form onSubmit={formik.handleSubmit}>
         <ul className="mb-44">
-          <SignUpInput
+          <SignUpName
             label="닉네임"
             required="required"
             margin="mb-[5rem]"
@@ -60,6 +71,8 @@ const SignUpForm = () => {
             name="nickName"
             placeholder="2 ~ 15자 입력 가능합니다."
             maxLength={15}
+            signUpBoolean={signUpBoolean}
+            setsignUpBoolean={setsignUpBoolean}
             value={formik.values.nickName}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -69,7 +82,7 @@ const SignUpForm = () => {
                 : null
             }
           />
-          <SignUpInput
+          <SignUpDesc
             label="한 줄 소개"
             required={null}
             margin={null}

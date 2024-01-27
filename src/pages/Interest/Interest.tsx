@@ -9,6 +9,7 @@ import InterestHeader from "@/components/Interest/InterestHeader/InterestHeader"
 
 import axios from "axios";
 import { PATH } from "@/constants/path";
+import signUpApi from "./api/SignUpApi";
 type Interest = {
   id: number;
   name: string;
@@ -21,30 +22,18 @@ type InterestsData = {
 const Interest = () => {
   const [checkedValues, setCheckedValues] = useState<CheckboxValueType[]>([]);
 
-  const navigate = useNavigate();
   const location = useLocation();
   const locationState = location.state;
-  console.log("lo", location.state);
-  // json data
+
   const InterestValue: InterestsData = interestsData;
 
-  const signUpApi = async () => {
-    const body = {
-      email: locationState.email,
+  const handleSignUp = async () => {
+    await signUpApi({
+      identifier: locationState.gitNickName,
       nickname: locationState.nickName,
       information: locationState.myInfo,
-      interest: ["흥미1"],
-    };
-    axios
-      .post(`http://localhost:8080/api/auth/signup`, body)
-      .then((res) => {
-        console.log("res", res);
-        sessionStorage.setItem("signToken", "signToken");
-        navigate(PATH.HOME);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      interest: checkedValues,
+    });
   };
 
   return (
@@ -65,7 +54,7 @@ const Interest = () => {
             textSize={"text-_h2"}
             textColor={"text-white"}
             fontWeight={"font-semibold"}
-            handleClick={signUpApi}
+            handleClick={handleSignUp}
           />
         </div>
       </LoginMobCard>

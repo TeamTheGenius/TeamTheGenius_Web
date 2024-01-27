@@ -14,7 +14,7 @@ type SignUpInputProps = {
   margin: string | null;
 };
 
-const SignUpInput: React.FC<SignUpInputProps> = ({
+const SignUpDesc: React.FC<SignUpInputProps> = ({
   label,
   id,
   name,
@@ -29,7 +29,7 @@ const SignUpInput: React.FC<SignUpInputProps> = ({
 }) => {
   return (
     <li className={`flex flex-col ${margin}`}>
-      <label htmlFor={id} className={`signUp-lable ${required}`}>
+      <label htmlFor={id} className={`signUp-lable ${required} relative`}>
         {label}
       </label>
       <input
@@ -47,4 +47,4 @@ const SignUpInput: React.FC<SignUpInputProps> = ({
     </li>
   );
 };
-export default SignUpInput;
+export default SignUpDesc;
