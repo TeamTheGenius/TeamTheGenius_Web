@@ -1,5 +1,4 @@
 import MainHeader from "@/components/Main/MainHeader/MainHeader";
-import Tabs from "@/components/Main/Tabs/Tabs";
 import { PATH } from "@/constants/path";
 import { useEffect, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";

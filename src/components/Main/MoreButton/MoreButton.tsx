@@ -8,7 +8,7 @@ interface Props {
 function MoreButton({ path }: Props) {
   const navigate = useNavigate();
   const onClick = () => {
-    navigate(path);
+    navigate(path, { replace: true });
   };
   return (
     <img
