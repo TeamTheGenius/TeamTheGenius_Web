@@ -1,11 +1,12 @@
 import Button from "@/components/Common/Button";
+import { PATH } from "@/constants/path";
 import { useNavigate } from "react-router-dom";
 
 function Landing() {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate("/login");
+    navigate(PATH.LOGIN);
   };
   return (
     <Button
