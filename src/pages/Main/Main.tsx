@@ -1,3 +1,4 @@
+import BottomNav from "@/components/Common/BottomNav/BottomNav";
 import MobCard from "@/components/Common/MobCard";
 import MainHeader from "@/components/Main/MainHeader/MainHeader";
 import SignCompleteModal from "@/components/SignCompleteModal/SignCompleteModal/SignCompleteModal";
@@ -19,6 +20,7 @@ function Main() {
       <div className="my-[1.1rem]">
         <MainHeader searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </div>
+      <BottomNav />
       <Outlet context={{ searchQuery }} />
     </MobCard>
   );
