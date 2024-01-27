@@ -40,7 +40,7 @@ const Interest = () => {
       .then((res) => {
         console.log("res", res);
         sessionStorage.setItem("signToken", "signToken");
-        navigate(PATH.HOME);
+        navigate(PATH.HOME_TAB);
       })
       .catch((err) => {
         console.log(err);
