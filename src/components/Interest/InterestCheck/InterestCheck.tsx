@@ -3,7 +3,6 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import InterestBtn from "@/components/Interest/InterestButton/InterestBtn";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
-import ScrolloBar from "@/components/Common/ScrolloBar";
 import "@/components/Interest/InterestCheck/antdCheckbox.css";
 type Interest = {
   id: number;
@@ -28,94 +27,38 @@ const InterestCheck = ({
     setCheckedValues(check);
   };
 
-  const dataLength = InterestValue.interests.length;
-
-  const style = {
-    width: "100%",
-    height: "40rem",
-    marginTop: "6rem",
-    marginBottom: "6rem",
-  };
-
   return (
     <>
-      {dataLength > 35 ? (
-        // 스크롤바 라이브러리
-        <ScrolloBar style={style}>
-          <Checkbox.Group
-            style={{
-              width: "100%",
-            }}
-            onChange={(e) => {
-              onChange(e);
-            }}
-          >
-            <Row>
-              {InterestValue.interests.map((valueInterest: Interest) => (
-                <Col key={valueInterest.id}>
-                  <Checkbox
-                    value={valueInterest.name}
-                    className="checkboxHidden"
-                  >
-                    {checkedValues.includes(valueInterest.name) ? (
-                      <InterestBtn
-                        bgColor="bg-_primary-30"
-                        textColor="text-white"
-                        checkText={valueInterest.name}
-                        icon={faCheck}
-                      />
-                    ) : (
-                      <InterestBtn
-                        bgColor="bg-_primary-10"
-                        className="hover:shadow-md"
-                        textColor="text-black"
-                        checkText={valueInterest.name}
-                        icon={faPlus}
-                      />
-                    )}
-                  </Checkbox>
-                </Col>
-              ))}
-            </Row>
-          </Checkbox.Group>
-        </ScrolloBar>
-      ) : (
-        <Checkbox.Group
-          style={{
-            width: "100%",
-            marginTop: "108px",
-            marginBottom: "108px",
-          }}
-          onChange={(e) => {
-            onChange(e);
-          }}
-        >
-          <Row>
-            {InterestValue.interests.map((valueInterest: Interest) => (
-              <Col key={valueInterest.id}>
-                <Checkbox value={valueInterest.name} className="checkboxHidden">
-                  {checkedValues.includes(valueInterest.name) ? (
-                    <InterestBtn
-                      bgColor="bg-[#282828]"
-                      textColor="text-white"
-                      checkText={valueInterest.name}
-                      icon={faCheck}
-                    />
-                  ) : (
-                    <InterestBtn
-                      bgColor="bg-[#dddddd]"
-                      className="hover:shadow-md"
-                      textColor="text-black"
-                      checkText={valueInterest.name}
-                      icon={faPlus}
-                    />
-                  )}
-                </Checkbox>
-              </Col>
-            ))}
-          </Row>
-        </Checkbox.Group>
-      )}
+      <Checkbox.Group
+        style={{
+          width: "100%",
+        }}
+        onChange={onChange}
+      >
+        <Row>
+          {InterestValue.interests.map((valueInterest: Interest) => (
+            <Col key={valueInterest.id}>
+              <Checkbox value={valueInterest.name} className="checkboxHidden">
+                {checkedValues.includes(valueInterest.name) ? (
+                  <InterestBtn
+                    bgColor="bg-[#282828]"
+                    textColor="text-white"
+                    checkText={valueInterest.name}
+                    icon={faCheck}
+                  />
+                ) : (
+                  <InterestBtn
+                    bgColor="bg-[#dddddd]"
+                    textColor="text-black"
+                    checkText={valueInterest.name}
+                    icon={faPlus}
+                  />
+                )}
+              </Checkbox>
+            </Col>
+          ))}
+        </Row>
+      </Checkbox.Group>
     </>
   );
 };
