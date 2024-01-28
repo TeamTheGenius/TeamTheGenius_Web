@@ -8,6 +8,7 @@ import SignUpName from "./SignUpName/SignUpName";
 import { useState } from "react";
 const SignUpForm = () => {
   const [signUpBoolean, setsignUpBoolean] = useState(false);
+  const [nickName, setNickName] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -38,7 +39,10 @@ const SignUpForm = () => {
       console.log(values);
     },
   });
-
+  const handleNickNameChange = (e: any) => {
+    formik.handleChange(e);
+    setNickName(e.target.value);
+  };
   const naviState = () => {
     if (formik.values.nickName && signUpBoolean) {
       if (/[^ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-Z0-9]/.test(formik.values.nickName)) {
@@ -62,7 +66,7 @@ const SignUpForm = () => {
   return (
     <>
       <form onSubmit={formik.handleSubmit}>
-        <ul className="mb-44">
+        <ul className="mb-[15rem]">
           <SignUpName
             label="닉네임"
             required="required"
@@ -73,8 +77,9 @@ const SignUpForm = () => {
             maxLength={15}
             signUpBoolean={signUpBoolean}
             setsignUpBoolean={setsignUpBoolean}
-            value={formik.values.nickName}
-            onChange={formik.handleChange}
+            value={nickName}
+            setValue={setNickName}
+            onChange={handleNickNameChange}
             onBlur={formik.handleBlur}
             error={
               formik.touched.nickName && formik.errors.nickName
@@ -105,7 +110,7 @@ const SignUpForm = () => {
           width={"w-full"}
           height={"h-[6.1rem]"}
           backgroundColor={"bg-_coral-70"}
-          textSize={"text-_h2"}
+          textSize={"text-[1.7rem]"}
           textColor={"text-white"}
           fontWeight={"font-semibold"}
           handleClick={naviState}

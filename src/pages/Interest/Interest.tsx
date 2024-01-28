@@ -1,14 +1,11 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import interestsData from "./interests.json";
 import LoginMobCard from "@/components/Common/LoginMobCard";
 import Button from "@/components/Common/Button";
 import InterestCheck from "@/components/Interest/InterestCheck/InterestCheck";
 import InterestHeader from "@/components/Interest/InterestHeader/InterestHeader";
-
-import axios from "axios";
-import { PATH } from "@/constants/path";
 import signUpApi from "./api/SignUpApi";
 type Interest = {
   id: number;
@@ -39,13 +36,15 @@ const Interest = () => {
   return (
     <>
       <LoginMobCard>
-        <InterestHeader />
+        <div className="mb-[22rem]">
+          <InterestHeader />
+        </div>
         <InterestCheck
           InterestValue={InterestValue}
           setCheckedValues={setCheckedValues}
           checkedValues={checkedValues}
         />
-        <div className="flex flex-col justify-between h-40">
+        <div className="flex flex-col justify-between h-40 mt-[22rem]">
           <Button
             content={"가입하기"}
             width={"w-full"}

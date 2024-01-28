@@ -4,12 +4,10 @@ import LoginMobCard from "@/components/Common/LoginMobCard";
 import SignUpForm from "@/components/SignUp/SignUpForm/SignUpForm";
 const SignUp = () => {
   return (
-    <div>
-      <LoginMobCard>
-        <SignUpHeader />
-        <SignUpForm />
-      </LoginMobCard>
-    </div>
+    <LoginMobCard>
+      <div className="mb-[20rem]"><SignUpHeader /></div>
+      <SignUpForm />
+    </LoginMobCard>
   );
 };
 

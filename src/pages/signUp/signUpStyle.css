@@ -4,10 +4,10 @@
   letter-spacing: -0.032rem;
 }
 .signUp-input {
-  @apply border-b-2 focus:border-black w-full text-[15px] outline-none py-4;
+  @apply border-b-2 focus:border-black w-full text-[1.5rem] outline-none py-4;
 }
 .signUp-lable {
-  @apply text-[17px] font-semibold;
+  @apply text-[1.7rem] font-medium;
 }
 .required::after {
   content: "*";

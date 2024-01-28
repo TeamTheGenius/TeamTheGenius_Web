@@ -32,8 +32,6 @@ const InterestCheck = ({
       <Checkbox.Group
         style={{
           width: "100%",
-          marginTop: "108px",
-          marginBottom: "108px",
         }}
         onChange={onChange}
       >

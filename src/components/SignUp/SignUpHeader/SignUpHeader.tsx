@@ -5,13 +5,11 @@ const SignUpHeader = () => {
   const searchParams = new URLSearchParams(location.search);
   const gitName = searchParams.get("identifier");
   return (
-    <div className="flex flex-col mb-44">
-      <h1 className="font-bold text-_h1 flex">
-        {gitName}님,
-        <br />
-        환영합니다!
-      </h1>
-    </div>
+    <h1 className="font-bold text-[2.8rem]">
+      {gitName}님,
+      <br />
+      환영합니다!
+    </h1>
   );
 };
 
