@@ -9,15 +9,15 @@ import Interest from "./pages/Interest/Interest";
 import Main from "./pages/Main/Main";
 import AdminTopic from "./pages/Admin/AdminTopic/AdminTopic";
 import AdminInstance from "./pages/Admin/AdminInstance/AdminInstance";
-import PopularChallengeTab from "./pages/Main/PopularChallengeTab/PopularChallenge";
-import NewChallengeTab from "./pages/Main/NewChallengeTab/NewChallenge";
-import SuggestionChallengeTab from "./pages/Main/SuggestionChallengeTab/SuggestionChallenge";
-import Search from "./pages/Main/Search/Search";
-import { PATH } from "@/constants/path";
-import MyChallenge from "./pages/Main/MyChallenge/MyChallenge";
-import Pet from "./pages/Main/Pet/Pet";
-import MyPage from "./pages/Main/MyPage/MyPage";
-import Home from "./pages/Main/Home/Home";
+import MyChallenge from "./pages/MyChallenge/MyChallenge";
+import Pet from "./pages/Pet/Pet";
+import { PATH } from "./constants/path";
+import MyPage from "./pages/MyPage/MyPage";
+import Home from "./pages/Home/Home";
+import PopularChallenge from "./pages/PopularChallenge/PopularChallenge";
+import NewChallenge from "./pages/NewChallenge/NewChallenge";
+import SuggestionChallenge from "./pages/SuggestionChallenge/SuggestionChallenge";
+import Search from "./pages/Search/Search";
 
 function App() {
   return (
@@ -36,12 +36,12 @@ function App() {
             <Route path={PATH.HOME} element={<Home />} />
             <Route
               path={PATH.POPULAR_CHALLENGE}
-              element={<PopularChallengeTab />}
+              element={<PopularChallenge />}
             />
-            <Route path={PATH.NEW_CHALLENGE} element={<NewChallengeTab />} />
+            <Route path={PATH.NEW_CHALLENGE} element={<NewChallenge />} />
             <Route
               path={PATH.SUGGESTION_CHALLENGE}
-              element={<SuggestionChallengeTab />}
+              element={<SuggestionChallenge />}
             />
             <Route path={PATH.SEARCH} element={<Search />} />
           </Route>
