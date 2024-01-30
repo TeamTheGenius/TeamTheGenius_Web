@@ -32,7 +32,7 @@ function HomeHeader() {
         <input
           type="text"
           placeholder="관심 챌린지를 검색해보세요"
-          className="w-full ml-[0.7rem] font-extralight bg-[#EEE] text-[1.4rem] _sm:text-[1.2rem] leading-_normal placeholder:text-[#767676] focus:outline-none"
+          className="w-full ml-[0.7rem] font-extralight bg-[#EEE] text-[1.4rem] _sm:text-[1.2rem] leading-_normal placeholder:text-[#767676] text-black focus:outline-none"
           value={searchQuery}
           onChange={onChange}
           onKeyDown={onClickKeyPress}
