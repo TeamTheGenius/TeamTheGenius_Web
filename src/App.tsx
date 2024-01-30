@@ -9,12 +9,10 @@ import Interest from "./pages/Interest/Interest";
 import Main from "./pages/Main/Main";
 import AdminTopic from "./pages/Admin/AdminTopic/AdminTopic";
 import AdminInstance from "./pages/Admin/AdminInstance/AdminInstance";
-import HomeTab from "./pages/Main/HomeTab/Home";
 import PopularChallengeTab from "./pages/Main/PopularChallengeTab/PopularChallenge";
 import NewChallengeTab from "./pages/Main/NewChallengeTab/NewChallenge";
 import SuggestionChallengeTab from "./pages/Main/SuggestionChallengeTab/SuggestionChallenge";
 import Search from "./pages/Main/Search/Search";
-import TabContent from "./pages/Main/TabContent/TabContent";
 import { PATH } from "@/constants/path";
 import MyChallenge from "./pages/Main/MyChallenge/MyChallenge";
 import Pet from "./pages/Main/Pet/Pet";
@@ -35,25 +33,19 @@ function App() {
             <Route path={PATH.MY_CHALLENGE} element={<MyChallenge />} />
             <Route path={PATH.PET} element={<Pet />} />
             <Route path={PATH.MY_PAGE} element={<MyPage />} />
-            <Route path="/main/home" element={<Home />}>
-              <Route path={"/main/home/tab"} element={<TabContent />}>
-                <Route path={PATH.HOME_TAB} element={<HomeTab />} />
-                <Route
-                  path={PATH.POPULAR_CHALLENGE_TAB}
-                  element={<PopularChallengeTab />}
-                />
-                <Route
-                  path={PATH.NEW_CHALLENGE_TAB}
-                  element={<NewChallengeTab />}
-                />
-                <Route
-                  path={PATH.SUGGESTION_CHALLENGE_TAB}
-                  element={<SuggestionChallengeTab />}
-                />
-              </Route>
-              <Route path={PATH.SEARCH} element={<Search />} />
-            </Route>
+            <Route path={PATH.HOME} element={<Home />} />
+            <Route
+              path={PATH.POPULAR_CHALLENGE}
+              element={<PopularChallengeTab />}
+            />
+            <Route path={PATH.NEW_CHALLENGE} element={<NewChallengeTab />} />
+            <Route
+              path={PATH.SUGGESTION_CHALLENGE}
+              element={<SuggestionChallengeTab />}
+            />
+            <Route path={PATH.SEARCH} element={<Search />} />
           </Route>
+
           <Route path={PATH.ADMIN} element={<AdminTopic />} />
           <Route path={PATH.ADMIN_INSTANCE_ID} element={<AdminInstance />} />
         </Routes>
