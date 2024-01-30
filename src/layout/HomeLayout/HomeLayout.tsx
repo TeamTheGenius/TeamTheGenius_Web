@@ -1,5 +1,5 @@
-import HomeHeader from "@/components/Main/HomeHeader/HomeHeader";
-import Tabs from "@/components/Main/Tabs/Tabs";
+import HomeHeader from "@/components/Home/HomeHeader/HomeHeader";
+import Tabs from "@/components/Home/Tabs/Tabs";
 import React from "react";
 
 interface Props {

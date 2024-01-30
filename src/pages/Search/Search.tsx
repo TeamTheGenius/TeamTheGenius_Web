@@ -1,8 +1,8 @@
-import FilterButtons from "@/components/Main/FilterButtons/FilterButtons";
-import VerticalChallengeItems from "@/components/Main/VerticalChallengeItems/VerticalChallengeItems";
+import HomeHeader from "@/components/Home/HomeHeader/HomeHeader";
+import VerticalChallengeItems from "@/components/Common/VerticalChallengeItems/VerticalChallengeItems";
+import FilterButtons from "@/components/Search/FilterButtons/FilterButtons";
 import { newChallengeData } from "@/data/newChallengeData";
 import { useState } from "react";
-import HomeHeader from "@/components/Main/HomeHeader/HomeHeader";
 
 function Search() {
   const [filter, setFilter] = useState<"전체" | "모집중" | "진행중" | "완료">(

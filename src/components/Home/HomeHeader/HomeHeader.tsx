@@ -3,7 +3,7 @@ import searchIcon from "@/assets/icon/search-icon.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PATH } from "@/constants/path";
 
-function MainHeader() {
+function HomeHeader() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const navigate = useNavigate();
   const currentUrl = useLocation().pathname;
@@ -41,4 +41,4 @@ function MainHeader() {
   );
 }
 
-export default MainHeader;
+export default HomeHeader;

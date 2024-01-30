@@ -1,11 +1,12 @@
 import HomeLayout from "@/layout/HomeLayout/HomeLayout";
-import ChallengeItem from "@/components/Main/ChallengeItem/ChallengeItem";
-import HorizontalScroll from "@/components/Main/HorizontalScroll/HorizontalScroll";
-import MoreButton from "@/components/Main/MoreButton/MoreButton";
-import Title from "@/components/Main/Title/Title";
+
 import { PATH } from "@/constants/path";
 import { popularChallengeData } from "@/data/pupularChallengeData";
 import { suggestionChallengeData } from "@/data/suggestionChallengeData";
+import Title from "@/components/Home/Title/Title";
+import MoreButton from "@/components/Home/MoreButton/MoreButton";
+import HorizontalScroll from "@/components/Home/HorizontalScroll/HorizontalScroll";
+import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 
 function Home() {
   return (

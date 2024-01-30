@@ -1,4 +1,4 @@
-import VerticalChallengeItems from "@/components/Main/VerticalChallengeItems/VerticalChallengeItems";
+import VerticalChallengeItems from "@/components/Common/VerticalChallengeItems/VerticalChallengeItems";
 import { popularChallengeData } from "@/data/pupularChallengeData";
 import HomeLayout from "@/layout/HomeLayout/HomeLayout";
 
