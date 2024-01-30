@@ -8,6 +8,7 @@ function Search() {
   const [filter, setFilter] = useState<"전체" | "모집중" | "진행중" | "완료">(
     "전체"
   );
+
   return (
     <div>
       <div className="max-w-[77.3rem] w-full z-10 bg-white fixed top-0">

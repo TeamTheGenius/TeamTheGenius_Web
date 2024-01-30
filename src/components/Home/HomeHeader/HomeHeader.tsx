@@ -1,10 +1,14 @@
-import { ChangeEvent, KeyboardEvent, useState } from "react";
+import { ChangeEvent, Dispatch, KeyboardEvent, SetStateAction } from "react";
 import searchIcon from "@/assets/icon/search-icon.svg";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useOutletContext } from "react-router-dom";
 import { PATH } from "@/constants/path";
 
+interface OutletProps {
+  searchQuery: string;
+  setSearchQuery: Dispatch<SetStateAction<string>>;
+}
 function HomeHeader() {
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const { searchQuery, setSearchQuery } = useOutletContext<OutletProps>();
   const navigate = useNavigate();
   const currentUrl = useLocation().pathname;
 
