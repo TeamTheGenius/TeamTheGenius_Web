@@ -7,8 +7,11 @@ import Information from "@/components/ChallengeDetail/Information/Information";
 import Line from "@/components/ChallengeDetail/Line/Line";
 import MobCard from "@/components/Common/MobCard";
 import { allChallengeData } from "@/data/allChallengeData";
+import { useState } from "react";
 
 function ChallengeDetail() {
+  const [heartActive, setHeartActive] = useState<boolean>(false);
+
   const { id } = useParams();
 
   const selectedChallenge = allChallengeData.find(
@@ -49,7 +52,11 @@ function ChallengeDetail() {
 
         <div className="px-[2.2rem] max-w-[59rem] w-full z-10 fixed bottom-0">
           <Bottom>
-            <Bottom.Heart isActive={true} heartCount={13} />
+            <Bottom.Heart
+              heartActive={heartActive}
+              setHeartActive={setHeartActive}
+              heartCount={13}
+            />
             <Bottom.Button />
           </Bottom>
         </div>

@@ -2,7 +2,8 @@ import Button from "@/components/Common/Button";
 import Heart from "../Heart/Heart";
 
 interface HeartProps {
-  isActive: boolean;
+  heartActive: boolean;
+  setHeartActive: React.Dispatch<React.SetStateAction<boolean>>;
   heartCount: number;
 }
 
@@ -13,11 +14,15 @@ interface MainProps {
 interface ButtonProps {
   onClick: () => void;
 }
-function BottomHeart({ isActive, heartCount }: HeartProps) {
+
+function BottomHeart({ heartActive, setHeartActive, heartCount }: HeartProps) {
+  const onClick = () => {
+    setHeartActive(!heartActive);
+  };
   return (
     <div className="flex flex-col justify-center">
-      <div className="w-[3.4rem] h-[2.9rem]">
-        <Heart isActive={isActive} />
+      <div onClick={onClick} className="w-[3.4rem] h-[2.9rem] cursor-pointer">
+        <Heart isActive={heartActive} />
       </div>
       <span className="text-[1.2rem] font-medium leading-_normal text-center text-_coral-70">
         {heartCount}
