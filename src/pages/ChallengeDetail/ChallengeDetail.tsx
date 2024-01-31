@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom";
 import BackIcon from "@/components/ChallengeDetail/BackIcon/BackIcon";
 import Bottom from "@/components/ChallengeDetail/Bottom/Bottom";
 import CoreInformation from "@/components/ChallengeDetail/CoreInformation/CoreInformation";
@@ -5,8 +6,19 @@ import Image from "@/components/ChallengeDetail/Image/Image";
 import Information from "@/components/ChallengeDetail/Information/Information";
 import Line from "@/components/ChallengeDetail/Line/Line";
 import MobCard from "@/components/Common/MobCard";
+import { allChallengeData } from "@/data/allChallengeData";
 
 function ChallengeDetail() {
+  const { id } = useParams();
+
+  const selectedChallenge = allChallengeData.find(
+    (challenge) => challenge.id.toString() === id
+  );
+
+  if (!selectedChallenge) {
+    return;
+  }
+
   return (
     <MobCard>
       <div className="max-w-[77.3rem] w-full z-10 fixed ml-[1.9rem] top-[1.3rem]">
@@ -17,11 +29,11 @@ function ChallengeDetail() {
         <div className="max-w-[54.6rem] w-full flex flex-col gap-[2.3rem]">
           <Image />
           <CoreInformation
-            challengeTitle="[도전] 1일 1커밋"
-            applicant={24}
-            period="00. 00 (월) ~ 00. 00 (토) / 매일"
-            dDay={3}
-            point={100}
+            challengeTitle={selectedChallenge.title}
+            applicant={selectedChallenge.numberOfParticipants}
+            period={selectedChallenge.period}
+            dDay={selectedChallenge.dDay}
+            point={selectedChallenge.point}
           />
           <Line />
           <Information title="상세 정보" content="상세 정보 어쩌구" />
