@@ -3,6 +3,7 @@ import { cls } from "@/utils/mergeTailwind";
 
 interface MainProps {
   children: React.ReactNode;
+  onClick: () => void;
 }
 
 interface ParticipantProps {
@@ -20,9 +21,14 @@ interface TitleProps {
   title: string;
 }
 
-function Main({ children }: MainProps) {
+function Main({ children, onClick }: MainProps) {
   return (
-    <div className="flex flex-col gap-[0.8rem] my-[0.4rem]">{children}</div>
+    <div
+      onClick={onClick}
+      className="flex flex-col gap-[0.8rem] my-[0.4rem] cursor-pointer"
+    >
+      {children}
+    </div>
   );
 }
 

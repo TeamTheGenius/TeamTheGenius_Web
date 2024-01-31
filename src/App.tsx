@@ -44,7 +44,7 @@ function App() {
             />
             <Route path={PATH.SEARCH} element={<Search />} />
           </Route>
-          <Route path={PATH.CHALLENGE_ITEM} element={<ChallengeDetail />} />
+          <Route path={PATH.CHALLENGE_ITEM_ID} element={<ChallengeDetail />} />
           <Route path={PATH.ADMIN} element={<AdminTopic />} />
           <Route path={PATH.ADMIN_INSTANCE_ID} element={<AdminInstance />} />
         </Routes>
