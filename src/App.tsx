@@ -17,6 +17,7 @@ import PopularChallenge from "./pages/PopularChallenge/PopularChallenge";
 import NewChallenge from "./pages/NewChallenge/NewChallenge";
 import SuggestionChallenge from "./pages/SuggestionChallenge/SuggestionChallenge";
 import Search from "./pages/Search/Search";
+import ChallengeDetail from "./pages/ChallengeDetail/ChallengeDetail";
 
 function App() {
   return (
@@ -43,12 +44,11 @@ function App() {
             />
             <Route path={PATH.SEARCH} element={<Search />} />
           </Route>
-
+          <Route path={PATH.CHALLENGE_ITEM} element={<ChallengeDetail />} />
           <Route path={PATH.ADMIN} element={<AdminTopic />} />
           <Route path={PATH.ADMIN_INSTANCE_ID} element={<AdminInstance />} />
         </Routes>
       </Router>
-      ;
     </>
   );
 }
