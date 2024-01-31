@@ -11,7 +11,7 @@ export const PATH = {
   POPULAR_CHALLENGE_TAB: "/main/home/tab/popular",
   NEW_CHALLENGE_TAB: "/main/home/tab/new",
   SUGGESTION_CHALLENGE_TAB: "/main/home/tab/suggestion",
-  MY_CHALLENGE: "/main/my-challenge",
+  MY_CHALLENGE: "/main/my-challenge/*",
   PET: "/main/pet",
   MY_PAGE: "/main/my-page",
 
