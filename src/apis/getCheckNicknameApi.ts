@@ -5,7 +5,7 @@ type nickNameCheckType = {
   setsignUpBoolean: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const CheckNicknameApi = ({
+export const getCheckNicknameApi = ({
   value,
   setNickCheck,
   setsignUpBoolean,

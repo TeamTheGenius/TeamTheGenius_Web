@@ -1,12 +1,13 @@
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { PATH } from "@/constants/path";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
+import { IDENTIFIER } from "@/constants/localStorageKey";
 type SignUpApiParams = {
   identifier: string;
   nickname: string;
   information: string;
   interest: CheckboxValueType[];
+  navigate: (path: string) => void;
 };
 
 const signUpApi = async ({
@@ -14,6 +15,7 @@ const signUpApi = async ({
   nickname,
   information,
   interest,
+  navigate,
 }: SignUpApiParams) => {
   const body = {
     identifier: identifier,
@@ -25,7 +27,8 @@ const signUpApi = async ({
     .post(`http://localhost:8080/api/auth/signup`, body)
     .then((res) => {
       console.log("res", res);
-      const navigate = useNavigate();
+      window.localStorage.setItem(IDENTIFIER, res.data.data.identifier);
+      console.log(window.localStorage.getItem(IDENTIFIER));
       navigate(PATH.HOME);
     })
     .catch((err) => {
