@@ -13,7 +13,7 @@ import { PATH } from "@/constants/path";
 
 function BottomNav() {
   const navData = [
-    { to: PATH.HOME_TAB, title: "홈" },
+    { to: PATH.HOME, title: "홈" },
     { to: PATH.MY_CHALLENGE, title: "마이챌린지" },
     { to: PATH.PET, title: "펫" },
     { to: PATH.MY_PAGE, title: "마이페이지" },

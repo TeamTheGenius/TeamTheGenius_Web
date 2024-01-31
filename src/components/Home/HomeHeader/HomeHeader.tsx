@@ -1,14 +1,14 @@
-import { ChangeEvent, KeyboardEvent, SetStateAction, Dispatch } from "react";
+import { ChangeEvent, Dispatch, KeyboardEvent, SetStateAction } from "react";
 import searchIcon from "@/assets/icon/search-icon.svg";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useOutletContext } from "react-router-dom";
 import { PATH } from "@/constants/path";
 
-interface Props {
-  setSearchQuery: Dispatch<SetStateAction<string>>;
+interface OutletProps {
   searchQuery: string;
+  setSearchQuery: Dispatch<SetStateAction<string>>;
 }
-
-function MainHeader({ searchQuery, setSearchQuery }: Props) {
+function HomeHeader() {
+  const { searchQuery, setSearchQuery } = useOutletContext<OutletProps>();
   const navigate = useNavigate();
   const currentUrl = useLocation().pathname;
 
@@ -32,7 +32,7 @@ function MainHeader({ searchQuery, setSearchQuery }: Props) {
         <input
           type="text"
           placeholder="관심 챌린지를 검색해보세요"
-          className="w-full ml-[0.7rem] font-extralight bg-[#EEE] text-[1.4rem] _sm:text-[1.2rem] leading-_normal placeholder:text-[#767676] focus:outline-none"
+          className="w-full ml-[0.7rem] font-extralight bg-[#EEE] text-[1.4rem] _sm:text-[1.2rem] leading-_normal placeholder:text-[#767676] text-black focus:outline-none"
           value={searchQuery}
           onChange={onChange}
           onKeyDown={onClickKeyPress}
@@ -45,4 +45,4 @@ function MainHeader({ searchQuery, setSearchQuery }: Props) {
   );
 }
 
-export default MainHeader;
+export default HomeHeader;
