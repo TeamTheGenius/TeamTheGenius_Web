@@ -2,7 +2,8 @@ import githubLogo from "@/assets/icon/github-mark.svg";
 import Button from "@/components/LogIn/Button/Button";
 
 function GithubLoginButton() {
-  const GITHUB_REDIRECT_URI = "http://localhost:8080/oauth2/authorization/";
+  const GITHUB_REDIRECT_URI =
+    "http://localhost:8080/oauth2/authorization/github";
 
   const onClick = () => {
     window.location.href = GITHUB_REDIRECT_URI;

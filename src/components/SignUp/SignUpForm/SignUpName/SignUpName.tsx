@@ -1,5 +1,5 @@
 import Button from "@/components/Common/Button";
-import { CheckNicknameApi } from "@/pages/SignUp/api/CheckNicknameApi";
+
 import React, {
   ChangeEvent,
   Dispatch,
@@ -9,6 +9,7 @@ import React, {
   useState,
 } from "react";
 import nickname_X from "@/assets/icon/nickname_X.svg";
+import { getCheckNicknameApi } from "@/apis/getCheckNicknameApi";
 type SignUpInputProps = {
   label: string;
   id: string;
@@ -46,7 +47,7 @@ const SignUpName: React.FC<SignUpInputProps> = ({
   const [nickCheck, setNickCheck] = useState("");
 
   const nickNameCheck = () => {
-    CheckNicknameApi({ value, setNickCheck, setsignUpBoolean });
+    getCheckNicknameApi({ value, setNickCheck, setsignUpBoolean });
   };
   const resetValue = () => {
     setValue("");
