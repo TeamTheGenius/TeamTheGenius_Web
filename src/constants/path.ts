@@ -9,6 +9,10 @@ export const PATH = {
   POPULAR_CHALLENGE: "/main/home/popular",
   NEW_CHALLENGE: "/main/home/new",
   SUGGESTION_CHALLENGE: "/main/home/suggestion",
+
+  CHALLENGE_ITEM: "/challenge-item",
+  CHALLENGE_ITEM_ID: "/challenge-item/:id",
+
   MY_CHALLENGE: "/main/my-challenge",
   PET: "/main/pet",
   MY_PAGE: "/main/my-page",

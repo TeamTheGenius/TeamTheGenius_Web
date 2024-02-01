@@ -1,10 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import ChallengeItem from "../ChallengeItem/ChallengeItem";
+import { PATH } from "@/constants/path";
 
 interface ChallengeItemProps {
   imgSrc: string;
   alt: string;
   numberOfParticipants: number;
   title: string;
+  id: number;
 }
 
 interface Props {
@@ -12,10 +15,14 @@ interface Props {
 }
 
 function VerticalChallengeItems({ data }: Props) {
+  const navigate = useNavigate();
+  const onClick = (id: number) => {
+    navigate(`${PATH.CHALLENGE_ITEM}/${id}`);
+  };
   return (
     <div className="w-full max-w-[72.2rem] grid grid-cols-4 gap-x-[2.2rem] _md:grid-cols-3 _sm:grid-cols-2">
       {data.map((item, index) => (
-        <ChallengeItem key={index}>
+        <ChallengeItem key={index} onClick={() => onClick(item.id)}>
           <ChallengeItem.Image
             imgSrc={item.imgSrc}
             alt={item.alt}
