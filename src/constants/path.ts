@@ -3,7 +3,6 @@ export const PATH = {
   SIGNUP: "/login/signup",
   INTEREST: "/login/signup/interest",
   ERROR: "/error",
-
   MAIN: "/main",
   SEARCH: "/main/search",
   HOME: "/main/home",
@@ -13,7 +12,6 @@ export const PATH = {
   MY_CHALLENGE: "/main/my-challenge",
   PET: "/main/pet",
   MY_PAGE: "/main/my-page",
-
   ADMIN: "/admin",
   ADMIN_INSTANCE: "/admin/instance",
   ADMIN_INSTANCE_ID: "/admin/instance/:id",
