@@ -17,12 +17,12 @@ function postJWTApi({ navigate }: Params) {
   axios
     .post("http://localhost:8080/api/auth", body)
     .then((res) => {
-      console.log("res", res);
+      console.log("로그인 요청", res);
       navigate(PATH.HOME);
     })
     .catch((err) => {
-      alert("오류가 발생했습니다.");
-      console.log(err);
+      alert("가입에 오류가 발생했습니다.");
+      console.log("err", err);
     });
 }
 
