@@ -27,8 +27,8 @@ const signUpApi = async ({
     .post(`http://localhost:8080/api/auth/signup`, body)
     .then((res) => {
       console.log("res", res);
-      window.localStorage.setItem(IDENTIFIER, res.data.data.identifier);
-      console.log(window.localStorage.getItem(IDENTIFIER));
+      // window.localStorage.setItem(IDENTIFIER, res.data.data.identifier);
+      // console.log(window.localStorage.getItem(IDENTIFIER));
       navigate(PATH.HOME);
     })
     .catch((err) => {

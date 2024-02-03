@@ -1,10 +1,13 @@
 import Button from "@/components/Common/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TopicEditModal from "../TopicEditModal/TopicEditModal";
 import { PATH } from "@/constants/path";
+import getAdminListApi from "@/apis/getAdminListApi";
+import axios from "axios";
 
 const TopicListComponent = () => {
+  const [adminList, setAdminList] = useState([]);
   const [TopicEditModalIsOpen, setTopicEditModalIsOpen] =
     useState<boolean>(false);
   const [topicEditModalData, setTopicEditModalData] = useState(null);
@@ -42,7 +45,19 @@ const TopicListComponent = () => {
       instanceLinkId: 3,
     },
   ];
-
+  const topicList = () => {
+    axios
+      .get(`http://localhost:8080/api/admin/topic?page=0&size=5`)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  useEffect(() => {
+    topicList();
+  }, []);
   return (
     <>
       <ul className="flex flex-col gap-10 rounded-xl">

@@ -1,8 +1,10 @@
+import postAdminTopicApi from "@/apis/postAdminTopicApi";
 import { adminmodalCard } from "@/utils/modalCard";
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Select, Upload } from "antd";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Modal from "react-modal";
+import axios from "axios";
 
 type TopicModalType = {
   setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,6 +18,12 @@ const TopicCreateModal = ({ ModalIsOpen, setModalIsOpen }: TopicModalType) => {
 
   const topicSubmit = (values: any) => {
     console.log("토픽 값", values);
+    postAdminTopicApi({
+      topicTitle: values.title,
+      topicDesc: values.description,
+      topicTags: values.tags,
+      topicPoint: values.pointPerPerson,
+    });
   };
   return (
     <div>
@@ -84,7 +92,7 @@ const FormDesc = () => {
         validateStatus={simpleInfo ? "success" : "error"} // 입력값이 있는 경우 'success', 없는 경우 'error'
         hasFeedback
         help={simpleInfo ? null : "간단한 소개를 입력해주세요"} // 입력값이 없는 경우 도움말 메시지 표시
-        name="simpleInfo"
+        name="description"
       >
         <Input.TextArea allowClear showCount onChange={simpleInfoChange} />
       </Form.Item>
@@ -108,6 +116,36 @@ const FormImg = () => {
     }
     return e?.fileList;
   };
+
+  const handleFileChange = async (file: any) => {
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("type", "topic");
+    formData.append(
+      "data",
+      JSON.stringify({ identifier: "songmok", test: "test" })
+    );
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/file",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      const imageURL = response.data.url;
+      console.log("업로드된 이미지 URL:", imageURL);
+    } catch (error) {
+      console.log("file", file);
+      console.error(error);
+    }
+  };
+  const thumbnailInput = useRef();
+
   return (
     <>
       <Form.Item
@@ -117,7 +155,16 @@ const FormImg = () => {
         getValueFromEvent={normFile}
         extra="이미지 업로드"
       >
-        <Upload name="logo" action="/upload.do" listType="picture">
+        <Upload
+          name="logo"
+          action=""
+          accept="image/png, image/jpg"
+          listType="picture"
+          multiple
+          ref={thumbnailInput}
+          onChange={({ file }) => handleFileChange(file)}
+          // customRequest={({ file }) => handleFileChange(file)}
+        >
           <Button icon={<UploadOutlined />}>챌린지 사진을 선택해주세요</Button>
         </Upload>
       </Form.Item>
@@ -133,7 +180,7 @@ const FormInterest = () => {
   return (
     <>
       <Form.Item
-        name="instance"
+        name="tags"
         label="관심사 선택"
         rules={[
           {
@@ -171,7 +218,7 @@ const FormPoint = () => {
             },
           },
         ]}
-        name="point"
+        name="pointPerPerson"
       >
         <Input />
       </Form.Item>

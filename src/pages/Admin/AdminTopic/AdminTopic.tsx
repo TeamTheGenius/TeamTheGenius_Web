@@ -10,9 +10,7 @@ const AdminTopic = () => {
 
   return (
     <>
-      <header className="w-full h-[145px]">
-        {/* 헤더 디자인 완성전이라 임시로 넣었습니다. */}
-      </header>
+      <header className="w-full h-[145px]"></header>
       <section className="flex flex-col items-center">
         <div className="w-3/4">
           <Title title="토픽 생성 페이지" />
