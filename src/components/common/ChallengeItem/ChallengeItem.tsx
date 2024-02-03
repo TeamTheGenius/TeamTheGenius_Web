@@ -47,14 +47,12 @@ function Image({ imgSrc, alt, children, direction }: ImageProps) {
   };
 
   return (
-    <div
-      className={`relative rounded-[10px] bg-yellow-500 ${additionalStyles[direction]}`}
-    >
+    <div className={`relative ${additionalStyles[direction]}`}>
       <img
         src={imgSrc}
         alt={alt}
         className={cls(
-          "w-full h-full",
+          "w-full h-full rounded-[1rem]",
           direction === "vertical" ? "absolute top-0 left-0 " : ""
         )}
       />

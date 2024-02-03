@@ -1,15 +1,15 @@
 import humanIcon from "@/assets/icon/human-icon.svg";
 type MyChallengePicType = {
-  propsText?: string;
+  overlayText?: string;
   overlayState: boolean;
   img: string;
   alt: string;
-  people?: string;
+  people?: number;
   completeState?: boolean;
 };
 
 const MyChallengePic = ({
-  propsText,
+  overlayText,
   overlayState,
   img,
   alt,
@@ -29,15 +29,15 @@ const MyChallengePic = ({
                     !completeState ? "text-[1.6rem]" : "text-[2.2rem]"
                   } font-medium`}
                 >
-                  {propsText}
+                  {overlayText}
                 </span>
               </div>
             </div>
-            {people && (
+            {people !== null && people !== undefined && (
               <div className="absolute flex justify-evenly items-center w-[4.8rem] h-[1.9rem] left-[1rem] top-[0.3rem] bg-black rounded-[0.8rem]">
                 <img src={humanIcon} alt="humanIcon" />
 
-                <span className="text-white text-[1rem]">{people}</span>
+                <span className="text-white text-[1rem]">{people}명</span>
               </div>
             )}
           </>

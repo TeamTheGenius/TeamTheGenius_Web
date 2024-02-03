@@ -30,7 +30,10 @@ function ChallengeDetail() {
 
       <div className="pb-[8rem] flex flex-col items-center">
         <div className="max-w-[54.6rem] w-full flex flex-col gap-[2.3rem]">
-          <Image />
+          <Image
+            imgSrc={selectedChallenge.imgSrc}
+            alt={selectedChallenge.alt}
+          />
           <CoreInformation
             challengeTitle={selectedChallenge.title}
             applicant={selectedChallenge.numberOfParticipants}

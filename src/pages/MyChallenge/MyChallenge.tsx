@@ -1,12 +1,12 @@
 import MyChallengeHeader from "@/components/Main/MyChallenge/MyChallengeHeader/MyChallengeHeader";
-import "@/pages/main/MyChallenge/MyChallengeStyle.css";
+import "@/pages/MyChallenge/MyChallengeStyle.css";
 import { useRoutes } from "react-router-dom";
 import MyChallengeProgress from "./MyChallengeProgress/MyChallengeProgress";
 import MyChallengeComplete from "./MyChallengeComplete/MyChallengeComplete";
 import MyChallengeStart from "./MyChallengeStart/MyChallengeStart";
 
 const MyChallenge = () => {
-  let routes = useRoutes([
+  const routes = useRoutes([
     {
       path: "start",
       element: <MyChallengeStart />,
