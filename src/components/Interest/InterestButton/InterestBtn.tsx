@@ -15,7 +15,7 @@ const InterestBtn = ({
 }: InterestBtnProps) => {
   return (
     <div
-      className={`${bgColor} py-2 px-4 mt-6 rounded-full text-_body1 flex items-center hover:shadow-md`}
+      className={`${bgColor} h-[36px] px-[1.5rem] mt-6 rounded-full text-[1.2rem] font-medium flex items-center hover:shadow-md`}
     >
       <FontAwesomeIcon icon={icon} className={`${textColor} mr-4`} />
       <span className={`${textColor} whitespace-nowrap`}>{checkText}</span>
