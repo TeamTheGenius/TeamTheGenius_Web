@@ -43,7 +43,6 @@ const SignUpName: React.FC<SignUpInputProps> = ({
   signUpBoolean,
   setsignUpBoolean,
 }) => {
-  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
   const [nickCheck, setNickCheck] = useState("");
 
   const nickNameCheck = () => {
@@ -60,16 +59,6 @@ const SignUpName: React.FC<SignUpInputProps> = ({
     onChange(event);
   };
 
-  console.log("viewportWidth ", viewportWidth);
-  useEffect(() => {
-    const resize = () => {
-      setViewportWidth(window.innerWidth);
-    };
-    window.addEventListener("resize", resize);
-    return () => {
-      window.removeEventListener("resize", resize);
-    };
-  }, []);
   return (
     <li className={`flex flex-col ${margin}`}>
       <label htmlFor={id} className={`signUp-lable ${required} relative`}>
@@ -88,27 +77,23 @@ const SignUpName: React.FC<SignUpInputProps> = ({
             onChange={inputChange}
             onBlur={onBlur}
           />
-          {viewportWidth < 394 ? (
-            <>
-              <button
-                className="w-[16px] h-[38px] absolute right-5 bottom-0"
-                onClick={resetValue}
-              >
-                <img src={nickname_X} alt="nickname_X" />
-              </button>
-            </>
-          ) : (
-            ""
-          )}
+          <>
+            <button
+              className="w-[16px] h-[38px] absolute right-5 bottom-0"
+              onClick={resetValue}
+            >
+              <img src={nickname_X} alt="nickname_X" />
+            </button>
+          </>
         </div>
         <Button
           width="w-[76px]"
           height="h-[38px]"
           content="중복확인"
-          fontWeight="normal"
+          fontWeight="font-medium"
           backgroundColor="bg-[#6893FF]"
           textColor="text-white"
-          textSize="text-[13px]"
+          textSize="text-[1.3rem]"
           handleClick={nickNameCheck}
         />
       </div>

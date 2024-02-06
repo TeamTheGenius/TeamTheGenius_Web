@@ -112,7 +112,7 @@ const SignUpForm = () => {
           backgroundColor={"bg-_coral-70"}
           textSize={"text-[1.7rem]"}
           textColor={"text-white"}
-          fontWeight={"font-semibold"}
+          fontWeight={"font-medium"}
           handleClick={naviState}
         />
       </form>

@@ -18,6 +18,7 @@ import NewChallenge from "./pages/NewChallenge/NewChallenge";
 import SuggestionChallenge from "./pages/SuggestionChallenge/SuggestionChallenge";
 import Search from "./pages/Search/Search";
 import ChallengeDetail from "./pages/ChallengeDetail/ChallengeDetail";
+import Auth from "./pages/Auth/Auth";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Routes>
           <Route path={PATH.LOGIN} element={<LogIn />} />
           <Route path={PATH.SIGNUP} element={<SignUp />} />
+          <Route path={PATH.AUTH} element={<Auth />} />
           <Route path={PATH.INTEREST} element={<Interest />} />
           <Route path={PATH.ERROR} element={<Error />} />
           <Route path={PATH.MAIN} element={<Main />}>

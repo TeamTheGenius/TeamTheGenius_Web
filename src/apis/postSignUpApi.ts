@@ -27,9 +27,9 @@ const signUpApi = async ({
     .post(`http://localhost:8080/api/auth/signup`, body)
     .then((res) => {
       console.log("res", res);
-      // window.localStorage.setItem(IDENTIFIER, res.data.data.identifier);
-      // console.log(window.localStorage.getItem(IDENTIFIER));
-      navigate(PATH.HOME);
+      window.localStorage.setItem(IDENTIFIER, res.data.data.identifier);
+      console.log(window.localStorage.getItem(IDENTIFIER));
+      navigate(PATH.AUTH);
     })
     .catch((err) => {
       alert("오류가 발생했습니다.");

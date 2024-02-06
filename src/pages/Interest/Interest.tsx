@@ -54,9 +54,9 @@ const Interest = () => {
             width={"w-full"}
             height={"h-[6.1rem]"}
             backgroundColor={"bg-_coral-70"}
-            textSize={"text-_h2"}
+            textSize={"text-[1.7rem]"}
             textColor={"text-white"}
-            fontWeight={"font-semibold"}
+            fontWeight={"font-medium"}
             handleClick={handleSignUp}
           />
         </div>
