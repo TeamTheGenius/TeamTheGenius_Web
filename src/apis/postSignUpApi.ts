@@ -29,7 +29,7 @@ const signUpApi = async ({
       console.log("res", res);
       window.localStorage.setItem(IDENTIFIER, res.data.data.identifier);
       console.log(window.localStorage.getItem(IDENTIFIER));
-      navigate(PATH.HOME);
+      navigate(PATH.AUTH);
     })
     .catch((err) => {
       alert("오류가 발생했습니다.");

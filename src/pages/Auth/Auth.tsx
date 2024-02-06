@@ -8,15 +8,14 @@ const Auth = () => {
   const identifier = window.localStorage.getItem(IDENTIFIER);
   const location = useLocation();
   const navigate = useNavigate();
-
   const { search } = location;
-
   const params = new URLSearchParams(search);
   const gitName = params.get("identifier");
 
   useEffect(() => {
     if (identifier) {
       postJWTApi();
+      navigate(PATH.HOME);
     } else {
       navigate(`${PATH.SIGNUP}?identifier=${gitName}`);
     }
