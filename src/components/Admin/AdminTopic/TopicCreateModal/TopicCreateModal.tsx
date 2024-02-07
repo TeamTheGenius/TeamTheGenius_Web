@@ -1,10 +1,17 @@
 import postAdminTopicApi from "@/apis/postAdminTopicApi";
 import { adminmodalCard } from "@/utils/modalCard";
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Select, Upload } from "antd";
-import { useEffect, useRef, useState } from "react";
+import {
+  Button,
+  Form,
+  Input,
+  Select,
+  Upload,
+  UploadProps,
+  message,
+} from "antd";
+import { useState } from "react";
 import Modal from "react-modal";
-import axios from "axios";
 
 type TopicModalType = {
   setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,11 +24,13 @@ const TopicCreateModal = ({ ModalIsOpen, setModalIsOpen }: TopicModalType) => {
   };
 
   const topicSubmit = (values: any) => {
-    console.log("토픽 값", values);
+    const tagString = values.tags.join();
     postAdminTopicApi({
       topicTitle: values.title,
       topicDesc: values.description,
-      topicTags: values.tags,
+      topicNotice: values.notice,
+      topicTags: tagString,
+      topicFile: values.upload[0],
       topicPoint: values.pointPerPerson,
     });
   };
@@ -76,31 +85,31 @@ const FormTitle = () => {
 };
 const FormDesc = () => {
   const [simpleInfo, setSimpleInfo] = useState("");
-  const [notice, setNotice] = useState("");
+  const [notice, setTopicNotice] = useState("");
 
   const simpleInfoChange = (e: any) => {
     setSimpleInfo(e.target.value);
   };
   const noticeChange = (e: any) => {
-    setNotice(e.target.value);
+    setTopicNotice(e.target.value);
   };
 
   return (
     <>
       <Form.Item
         label="간단한 소개"
-        validateStatus={simpleInfo ? "success" : "error"} // 입력값이 있는 경우 'success', 없는 경우 'error'
+        validateStatus={simpleInfo ? "success" : "error"}
         hasFeedback
-        help={simpleInfo ? null : "간단한 소개를 입력해주세요"} // 입력값이 없는 경우 도움말 메시지 표시
+        help={simpleInfo ? null : "간단한 소개를 입력해주세요"}
         name="description"
       >
         <Input.TextArea allowClear showCount onChange={simpleInfoChange} />
       </Form.Item>
       <Form.Item
         label="유의사항"
-        validateStatus={notice ? "success" : "error"} // 입력값이 있는 경우 'success', 없는 경우 'error'
+        validateStatus={notice ? "success" : "error"}
         hasFeedback
-        help={notice ? null : "유의사항을 입력해주세요"} // 입력값이 없는 경우 도움말 메시지 표시
+        help={notice ? null : "유의사항을 입력해주세요"}
         name="notice"
       >
         <Input.TextArea allowClear showCount onChange={noticeChange} />
@@ -114,38 +123,25 @@ const FormImg = () => {
     if (Array.isArray(e)) {
       return e;
     }
-    return e?.fileList;
+    return e && e.fileList;
   };
 
-  const handleFileChange = async (file: any) => {
-    const formData = new FormData();
-    formData.append("image", file);
-    formData.append("type", "topic");
-    formData.append(
-      "data",
-      JSON.stringify({ identifier: "songmok", test: "test" })
-    );
-
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/api/file",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      const imageURL = response.data.url;
-      console.log("업로드된 이미지 URL:", imageURL);
-    } catch (error) {
-      console.log("file", file);
-      console.error(error);
-    }
+  const props: UploadProps = {
+    name: "file",
+    beforeUpload: () => {
+      return false;
+    },
+    onChange(info) {
+      if (info.file.status !== "uploading") {
+        console.log(info.file, info.fileList);
+      }
+      if (info.file.status === "done") {
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === "error") {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
   };
-  const thumbnailInput = useRef();
-
   return (
     <>
       <Form.Item
@@ -155,41 +151,24 @@ const FormImg = () => {
         getValueFromEvent={normFile}
         extra="이미지 업로드"
       >
-        <Upload
-          name="logo"
-          action=""
-          accept="image/png, image/jpg"
-          listType="picture"
-          multiple
-          ref={thumbnailInput}
-          onChange={({ file }) => handleFileChange(file)}
-          // customRequest={({ file }) => handleFileChange(file)}
-        >
+        <Upload {...props} multiple>
           <Button icon={<UploadOutlined />}>챌린지 사진을 선택해주세요</Button>
         </Upload>
       </Form.Item>
     </>
   );
 };
+
 const FormInterest = () => {
   const options = [
     { value: "javascript", label: "javascript" },
     { value: "java", label: "java" },
     { value: "react", label: "react" },
   ];
+
   return (
     <>
-      <Form.Item
-        name="tags"
-        label="관심사 선택"
-        rules={[
-          {
-            required: true,
-            message: "관심사 선택",
-            type: "array",
-          },
-        ]}
-      >
+      <Form.Item name="tags" label="관심사 선택">
         <Select
           mode="multiple"
           placeholder="챌린지에 해당되는 관심사를 선택하세요"
@@ -204,6 +183,7 @@ const FormInterest = () => {
     </>
   );
 };
+
 const FormPoint = () => {
   return (
     <>

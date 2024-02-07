@@ -45,19 +45,19 @@ const TopicListComponent = () => {
       instanceLinkId: 3,
     },
   ];
-  const topicList = () => {
-    axios
-      .get(`http://localhost:8080/api/admin/topic?page=0&size=5`)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-  useEffect(() => {
-    topicList();
-  }, []);
+  // const topicList = () => {
+  //   axios
+  //     .get(`http://localhost:8080/api/admin/topic?page=0&size=5`)
+  //     .then((response) => {
+  //       console.log(response);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // };
+  // useEffect(() => {
+  //   topicList();
+  // }, []);
   return (
     <>
       <ul className="flex flex-col gap-10 rounded-xl">
