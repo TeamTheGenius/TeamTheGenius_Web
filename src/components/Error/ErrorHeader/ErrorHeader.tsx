@@ -1,9 +1,16 @@
-const ErrorHeader = () => {
+import { ErrorHeaderType } from "@/pages/Error/Error";
+
+const ErrorHeader = ({ errNum, errorTxt }: ErrorHeaderType) => {
   return (
-    <p className="flex flex-col mb-[40rem]">
-      <h1 className="font-bold text-_h1 mb-12">일시적 오류가 발생했습니다</h1>
-      <span className="text-_h3">서비스 이용에 불편을 드려서 죄송합니다.</span>
-      <span className="text-_h3">잠시 후 다시 이용해 주세요.</span>
+    <p className="flex items-center flex-col mb-[63rem] pt-[31rem]">
+      <h1 className="font-bold text-_h1 mb-12">{errNum} ERROR</h1>
+      {errorTxt ? (
+        <span className="text-[2.4rem] font-medium">{errorTxt}</span>
+      ) : (
+        <span className="text-[2.4rem] font-medium">
+          페이지 정보가 없습니다
+        </span>
+      )}
     </p>
   );
 };
