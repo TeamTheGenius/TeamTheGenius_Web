@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import "@/components/Common/BottomNav/BottomNavStyle.css";
 import icon_off_home from "@/assets/icon/icon_off_home.svg";
 import icon_off_myChallenge from "@/assets/icon/icon_off_myChallenge.svg";
@@ -31,11 +31,8 @@ function BottomNav() {
     icon_on_myPage,
   ];
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const url = useLocation().pathname;
 
-  const handleNavLinkClick = (index: number) => {
-    setActiveIndex(index);
-  };
   useEffect(() => {
     setImageLoaded(true);
   }, []);
@@ -46,7 +43,7 @@ function BottomNav() {
         {navData.map((data, i) => {
           const offIcon = iconOff[i];
           const onIcon = iconOn[i];
-          const isActive = activeIndex === i;
+          const isActive = url === navData[i].to;
           return (
             <li className="w-full" key={i}>
               {!imageLoaded ? (
@@ -56,7 +53,6 @@ function BottomNav() {
                   <NavLink
                     to={data.to}
                     className={isActive ? "nav-active" : "nav-pending"}
-                    onClick={() => handleNavLinkClick(i)}
                   >
                     <img
                       src={isActive ? onIcon : offIcon}
