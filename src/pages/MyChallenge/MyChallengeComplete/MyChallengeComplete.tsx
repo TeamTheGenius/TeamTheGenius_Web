@@ -1,5 +1,5 @@
+import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import MyChallengeLinkWrap from "@/components/Main/MyChallenge/MyChallengeLinkWrap/MyChallengeLinkWrap";
-import MyChallengePic from "@/components/Main/MyChallenge/MyChallengePic/MyChallengePic";
 import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyChallengeTitle";
 import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyChallengeWrap";
 import { PATH } from "@/constants/path";
@@ -37,13 +37,20 @@ const MyChallengeComplete = () => {
               key={item.challengeItem.id}
               link={`${PATH.CHALLENGE_ITEM}/${item.challengeItem.id}`}
             >
-              <MyChallengePic
-                overlayState={!item.completeState}
-                completeState={item.completeState}
-                overlayText={!item.completeState ? "실패" : ""}
-                img={item.challengeItem.imgSrc}
-                alt={item.challengeItem.alt}
-              />
+              <div className="w-[16.4rem] h-[12.6rem] mr-[1.8rem] _sm:mr-[1.1rem]">
+                <ChallengeItem>
+                  <ChallengeItem.Image
+                    imgSrc={item.challengeItem.imgSrc}
+                    alt={item.challengeItem.alt}
+                    direction="vertical"
+                  >
+                    {!item.completeState && (
+                      <ChallengeItem.Overlay text="실패" />
+                    )}
+                  </ChallengeItem.Image>
+                </ChallengeItem>
+              </div>
+
               <MyChallengeTitle
                 title={item.challengeItem.title}
                 point={item.challengeItem.point}

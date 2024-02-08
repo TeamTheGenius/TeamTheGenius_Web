@@ -3,7 +3,7 @@ import { cls } from "@/utils/mergeTailwind";
 
 interface MainProps {
   children: React.ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 interface ParticipantProps {
@@ -13,7 +13,7 @@ interface ParticipantProps {
 interface ImageProps {
   imgSrc: string;
   alt: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   direction: "horizontal" | "vertical";
 }
 
@@ -21,11 +21,19 @@ interface TitleProps {
   title: string;
 }
 
+interface RewardProps {
+  point: number;
+}
+
+interface OverlayProps {
+  text?: string;
+}
+
 function Main({ children, onClick }: MainProps) {
   return (
     <div
       onClick={onClick}
-      className="flex flex-col gap-[0.8rem] my-[0.4rem] cursor-pointer"
+      className="flex flex-col gap-[0.8rem] cursor-pointer"
     >
       {children}
     </div>
@@ -34,9 +42,12 @@ function Main({ children, onClick }: MainProps) {
 
 function NumberOfParticipant({ numberOfParticipants }: ParticipantProps) {
   return (
-    <span className="text-[1rem] font-extralight leading-normal text-white">
-      {numberOfParticipants}명
-    </span>
+    <div className="absolute bg-black opacity-80 top-[0.3rem] left-[1rem] rounded-[8px] w-[4.8rem] h-[1.9rem] flex justify-center items-center gap-[0.6rem]">
+      <img src={personIcon} alt="신청 인원 수 아이콘" />
+      <span className="text-[1rem] font-extralight leading-normal text-white">
+        {numberOfParticipants}명
+      </span>
+    </div>
   );
 }
 
@@ -56,10 +67,7 @@ function Image({ imgSrc, alt, children, direction }: ImageProps) {
           direction === "vertical" ? "absolute top-0 left-0 " : ""
         )}
       />
-      <div className="absolute bg-black opacity-80 top-[0.3rem] left-[1rem] rounded-[8px] w-[4.8rem] h-[1.9rem] flex justify-center items-center gap-[0.6rem]">
-        <img src={personIcon} alt="신청 인원 수 아이콘" />
-        {children}
-      </div>
+      {children}
     </div>
   );
 }
@@ -68,10 +76,31 @@ function Title({ title }: TitleProps) {
   return <p className="text-[1.5rem] font-medium leading-normal">{title}</p>;
 }
 
+function Reward({ point }: RewardProps) {
+  return (
+    <p className="text-[#434343] text-[1.2rem] font-extralight leading-_normal">
+      보상 {point}P
+    </p>
+  );
+}
+
+function Overlay({ text }: OverlayProps) {
+  return (
+    <>
+      <div className="absolute top-0 left-0 w-full h-full opacity-55 bg-black rounded-[1rem] " />
+      <span className=" absolute top-0 left-0 w-full h-full text-white text-[1.6rem] font-medium leading-_normal flex justify-center items-center">
+        {text}
+      </span>
+    </>
+  );
+}
+
 export const ChallengeItem = Object.assign(Main, {
   NumberOfParticipant: NumberOfParticipant,
   Image: Image,
   Title: Title,
+  Reward: Reward,
+  Overlay: Overlay,
 });
 
 export default ChallengeItem;

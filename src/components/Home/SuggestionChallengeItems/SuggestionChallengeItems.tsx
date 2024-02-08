@@ -22,18 +22,21 @@ function SuggestionChallengeItems() {
           {allChallengeData.map(
             (item, index) =>
               index < 7 && (
-                <ChallengeItem key={index} onClick={() => onClick(item.id)}>
-                  <ChallengeItem.Image
-                    imgSrc={item.imgSrc}
-                    alt={item.alt}
-                    direction="horizontal"
-                  >
-                    <ChallengeItem.NumberOfParticipant
-                      numberOfParticipants={item.numberOfParticipants}
-                    />
-                  </ChallengeItem.Image>
-                  <ChallengeItem.Title title={item.title} />
-                </ChallengeItem>
+                <div className="my-[0.4rem] ">
+                  <ChallengeItem key={index} onClick={() => onClick(item.id)}>
+                    <ChallengeItem.Image
+                      imgSrc={item.imgSrc}
+                      alt={item.alt}
+                      direction="horizontal"
+                    >
+                      <ChallengeItem.NumberOfParticipant
+                        numberOfParticipants={item.numberOfParticipants}
+                      />
+                    </ChallengeItem.Image>
+                    <ChallengeItem.Title title={item.title} />
+                    <ChallengeItem.Reward point={item.point} />
+                  </ChallengeItem>
+                </div>
               )
           )}
         </div>
