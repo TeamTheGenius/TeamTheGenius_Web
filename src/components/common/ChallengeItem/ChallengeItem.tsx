@@ -21,6 +21,10 @@ interface TitleProps {
   title: string;
 }
 
+interface RewardProps {
+  point: number;
+}
+
 function Main({ children, onClick }: MainProps) {
   return (
     <div
@@ -68,10 +72,19 @@ function Title({ title }: TitleProps) {
   return <p className="text-[1.5rem] font-medium leading-normal">{title}</p>;
 }
 
+function Reward({ point }: RewardProps) {
+  return (
+    <p className="text-[#434343] text-[1.2rem] font-extralight leading-_normal">
+      보상 {point}P
+    </p>
+  );
+}
+
 export const ChallengeItem = Object.assign(Main, {
   NumberOfParticipant: NumberOfParticipant,
   Image: Image,
   Title: Title,
+  Reward: Reward,
 });
 
 export default ChallengeItem;

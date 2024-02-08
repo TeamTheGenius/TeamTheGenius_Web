@@ -34,6 +34,7 @@ function PopularChallengeItems() {
                     />
                   </ChallengeItem.Image>
                   <ChallengeItem.Title title={item.title} />
+                  <ChallengeItem.Reward point={item.point} />
                 </ChallengeItem>
               )
           )}
