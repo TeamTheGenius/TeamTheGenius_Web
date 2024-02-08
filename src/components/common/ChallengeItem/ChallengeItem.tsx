@@ -3,7 +3,7 @@ import { cls } from "@/utils/mergeTailwind";
 
 interface MainProps {
   children: React.ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 interface ParticipantProps {
@@ -13,7 +13,7 @@ interface ParticipantProps {
 interface ImageProps {
   imgSrc: string;
   alt: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   direction: "horizontal" | "vertical";
 }
 
@@ -33,7 +33,7 @@ function Main({ children, onClick }: MainProps) {
   return (
     <div
       onClick={onClick}
-      className="flex flex-col gap-[0.8rem] my-[0.4rem] cursor-pointer"
+      className="flex flex-col gap-[0.8rem] cursor-pointer"
     >
       {children}
     </div>

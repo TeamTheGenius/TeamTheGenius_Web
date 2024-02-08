@@ -1,10 +1,10 @@
 import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyChallengeWrap";
-import MyChallengePic from "@/components/Main/MyChallenge/MyChallengePic/MyChallengePic";
 import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyChallengeTitle";
 import MyChallengeLinkWrap from "@/components/Main/MyChallenge/MyChallengeLinkWrap/MyChallengeLinkWrap";
 import MyChallengeLabel from "@/components/Main/MyChallenge/MyChallengeLabel/MyChallengeLabel";
 import { allChallengeData } from "@/data/allChallengeData";
 import { PATH } from "@/constants/path";
+import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 
 const MyChallengeStart = () => {
   const data = [
@@ -36,21 +36,35 @@ const MyChallengeStart = () => {
               key={item.challengeItem.id}
               link={`${PATH.CHALLENGE_ITEM}/${item.challengeItem.id}`}
             >
-              <MyChallengePic
-                overlayState={true}
-                overlayText={`D - ${item.challengeItem.dDay}`}
-                img={item.challengeItem.imgSrc}
-                alt={item.challengeItem.alt}
-                people={item.challengeItem.numberOfParticipants}
-              />
-              <MyChallengeTitle
-                title={item.challengeItem.title}
-                point={item.challengeItem.point}
-              />
-              <MyChallengeLabel
-                labelState={item.labelState}
-                labelText={item.labelText}
-              />
+              <div className="w-[16.4rem] h-[12.6rem] mr-[1.8rem] _sm:mr-[1.1rem]">
+                <ChallengeItem>
+                  <ChallengeItem.Image
+                    imgSrc={item.challengeItem.imgSrc}
+                    alt={item.challengeItem.alt}
+                    direction="vertical"
+                  >
+                    <ChallengeItem.Overlay
+                      text={`D - ${item.challengeItem.dDay}`}
+                    />
+                    <ChallengeItem.NumberOfParticipant
+                      numberOfParticipants={
+                        item.challengeItem.numberOfParticipants
+                      }
+                    />
+                  </ChallengeItem.Image>
+                </ChallengeItem>
+              </div>
+
+              <div className="flex flex-col gap-[4.7rem]">
+                <MyChallengeTitle
+                  title={item.challengeItem.title}
+                  point={item.challengeItem.point}
+                />
+                <MyChallengeLabel
+                  labelState={item.labelState}
+                  labelText={item.labelText}
+                />
+              </div>
             </MyChallengeLinkWrap>
           );
         })}

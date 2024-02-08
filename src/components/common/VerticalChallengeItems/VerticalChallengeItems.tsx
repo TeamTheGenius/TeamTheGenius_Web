@@ -22,18 +22,20 @@ function VerticalChallengeItems({ data }: Props) {
   return (
     <div className="w-full max-w-[72.2rem] grid grid-cols-4 gap-x-[2.2rem] _md:grid-cols-3 _sm:grid-cols-2">
       {data.map((item, index) => (
-        <ChallengeItem key={index} onClick={() => onClick(item.id)}>
-          <ChallengeItem.Image
-            imgSrc={item.imgSrc}
-            alt={item.alt}
-            direction="vertical"
-          >
-            <ChallengeItem.NumberOfParticipant
-              numberOfParticipants={item.numberOfParticipants}
-            />
-          </ChallengeItem.Image>
-          <ChallengeItem.Title title={item.title} />
-        </ChallengeItem>
+        <div className="my-[0.4rem] ">
+          <ChallengeItem key={index} onClick={() => onClick(item.id)}>
+            <ChallengeItem.Image
+              imgSrc={item.imgSrc}
+              alt={item.alt}
+              direction="vertical"
+            >
+              <ChallengeItem.NumberOfParticipant
+                numberOfParticipants={item.numberOfParticipants}
+              />
+            </ChallengeItem.Image>
+            <ChallengeItem.Title title={item.title} />
+          </ChallengeItem>
+        </div>
       ))}
     </div>
   );
