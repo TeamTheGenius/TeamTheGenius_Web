@@ -15,6 +15,8 @@ interface ImageProps {
   alt: string;
   children?: React.ReactNode;
   direction: "horizontal" | "vertical";
+  maxWidth?: string;
+  paddingBottom?: string;
 }
 
 interface TitleProps {
@@ -73,10 +75,19 @@ function NumberOfParticipant({ numberOfParticipants }: ParticipantProps) {
   );
 }
 
-function Image({ imgSrc, alt, children, direction }: ImageProps) {
+function Image({
+  imgSrc,
+  alt,
+  children,
+  direction,
+  maxWidth,
+  paddingBottom,
+}: ImageProps) {
   const additionalStyles = {
     horizontal: "w-[18.8rem] h-[12.6rem]",
-    vertical: "w-full max-w-[16.4rem] pb-[77%]",
+    vertical: maxWidth
+      ? `w-full ${maxWidth} ${paddingBottom}`
+      : "w-full max-w-[16.4rem] pb-[77%]",
   };
 
   return (
