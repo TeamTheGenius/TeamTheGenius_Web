@@ -7,9 +7,9 @@ function InterestChallenge() {
     <>
       <Header content="관심 목록" />
       <div className="px-[2.2rem] flex justify-center items-center">
-        <div className="pt-[5.3rem] w-full max-w-[51.5rem] _sm:max-w-[34.9rem] grid grid-cols-3 gap-x-[1rem] _sm:grid-cols-2">
+        <div className="pt-[9rem] _sm:pt-[7.6rem] w-full max-w-[51.5rem] _sm:max-w-[34.9rem] grid grid-cols-3 gap-x-[1rem] _sm:grid-cols-2">
           {allChallengeData.map((item, index) => (
-            <div className="pt-[3.7rem] _sm:pt-[2.3rem]" key={index}>
+            <div className="pb-[1.8rem]" key={index}>
               <ChallengeItem>
                 <ChallengeItem.Image
                   imgSrc={item.imgSrc}
