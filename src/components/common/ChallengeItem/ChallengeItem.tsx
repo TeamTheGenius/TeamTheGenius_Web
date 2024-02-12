@@ -91,7 +91,7 @@ function Image({
   };
 
   return (
-    <div className={`relative ${additionalStyles[direction]}`}>
+    <div className={`relative flex ${additionalStyles[direction]}`}>
       <img
         src={imgSrc}
         alt={alt}
