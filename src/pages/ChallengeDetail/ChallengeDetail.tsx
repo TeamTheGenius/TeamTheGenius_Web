@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import BackIcon from "@/components/ChallengeDetail/BackIcon/BackIcon";
 import Bottom from "@/components/ChallengeDetail/Bottom/Bottom";
 import CoreInformation from "@/components/ChallengeDetail/CoreInformation/CoreInformation";
 import Image from "@/components/ChallengeDetail/Image/Image";
@@ -8,6 +7,7 @@ import Line from "@/components/ChallengeDetail/Line/Line";
 import MobCard from "@/components/Common/MobCard";
 import { allChallengeData } from "@/data/allChallengeData";
 import { useState } from "react";
+import DynamicBackIcon from "@/components/Common/DynamicBackIcon/DynamicBackIcon";
 
 function ChallengeDetail() {
   const [heartActive, setHeartActive] = useState<boolean>(false);
@@ -25,7 +25,7 @@ function ChallengeDetail() {
   return (
     <MobCard>
       <div className="max-w-[77.3rem] w-full z-10 fixed ml-[1.9rem] top-[1.3rem]">
-        <BackIcon />
+        <DynamicBackIcon />
       </div>
 
       <div className="pb-[8rem] flex flex-col items-center">
