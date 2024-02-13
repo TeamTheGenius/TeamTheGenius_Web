@@ -14,9 +14,31 @@ import { PATH } from "@/constants/path";
 function BottomNav() {
   const navData = [
     { to: PATH.HOME, title: "홈" },
-    { to: PATH.MY_CHALLENGE, title: "마이챌린지" },
+    { to: PATH.MY_CHALLENGE_PROGRESS, title: "마이챌린지" },
     { to: PATH.PET, title: "펫" },
     { to: PATH.MY_PAGE, title: "마이페이지" },
+  ];
+  const isActiveData = [
+    {
+      url: [
+        PATH.HOME,
+        PATH.POPULAR_CHALLENGE,
+        PATH.SUGGESTION_CHALLENGE,
+        PATH.NEW_CHALLENGE,
+      ],
+    },
+    {
+      url: [
+        PATH.MY_CHALLENGE,
+        PATH.MY_CHALLENGE_PROGRESS,
+        PATH.MY_CHALLENGE_COMPLETED,
+        PATH.MY_CHALLENGE_START,
+      ],
+    },
+    {
+      url: [PATH.PET],
+    },
+    { url: [PATH.MY_PAGE, PATH.MY_PAGE_INTEREST_CHALLENGE] },
   ];
   const iconOff = [
     icon_off_home,
@@ -43,7 +65,7 @@ function BottomNav() {
         {navData.map((data, i) => {
           const offIcon = iconOff[i];
           const onIcon = iconOn[i];
-          const isActive = url === navData[i].to;
+          const isActive = isActiveData[i].url.includes(url);
           return (
             <li className="w-full" key={i}>
               {!imageLoaded ? (
