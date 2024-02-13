@@ -22,7 +22,7 @@ function VerticalChallengeItems({ data }: Props) {
   return (
     <div className="w-full max-w-[72.2rem] grid grid-cols-4 gap-x-[2.2rem] _md:grid-cols-3 _sm:grid-cols-2">
       {data.map((item, index) => (
-        <div className="my-[0.4rem] ">
+        <div key={index} className="my-[0.4rem] ">
           <ChallengeItem key={index} onClick={() => onClick(item.id)}>
             <ChallengeItem.Image
               imgSrc={item.imgSrc}
