@@ -1,4 +1,6 @@
 import postAdminTopicApi from "@/apis/postAdminTopicApi";
+import { adminTopicDataType } from "@/pages/Admin/AdminTopic/AdminTopic";
+
 import { adminmodalCard } from "@/utils/modalCard";
 import { UploadOutlined } from "@ant-design/icons";
 import {
@@ -16,21 +18,45 @@ import Modal from "react-modal";
 type TopicModalType = {
   setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   ModalIsOpen: boolean;
+  setAdminList: React.Dispatch<React.SetStateAction<adminTopicDataType[]>>;
+};
+type FormDataType = {
+  description: string;
+  notice: string;
+  pointPerPerson: string;
+  tags: string[];
+  title: string;
+  upload: {
+    lastModified: number;
+    lastModifiedDate?: Date;
+    name: string;
+    originFileObj: File;
+    percent: number;
+    size: number;
+    type: string;
+    uid: string;
+  }[];
 };
 
-const TopicCreateModal = ({ ModalIsOpen, setModalIsOpen }: TopicModalType) => {
+const TopicCreateModal = ({
+  ModalIsOpen,
+  setModalIsOpen,
+  setAdminList,
+}: TopicModalType) => {
   const TopicModalClose = () => {
     setModalIsOpen(false);
   };
 
-  const topicSubmit = (values: any) => {
+  const topicSubmit = (values: FormDataType) => {
     const tagString = values.tags.join();
     postAdminTopicApi({
+      setAdminList: setAdminList,
+      setModalIsOpen: setModalIsOpen,
       topicTitle: values.title,
       topicDesc: values.description,
       topicNotice: values.notice,
       topicTags: tagString,
-      topicFile: values.upload[0],
+      topicFile: values.upload,
       topicPoint: values.pointPerPerson,
     });
   };
@@ -151,7 +177,7 @@ const FormImg = () => {
         getValueFromEvent={normFile}
         extra="이미지 업로드"
       >
-        <Upload {...props} multiple>
+        <Upload {...props}>
           <Button icon={<UploadOutlined />}>챌린지 사진을 선택해주세요</Button>
         </Upload>
       </Form.Item>
@@ -205,6 +231,7 @@ const FormPoint = () => {
     </>
   );
 };
+
 const SubmitButtom = ({ TopicModalClose }: any) => {
   return (
     <>
@@ -225,4 +252,5 @@ const SubmitButtom = ({ TopicModalClose }: any) => {
     </>
   );
 };
+
 export default TopicCreateModal;

@@ -1,5 +1,5 @@
 import axios from "axios";
-type nickNameCheckType = {
+type nickNameCheckApiType = {
   value: string;
   setNickCheck: React.Dispatch<React.SetStateAction<string>>;
   setsignUpBoolean: React.Dispatch<React.SetStateAction<boolean>>;
@@ -9,7 +9,7 @@ export const getCheckNicknameApi = ({
   value,
   setNickCheck,
   setsignUpBoolean,
-}: nickNameCheckType) => {
+}: nickNameCheckApiType) => {
   const specialChars = /[!@#$%^&*(),.?":{}|<>]/;
   const params = {
     nickname: value,

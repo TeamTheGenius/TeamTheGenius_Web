@@ -1,45 +1,65 @@
 import { adminmodalCard } from "@/utils/modalCard";
-import { Button, Checkbox, DatePicker, Form, Input, Select } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+import {
+  Button,
+  Checkbox,
+  DatePicker,
+  Form,
+  Image,
+  Input,
+  Select,
+  Upload,
+  UploadProps,
+} from "antd";
+
 import React, { useState } from "react";
-import { OptionType } from "@/pages/Admin/AdminInstance/AdminInstance";
 
 import "@/components/Admin/AdminInstance/InstanceCreateModal/antdCheck.module.css";
 import Modal from "react-modal";
+import postAdminInstanceApi from "@/apis/postAdminInstanceApi";
+import { topicDeteilType } from "../../AdminTopic/TopicListComponent/TopicListComponent";
+import moment from "moment";
+
 type TopicModalType = {
   setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   ModalIsOpen: boolean;
-  title: string;
-  interest: OptionType[];
-  simpleInfoProps: string;
-  noticeProps: string;
-  point: number;
+  topicDetail?: topicDeteilType;
+  topicId: number;
 };
 const InstanceCreateModal = ({
   setModalIsOpen,
   ModalIsOpen,
-  title,
-  interest,
-  simpleInfoProps,
-  noticeProps,
-  point,
+  topicDetail,
+  topicId,
 }: TopicModalType) => {
   const InstanceModalClose = () => {
     setModalIsOpen(false);
   };
 
-  const instanceSumbit = (fieldsValue: any) => {
-    // Should format date value before submit.
-    const rangeValue = fieldsValue["range-picker"];
-    const values = {
-      ...fieldsValue,
-      "range-picker": [
-        rangeValue[0].format("YYYY-MM-DD"),
-        rangeValue[1].format("YYYY-MM-DD"),
-      ],
-    };
-    console.log("토픽 값", values);
+  const instanceSumbit = (values: any) => {
+    console.log("valuse instance", values);
+    const formmatStartDate = moment(values.range[0].$d).format(
+      "YYYY-MM-DDTHH:mm:ss"
+    );
+    const formmatEndDate = moment(values.range[1].$d).format(
+      "YYYY-MM-DDTHH:mm:ss"
+    );
+    postAdminInstanceApi({
+      instanceTitle: values.title,
+      instanceDesc: values.description,
+      instanceNotice: values.notice,
+      instanceTags: values.tags,
+      instanceFile: values.upload,
+      instancePoint: values.pointPerPerson,
+      instanceRangeStart: formmatStartDate,
+      instanceRangeEnd: formmatEndDate,
+      topicId: topicId,
+    });
   };
 
+  console.log("topicDetail", topicDetail);
+  const tags = topicDetail?.tags;
+  const file = topicDetail?.fileResponse;
   return (
     <div>
       <Modal
@@ -55,14 +75,13 @@ const InstanceCreateModal = ({
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 19 }}
           className="w-full"
+          initialValues={topicDetail}
         >
-          <FormTitle title={title} />
-          <FormDesc
-            simpleInfoProps={simpleInfoProps}
-            noticeProps={noticeProps}
-          />
-          <FormInterest interest={interest} />
-          <FormPoint point={point} />
+          <FormTitle />
+          <FormDesc />
+          <FormImg file={file} />
+          <FormInterest tags={tags} />
+          <FormPoint />
           <FormRangePicker />
           <SubmitButtom InstanceModalClose={InstanceModalClose} />
         </Form>
@@ -71,66 +90,72 @@ const InstanceCreateModal = ({
   );
 };
 
-const FormTitle = ({ title }: { title: string }) => {
+const FormTitle = () => {
   return (
     <>
-      <Form.Item label={"토픽 제목"} name="title" initialValue={title}>
-        <Input defaultValue={title} disabled />
+      <Form.Item label={"토픽 제목"} name="title">
+        <Input disabled />
       </Form.Item>
     </>
   );
 };
-const FormDesc = ({
-  simpleInfoProps,
-  noticeProps,
-}: {
-  simpleInfoProps: string;
-  noticeProps: string;
-}) => {
+const FormDesc = () => {
   return (
     <>
-      <Form.Item
-        label="간단한 소개"
-        name="simpleInfo"
-        initialValue={simpleInfoProps}
-      >
-        <Input.TextArea
-          allowClear
-          disabled
-          showCount
-          defaultValue={simpleInfoProps}
-        />
+      <Form.Item label="간단한 소개" name="description">
+        <Input.TextArea allowClear disabled showCount />
       </Form.Item>
-      <Form.Item label="유의사항" name="notice" initialValue={noticeProps}>
-        <Input.TextArea
-          allowClear
-          disabled
-          showCount
-          defaultValue={noticeProps}
-        />
+      <Form.Item label="유의사항" name="notice">
+        <Input.TextArea allowClear disabled showCount />
+      </Form.Item>
+    </>
+  );
+};
+const FormImg = ({ file }: any) => {
+  const imageData = `data:image/png;base64,${file?.encodedFile}`;
+  const normFile = (e: any) => {
+    console.log("Upload event:", e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  };
+
+  const props: UploadProps = {
+    name: "upload",
+    beforeUpload: (file: any) => {
+      return false;
+    },
+  };
+
+  return (
+    <>
+      <Image src={imageData} alt="Uploaded" />
+      <Form.Item
+        name="upload"
+        label="Upload"
+        valuePropName="fileList"
+        getValueFromEvent={normFile}
+        extra="이미지 업로드"
+      >
+        <Upload {...props}>
+          <Button icon={<UploadOutlined />}></Button>
+        </Upload>
       </Form.Item>
     </>
   );
 };
 
-const FormInterest = ({ interest }: { interest: OptionType[] }) => {
+const FormInterest = ({ tags }: { tags?: string }) => {
+  const tagArr = tags?.split(",");
+
   return (
     <>
-      <Form.Item
-        name="interest"
-        label="관심사 선택"
-        initialValue={interest}
-        rules={[
-          {
-            message: "관심사 선택",
-            type: "array",
-          },
-        ]}
-      >
+      <Form.Item name="tags" label="관심사 선택">
         <Select mode="multiple" disabled>
-          {interest.map((interest: OptionType) => (
-            <Select.Option key={interest.number} value={interest.label}>
-              {interest.label}
+          {tagArr?.map((option: string, i: number) => (
+            <Select.Option key={i} value={option}>
+              {option}
             </Select.Option>
           ))}
         </Select>
@@ -138,7 +163,8 @@ const FormInterest = ({ interest }: { interest: OptionType[] }) => {
     </>
   );
 };
-const FormPoint = ({ point }: { point: number }) => {
+
+const FormPoint = () => {
   const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
   return (
     <>
@@ -149,8 +175,8 @@ const FormPoint = ({ point }: { point: number }) => {
       >
         포인트 수정
       </Checkbox>
-      <Form.Item label="포인트" name="point" initialValue={point}>
-        <Input disabled={!componentDisabled} defaultValue={point} />
+      <Form.Item label="포인트" name="pointPerPerson">
+        <Input disabled={!componentDisabled} />
       </Form.Item>
     </>
   );
@@ -160,7 +186,7 @@ const FormRangePicker = () => {
 
   return (
     <>
-      <Form.Item name="range-picker" label="RangePicker">
+      <Form.Item name="range" label="RangePicker">
         <RangePicker format="YYYY-MM-DD" />
       </Form.Item>
     </>
