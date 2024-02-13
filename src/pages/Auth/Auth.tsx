@@ -12,13 +12,17 @@ const Auth = () => {
   const params = new URLSearchParams(search);
   const gitName = params.get("identifier");
 
-  useEffect(() => {
+  const auth = async () => {
     if (identifier) {
-      postJWTApi();
+      await postJWTApi();
       navigate(PATH.HOME);
     } else {
       navigate(`${PATH.SIGNUP}?identifier=${gitName}`);
     }
+  };
+
+  useEffect(() => {
+    auth();
   }, []);
 
   return <div></div>;

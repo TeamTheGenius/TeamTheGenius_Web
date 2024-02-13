@@ -1,5 +1,7 @@
 import "./index.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import LogIn from "./pages/LogIn/LogIn";
 import Error from "./pages/Error/Error";
@@ -22,8 +24,9 @@ import Auth from "./pages/Auth/Auth";
 import InterestChallenge from "./pages/MyPage/InterestChallenge/InterestChallenge";
 
 function App() {
+  const queryClient = new QueryClient();
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <Router>
         <Routes>
           <Route path={PATH.LOGIN} element={<LogIn />} />
@@ -56,7 +59,8 @@ function App() {
           <Route path={PATH.ADMIN_INSTANCE_ID} element={<AdminInstance />} />
         </Routes>
       </Router>
-    </>
+      <ReactQueryDevtools initialIsOpen={true} />
+    </QueryClientProvider>
   );
 }
 
