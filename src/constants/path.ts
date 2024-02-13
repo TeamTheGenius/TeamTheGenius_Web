@@ -17,6 +17,7 @@ export const PATH = {
   MY_CHALLENGE: "/main/my-challenge/*",
   PET: "/main/pet",
   MY_PAGE: "/main/my-page",
+  MY_PAGE_INTEREST_CHALLENGE: "/main/my-page/interest",
   ADMIN: "/admin",
   ADMIN_INSTANCE: "/admin/instance",
   ADMIN_INSTANCE_ID: "/admin/instance/:id",

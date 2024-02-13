@@ -19,6 +19,7 @@ import SuggestionChallenge from "./pages/SuggestionChallenge/SuggestionChallenge
 import Search from "./pages/Search/Search";
 import ChallengeDetail from "./pages/ChallengeDetail/ChallengeDetail";
 import Auth from "./pages/Auth/Auth";
+import InterestChallenge from "./pages/MyPage/InterestChallenge/InterestChallenge";
 
 function App() {
   return (
@@ -34,6 +35,10 @@ function App() {
             <Route path={PATH.MY_CHALLENGE} element={<MyChallenge />} />
             <Route path={PATH.PET} element={<Pet />} />
             <Route path={PATH.MY_PAGE} element={<MyPage />} />
+            <Route
+              path={PATH.MY_PAGE_INTEREST_CHALLENGE}
+              element={<InterestChallenge />}
+            />
             <Route path={PATH.HOME} element={<Home />} />
             <Route
               path={PATH.POPULAR_CHALLENGE}
