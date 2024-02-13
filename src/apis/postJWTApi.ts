@@ -9,7 +9,7 @@ const postJWTApi = async () => {
   const body = {
     identifier: identifier,
   };
-  await axios
+  const data = await axios
     .post("http://localhost:8080/api/auth", body, { withCredentials: true })
     .then((res) => {
       console.log("로그인 요청", res);
@@ -17,6 +17,7 @@ const postJWTApi = async () => {
     .catch((err) => {
       console.log("err", err);
     });
+  return data;
 };
 
 export default postJWTApi;
