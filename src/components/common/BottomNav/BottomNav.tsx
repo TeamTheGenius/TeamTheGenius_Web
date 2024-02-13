@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import "@/components/Common/BottomNav/BottomNavStyle.css";
 import icon_off_home from "@/assets/icon/icon_off_home.svg";
 import icon_off_myChallenge from "@/assets/icon/icon_off_myChallenge.svg";
@@ -14,9 +14,31 @@ import { PATH } from "@/constants/path";
 function BottomNav() {
   const navData = [
     { to: PATH.HOME, title: "홈" },
-    { to: PATH.MY_CHALLENGE, title: "마이챌린지" },
+    { to: PATH.MY_CHALLENGE_PROGRESS, title: "마이챌린지" },
     { to: PATH.PET, title: "펫" },
     { to: PATH.MY_PAGE, title: "마이페이지" },
+  ];
+  const isActiveData = [
+    {
+      url: [
+        PATH.HOME,
+        PATH.POPULAR_CHALLENGE,
+        PATH.SUGGESTION_CHALLENGE,
+        PATH.NEW_CHALLENGE,
+      ],
+    },
+    {
+      url: [
+        PATH.MY_CHALLENGE,
+        PATH.MY_CHALLENGE_PROGRESS,
+        PATH.MY_CHALLENGE_COMPLETED,
+        PATH.MY_CHALLENGE_START,
+      ],
+    },
+    {
+      url: [PATH.PET],
+    },
+    { url: [PATH.MY_PAGE, PATH.MY_PAGE_INTEREST_CHALLENGE] },
   ];
   const iconOff = [
     icon_off_home,
@@ -31,11 +53,8 @@ function BottomNav() {
     icon_on_myPage,
   ];
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const url = useLocation().pathname;
 
-  const handleNavLinkClick = (index: number) => {
-    setActiveIndex(index);
-  };
   useEffect(() => {
     setImageLoaded(true);
   }, []);
@@ -46,7 +65,7 @@ function BottomNav() {
         {navData.map((data, i) => {
           const offIcon = iconOff[i];
           const onIcon = iconOn[i];
-          const isActive = activeIndex === i;
+          const isActive = isActiveData[i].url.includes(url);
           return (
             <li className="w-full" key={i}>
               {!imageLoaded ? (
@@ -56,7 +75,6 @@ function BottomNav() {
                   <NavLink
                     to={data.to}
                     className={isActive ? "nav-active" : "nav-pending"}
-                    onClick={() => handleNavLinkClick(i)}
                   >
                     <img
                       src={isActive ? onIcon : offIcon}

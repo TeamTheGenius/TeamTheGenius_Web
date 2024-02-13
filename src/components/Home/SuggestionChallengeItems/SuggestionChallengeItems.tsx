@@ -5,11 +5,28 @@ import HorizontalScroll from "../HorizontalScroll/HorizontalScroll";
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import { allChallengeData } from "@/data/allChallengeData";
 import { useNavigate } from "react-router-dom";
+import getRecommendedChallenge from "@/apis/getRecommendedChallenge";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "@/components/Common/Loding/Loading";
+import Error from "@/components/Error/ErrorHeader/ErrorHeader";
+
 function SuggestionChallengeItems() {
+  /*
+  useEffect(() => {
+    getRecommendedChallenge({ page: 0, size: 7 });
+  }, []);
+  */
   const navigate = useNavigate();
+
+  const { isLoading, error, data, isFetching } = useQuery({
+    queryKey: ["recommendedChallenges"],
+    queryFn: () => getRecommendedChallenge({ page: 0, size: 7 }),
+  });
+
   const onClick = (id: number) => {
     navigate(`${PATH.CHALLENGE_ITEM}/${id}`);
   };
+
   return (
     <div>
       <div className="flex gap-[2.851rem] _sm:justify-between items-center pr-[2.2rem] mb-[1.5rem]">
@@ -22,18 +39,21 @@ function SuggestionChallengeItems() {
           {allChallengeData.map(
             (item, index) =>
               index < 7 && (
-                <ChallengeItem key={index} onClick={() => onClick(item.id)}>
-                  <ChallengeItem.Image
-                    imgSrc={item.imgSrc}
-                    alt={item.alt}
-                    direction="horizontal"
-                  >
-                    <ChallengeItem.NumberOfParticipant
-                      numberOfParticipants={item.numberOfParticipants}
-                    />
-                  </ChallengeItem.Image>
-                  <ChallengeItem.Title title={item.title} />
-                </ChallengeItem>
+                <div key={index} className="my-[0.4rem] ">
+                  <ChallengeItem key={index} onClick={() => onClick(item.id)}>
+                    <ChallengeItem.Image
+                      imgSrc={item.imgSrc}
+                      alt={item.alt}
+                      direction="horizontal"
+                    >
+                      <ChallengeItem.NumberOfParticipant
+                        numberOfParticipants={item.numberOfParticipants}
+                      />
+                    </ChallengeItem.Image>
+                    <ChallengeItem.Title title={item.title} />
+                    <ChallengeItem.Reward point={item.point} />
+                  </ChallengeItem>
+                </div>
               )
           )}
         </div>

@@ -1,5 +1,7 @@
 import "./index.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import LogIn from "./pages/LogIn/LogIn";
 import Error from "./pages/Error/Error";
@@ -19,10 +21,12 @@ import SuggestionChallenge from "./pages/SuggestionChallenge/SuggestionChallenge
 import Search from "./pages/Search/Search";
 import ChallengeDetail from "./pages/ChallengeDetail/ChallengeDetail";
 import Auth from "./pages/Auth/Auth";
+import InterestChallenge from "./pages/MyPage/InterestChallenge/InterestChallenge";
 
 function App() {
+  const queryClient = new QueryClient();
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <Router>
         <Routes>
           <Route path={PATH.LOGIN} element={<LogIn />} />
@@ -34,6 +38,10 @@ function App() {
             <Route path={PATH.MY_CHALLENGE} element={<MyChallenge />} />
             <Route path={PATH.PET} element={<Pet />} />
             <Route path={PATH.MY_PAGE} element={<MyPage />} />
+            <Route
+              path={PATH.MY_PAGE_INTEREST_CHALLENGE}
+              element={<InterestChallenge />}
+            />
             <Route path={PATH.HOME} element={<Home />} />
             <Route
               path={PATH.POPULAR_CHALLENGE}
@@ -51,7 +59,8 @@ function App() {
           <Route path={PATH.ADMIN_INSTANCE_ID} element={<AdminInstance />} />
         </Routes>
       </Router>
-    </>
+      <ReactQueryDevtools initialIsOpen={true} />
+    </QueryClientProvider>
   );
 }
 
