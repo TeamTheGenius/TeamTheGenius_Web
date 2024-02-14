@@ -37,7 +37,6 @@ const InstanceCreateModal = ({
   };
 
   const instanceSumbit = (values: any) => {
-    // console.log("valuse instance", values);
     const formmatStartDate = moment(values.range[0].$d).format(
       "YYYY-MM-DDTHH:mm:ss"
     );
@@ -46,11 +45,11 @@ const InstanceCreateModal = ({
       "YYYY-MM-DDTHH:mm:ss"
     );
     postAdminInstanceApi({
+      setModalIsOpen: setModalIsOpen,
       instanceTitle: values.title,
       instanceDesc: values.description,
       instanceNotice: values.notice,
       instanceTags: values.tags,
-      instanceFile: values.fileResponse,
       instancePoint: values.pointPerPerson,
       instanceRangeStart: formmatStartDate,
       instanceRangeEnd: formmatEndDate,
@@ -123,9 +122,6 @@ const FormImg = ({ file }: any) => {
 
   const props: UploadProps = {
     name: "fileResponse",
-    // beforeUpload: () => {
-    //   return false;
-    // },
   };
 
   return (

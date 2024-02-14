@@ -1,16 +1,40 @@
 import axios from "axios";
 
 type editInstacneType = {
+  topicIdId: number;
   instanceId: number;
+  instanceDesc: string;
+  instanceNotice: string;
+  instancePoint: number;
+  instanceStartAt: string;
+  instanceTitle: string;
+  instanceCompletedAt: string;
 };
 
-const patchAdminInstanceEditApi = async ({ instanceId }: editInstacneType) => {
+const patchAdminInstanceEditApi = async ({
+  topicIdId,
+  instanceId,
+  instanceTitle,
+  instanceDesc,
+  instanceNotice,
+  instancePoint,
+  instanceStartAt,
+  instanceCompletedAt,
+}: editInstacneType) => {
+  const body = {
+    topicIdId: topicIdId,
+    title: instanceTitle,
+    description: instanceDesc,
+    notice: instanceNotice,
+    pointPerPerson: instancePoint,
+    startedAt: instanceStartAt,
+    completedAt: instanceCompletedAt,
+  };
   const formData = new FormData();
-  //   formData.append(
-  //     "data",
-  //     new Blob([JSON.stringify(body)], { type: "application/json" })
-  //   );
-  //   formData.append("files", topicImg);
+  formData.append(
+    "data",
+    new Blob([JSON.stringify(body)], { type: "application/json" })
+  );
   formData.append("type", "instance");
   await axios
     .patch(`http://localhost:8080/api/admin/instance/${instanceId}`, formData, {
@@ -23,7 +47,7 @@ const patchAdminInstanceEditApi = async ({ instanceId }: editInstacneType) => {
       console.log("수정응답:", res);
     })
     .catch((err) => {
-      alert("생성 실패");
+      alert("수정 실패");
       console.log("err", err);
     });
 };

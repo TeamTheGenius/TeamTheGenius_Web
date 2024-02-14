@@ -1,8 +1,8 @@
 import axios from "axios";
-import getAdminListApi from "./getAdminListApi";
+import getAdminTopicListApi from "./getAdminTopicListApi";
 import { adminTopicDataType } from "@/pages/Admin/AdminTopic/AdminTopic";
 
-type topicApiType = {
+type topicCreateApiType = {
   topicTitle: string;
   topicDesc: string;
   topicNotice: string;
@@ -22,7 +22,7 @@ const postAdminTopicApi = async ({
   topicFile,
   setModalIsOpen,
   setAdminList,
-}: topicApiType) => {
+}: topicCreateApiType) => {
   const topicImg = topicFile[0].originFileObj;
 
   const body = {
@@ -51,7 +51,7 @@ const postAdminTopicApi = async ({
     .then((res) => {
       console.log("응답:", res);
       setModalIsOpen(false);
-      getAdminListApi({ setAdminList });
+      getAdminTopicListApi({ setAdminList });
     })
     .catch((err) => {
       alert("생성 실패");

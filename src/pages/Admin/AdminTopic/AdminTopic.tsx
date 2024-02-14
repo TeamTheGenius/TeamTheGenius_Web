@@ -4,7 +4,7 @@ import CreateBtn from "@/components/Admin/CreateBtn/CreateBtn";
 import Title from "@/components/Admin/Title/Title";
 import { useEffect, useState } from "react";
 import { Pagination } from "antd";
-import getAdminListApi from "@/apis/getAdminListApi";
+import getAdminTopicListApi from "@/apis/getAdminTopicListApi";
 export type adminTopicDataType = {
   title: string;
   topicId: number;
@@ -21,10 +21,14 @@ const AdminTopic = () => {
   const [totalNumber, setTotalNumber] = useState<number>(0);
   const handlePageChange = (page: number) => {
     setPageNumber(page);
-    getAdminListApi({ setAdminList, pageNumber: page - 1, setTotalNumber });
+    getAdminTopicListApi({
+      setAdminList,
+      pageNumber: page - 1,
+      setTotalNumber,
+    });
   };
   useEffect(() => {
-    getAdminListApi({
+    getAdminTopicListApi({
       setAdminList,
       pageNumber,
       setTotalNumber,

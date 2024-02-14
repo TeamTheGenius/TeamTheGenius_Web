@@ -1,6 +1,6 @@
 import { adminTopicDataType } from "@/pages/Admin/AdminTopic/AdminTopic";
 import axios from "axios";
-import getAdminListApi from "./getAdminListApi";
+import getAdminTopicListApi from "./getAdminTopicListApi";
 
 type topicDeleteType = {
   topicId: number;
@@ -19,7 +19,7 @@ const deleteAdminTopicApi = async ({
     })
     .then((res) => {
       console.log("삭제", res);
-      getAdminListApi({ setAdminList, pageNumber: pageNumber - 1 });
+      getAdminTopicListApi({ setAdminList, pageNumber: pageNumber - 1 });
     })
     .catch((err) => {
       console.log("삭제 실패", err);

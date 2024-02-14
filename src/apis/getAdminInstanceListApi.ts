@@ -1,18 +1,18 @@
 import axios from "axios";
 
-type getInstanceListApiType = {
+type adminInstanceListApiType = {
   setInstanceList: any;
-  pageNumber?: number;
   setTotalNumber?: React.Dispatch<React.SetStateAction<number>>;
+  pageNumber: number;
 };
 
-const getInstanceListApi = async ({
+const getAdminInstanceListApi = async ({
   setInstanceList,
-  pageNumber,
   setTotalNumber,
-}: getInstanceListApiType) => {
+  pageNumber,
+}: adminInstanceListApiType) => {
   await axios
-    .get(`http://localhost:8080/api/instance/topic?page=${pageNumber}&size=5`, {
+    .get(`http://localhost:8080/api/admin/instance?page=${pageNumber}&size=5`, {
       withCredentials: true,
     })
     .then((res) => {
@@ -28,4 +28,4 @@ const getInstanceListApi = async ({
     });
 };
 
-export default getInstanceListApi;
+export default getAdminInstanceListApi;

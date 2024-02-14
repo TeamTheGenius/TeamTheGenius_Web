@@ -7,6 +7,7 @@ import { Pagination } from "antd";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { topicDeteilType } from "@/components/Admin/AdminTopic/TopicListComponent/TopicListComponent";
+import getAdminInstanceListApi from "@/apis/getAdminInstanceListApi";
 
 const AdminInstance = () => {
   const [instanceModalIsOpen, setInstanceModalIsOpen] =
@@ -21,13 +22,23 @@ const AdminInstance = () => {
   const location = useLocation();
   const handlePageChange = (page: number) => {
     setPageNumber(page);
+    getAdminInstanceListApi({
+      setInstanceList,
+      pageNumber: page - 1,
+      setTotalNumber,
+    });
   };
   const topicId = location.state.topicId;
-
+  console.log("instanceList", instanceList);
   useEffect(() => {
     getAdminDetailTopicApi({
       topicId: topicId,
       setTopicDetail: setTopicDetail,
+    });
+    getAdminInstanceListApi({
+      setInstanceList,
+      pageNumber,
+      setTotalNumber,
     });
   }, []);
   return (
@@ -37,7 +48,10 @@ const AdminInstance = () => {
         <div className="w-3/4">
           <Title title={"인스턴스 페이지"} />
           <CreateBtn setModal={setInstanceModalIsOpen} />
-          <InstanceListComponent />
+          <InstanceListComponent
+            instanceList={instanceList}
+            topicDetail={topicDetail}
+          />
         </div>
         <Pagination
           current={pageNumber}

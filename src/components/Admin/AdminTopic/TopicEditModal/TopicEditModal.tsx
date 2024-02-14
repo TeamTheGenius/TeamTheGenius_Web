@@ -1,4 +1,4 @@
-import patchAdminEditApi from "@/apis/patchAdminEditApi";
+import patchAdminEditApi from "@/apis/patchAdminTopicEditApi";
 import { adminmodalCard } from "@/utils/modalCard";
 import { UploadOutlined } from "@ant-design/icons";
 import {
@@ -70,7 +70,7 @@ const TopicEditModal = ({
 }: topicEditModalType) => {
   const topicDetailId = topicEditModalData?.topicId;
 
-  const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const TopicEditModalClose = () => {
     setTopicEditModalIsOpen(false);
@@ -169,18 +169,18 @@ const FormDesc = () => {
     <>
       <Form.Item
         label="간단한 소개"
-        validateStatus={simpleInfo ? "success" : "error"} // 입력값이 있는 경우 'success', 없는 경우 'error'
+        validateStatus={simpleInfo ? "success" : "error"}
         hasFeedback
-        help={simpleInfo ? null : "간단한 소개를 입력해주세요"} // 입력값이 없는 경우 도움말 메시지 표시
+        help={simpleInfo ? null : "간단한 소개를 입력해주세요"}
         name="simpleInfo"
       >
         <Input.TextArea allowClear showCount onChange={simpleInfoChange} />
       </Form.Item>
       <Form.Item
         label="유의사항"
-        validateStatus={notice ? "success" : "error"} // 입력값이 있는 경우 'success', 없는 경우 'error'
+        validateStatus={notice ? "success" : "error"}
         hasFeedback
-        help={notice ? null : "유의사항을 입력해주세요"} // 입력값이 없는 경우 도움말 메시지 표시
+        help={notice ? null : "유의사항을 입력해주세요"}
         name="notice"
       >
         <Input.TextArea allowClear showCount onChange={noticeChange} />

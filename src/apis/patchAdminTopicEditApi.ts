@@ -1,9 +1,9 @@
 import { uploadDataType } from "@/components/Admin/AdminTopic/TopicEditModal/TopicEditModal";
 import axios, { AxiosResponse } from "axios";
-import getAdminListApi from "./getAdminListApi";
+import getAdminTopicListApi from "./getAdminTopicListApi";
 import { adminTopicDataType } from "@/pages/Admin/AdminTopic/AdminTopic";
 
-type adminEditApiType = {
+type adminTopicEditApiType = {
   topicTitle: string;
   topicDesc: string;
   topicNotice: string;
@@ -16,7 +16,7 @@ type adminEditApiType = {
   pageNumber: number;
 };
 
-const patchAdminEditApi = async ({
+const patchAdminTopicEditApi = async ({
   topicId,
   topicTitle,
   topicDesc,
@@ -27,7 +27,7 @@ const patchAdminEditApi = async ({
   setTopicEditModalIsOpen,
   setAdminList,
   pageNumber,
-}: adminEditApiType) => {
+}: adminTopicEditApiType) => {
   const topicImg: any = topicFile[0].originFileObj;
   console.log("topicDesc", topicDesc);
   const body = {
@@ -55,7 +55,7 @@ const patchAdminEditApi = async ({
     .then((res: AxiosResponse<any, any>) => {
       console.log("수정응답:", res);
       setTopicEditModalIsOpen(false);
-      getAdminListApi({ setAdminList, pageNumber: pageNumber - 1 });
+      getAdminTopicListApi({ setAdminList, pageNumber: pageNumber - 1 });
     })
     .catch((err) => {
       alert("생성 실패");
@@ -63,4 +63,4 @@ const patchAdminEditApi = async ({
     });
 };
 
-export default patchAdminEditApi;
+export default patchAdminTopicEditApi;

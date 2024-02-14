@@ -1,36 +1,58 @@
 import { adminmodalCard } from "@/utils/modalCard";
 import { Button, DatePicker, Form, Input } from "antd";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Modal from "react-modal";
+import { instanceDeteilType } from "../InstanceListComponent/InstanceListComponent";
+import moment from "moment";
+import getAdminDetailInstanceApi from "@/apis/getAdminDetailInstanceApi";
+import patchAdminInstanceEditApi from "@/apis/patchAdminInstanceEditApi";
 
 type InstanceEditModalType = {
   setinstanceEditModalIsOpen: Dispatch<SetStateAction<boolean>>;
   instanceEditModalIsOpen: boolean;
-  instanceEditModalData: any;
+  instanceDetail?: instanceDeteilType;
+  instanceNumber: number;
 };
 
 const InstanceEditModal = ({
   setinstanceEditModalIsOpen,
   instanceEditModalIsOpen,
-  instanceEditModalData,
+  instanceDetail,
+  instanceNumber,
 }: InstanceEditModalType) => {
   const InstanceEditModalClose = () => {
     setinstanceEditModalIsOpen(false);
   };
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const instanceSumbit = (fieldsValue: any) => {
-    const rangeValue = fieldsValue["range-picker"];
-    const values = {
-      ...fieldsValue,
-      "range-picker": [
-        rangeValue[0].format("YYYY-MM-DD"),
-        rangeValue[1].format("YYYY-MM-DD"),
-      ],
-    };
-    console.log("토픽 값", values);
+  const instanceSumbit = (values: any) => {
+    console.log("values", instanceDetail);
+    const startedAt = moment(values.ranger[0]._d).format("YYYY-MM-DDTHH:mm:ss");
+    console.log("st", startedAt);
+    const completedAt = moment(values.completedAt).format(
+      "YYYY-MM-DDTHH:mm:ss"
+    );
+    patchAdminInstanceEditApi({
+      instanceId: instanceNumber,
+      topicIdId: values.topicId,
+      instanceTitle: values.title,
+      instanceDesc: values.description,
+      instanceNotice: values.notice,
+      instancePoint: values.pointPerPerson,
+      instanceStartAt: startedAt,
+      instanceCompletedAt: completedAt,
+    });
   };
-  console.log("instanceEditModalData", instanceEditModalData);
 
+  useEffect(() => {
+    const getAdminDetailInstance = async () => {
+      await getAdminDetailInstanceApi({
+        instanceId: instanceNumber,
+      });
+      setIsLoading(false);
+    };
+    getAdminDetailInstance();
+  }, []);
   return (
     <Modal
       isOpen={instanceEditModalIsOpen}
@@ -40,32 +62,33 @@ const InstanceEditModal = ({
       ariaHideApp={false}
       style={adminmodalCard}
     >
-      <Form
-        onFinish={instanceSumbit}
-        labelCol={{ span: 4 }}
-        wrapperCol={{ span: 19 }}
-        className="w-full"
-      >
-        <FormDesc />
-        <FormPoint />
-        <FormRangePicker />
-        <SubmitButtom InstanceModalClose={InstanceEditModalClose} />
-      </Form>
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <Form
+          onFinish={instanceSumbit}
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 19 }}
+          initialValues={instanceDetail}
+          className="w-full"
+        >
+          <FormDesc />
+          <FormPoint />
+          <FormRangePicker instanceDetail={instanceDetail} />
+          <SubmitButtom InstanceModalClose={InstanceEditModalClose} />
+        </Form>
+      )}
     </Modal>
   );
 };
 const FormDesc = () => {
   return (
     <>
-      <Form.Item
-        label="간단한 소개"
-        name="simpleInfo"
-        initialValue={"infoprops"}
-      >
-        <Input.TextArea allowClear showCount defaultValue={"infoprops"} />
+      <Form.Item label="간단한 소개" name="description">
+        <Input.TextArea allowClear showCount />
       </Form.Item>
-      <Form.Item label="유의사항" name="notice" initialValue={"noticeprops"}>
-        <Input.TextArea allowClear showCount defaultValue={"noticeprops"} />
+      <Form.Item label="유의사항" name="notice">
+        <Input.TextArea allowClear showCount />
       </Form.Item>
     </>
   );
@@ -74,23 +97,40 @@ const FormDesc = () => {
 const FormPoint = () => {
   return (
     <>
-      <Form.Item label="포인트" name="point" initialValue={"pointprops"}>
-        <Input defaultValue={"pointprops"} />
+      <Form.Item label="포인트" name="pointPerPerson">
+        <Input />
       </Form.Item>
     </>
   );
 };
-const FormRangePicker = () => {
+const FormRangePicker = ({ instanceDetail }: any) => {
   const { RangePicker } = DatePicker;
+
+  const startedAt = moment(instanceDetail.startedAt).format("YYYY-MM-DD");
+  const completedAt = moment(instanceDetail.completedAt).format("YYYY-MM-DD");
+
+  const initialValues = {
+    ranger: [moment(startedAt), moment(completedAt)],
+  };
 
   return (
     <>
-      <Form.Item name="range-picker" label="챌린지 기간">
-        <RangePicker format="YYYY-MM-DD" />
+      <Form.Item
+        name="ranger"
+        label="챌린지 기간"
+        initialValue={initialValues.ranger}
+      >
+        <div className="flex justify-around">
+          <span>{startedAt}</span>
+          <span>{completedAt}</span>
+        </div>
+        <RangePicker format="YYYY-MM-DD" className="flex" />
+        <span>입력하지 않으면 기본 정보가 들어갑니다.</span>
       </Form.Item>
     </>
   );
 };
+
 const SubmitButtom = ({ InstanceModalClose }: any) => {
   return (
     <>

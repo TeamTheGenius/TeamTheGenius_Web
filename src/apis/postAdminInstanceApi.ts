@@ -1,15 +1,16 @@
 import axios from "axios";
+import { Dispatch, SetStateAction } from "react";
 
-type InstanceApiType = {
+type instanceCreateApiType = {
   instanceTitle: string;
   instanceDesc: string;
   instanceNotice: string;
   instanceTags: string;
-  instanceFile: any;
   instancePoint: number;
   instanceRangeStart: string;
   instanceRangeEnd: string;
   topicId: number;
+  setModalIsOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 const postAdminInstanceApi = async ({
@@ -17,12 +18,12 @@ const postAdminInstanceApi = async ({
   instanceDesc,
   instanceNotice,
   instanceTags,
-  instanceFile,
   instancePoint,
   instanceRangeStart,
   instanceRangeEnd,
   topicId,
-}: InstanceApiType) => {
+  setModalIsOpen,
+}: instanceCreateApiType) => {
   const body = {
     topicId: topicId,
     title: instanceTitle,
@@ -33,18 +34,12 @@ const postAdminInstanceApi = async ({
     startedAt: instanceRangeStart,
     completedAt: instanceRangeEnd,
   };
-  console.log("ini", instanceFile);
-  const imageId = instanceFile.fileId;
-  // data:image/png;base64,
-  const imageData = `${instanceFile.encodedFile}`;
-  console.log("imageData", imageData);
 
   const formData = new FormData();
   formData.append(
     "data",
     new Blob([JSON.stringify(body)], { type: "application/json" })
   );
-
   formData.append("type", "instance");
 
   await axios
@@ -56,6 +51,7 @@ const postAdminInstanceApi = async ({
     })
     .then((res) => {
       console.log("응답:", res);
+      setModalIsOpen(false);
     })
     .catch((err) => {
       alert("생성 실패");

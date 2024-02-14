@@ -1,5 +1,5 @@
 import Button from "@/components/Common/Button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TopicEditModal from "../TopicEditModal/TopicEditModal";
 import { PATH } from "@/constants/path";
@@ -42,8 +42,7 @@ const TopicListComponent = ({
   const [topicDetail, setTopicDetail] = useState<topicDeteilType>();
   const [topicDetailNumber, setTopicDetailNumber] = useState<number>();
   const navigate = useNavigate();
-  console.log("topicDetail", topicDetail);
-  
+
   const topicModalData = (data: topicDataType) => {
     getAdminDetailTopicApi({
       topicId: data.topicId,
@@ -59,7 +58,6 @@ const TopicListComponent = ({
       <ul className="flex flex-col gap-10 rounded-xl">
         {adminList?.map((item: adminTopicDataType) => {
           const imageData = `data:image/png;base64,${item.fileResponse.encodedFile}`;
-
           const InstanceLink = (i: number) => {
             navigate(`${PATH.ADMIN_INSTANCE}/${i}`, {
               state: {
