@@ -18,8 +18,8 @@ function Tab({ content, path }: Props) {
     <button
       onClick={() => onClickTab(path)}
       className={cls(
-        "w-full max-w-[17rem] h-[4.6rem] flex justify-center items-center text-[1.6rem] _sm:text-[1.4rem] font-medium leading-_normal relative",
-        isActive ? "text-black" : "text-[#777]"
+        "w-full max-w-[27.4rem] h-[5.7rem] _sm:h-[4.7rem] flex justify-center items-center text-[1.6rem] _sm:text-[1.3rem] font-medium leading-_normal relative",
+        isActive ? "text-black" : "text-[#757575]"
       )}
     >
       {content}

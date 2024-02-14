@@ -24,7 +24,7 @@ function SuggestionChallengeItems() {
   });
 
   const onClick = (id: number) => {
-    navigate(`${PATH.CHALLENGE_ITEM}/${id}`);
+    navigate(`${PATH.CHALLENGE_DETAIL}/${id}`);
   };
 
   return (
