@@ -14,8 +14,7 @@ const Auth = () => {
 
   const auth = async () => {
     if (identifier) {
-      await postJWTApi();
-      navigate(PATH.HOME);
+      postJWTApi({ navigate: navigate });
     } else {
       navigate(`${PATH.SIGNUP}?identifier=${gitName}`);
     }

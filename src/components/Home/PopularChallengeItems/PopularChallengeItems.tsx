@@ -13,7 +13,7 @@ import ErrorHeader from "@/components/Error/ErrorHeader/ErrorHeader";
 function PopularChallengeItems() {
   const navigate = useNavigate();
   const onClick = (id: number) => {
-    navigate(`${PATH.CHALLENGE_ITEM}/${id}`);
+    navigate(`${PATH.CHALLENGE_DETAIL}/${id}`);
   };
 
   /*

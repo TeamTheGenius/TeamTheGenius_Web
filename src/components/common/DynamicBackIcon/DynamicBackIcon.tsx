@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-function BackIcon() {
+function DynamicBackIcon() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ function BackIcon() {
     navigate(-1);
   };
 
-  return windowWidth <= 546 ? (
+  return windowWidth <= 580 ? (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="22"
@@ -59,4 +59,4 @@ function BackIcon() {
   );
 }
 
-export default BackIcon;
+export default DynamicBackIcon;

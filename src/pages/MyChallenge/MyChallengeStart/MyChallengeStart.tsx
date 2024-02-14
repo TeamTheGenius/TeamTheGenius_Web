@@ -34,7 +34,7 @@ const MyChallengeStart = () => {
           return (
             <MyChallengeLinkWrap
               key={item.challengeItem.id}
-              link={`${PATH.CHALLENGE_ITEM}/${item.challengeItem.id}`}
+              link={`${PATH.CHALLENGE_DETAIL}/${item.challengeItem.id}`}
             >
               <div className="w-[16.4rem] h-[12.6rem] mr-[1.8rem] _sm:mr-[1.1rem]">
                 <ChallengeItem>

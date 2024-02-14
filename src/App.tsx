@@ -22,6 +22,9 @@ import Search from "./pages/Search/Search";
 import ChallengeDetail from "./pages/ChallengeDetail/ChallengeDetail";
 import Auth from "./pages/Auth/Auth";
 import InterestChallenge from "./pages/MyPage/InterestChallenge/InterestChallenge";
+import Certification from "./pages/Certification/Certification/Certification";
+import MyCurrentCertification from "./pages/Certification/MyCurrentCertification/MyCurrentCertification";
+import OthersCurrentCertification from "./pages/Certification/OthersCurrentCertification/OthersCurrentCertification";
 
 function App() {
   const queryClient = new QueryClient();
@@ -54,7 +57,20 @@ function App() {
             />
             <Route path={PATH.SEARCH} element={<Search />} />
           </Route>
-          <Route path={PATH.CHALLENGE_ITEM_ID} element={<ChallengeDetail />} />
+          <Route path={PATH.CERTIFICATION} element={<Certification />}>
+            <Route
+              path={PATH.CERTIFICATION_MY_CURRENT}
+              element={<MyCurrentCertification />}
+            />
+            <Route
+              path={PATH.CERTIFICATION_OTHERS_CURRENT}
+              element={<OthersCurrentCertification />}
+            />
+          </Route>
+          <Route
+            path={PATH.CHALLENGE_DETAIL_ID}
+            element={<ChallengeDetail />}
+          />
           <Route path={PATH.ADMIN} element={<AdminTopic />} />
           <Route path={PATH.ADMIN_INSTANCE_ID} element={<AdminInstance />} />
         </Routes>
