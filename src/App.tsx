@@ -12,16 +12,16 @@ import AdminTopic from "./pages/Admin/AdminTopic/AdminTopic";
 import AdminInstance from "./pages/Admin/AdminInstance/AdminInstance";
 import MyChallenge from "./pages/MyChallenge/MyChallenge";
 import Pet from "./pages/Pet/Pet";
-import MyPage from "./pages/MyPage/MyPage";
 import { PATH } from "./constants/path";
 import Home from "./pages/Home/Home";
-import PopularChallenge from "./pages/PopularChallenge/PopularChallenge";
-import NewChallenge from "./pages/NewChallenge/NewChallenge";
-import SuggestionChallenge from "./pages/SuggestionChallenge/SuggestionChallenge";
-import Search from "./pages/Search/Search";
 import ChallengeDetail from "./pages/ChallengeDetail/ChallengeDetail";
 import Auth from "./pages/Auth/Auth";
 import InterestChallenge from "./pages/MyPage/InterestChallenge/InterestChallenge";
+import PopularChallenge from "./pages/Home/PopularChallenge/PopularChallenge";
+import NewChallenge from "./pages/Home/NewChallenge/NewChallenge";
+import SuggestionChallenge from "./pages/Home/SuggestionChallenge/SuggestionChallenge";
+import Search from "./pages/Home/Search/Search";
+import MyPage from "./pages/MyPage/MyPage/MyPage";
 
 function App() {
   const queryClient = new QueryClient();
