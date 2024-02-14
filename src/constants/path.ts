@@ -23,6 +23,7 @@ export const PATH = {
 
   MY_PAGE: "/main/my-page",
   MY_PAGE_INTEREST_CHALLENGE: "/main/my-page/interest",
+  MY_PAGE_PROFILE_SETTING: "/main/my-page/profile-setting",
 
   CERTIFICATION: "/certification",
   CERTIFICATION_ID: "/certification/:id",
