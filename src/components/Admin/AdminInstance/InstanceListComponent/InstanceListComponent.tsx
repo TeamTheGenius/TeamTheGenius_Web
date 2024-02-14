@@ -6,10 +6,12 @@ const InstanceListComponent = () => {
   const [instanceEditModalIsOpen, setinstanceEditModalIsOpen] =
     useState<boolean>(false);
   const [instanceEditModalData, setInstanceEditModalData] = useState(null);
+
   const instanceModalData = (edit: any) => {
     setInstanceEditModalData(edit);
     setinstanceEditModalIsOpen(true);
   };
+
   const data = [
     {
       id: 1,

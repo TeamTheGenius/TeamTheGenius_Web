@@ -1,5 +1,5 @@
-import { adminmodalCard } from "@/utils/modalCard";
-import { UploadOutlined } from "@ant-design/icons";
+import { instancePostCard } from "@/utils/modalCard";
+
 import {
   Button,
   Checkbox,
@@ -37,10 +37,11 @@ const InstanceCreateModal = ({
   };
 
   const instanceSumbit = (values: any) => {
-    console.log("valuse instance", values);
+    // console.log("valuse instance", values);
     const formmatStartDate = moment(values.range[0].$d).format(
       "YYYY-MM-DDTHH:mm:ss"
     );
+
     const formmatEndDate = moment(values.range[1].$d).format(
       "YYYY-MM-DDTHH:mm:ss"
     );
@@ -49,7 +50,7 @@ const InstanceCreateModal = ({
       instanceDesc: values.description,
       instanceNotice: values.notice,
       instanceTags: values.tags,
-      instanceFile: values.upload,
+      instanceFile: values.fileResponse,
       instancePoint: values.pointPerPerson,
       instanceRangeStart: formmatStartDate,
       instanceRangeEnd: formmatEndDate,
@@ -57,7 +58,6 @@ const InstanceCreateModal = ({
     });
   };
 
-  console.log("topicDetail", topicDetail);
   const tags = topicDetail?.tags;
   const file = topicDetail?.fileResponse;
   return (
@@ -68,7 +68,7 @@ const InstanceCreateModal = ({
         contentLabel="sign complete message"
         shouldCloseOnOverlayClick={true}
         ariaHideApp={false}
-        style={adminmodalCard}
+        style={instancePostCard}
       >
         <Form
           onFinish={instanceSumbit}
@@ -93,7 +93,7 @@ const InstanceCreateModal = ({
 const FormTitle = () => {
   return (
     <>
-      <Form.Item label={"토픽 제목"} name="title">
+      <Form.Item label="제목" name="title">
         <Input disabled />
       </Form.Item>
     </>
@@ -122,24 +122,25 @@ const FormImg = ({ file }: any) => {
   };
 
   const props: UploadProps = {
-    name: "upload",
-    beforeUpload: (file: any) => {
-      return false;
-    },
+    name: "fileResponse",
+    // beforeUpload: () => {
+    //   return false;
+    // },
   };
 
   return (
     <>
-      <Image src={imageData} alt="Uploaded" />
       <Form.Item
-        name="upload"
+        name="fileResponse"
         label="Upload"
-        valuePropName="fileList"
+        valuePropName="fileResponse"
         getValueFromEvent={normFile}
-        extra="이미지 업로드"
+        extra="이미지 미리보기"
       >
-        <Upload {...props}>
-          <Button icon={<UploadOutlined />}></Button>
+        <Upload {...props} disabled>
+          <div className="w-[5rem] h-[5rem]">
+            <Image src={imageData} alt="Uploaded" />
+          </div>
         </Upload>
       </Form.Item>
     </>

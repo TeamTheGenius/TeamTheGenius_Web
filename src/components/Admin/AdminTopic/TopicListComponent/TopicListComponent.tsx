@@ -43,6 +43,7 @@ const TopicListComponent = ({
   const [topicDetailNumber, setTopicDetailNumber] = useState<number>();
   const navigate = useNavigate();
   console.log("topicDetail", topicDetail);
+  
   const topicModalData = (data: topicDataType) => {
     getAdminDetailTopicApi({
       topicId: data.topicId,

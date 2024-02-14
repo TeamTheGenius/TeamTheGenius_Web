@@ -1,7 +1,7 @@
 import { uploadDataType } from "@/components/Admin/AdminTopic/TopicEditModal/TopicEditModal";
 import axios, { AxiosResponse } from "axios";
 import getAdminListApi from "./getAdminListApi";
-import { adminListType } from "@/pages/Admin/AdminTopic/AdminTopic";
+import { adminTopicDataType } from "@/pages/Admin/AdminTopic/AdminTopic";
 
 type adminEditApiType = {
   topicTitle: string;
@@ -12,7 +12,7 @@ type adminEditApiType = {
   topicFile: uploadDataType;
   topicId?: number;
   setTopicEditModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setAdminList: React.Dispatch<React.SetStateAction<adminListType[]>>;
+  setAdminList: React.Dispatch<React.SetStateAction<adminTopicDataType[]>>;
   pageNumber: number;
 };
 

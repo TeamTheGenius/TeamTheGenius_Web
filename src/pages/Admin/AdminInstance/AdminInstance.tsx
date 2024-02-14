@@ -4,7 +4,7 @@ import InstanceListComponent from "@/components/Admin/AdminInstance/InstanceList
 import CreateBtn from "@/components/Admin/CreateBtn/CreateBtn";
 import Title from "@/components/Admin/Title/Title";
 import { Pagination } from "antd";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { topicDeteilType } from "@/components/Admin/AdminTopic/TopicListComponent/TopicListComponent";
 
@@ -19,7 +19,9 @@ const AdminInstance = () => {
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [totalNumber, setTotalNumber] = useState<number>(0);
   const location = useLocation();
-
+  const handlePageChange = (page: number) => {
+    setPageNumber(page);
+  };
   const topicId = location.state.topicId;
 
   useEffect(() => {
@@ -38,9 +40,10 @@ const AdminInstance = () => {
           <InstanceListComponent />
         </div>
         <Pagination
-          defaultCurrent={1}
-          total={50}
-          defaultPageSize={5}
+          current={pageNumber}
+          pageSize={5}
+          total={totalNumber}
+          onChange={handlePageChange}
           className="mt-10"
         />
       </section>

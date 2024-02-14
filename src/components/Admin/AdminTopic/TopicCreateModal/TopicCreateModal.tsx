@@ -92,7 +92,7 @@ const FormTitle = () => {
   return (
     <>
       <Form.Item
-        label="제목"
+        label="토픽 제목"
         rules={[
           {
             validator: async (_, names) => {
