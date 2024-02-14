@@ -22,6 +22,7 @@ import NewChallenge from "./pages/Home/NewChallenge/NewChallenge";
 import SuggestionChallenge from "./pages/Home/SuggestionChallenge/SuggestionChallenge";
 import Search from "./pages/Home/Search/Search";
 import MyPage from "./pages/MyPage/MyPage/MyPage";
+import ProfileSetting from "./pages/MyPage/ProfileSetting/ProfileSetting";
 
 function App() {
   const queryClient = new QueryClient();
@@ -41,6 +42,10 @@ function App() {
             <Route
               path={PATH.MY_PAGE_INTEREST_CHALLENGE}
               element={<InterestChallenge />}
+            />
+            <Route
+              path={PATH.MY_PAGE_PROFILE_SETTING}
+              element={<ProfileSetting />}
             />
             <Route path={PATH.HOME} element={<Home />} />
             <Route

@@ -20,8 +20,11 @@ export const PATH = {
   MY_CHALLENGE_COMPLETED: "/main/my-challenge/completed",
 
   PET: "/main/pet",
+
   MY_PAGE: "/main/my-page",
   MY_PAGE_INTEREST_CHALLENGE: "/main/my-page/interest",
+  MY_PAGE_PROFILE_SETTING: "/main/my-page/profile-setting",
+
   ADMIN: "/admin",
   ADMIN_INSTANCE: "/admin/instance",
   ADMIN_INSTANCE_ID: "/admin/instance/:id",
