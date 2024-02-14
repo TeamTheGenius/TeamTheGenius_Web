@@ -10,28 +10,34 @@ function MyChallengeSummary() {
           to={PATH.MY_CHALLENGE_START}
           className="flex-1 self-center text-center"
         >
-          <p className="text-[1.6rem] _sm:text-[1.4rem] font-medium text-[#777]">
-            시작 전
-          </p>
-          <p className="text-[2.2rem] _sm:text-[2rem] font-medium">2</p>
+          <div className="flex flex-col gap-[1.4rem] _sm:gap-0">
+            <p className="text-[1.6rem] _sm:text-[1.4rem] font-medium text-[#777]">
+              시작 전
+            </p>
+            <p className="text-[2.2rem] _sm:text-[2rem] font-medium">2</p>
+          </div>
         </Link>
         <Link
           to={PATH.MY_CHALLENGE_PROGRESS}
           className="flex-1 self-center text-center"
         >
-          <p className="text-[1.6rem] _sm:text-[1.4rem] font-medium text-[#777]">
-            진행 중
-          </p>
-          <p className="text-[2.2rem] _sm:text-[2rem] font-medium">10</p>
+          <div className="flex flex-col gap-[1.4rem] _sm:gap-0">
+            <p className="text-[1.6rem] _sm:text-[1.4rem] font-medium text-[#777]">
+              진행 중
+            </p>
+            <p className="text-[2.2rem] _sm:text-[2rem] font-medium">10</p>
+          </div>
         </Link>
         <Link
           to={PATH.MY_CHALLENGE_COMPLETED}
           className="flex-1 self-center text-center"
         >
-          <p className="text-[1.6rem] _sm:text-[1.4rem] font-medium text-[#777]">
-            완료/실패
-          </p>
-          <p className="text-[2.2rem] _sm:text-[2rem] font-medium">5/2</p>
+          <div className="flex flex-col gap-[1.4rem] _sm:gap-0">
+            <p className="text-[1.6rem] _sm:text-[1.4rem] font-medium text-[#777]">
+              완료/실패
+            </p>
+            <p className="text-[2.2rem] _sm:text-[2rem] font-medium">5/2</p>
+          </div>
         </Link>
       </div>
     </>
