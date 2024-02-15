@@ -4,8 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import LogIn from "./pages/LogIn/LogIn";
-import Error from "./pages/Error/Error";
-import SignUp from "./pages/SignUp/SignUp";
+
 import Interest from "./pages/Interest/Interest";
 import Main from "./pages/Main/Main";
 import AdminTopic from "./pages/Admin/AdminTopic/AdminTopic";
@@ -17,6 +16,8 @@ import Home from "./pages/Home/Home";
 import ChallengeDetail from "./pages/ChallengeDetail/ChallengeDetail";
 import Auth from "./pages/Auth/Auth";
 import InterestChallenge from "./pages/MyPage/InterestChallenge/InterestChallenge";
+import SignUp from "./pages/signUp/SignUp";
+import Error from "./pages/Error/Error";
 import PopularChallenge from "./pages/Home/PopularChallenge/PopularChallenge";
 import NewChallenge from "./pages/Home/NewChallenge/NewChallenge";
 import SuggestionChallenge from "./pages/Home/SuggestionChallenge/SuggestionChallenge";

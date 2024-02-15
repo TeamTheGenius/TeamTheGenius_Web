@@ -7,7 +7,7 @@ import { allChallengeData } from "@/data/allChallengeData";
 import { useNavigate } from "react-router-dom";
 import getRecommendedChallenge from "@/apis/getRecommendedChallenge";
 import { useQuery } from "@tanstack/react-query";
-import Loading from "@/components/Common/Loding/Loading";
+import Loading from "@/components/common/Loading/Loading";
 import Error from "@/components/Error/ErrorHeader/ErrorHeader";
 import { useState } from "react";
 

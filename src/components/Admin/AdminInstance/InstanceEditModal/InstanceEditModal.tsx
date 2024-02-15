@@ -1,36 +1,94 @@
 import { adminmodalCard } from "@/utils/modalCard";
-import { Button, DatePicker, Form, Input } from "antd";
-import { Dispatch, SetStateAction } from "react";
+import { Button, Form, Image, Input, Upload, UploadProps } from "antd";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { UploadOutlined } from "@ant-design/icons";
 import Modal from "react-modal";
+
+import moment from "moment";
+import getAdminDetailInstanceApi from "@/apis/getAdminDetailInstanceApi";
+import patchAdminInstanceEditApi from "@/apis/patchAdminInstanceEditApi";
+
+import {
+  fileType,
+  instanceDeteilType,
+  instanceListDataType,
+} from "@/pages/Admin/adminType";
+import Loading from "@/components/common/Loading/Loading";
 
 type InstanceEditModalType = {
   setinstanceEditModalIsOpen: Dispatch<SetStateAction<boolean>>;
   instanceEditModalIsOpen: boolean;
-  instanceEditModalData: any;
+  instanceDetail?: instanceDeteilType;
+  instanceNumber: number;
+  setInstanceList: Dispatch<SetStateAction<instanceListDataType[]>>;
+};
+type InstanceEditData = {
+  topicId: number;
+  instanceId: number;
+  title: string;
+  description: string;
+  pointPerPerson: number;
+  tags: string;
+  notice: string;
+  startedAt: string;
+  completedAt: string;
+  ranger: {
+    _d: string;
+  }[];
+  fileResponse: {
+    fileId: number;
+    encodedFile: string;
+    originFileObj: any;
+  }[];
 };
 
 const InstanceEditModal = ({
   setinstanceEditModalIsOpen,
   instanceEditModalIsOpen,
-  instanceEditModalData,
+  instanceDetail,
+  instanceNumber,
+  setInstanceList,
 }: InstanceEditModalType) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const InstanceEditModalClose = () => {
     setinstanceEditModalIsOpen(false);
   };
 
-  const instanceSumbit = (fieldsValue: any) => {
-    const rangeValue = fieldsValue["range-picker"];
-    const values = {
-      ...fieldsValue,
-      "range-picker": [
-        rangeValue[0].format("YYYY-MM-DD"),
-        rangeValue[1].format("YYYY-MM-DD"),
-      ],
+  const instanceSumbit = (values: InstanceEditData) => {
+    const startedAt = moment(values.ranger[0]._d).format("YYYY-MM-DDTHH:mm:ss");
+    const completedAt = moment(values.completedAt).format(
+      "YYYY-MM-DDTHH:mm:ss"
+    );
+    let instanceData = {
+      setInstanceList: setInstanceList,
+      instanceId: instanceNumber,
+      topicIdId: values.topicId,
+      instanceTitle: values.title,
+      instanceDesc: values.description,
+      instanceNotice: values.notice,
+      instancePoint: values.pointPerPerson,
+      instanceStartAt: startedAt,
+      instanceCompletedAt: completedAt,
+      instanceImg: values.fileResponse[0]?.originFileObj,
+      setinstanceEditModalIsOpen: setinstanceEditModalIsOpen,
     };
-    console.log("토픽 값", values);
+    if (values.fileResponse) {
+      instanceData.instanceImg = values.fileResponse[0]?.originFileObj;
+    }
+    patchAdminInstanceEditApi(instanceData);
   };
-  console.log("instanceEditModalData", instanceEditModalData);
+  const file = instanceDetail?.fileResponse;
 
+  useEffect(() => {
+    const getAdminDetailInstance = async () => {
+      await getAdminDetailInstanceApi({
+        instanceId: instanceNumber,
+        setInstanceList: setInstanceList,
+      });
+      setIsLoading(false);
+    };
+    getAdminDetailInstance();
+  }, []);
   return (
     <Modal
       isOpen={instanceEditModalIsOpen}
@@ -40,58 +98,133 @@ const InstanceEditModal = ({
       ariaHideApp={false}
       style={adminmodalCard}
     >
-      <Form
-        onFinish={instanceSumbit}
-        labelCol={{ span: 4 }}
-        wrapperCol={{ span: 19 }}
-        className="w-full"
-      >
-        <FormDesc />
-        <FormPoint />
-        <FormRangePicker />
-        <SubmitButtom InstanceModalClose={InstanceEditModalClose} />
-      </Form>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <Form
+          onFinish={instanceSumbit}
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 19 }}
+          initialValues={instanceDetail}
+          className="w-full"
+        >
+          <FormDesc />
+          <FormImg file={file} />
+          <FormPoint />
+          <FormRangePicker instanceDetail={instanceDetail} />
+          <SubmitButtom InstanceModalClose={InstanceEditModalClose} />
+        </Form>
+      )}
     </Modal>
   );
 };
 const FormDesc = () => {
   return (
     <>
-      <Form.Item
-        label="간단한 소개"
-        name="simpleInfo"
-        initialValue={"infoprops"}
-      >
-        <Input.TextArea allowClear showCount defaultValue={"infoprops"} />
+      <Form.Item label="간단한 소개" name="description">
+        <Input.TextArea allowClear showCount />
       </Form.Item>
-      <Form.Item label="유의사항" name="notice" initialValue={"noticeprops"}>
-        <Input.TextArea allowClear showCount defaultValue={"noticeprops"} />
+      <Form.Item label="유의사항" name="notice">
+        <Input.TextArea allowClear showCount />
       </Form.Item>
     </>
   );
 };
+const FormImg = ({ file }: fileType) => {
+  const [visible, setVisible] = useState(false);
 
+  const imageData = `data:image/png;base64,${file?.encodedFile}`;
+
+  const normFile = (e: any) => {
+    console.log("Upload event:", e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e?.fileList;
+  };
+  const props: UploadProps = {
+    name: "fileResponse",
+    beforeUpload: () => {
+      return false;
+    },
+  };
+  return (
+    <>
+      <Form.Item
+        name="fileResponse"
+        label="인스턴스 이미지 수정"
+        valuePropName="fileResponse"
+        getValueFromEvent={normFile}
+        initialValue={""}
+      >
+        <Upload {...props}>
+          <div className="w-[5rem] h-[5rem]">
+            <Button icon={<UploadOutlined />}>사진을 선택해주세요</Button>
+          </div>
+        </Upload>
+      </Form.Item>
+      <Form.Item label="이미지 미리보기">
+        <Button type="dashed" onClick={() => setVisible(true)}>
+          이미지 미리보기
+        </Button>
+        <Image
+          width={200}
+          style={{ display: "none" }}
+          src={imageData}
+          preview={{
+            visible,
+            src: imageData,
+            onVisibleChange: (value) => {
+              setVisible(value);
+            },
+          }}
+        />
+      </Form.Item>
+    </>
+  );
+};
 const FormPoint = () => {
   return (
     <>
-      <Form.Item label="포인트" name="point" initialValue={"pointprops"}>
-        <Input defaultValue={"pointprops"} />
+      <Form.Item label="포인트" name="pointPerPerson">
+        <Input />
       </Form.Item>
     </>
   );
 };
-const FormRangePicker = () => {
-  const { RangePicker } = DatePicker;
+const FormRangePicker = ({
+  instanceDetail,
+}: {
+  instanceDetail: instanceDeteilType | undefined;
+}) => {
+  const startedAt = moment(instanceDetail?.startedAt).format("YYYY-MM-DD");
+  const completedAt = moment(instanceDetail?.completedAt).format("YYYY-MM-DD");
+
+  const initialValues = {
+    ranger: [moment(startedAt), moment(completedAt)],
+  };
 
   return (
     <>
-      <Form.Item name="range-picker" label="챌린지 기간">
-        <RangePicker format="YYYY-MM-DD" />
+      <Form.Item
+        name="ranger"
+        label="챌린지 기간"
+        initialValue={initialValues.ranger}
+      >
+        <div className="flex justify-around">
+          <span>{startedAt}</span>
+          <span>{completedAt}</span>
+        </div>
       </Form.Item>
     </>
   );
 };
-const SubmitButtom = ({ InstanceModalClose }: any) => {
+
+const SubmitButtom = ({
+  InstanceModalClose,
+}: {
+  InstanceModalClose: () => void;
+}) => {
   return (
     <>
       <div className="flex justify-center gap-32">

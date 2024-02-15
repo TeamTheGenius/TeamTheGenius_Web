@@ -36,7 +36,6 @@ const MyChallengePic = ({
             {people !== null && people !== undefined && (
               <div className="absolute flex justify-evenly items-center w-[4.8rem] h-[1.9rem] left-[1rem] top-[0.3rem] bg-black rounded-[0.8rem]">
                 <img src={humanIcon} alt="humanIcon" />
-
                 <span className="text-white text-[1rem]">{people}명</span>
               </div>
             )}
