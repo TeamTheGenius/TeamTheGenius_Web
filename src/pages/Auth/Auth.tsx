@@ -1,7 +1,7 @@
 import postJWTApi from "@/apis/postJWTApi";
 import { IDENTIFIER } from "@/constants/localStorageKey";
 import { PATH } from "@/constants/path";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Auth = () => {
@@ -14,8 +14,7 @@ const Auth = () => {
 
   const auth = async () => {
     if (identifier) {
-      await postJWTApi();
-      navigate(PATH.HOME);
+      postJWTApi({ navigate: navigate });
     } else {
       navigate(`${PATH.SIGNUP}?identifier=${gitName}`);
     }

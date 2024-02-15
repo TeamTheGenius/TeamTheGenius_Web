@@ -24,7 +24,7 @@ function Tab({ content, path }: Props) {
     >
       {content}
       {isActive && (
-        <div className="w-[93%] _sm:max-w-[6.6rem] h-[0.3rem] bg-black absolute bottom-0 left-1/2 -translate-x-1/2 " />
+        <div className="w-[93%] _sm:w-[90%] h-[0.3rem] bg-black absolute bottom-0 left-1/2 -translate-x-1/2 " />
       )}
     </button>
   );

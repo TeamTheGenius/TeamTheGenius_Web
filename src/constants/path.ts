@@ -11,8 +11,8 @@ export const PATH = {
   NEW_CHALLENGE: "/main/home/new",
   SUGGESTION_CHALLENGE: "/main/home/suggestion",
 
-  CHALLENGE_ITEM: "/challenge-item",
-  CHALLENGE_ITEM_ID: "/challenge-item/:id",
+  CHALLENGE_DETAIL: "/challenge-detail",
+  CHALLENGE_DETAIL_ID: "/challenge-detail/:id",
 
   MY_CHALLENGE: "/main/my-challenge/*",
   MY_CHALLENGE_START: "/main/my-challenge/start",
@@ -20,8 +20,16 @@ export const PATH = {
   MY_CHALLENGE_COMPLETED: "/main/my-challenge/completed",
 
   PET: "/main/pet",
+
   MY_PAGE: "/main/my-page",
   MY_PAGE_INTEREST_CHALLENGE: "/main/my-page/interest",
+  MY_PAGE_SETTING_MENU: "/main/my-page/setting",
+
+  CERTIFICATION: "/certification",
+  CERTIFICATION_ID: "/certification/:id",
+  CERTIFICATION_MY_CURRENT: "/certification/:id/my-current",
+  CERTIFICATION_OTHERS_CURRENT: "/certification/:id/others-current",
+
   ADMIN: "/admin",
   ADMIN_INSTANCE: "/admin/instance",
   ADMIN_INSTANCE_ID: "/admin/instance/:id",

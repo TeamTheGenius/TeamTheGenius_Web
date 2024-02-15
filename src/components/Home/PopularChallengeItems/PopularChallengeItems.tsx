@@ -9,13 +9,21 @@ import getPopularChallenge from "@/apis/getPopularChallenge";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "@/components/common/Loading/Loading";
 import ErrorHeader from "@/components/Error/ErrorHeader/ErrorHeader";
+import { useState } from "react";
 
 function PopularChallengeItems() {
-  const navigate = useNavigate();
-  const onClick = (id: number) => {
-    navigate(`${PATH.CHALLENGE_ITEM}/${id}`);
-  };
+  const [clickPossible, setClickPossible] = useState<boolean>(true);
 
+  const navigate = useNavigate();
+
+  const onClick = (id: number, clickPossible: boolean) => {
+    if (clickPossible) {
+      navigate(`${PATH.CHALLENGE_DETAIL}/${id}`);
+    } else {
+      setClickPossible(true);
+      return;
+    }
+  };
   /*
   useEffect(() => {
     getPopularChallenge({ page: 0, size: 7 });
@@ -34,13 +42,15 @@ function PopularChallengeItems() {
         <MoreButton path={PATH.POPULAR_CHALLENGE} />
       </div>
 
-      <HorizontalScroll>
+      <HorizontalScroll setClickPossible={setClickPossible}>
         <div className="max-w-[18.8rem] flex gap-[2.2rem]">
           {allChallengeData.map(
             (item, index) =>
               index < 7 && (
                 <div key={index} className="my-[0.4rem] ">
-                  <ChallengeItem onClick={() => onClick(item.id)}>
+                  <ChallengeItem
+                    onClick={() => onClick(item.id, clickPossible)}
+                  >
                     <ChallengeItem.Image
                       imgSrc={item.imgSrc}
                       alt={item.alt}

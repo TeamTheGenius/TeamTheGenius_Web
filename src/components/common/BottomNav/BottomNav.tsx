@@ -38,7 +38,13 @@ function BottomNav() {
     {
       url: [PATH.PET],
     },
-    { url: [PATH.MY_PAGE, PATH.MY_PAGE_INTEREST_CHALLENGE] },
+    {
+      url: [
+        PATH.MY_PAGE,
+        PATH.MY_PAGE_INTEREST_CHALLENGE,
+        PATH.MY_PAGE_SETTING_MENU,
+      ],
+    },
   ];
   const iconOff = [
     icon_off_home,

@@ -11,18 +11,22 @@ import AdminTopic from "./pages/Admin/AdminTopic/AdminTopic";
 import AdminInstance from "./pages/Admin/AdminInstance/AdminInstance";
 import MyChallenge from "./pages/MyChallenge/MyChallenge";
 import Pet from "./pages/Pet/Pet";
-import MyPage from "./pages/MyPage/MyPage";
 import { PATH } from "./constants/path";
 import Home from "./pages/Home/Home";
-import PopularChallenge from "./pages/PopularChallenge/PopularChallenge";
-import NewChallenge from "./pages/NewChallenge/NewChallenge";
-import SuggestionChallenge from "./pages/SuggestionChallenge/SuggestionChallenge";
-import Search from "./pages/Search/Search";
 import ChallengeDetail from "./pages/ChallengeDetail/ChallengeDetail";
 import Auth from "./pages/Auth/Auth";
 import InterestChallenge from "./pages/MyPage/InterestChallenge/InterestChallenge";
 import SignUp from "./pages/signUp/SignUp";
 import Error from "./pages/Error/Error";
+import PopularChallenge from "./pages/Home/PopularChallenge/PopularChallenge";
+import NewChallenge from "./pages/Home/NewChallenge/NewChallenge";
+import SuggestionChallenge from "./pages/Home/SuggestionChallenge/SuggestionChallenge";
+import Search from "./pages/Home/Search/Search";
+import MyPage from "./pages/MyPage/MyPage/MyPage";
+import Certification from "./pages/Certification/Certification/Certification";
+import MyCurrentCertification from "./pages/Certification/MyCurrentCertification/MyCurrentCertification";
+import OthersCurrentCertification from "./pages/Certification/OthersCurrentCertification/OthersCurrentCertification";
+import SettingMenu from "./pages/MyPage/SettingMenu/SettingMenu";
 
 function App() {
   const queryClient = new QueryClient();
@@ -43,6 +47,7 @@ function App() {
               path={PATH.MY_PAGE_INTEREST_CHALLENGE}
               element={<InterestChallenge />}
             />
+            <Route path={PATH.MY_PAGE_SETTING_MENU} element={<SettingMenu />} />
             <Route path={PATH.HOME} element={<Home />} />
             <Route
               path={PATH.POPULAR_CHALLENGE}
@@ -55,7 +60,20 @@ function App() {
             />
             <Route path={PATH.SEARCH} element={<Search />} />
           </Route>
-          <Route path={PATH.CHALLENGE_ITEM_ID} element={<ChallengeDetail />} />
+          <Route path={PATH.CERTIFICATION} element={<Certification />}>
+            <Route
+              path={PATH.CERTIFICATION_MY_CURRENT}
+              element={<MyCurrentCertification />}
+            />
+            <Route
+              path={PATH.CERTIFICATION_OTHERS_CURRENT}
+              element={<OthersCurrentCertification />}
+            />
+          </Route>
+          <Route
+            path={PATH.CHALLENGE_DETAIL_ID}
+            element={<ChallengeDetail />}
+          />
           <Route path={PATH.ADMIN} element={<AdminTopic />} />
           <Route path={PATH.ADMIN_INSTANCE_ID} element={<AdminInstance />} />
         </Routes>
