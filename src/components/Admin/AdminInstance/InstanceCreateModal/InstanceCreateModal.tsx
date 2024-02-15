@@ -1,51 +1,69 @@
 import { instancePostCard } from "@/utils/modalCard";
-
-import {
-  Button,
-  Checkbox,
-  DatePicker,
-  Form,
-  Image,
-  Input,
-  Select,
-  Upload,
-  UploadProps,
-} from "antd";
-
-import React, { useState } from "react";
-
+import { Button, DatePicker, Form, Image, Input, Select, Upload } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import "@/components/Admin/AdminInstance/InstanceCreateModal/antdCheck.module.css";
 import Modal from "react-modal";
 import postAdminInstanceApi from "@/apis/postAdminInstanceApi";
-import { topicDeteilType } from "../../AdminTopic/TopicListComponent/TopicListComponent";
 import moment from "moment";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {
+  fileType,
+  instanceListDataType,
+  topicDeteilType,
+} from "@/pages/Admin/adminType";
+import Loading from "@/components/common/Loading/Loading";
 
 type TopicModalType = {
   setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   ModalIsOpen: boolean;
   topicDetail?: topicDeteilType;
   topicId: number;
+  setInstanceList: Dispatch<SetStateAction<instanceListDataType[]>>;
 };
+type instanceCreateData = {
+  topicId: number;
+  instanceId: number;
+  title: string;
+  description: string;
+  pointPerPerson: number;
+  tags: string;
+  notice: string;
+  startedAt: string;
+  completedAt: string;
+  ranger: {
+    $d: string;
+  }[];
+  fileResponse: {
+    fileId: number;
+    encodedFile: string;
+    originFileObj: any;
+  }[];
+};
+
 const InstanceCreateModal = ({
   setModalIsOpen,
   ModalIsOpen,
   topicDetail,
   topicId,
+  setInstanceList,
 }: TopicModalType) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const InstanceModalClose = () => {
     setModalIsOpen(false);
   };
 
-  const instanceSumbit = (values: any) => {
-    const formmatStartDate = moment(values.range[0].$d).format(
+  const instanceSumbit = (values: instanceCreateData) => {
+    const formmatStartDate = moment(values.ranger[0].$d).format(
       "YYYY-MM-DDTHH:mm:ss"
     );
 
-    const formmatEndDate = moment(values.range[1].$d).format(
+    const formmatEndDate = moment(values.ranger[1].$d).format(
       "YYYY-MM-DDTHH:mm:ss"
     );
-    postAdminInstanceApi({
+
+    let instanceData = {
       setModalIsOpen: setModalIsOpen,
+      setInstanceList: setInstanceList,
       instanceTitle: values.title,
       instanceDesc: values.description,
       instanceNotice: values.notice,
@@ -54,11 +72,26 @@ const InstanceCreateModal = ({
       instanceRangeStart: formmatStartDate,
       instanceRangeEnd: formmatEndDate,
       topicId: topicId,
-    });
+      instanceImg: values.fileResponse[0]?.originFileObj,
+    };
+
+    if (values.fileResponse) {
+      instanceData.instanceImg = values.fileResponse[0]?.originFileObj;
+    }
+
+    postAdminInstanceApi(instanceData);
   };
 
+  const title = topicDetail?.title;
+  const description = topicDetail?.description;
+  const notice = topicDetail?.notice;
   const tags = topicDetail?.tags;
   const file = topicDetail?.fileResponse;
+  const point = topicDetail?.pointPerPerson;
+  useEffect(() => {
+    setIsLoading(true);
+  }, []);
+
   return (
     <div>
       <Modal
@@ -69,49 +102,65 @@ const InstanceCreateModal = ({
         ariaHideApp={false}
         style={instancePostCard}
       >
-        <Form
-          onFinish={instanceSumbit}
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 19 }}
-          className="w-full"
-          initialValues={topicDetail}
-        >
-          <FormTitle />
-          <FormDesc />
-          <FormImg file={file} />
-          <FormInterest tags={tags} />
-          <FormPoint />
-          <FormRangePicker />
-          <SubmitButtom InstanceModalClose={InstanceModalClose} />
-        </Form>
+        {!isLoading ? (
+          <Loading />
+        ) : (
+          <Form
+            onFinish={instanceSumbit}
+            labelCol={{ span: 4 }}
+            wrapperCol={{ span: 19 }}
+            className="w-full"
+          >
+            <FormTitle title={title} />
+            <FormDesc description={description} notice={notice} />
+            <FormImg file={file} />
+            <FormInterest tags={tags} />
+            <FormPoint point={point} />
+            <FormRangePicker />
+            <SubmitButtom InstanceModalClose={InstanceModalClose} />
+          </Form>
+        )}
       </Modal>
     </div>
   );
 };
 
-const FormTitle = () => {
+const FormTitle = ({ title }: { title: string | undefined }) => {
   return (
     <>
-      <Form.Item label="제목" name="title">
-        <Input disabled />
+      <Form.Item label="제목" name="title" initialValue={title}>
+        <Input />
       </Form.Item>
     </>
   );
 };
-const FormDesc = () => {
+const FormDesc = ({
+  description,
+  notice,
+}: {
+  description: string | undefined;
+  notice: string | undefined;
+}) => {
   return (
     <>
-      <Form.Item label="간단한 소개" name="description">
-        <Input.TextArea allowClear disabled showCount />
+      <Form.Item
+        label="간단한 소개"
+        name="description"
+        initialValue={description}
+      >
+        <Input.TextArea allowClear showCount />
       </Form.Item>
-      <Form.Item label="유의사항" name="notice">
-        <Input.TextArea allowClear disabled showCount />
+      <Form.Item label="유의사항" name="notice" initialValue={notice}>
+        <Input.TextArea allowClear showCount />
       </Form.Item>
     </>
   );
 };
-const FormImg = ({ file }: any) => {
+const FormImg = ({ file }: fileType) => {
+  const [visible, setVisible] = useState(false);
+
   const imageData = `data:image/png;base64,${file?.encodedFile}`;
+
   const normFile = (e: any) => {
     console.log("Upload event:", e);
     if (Array.isArray(e)) {
@@ -119,36 +168,53 @@ const FormImg = ({ file }: any) => {
     }
     return e && e.fileList;
   };
-
-  const props: UploadProps = {
+  const props = {
     name: "fileResponse",
+    beforeUpload: () => false,
   };
 
   return (
     <>
       <Form.Item
         name="fileResponse"
-        label="Upload"
+        label="토픽 이미지 수정"
         valuePropName="fileResponse"
         getValueFromEvent={normFile}
-        extra="이미지 미리보기"
+        initialValue={""}
       >
-        <Upload {...props} disabled>
+        <Upload {...props}>
           <div className="w-[5rem] h-[5rem]">
-            <Image src={imageData} alt="Uploaded" />
+            <Button icon={<UploadOutlined />}>사진을 선택해주세요</Button>
           </div>
         </Upload>
+      </Form.Item>
+      <Form.Item label="이미지 미리보기">
+        <Button type="dashed" onClick={() => setVisible(true)}>
+          이미지 미리보기
+        </Button>
+        <Image
+          width={200}
+          style={{ display: "none" }}
+          src={imageData}
+          preview={{
+            visible,
+            src: imageData,
+            onVisibleChange: (value) => {
+              setVisible(value);
+            },
+          }}
+        />
       </Form.Item>
     </>
   );
 };
 
-const FormInterest = ({ tags }: { tags?: string }) => {
+const FormInterest = ({ tags }: { tags: string | undefined }) => {
   const tagArr = tags?.split(",");
 
   return (
     <>
-      <Form.Item name="tags" label="관심사 선택">
+      <Form.Item name="tags" label="관심사 선택" initialValue={tags}>
         <Select mode="multiple" disabled>
           {tagArr?.map((option: string, i: number) => (
             <Select.Option key={i} value={option}>
@@ -161,19 +227,11 @@ const FormInterest = ({ tags }: { tags?: string }) => {
   );
 };
 
-const FormPoint = () => {
-  const [componentDisabled, setComponentDisabled] = useState<boolean>(false);
+const FormPoint = ({ point }: { point: number | undefined }) => {
   return (
     <>
-      <Checkbox
-        checked={componentDisabled}
-        onChange={(e) => setComponentDisabled(e.target.checked)}
-        className="ml-48"
-      >
-        포인트 수정
-      </Checkbox>
-      <Form.Item label="포인트" name="pointPerPerson">
-        <Input disabled={!componentDisabled} />
+      <Form.Item label="포인트" name="pointPerPerson" initialValue={point}>
+        <Input />
       </Form.Item>
     </>
   );
@@ -183,13 +241,17 @@ const FormRangePicker = () => {
 
   return (
     <>
-      <Form.Item name="range" label="RangePicker">
+      <Form.Item name="ranger" label="RangePicker">
         <RangePicker format="YYYY-MM-DD" />
       </Form.Item>
     </>
   );
 };
-const SubmitButtom = ({ InstanceModalClose }: any) => {
+const SubmitButtom = ({
+  InstanceModalClose,
+}: {
+  InstanceModalClose: () => void;
+}) => {
   return (
     <>
       <div className="flex justify-center gap-32">

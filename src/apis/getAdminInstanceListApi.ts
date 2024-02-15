@@ -1,9 +1,11 @@
+import { instanceListDataType } from "@/components/Admin/AdminInstance/InstanceListComponent/InstanceListComponent";
+
 import axios from "axios";
 
 type adminInstanceListApiType = {
-  setInstanceList: any;
+  setInstanceList: React.Dispatch<React.SetStateAction<instanceListDataType[]>>;
   setTotalNumber?: React.Dispatch<React.SetStateAction<number>>;
-  pageNumber: number;
+  pageNumber?: number;
 };
 
 const getAdminInstanceListApi = async ({
@@ -16,11 +18,11 @@ const getAdminInstanceListApi = async ({
       withCredentials: true,
     })
     .then((res) => {
-      const data = res.data.data;
-      console.log("res", res);
-      setInstanceList(data.content);
+      const listData = res.data.data;
+      console.log("인스턴스 리스트", listData);
+      setInstanceList(listData.content);
       if (setTotalNumber) {
-        setTotalNumber(data.totalElements);
+        setTotalNumber(listData.totalElements);
       }
     })
     .catch((err) => {

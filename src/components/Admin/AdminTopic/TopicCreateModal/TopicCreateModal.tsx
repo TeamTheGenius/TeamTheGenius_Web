@@ -1,6 +1,6 @@
 import postAdminTopicApi from "@/apis/postAdminTopicApi";
-import { adminTopicDataType } from "@/pages/Admin/AdminTopic/AdminTopic";
-
+import Loading from "@/components/common/Loading/Loading";
+import { adminTopicDataType } from "@/pages/Admin/adminType";
 import { adminmodalCard } from "@/utils/modalCard";
 import { UploadOutlined } from "@ant-design/icons";
 import {
@@ -12,7 +12,7 @@ import {
   UploadProps,
   message,
 } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "react-modal";
 
 type TopicModalType = {
@@ -43,11 +43,13 @@ const TopicCreateModal = ({
   setModalIsOpen,
   setAdminList,
 }: TopicModalType) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const TopicModalClose = () => {
     setModalIsOpen(false);
   };
 
   const topicSubmit = (values: FormDataType) => {
+    console.log("v", values);
     const tagString = values.tags.join();
     postAdminTopicApi({
       setAdminList: setAdminList,
@@ -60,6 +62,9 @@ const TopicCreateModal = ({
       topicPoint: values.pointPerPerson,
     });
   };
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
   return (
     <div>
       <Modal
@@ -70,19 +75,23 @@ const TopicCreateModal = ({
         ariaHideApp={false}
         style={adminmodalCard}
       >
-        <Form
-          onFinish={topicSubmit}
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 19 }}
-          className="w-full"
-        >
-          <FormTitle />
-          <FormDesc />
-          <FormImg />
-          <FormInterest />
-          <FormPoint />
-          <SubmitButtom TopicModalClose={TopicModalClose} />
-        </Form>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <Form
+            onFinish={topicSubmit}
+            labelCol={{ span: 4 }}
+            wrapperCol={{ span: 19 }}
+            className="w-full"
+          >
+            <FormTitle />
+            <FormDesc />
+            <FormImg />
+            <FormInterest />
+            <FormPoint />
+            <SubmitButtom TopicModalClose={TopicModalClose} />
+          </Form>
+        )}
       </Modal>
     </div>
   );
@@ -113,10 +122,11 @@ const FormDesc = () => {
   const [simpleInfo, setSimpleInfo] = useState("");
   const [notice, setTopicNotice] = useState("");
 
-  const simpleInfoChange = (e: any) => {
+  const simpleInfoChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setSimpleInfo(e.target.value);
   };
-  const noticeChange = (e: any) => {
+
+  const noticeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTopicNotice(e.target.value);
   };
 

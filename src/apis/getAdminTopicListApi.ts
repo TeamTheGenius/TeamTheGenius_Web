@@ -17,11 +17,11 @@ const getAdminTopicListApi = async ({
       withCredentials: true,
     })
     .then((res) => {
-      const data = res.data.data;
+      const list = res.data.data;
       console.log("res", res);
-      setAdminList(data.content);
+      setAdminList(list.content);
       if (setTotalNumber) {
-        setTotalNumber(data.totalElements);
+        setTotalNumber(list.totalElements);
       }
     })
     .catch((err) => {

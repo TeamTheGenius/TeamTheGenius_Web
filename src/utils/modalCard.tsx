@@ -31,6 +31,23 @@ export const adminmodalCard = {
     alignItems: "center",
   },
 };
+export const admimodalEditCard = {
+  overlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  content: {
+    width: "40%",
+    height: "800px",
+    margin: "auto",
+    border: "1px solid #ccc",
+    background: "#fff",
+    borderRadius: "12px",
+    outline: "none",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+};
 export const instancePostCard = {
   overlay: {
     backgroundColor: "rgba(0, 0, 0, 0.5)",

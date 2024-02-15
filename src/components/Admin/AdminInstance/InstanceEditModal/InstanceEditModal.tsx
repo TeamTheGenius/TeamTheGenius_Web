@@ -1,17 +1,45 @@
 import { adminmodalCard } from "@/utils/modalCard";
-import { Button, DatePicker, Form, Input } from "antd";
+import { Button, Form, Image, Input, Upload, UploadProps } from "antd";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { UploadOutlined } from "@ant-design/icons";
 import Modal from "react-modal";
-import { instanceDeteilType } from "../InstanceListComponent/InstanceListComponent";
+
 import moment from "moment";
 import getAdminDetailInstanceApi from "@/apis/getAdminDetailInstanceApi";
 import patchAdminInstanceEditApi from "@/apis/patchAdminInstanceEditApi";
+
+import {
+  fileType,
+  instanceDeteilType,
+  instanceListDataType,
+} from "@/pages/Admin/adminType";
+import Loading from "@/components/common/Loading/Loading";
 
 type InstanceEditModalType = {
   setinstanceEditModalIsOpen: Dispatch<SetStateAction<boolean>>;
   instanceEditModalIsOpen: boolean;
   instanceDetail?: instanceDeteilType;
   instanceNumber: number;
+  setInstanceList: Dispatch<SetStateAction<instanceListDataType[]>>;
+};
+type InstanceEditData = {
+  topicId: number;
+  instanceId: number;
+  title: string;
+  description: string;
+  pointPerPerson: number;
+  tags: string;
+  notice: string;
+  startedAt: string;
+  completedAt: string;
+  ranger: {
+    _d: string;
+  }[];
+  fileResponse: {
+    fileId: number;
+    encodedFile: string;
+    originFileObj: any;
+  }[];
 };
 
 const InstanceEditModal = ({
@@ -19,20 +47,20 @@ const InstanceEditModal = ({
   instanceEditModalIsOpen,
   instanceDetail,
   instanceNumber,
+  setInstanceList,
 }: InstanceEditModalType) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const InstanceEditModalClose = () => {
     setinstanceEditModalIsOpen(false);
   };
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const instanceSumbit = (values: any) => {
-    console.log("values", instanceDetail);
+  const instanceSumbit = (values: InstanceEditData) => {
     const startedAt = moment(values.ranger[0]._d).format("YYYY-MM-DDTHH:mm:ss");
-    console.log("st", startedAt);
     const completedAt = moment(values.completedAt).format(
       "YYYY-MM-DDTHH:mm:ss"
     );
-    patchAdminInstanceEditApi({
+    let instanceData = {
+      setInstanceList: setInstanceList,
       instanceId: instanceNumber,
       topicIdId: values.topicId,
       instanceTitle: values.title,
@@ -41,13 +69,21 @@ const InstanceEditModal = ({
       instancePoint: values.pointPerPerson,
       instanceStartAt: startedAt,
       instanceCompletedAt: completedAt,
-    });
+      instanceImg: values.fileResponse[0]?.originFileObj,
+      setinstanceEditModalIsOpen: setinstanceEditModalIsOpen,
+    };
+    if (values.fileResponse) {
+      instanceData.instanceImg = values.fileResponse[0]?.originFileObj;
+    }
+    patchAdminInstanceEditApi(instanceData);
   };
+  const file = instanceDetail?.fileResponse;
 
   useEffect(() => {
     const getAdminDetailInstance = async () => {
       await getAdminDetailInstanceApi({
         instanceId: instanceNumber,
+        setInstanceList: setInstanceList,
       });
       setIsLoading(false);
     };
@@ -63,7 +99,7 @@ const InstanceEditModal = ({
       style={adminmodalCard}
     >
       {isLoading ? (
-        <div>Loading...</div>
+        <Loading />
       ) : (
         <Form
           onFinish={instanceSumbit}
@@ -73,6 +109,7 @@ const InstanceEditModal = ({
           className="w-full"
         >
           <FormDesc />
+          <FormImg file={file} />
           <FormPoint />
           <FormRangePicker instanceDetail={instanceDetail} />
           <SubmitButtom InstanceModalClose={InstanceEditModalClose} />
@@ -93,7 +130,59 @@ const FormDesc = () => {
     </>
   );
 };
+const FormImg = ({ file }: fileType) => {
+  const [visible, setVisible] = useState(false);
 
+  const imageData = `data:image/png;base64,${file?.encodedFile}`;
+
+  const normFile = (e: any) => {
+    console.log("Upload event:", e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e?.fileList;
+  };
+  const props: UploadProps = {
+    name: "fileResponse",
+    beforeUpload: () => {
+      return false;
+    },
+  };
+  return (
+    <>
+      <Form.Item
+        name="fileResponse"
+        label="인스턴스 이미지 수정"
+        valuePropName="fileResponse"
+        getValueFromEvent={normFile}
+        initialValue={""}
+      >
+        <Upload {...props}>
+          <div className="w-[5rem] h-[5rem]">
+            <Button icon={<UploadOutlined />}>사진을 선택해주세요</Button>
+          </div>
+        </Upload>
+      </Form.Item>
+      <Form.Item label="이미지 미리보기">
+        <Button type="dashed" onClick={() => setVisible(true)}>
+          이미지 미리보기
+        </Button>
+        <Image
+          width={200}
+          style={{ display: "none" }}
+          src={imageData}
+          preview={{
+            visible,
+            src: imageData,
+            onVisibleChange: (value) => {
+              setVisible(value);
+            },
+          }}
+        />
+      </Form.Item>
+    </>
+  );
+};
 const FormPoint = () => {
   return (
     <>
@@ -103,11 +192,13 @@ const FormPoint = () => {
     </>
   );
 };
-const FormRangePicker = ({ instanceDetail }: any) => {
-  const { RangePicker } = DatePicker;
-
-  const startedAt = moment(instanceDetail.startedAt).format("YYYY-MM-DD");
-  const completedAt = moment(instanceDetail.completedAt).format("YYYY-MM-DD");
+const FormRangePicker = ({
+  instanceDetail,
+}: {
+  instanceDetail: instanceDeteilType | undefined;
+}) => {
+  const startedAt = moment(instanceDetail?.startedAt).format("YYYY-MM-DD");
+  const completedAt = moment(instanceDetail?.completedAt).format("YYYY-MM-DD");
 
   const initialValues = {
     ranger: [moment(startedAt), moment(completedAt)],
@@ -124,14 +215,16 @@ const FormRangePicker = ({ instanceDetail }: any) => {
           <span>{startedAt}</span>
           <span>{completedAt}</span>
         </div>
-        <RangePicker format="YYYY-MM-DD" className="flex" />
-        <span>입력하지 않으면 기본 정보가 들어갑니다.</span>
       </Form.Item>
     </>
   );
 };
 
-const SubmitButtom = ({ InstanceModalClose }: any) => {
+const SubmitButtom = ({
+  InstanceModalClose,
+}: {
+  InstanceModalClose: () => void;
+}) => {
   return (
     <>
       <div className="flex justify-center gap-32">

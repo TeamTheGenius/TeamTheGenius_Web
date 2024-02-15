@@ -1,5 +1,7 @@
+import { instanceListDataType } from "@/components/Admin/AdminInstance/InstanceListComponent/InstanceListComponent";
 import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
+import getAdminInstanceListApi from "./getAdminInstanceListApi";
 
 type instanceCreateApiType = {
   instanceTitle: string;
@@ -11,6 +13,8 @@ type instanceCreateApiType = {
   instanceRangeEnd: string;
   topicId: number;
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
+  instanceImg?: any | undefined;
+  setInstanceList: Dispatch<SetStateAction<instanceListDataType[]>>;
 };
 
 const postAdminInstanceApi = async ({
@@ -23,6 +27,8 @@ const postAdminInstanceApi = async ({
   instanceRangeEnd,
   topicId,
   setModalIsOpen,
+  instanceImg,
+  setInstanceList,
 }: instanceCreateApiType) => {
   const body = {
     topicId: topicId,
@@ -34,12 +40,15 @@ const postAdminInstanceApi = async ({
     startedAt: instanceRangeStart,
     completedAt: instanceRangeEnd,
   };
-
+  console.log("instanceImg", instanceImg);
   const formData = new FormData();
   formData.append(
     "data",
     new Blob([JSON.stringify(body)], { type: "application/json" })
   );
+  if (instanceImg) {
+    formData.append("files", instanceImg);
+  }
   formData.append("type", "instance");
 
   await axios
@@ -51,6 +60,7 @@ const postAdminInstanceApi = async ({
     })
     .then((res) => {
       console.log("응답:", res);
+      getAdminInstanceListApi({ setInstanceList });
       setModalIsOpen(false);
     })
     .catch((err) => {

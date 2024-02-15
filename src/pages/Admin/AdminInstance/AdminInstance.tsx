@@ -6,17 +6,14 @@ import Title from "@/components/Admin/Title/Title";
 import { Pagination } from "antd";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { topicDeteilType } from "@/components/Admin/AdminTopic/TopicListComponent/TopicListComponent";
 import getAdminInstanceListApi from "@/apis/getAdminInstanceListApi";
+import { instanceListDataType, topicDeteilType } from "../adminType";
 
 const AdminInstance = () => {
   const [instanceModalIsOpen, setInstanceModalIsOpen] =
     useState<boolean>(false);
-  const [instanceEditModalData, setInstanceEditModalData] = useState();
-  const [instanceList, setInstanceList] = useState([]);
-  const [instanceDetail, setInstanceDetail] = useState();
+  const [instanceList, setInstanceList] = useState<instanceListDataType[]>([]);
   const [topicDetail, setTopicDetail] = useState<topicDeteilType>();
-  const [instanceDetailNumber, setInstanceDetailNumber] = useState<number>();
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [totalNumber, setTotalNumber] = useState<number>(0);
   const location = useLocation();
@@ -29,7 +26,6 @@ const AdminInstance = () => {
     });
   };
   const topicId = location.state.topicId;
-  console.log("instanceList", instanceList);
   useEffect(() => {
     getAdminDetailTopicApi({
       topicId: topicId,
@@ -41,6 +37,7 @@ const AdminInstance = () => {
       setTotalNumber,
     });
   }, []);
+
   return (
     <>
       <header className="w-full h-[145px]"></header>
@@ -49,6 +46,8 @@ const AdminInstance = () => {
           <Title title={"인스턴스 페이지"} />
           <CreateBtn setModal={setInstanceModalIsOpen} />
           <InstanceListComponent
+            pageNumber={pageNumber}
+            setInstanceList={setInstanceList}
             instanceList={instanceList}
             topicDetail={topicDetail}
           />
@@ -63,6 +62,7 @@ const AdminInstance = () => {
       </section>
       {instanceModalIsOpen && (
         <InstanceCreateModal
+          setInstanceList={setInstanceList}
           setModalIsOpen={setInstanceModalIsOpen}
           ModalIsOpen={instanceModalIsOpen}
           topicDetail={topicDetail}

@@ -1,4 +1,7 @@
+import { instanceListDataType } from "@/components/Admin/AdminInstance/InstanceListComponent/InstanceListComponent";
 import axios from "axios";
+import { Dispatch, SetStateAction } from "react";
+import getAdminInstanceListApi from "./getAdminInstanceListApi";
 
 type editInstacneType = {
   topicIdId: number;
@@ -9,6 +12,9 @@ type editInstacneType = {
   instanceStartAt: string;
   instanceTitle: string;
   instanceCompletedAt: string;
+  instanceImg?: any;
+  setinstanceEditModalIsOpen: Dispatch<SetStateAction<boolean>>;
+  setInstanceList: Dispatch<SetStateAction<instanceListDataType[]>>;
 };
 
 const patchAdminInstanceEditApi = async ({
@@ -20,6 +26,9 @@ const patchAdminInstanceEditApi = async ({
   instancePoint,
   instanceStartAt,
   instanceCompletedAt,
+  instanceImg,
+  setinstanceEditModalIsOpen,
+  setInstanceList,
 }: editInstacneType) => {
   const body = {
     topicIdId: topicIdId,
@@ -35,6 +44,9 @@ const patchAdminInstanceEditApi = async ({
     "data",
     new Blob([JSON.stringify(body)], { type: "application/json" })
   );
+  if (instanceImg) {
+    formData.append("files", instanceImg);
+  }
   formData.append("type", "instance");
   await axios
     .patch(`http://localhost:8080/api/admin/instance/${instanceId}`, formData, {
@@ -44,7 +56,8 @@ const patchAdminInstanceEditApi = async ({
       },
     })
     .then((res) => {
-      console.log("수정응답:", res);
+      setinstanceEditModalIsOpen(false);
+      getAdminInstanceListApi({ setInstanceList });
     })
     .catch((err) => {
       alert("수정 실패");

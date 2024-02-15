@@ -1,5 +1,5 @@
 import MobCard from "@/components/Common/MobCard";
-import "@/components/Common/Loding/loading.css";
+import "@/components/Common/Loading/loading.css";
 import loading from "@/assets/icon/loading.png";
 function Loading() {
   return (

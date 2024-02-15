@@ -1,20 +1,6 @@
-import { uploadDataType } from "@/components/Admin/AdminTopic/TopicEditModal/TopicEditModal";
 import axios, { AxiosResponse } from "axios";
 import getAdminTopicListApi from "./getAdminTopicListApi";
-import { adminTopicDataType } from "@/pages/Admin/AdminTopic/AdminTopic";
-
-type adminTopicEditApiType = {
-  topicTitle: string;
-  topicDesc: string;
-  topicNotice: string;
-  topicTags: string;
-  topicPoint: number;
-  topicFile: uploadDataType;
-  topicId?: number;
-  setTopicEditModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setAdminList: React.Dispatch<React.SetStateAction<adminTopicDataType[]>>;
-  pageNumber: number;
-};
+import { adminTopicEditApiType } from "@/pages/Admin/adminType";
 
 const patchAdminTopicEditApi = async ({
   topicId,
@@ -28,8 +14,6 @@ const patchAdminTopicEditApi = async ({
   setAdminList,
   pageNumber,
 }: adminTopicEditApiType) => {
-  const topicImg: any = topicFile[0].originFileObj;
-  console.log("topicDesc", topicDesc);
   const body = {
     title: topicTitle,
     description: topicDesc,
@@ -42,7 +26,9 @@ const patchAdminTopicEditApi = async ({
     "data",
     new Blob([JSON.stringify(body)], { type: "application/json" })
   );
-  formData.append("files", topicImg);
+  if (topicFile) {
+    formData.append("files", topicFile);
+  }
   formData.append("type", "topic");
 
   await axios
