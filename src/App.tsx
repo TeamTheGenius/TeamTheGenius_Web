@@ -22,10 +22,10 @@ import NewChallenge from "./pages/Home/NewChallenge/NewChallenge";
 import SuggestionChallenge from "./pages/Home/SuggestionChallenge/SuggestionChallenge";
 import Search from "./pages/Home/Search/Search";
 import MyPage from "./pages/MyPage/MyPage/MyPage";
-import ProfileSetting from "./pages/MyPage/ProfileSetting/ProfileSetting";
 import Certification from "./pages/Certification/Certification/Certification";
 import MyCurrentCertification from "./pages/Certification/MyCurrentCertification/MyCurrentCertification";
 import OthersCurrentCertification from "./pages/Certification/OthersCurrentCertification/OthersCurrentCertification";
+import SettingMenu from "./pages/MyPage/SettingMenu/SettingMenu";
 
 function App() {
   const queryClient = new QueryClient();
@@ -46,10 +46,7 @@ function App() {
               path={PATH.MY_PAGE_INTEREST_CHALLENGE}
               element={<InterestChallenge />}
             />
-            <Route
-              path={PATH.MY_PAGE_PROFILE_SETTING}
-              element={<ProfileSetting />}
-            />
+            <Route path={PATH.MY_PAGE_SETTING_MENU} element={<SettingMenu />} />
             <Route path={PATH.HOME} element={<Home />} />
             <Route
               path={PATH.POPULAR_CHALLENGE}
