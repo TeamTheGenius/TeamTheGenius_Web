@@ -2,8 +2,9 @@ import React, { useRef, useState, MouseEvent } from "react";
 
 interface Props {
   children: React.ReactNode;
+  setClickPossible: React.Dispatch<React.SetStateAction<boolean>>;
 }
-function HorizontalScroll({ children }: Props) {
+function HorizontalScroll({ children, setClickPossible }: Props) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState<number | undefined>();
@@ -24,8 +25,11 @@ function HorizontalScroll({ children }: Props) {
     if (isDrag && scrollRef.current) {
       const { scrollWidth, clientWidth, scrollLeft } = scrollRef.current;
 
-      if (scrollRef.current) {
-        scrollRef.current.scrollLeft = (startX || 0) - e.pageX;
+      if (scrollRef.current && startX != undefined) {
+        if (Math.abs(startX - e.pageX) > 5) {
+          setClickPossible(false);
+          scrollRef.current.scrollLeft = (startX || 0) - e.pageX;
+        }
 
         if (scrollLeft === 0) {
           setStartX(e.pageX);

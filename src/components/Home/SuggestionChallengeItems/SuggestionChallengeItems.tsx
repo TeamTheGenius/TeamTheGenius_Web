@@ -9,8 +9,10 @@ import getRecommendedChallenge from "@/apis/getRecommendedChallenge";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "@/components/Common/Loding/Loading";
 import Error from "@/components/Error/ErrorHeader/ErrorHeader";
+import { useState } from "react";
 
 function SuggestionChallengeItems() {
+  const [clickPossible, setClickPossible] = useState<boolean>(true);
   /*
   useEffect(() => {
     getRecommendedChallenge({ page: 0, size: 7 });
@@ -23,8 +25,13 @@ function SuggestionChallengeItems() {
     queryFn: () => getRecommendedChallenge({ page: 0, size: 7 }),
   });
 
-  const onClick = (id: number) => {
-    navigate(`${PATH.CHALLENGE_DETAIL}/${id}`);
+  const onClick = (id: number, clickPossible: boolean) => {
+    if (clickPossible) {
+      navigate(`${PATH.CHALLENGE_DETAIL}/${id}`);
+    } else {
+      setClickPossible(true);
+      return;
+    }
   };
 
   return (
@@ -34,13 +41,16 @@ function SuggestionChallengeItems() {
         <MoreButton path={PATH.SUGGESTION_CHALLENGE} />
       </div>
 
-      <HorizontalScroll>
+      <HorizontalScroll setClickPossible={setClickPossible}>
         <div className="max-w-[18.8rem] flex gap-[2.2rem]">
           {allChallengeData.map(
             (item, index) =>
               index < 7 && (
                 <div key={index} className="my-[0.4rem] ">
-                  <ChallengeItem key={index} onClick={() => onClick(item.id)}>
+                  <ChallengeItem
+                    key={index}
+                    onClick={() => onClick(item.id, clickPossible)}
+                  >
                     <ChallengeItem.Image
                       imgSrc={item.imgSrc}
                       alt={item.alt}
