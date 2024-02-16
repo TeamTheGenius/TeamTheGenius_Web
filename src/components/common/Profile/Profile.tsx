@@ -5,13 +5,24 @@ interface ProfileProps {
 }
 
 interface ImageProps {
-  imgSrc: string;
-  alt: string;
+  width: string;
 }
 
-function Image() {
+interface GithubIdProps {
+  textColor: string;
+  textSize: string;
+  smTextSize?: string;
+}
+
+interface NickNameProps {
+  textColor: string;
+  textSize: string;
+  smTextSize?: string;
+}
+
+function Image({ width }: ImageProps) {
   return (
-    <div className="w-[10.2rem]">
+    <div className={`${width} mb-[1.5rem]`}>
       <div className="relative w-full pb-[100%]">
         <img
           src={test}
@@ -23,18 +34,22 @@ function Image() {
   );
 }
 
-function GithubId() {
+function GithubId({ textSize, smTextSize, textColor }: GithubIdProps) {
   return (
-    <p className="text-black text-[1.8rem] _sm:text-[1.6rem] font-medium leading-_normal break-all">
-      gggggggggg
+    <p
+      className={`${textColor} mb-[0.4rem] ${textSize} ${smTextSize} font-medium leading-_normal break-all`}
+    >
+      SSung023
     </p>
   );
 }
 
-function NickName() {
+function NickName({ textSize, smTextSize, textColor }: NickNameProps) {
   return (
-    <p className="text-[#777] text-[1.6rem] _sm:text-[1.4rem] font-medium leading-_normal break-all">
-      dddddddd
+    <p
+      className={`${textColor} mb-[0.4rem] ${textSize} ${smTextSize} font-medium leading-_normal break-all`}
+    >
+      희연
     </p>
   );
 }
@@ -48,7 +63,9 @@ function ProfileMain({ children }: ProfileProps) {
 }
 
 function ProfileFlexColMain({ children }: ProfileProps) {
-  return <div className="flex flex-col">{children}</div>;
+  return (
+    <div className="flex flex-col items-center justify-center">{children}</div>
+  );
 }
 
 export const Profile = Object.assign(ProfileMain, {

@@ -19,7 +19,7 @@ function ThisWeekCertification() {
             {myCertificationResultData.map(
               (item, index) =>
                 index < 7 && (
-                  <div>
+                  <div key={index}>
                     <CertificationResult key={item.index}>
                       {item.result === "fail" && (
                         <>

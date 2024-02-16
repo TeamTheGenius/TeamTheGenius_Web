@@ -16,7 +16,6 @@ import Home from "./pages/Home/Home";
 import ChallengeDetail from "./pages/ChallengeDetail/ChallengeDetail";
 import Auth from "./pages/Auth/Auth";
 import InterestChallenge from "./pages/MyPage/InterestChallenge/InterestChallenge";
-import SignUp from "./pages/signUp/SignUp";
 import Error from "./pages/Error/Error";
 import PopularChallenge from "./pages/Home/PopularChallenge/PopularChallenge";
 import NewChallenge from "./pages/Home/NewChallenge/NewChallenge";
@@ -27,6 +26,8 @@ import Certification from "./pages/Certification/Certification/Certification";
 import MyCurrentCertification from "./pages/Certification/MyCurrentCertification/MyCurrentCertification";
 import OthersCurrentCertification from "./pages/Certification/OthersCurrentCertification/OthersCurrentCertification";
 import SettingMenu from "./pages/MyPage/SettingMenu/SettingMenu";
+import SignUp from "./pages/SignUp/SignUp";
+import MyAllCurrentCertification from "./pages/Certification/MyAllCurrentCertification/MyAllCurrentCertification";
 
 function App() {
   const queryClient = new QueryClient();
@@ -70,6 +71,10 @@ function App() {
               element={<OthersCurrentCertification />}
             />
           </Route>
+          <Route
+            path={PATH.CERTIFICATION_MY_ALL_CURRENT}
+            element={<MyAllCurrentCertification />}
+          />
           <Route
             path={PATH.CHALLENGE_DETAIL_ID}
             element={<ChallengeDetail />}

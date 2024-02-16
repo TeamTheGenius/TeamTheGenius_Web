@@ -28,6 +28,7 @@ export const PATH = {
   CERTIFICATION: "/certification",
   CERTIFICATION_ID: "/certification/:id",
   CERTIFICATION_MY_CURRENT: "/certification/:id/my-current",
+  CERTIFICATION_MY_ALL_CURRENT: "/certification/:id/my-all-current",
   CERTIFICATION_OTHERS_CURRENT: "/certification/:id/others-current",
 
   ADMIN: "/admin",
