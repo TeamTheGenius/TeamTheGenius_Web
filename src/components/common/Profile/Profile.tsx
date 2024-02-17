@@ -1,4 +1,4 @@
-import test from "@/assets/image/hero.webp";
+import test from "@/assets/image/google-logo.png";
 
 interface ProfileProps {
   children: React.ReactNode;
@@ -6,27 +6,31 @@ interface ProfileProps {
 
 interface ImageProps {
   width: string;
+  imgSrc: string;
+  alt: string;
 }
 
 interface GithubIdProps {
   textColor: string;
   textSize: string;
   smTextSize?: string;
+  content: string;
 }
 
 interface NickNameProps {
   textColor: string;
   textSize: string;
   smTextSize?: string;
+  content: string;
 }
 
-function Image({ width }: ImageProps) {
+function Image({ width, imgSrc, alt }: ImageProps) {
   return (
-    <div className={`${width} mb-[1.5rem]`}>
+    <div className={`${width}`}>
       <div className="relative w-full pb-[100%]">
         <img
-          src={test}
-          alt="테스트"
+          src={imgSrc}
+          alt={alt}
           className="w-full h-full absolute top-0 left-0 rounded-full"
         />
       </div>
@@ -34,22 +38,22 @@ function Image({ width }: ImageProps) {
   );
 }
 
-function GithubId({ textSize, smTextSize, textColor }: GithubIdProps) {
+function GithubId({ content, textSize, smTextSize, textColor }: GithubIdProps) {
   return (
     <p
-      className={`${textColor} mb-[0.4rem] ${textSize} ${smTextSize} font-medium leading-_normal break-all`}
+      className={`${textColor}  ${textSize} ${smTextSize} font-medium leading-_normal break-all`}
     >
-      SSung023
+      {content}
     </p>
   );
 }
 
-function NickName({ textSize, smTextSize, textColor }: NickNameProps) {
+function NickName({ content, textSize, smTextSize, textColor }: NickNameProps) {
   return (
     <p
-      className={`${textColor} mb-[0.4rem] ${textSize} ${smTextSize} font-medium leading-_normal break-all`}
+      className={`${textColor}  ${textSize} ${smTextSize} font-medium leading-_normal break-all`}
     >
-      희연
+      {content}
     </p>
   );
 }
