@@ -9,7 +9,7 @@ function MyAllCurrentCertification() {
     <MobCard>
       <Header content="나의 인증 현황" />
       <div className="py-[6rem] px-[2.2rem]">
-        <div className="mt-[2.6rem]">
+        <div className="mt-[3.4rem] _sm:mt-[1.8rem]">
           <MyProfile
             imgSrc={test}
             alt="프로필 이미지"

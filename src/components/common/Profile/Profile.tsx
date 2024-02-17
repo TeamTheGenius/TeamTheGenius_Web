@@ -1,5 +1,3 @@
-import test from "@/assets/image/google-logo.png";
-
 interface ProfileProps {
   children: React.ReactNode;
 }

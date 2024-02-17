@@ -2,12 +2,12 @@ import OthersAllCertificationLinkButton from "@/components/Certification/OthersC
 import OthersProfile from "@/components/Certification/OthersCurrentCertification/OthersProfile/OthersProfile";
 import ThisWeekCertification from "@/components/Certification/OthersCurrentCertification/ThisWeekCertification/ThisWeekCertification";
 import Line from "@/components/Common/Line/Line";
-import { othersCertificationResultData } from "@/data/othersCertificationResultData";
+import { othersAllCertificationData } from "@/data/othersCertificationResultData";
 
 function OthersCurrentCertification() {
   return (
     <div className="mt-[3.8rem] _sm:mt-[2.4rem] flex flex-col gap-[3rem] justify-center items-center px-[2.2rem] pb-[2.2rem]">
-      {othersCertificationResultData.map((item, index) => (
+      {othersAllCertificationData.map((item, index) => (
         <div
           key={index}
           className="flex flex-col gap-[2.4rem] w-full max-w-[48.5rem] _sm:max-w-[36rem] "
@@ -19,12 +19,11 @@ function OthersCurrentCertification() {
                 alt="프로필 이미지"
                 nickName={item.nickName}
               />
-              <OthersAllCertificationLinkButton />
+              <OthersAllCertificationLinkButton othersId={item.id} />
             </div>
-
-            <ThisWeekCertification />
+            <ThisWeekCertification data={item.certificationInfo} />
           </div>
-          {index != othersCertificationResultData.length - 1 && <Line />}
+          {index != othersAllCertificationData.length - 1 && <Line />}
         </div>
       ))}
     </div>
