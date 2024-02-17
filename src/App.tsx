@@ -28,6 +28,7 @@ import OthersCurrentCertification from "./pages/Certification/OthersCurrentCerti
 import SettingMenu from "./pages/MyPage/SettingMenu/SettingMenu";
 import SignUp from "./pages/SignUp/SignUp";
 import MyAllCurrentCertification from "./pages/Certification/MyAllCurrentCertification/MyAllCurrentCertification";
+import OthersAllCurrentCertification from "./pages/Certification/OthersAllCurrentCertification/OthersAllCurrentCertification";
 
 function App() {
   const queryClient = new QueryClient();
@@ -74,6 +75,10 @@ function App() {
           <Route
             path={PATH.CERTIFICATION_MY_ALL_CURRENT}
             element={<MyAllCurrentCertification />}
+          />
+          <Route
+            path={PATH.CERTIFICATION_OTHERS_ALL_CURRENT}
+            element={<OthersAllCurrentCertification />}
           />
           <Route
             path={PATH.CHALLENGE_DETAIL_ID}
