@@ -15,11 +15,11 @@ function ThisWeekCertification() {
       </div>
       <div className=" mt-[2.3rem] pb-[5rem]">
         <HorizontalScroll setClickPossible={setClickPossible}>
-          <div className="pl-[2.5rem] _sm:pl-[0.4rem] max-w-[5rem] _sm:max-w-[4rem] flex gap-[2rem] _sm:gap-[1rem] pb-[1rem]">
+          <div className="pl-[2.5rem] _sm:pl-[0.4rem] max-w-[5rem] _sm:max-w-[4rem] flex gap-[1.2rem] _sm:gap-[0.2rem] pb-[0.6rem]">
             {myCertificationResultData.map(
               (item, index) =>
                 index < 7 && (
-                  <div key={index}>
+                  <div key={index} className="pl-[0.4rem] pr-[0.4rem]">
                     <CertificationResult key={item.index}>
                       {item.result === "fail" && (
                         <>

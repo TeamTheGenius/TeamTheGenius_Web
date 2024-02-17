@@ -30,6 +30,8 @@ export const PATH = {
   CERTIFICATION_MY_CURRENT: "/certification/:id/my-current",
   CERTIFICATION_MY_ALL_CURRENT: "/certification/:id/my-all-current",
   CERTIFICATION_OTHERS_CURRENT: "/certification/:id/others-current",
+  CERTIFICATION_OTHERS_ALL_CURRENT:
+    "/certification/:id/others-current/:others-id",
 
   ADMIN: "/admin",
   ADMIN_INSTANCE: "/admin/instance",
