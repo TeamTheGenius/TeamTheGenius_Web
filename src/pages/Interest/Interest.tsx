@@ -1,20 +1,17 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
-import interestsData from "./interests.json";
+
 import LoginMobCard from "@/components/Common/LoginMobCard";
 import Button from "@/components/Common/Button";
 import InterestCheck from "@/components/Interest/InterestCheck/InterestCheck";
 import InterestHeader from "@/components/Interest/InterestHeader/InterestHeader";
 import signUpApi from "@/apis/postSignUpApi";
+import { interestsData } from "@/data/InterestData";
 
 type Interest = {
   id: number;
   name: string;
-};
-
-type InterestsData = {
-  interests: Interest[];
 };
 
 const Interest = () => {
@@ -25,7 +22,7 @@ const Interest = () => {
 
   const navigate = useNavigate();
 
-  const InterestValue: InterestsData = interestsData;
+  const InterestValue: Interest[] = interestsData;
 
   const handleSignUp = async () => {
     await signUpApi({
