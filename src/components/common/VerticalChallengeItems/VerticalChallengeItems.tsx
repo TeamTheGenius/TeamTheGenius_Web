@@ -1,14 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import ChallengeItem from "../ChallengeItem/ChallengeItem";
 import { PATH } from "@/constants/path";
+import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 
 interface ChallengeItemProps {
-  imgSrc: string;
-  alt: string;
-  numberOfParticipants: number;
+  instanceId: number;
   title: string;
-  id: number;
-  point: number;
+  participantCnt: number;
+  pointPerPerson: number;
+  fileResponse: {
+    encodedFile: string;
+  };
 }
 
 interface Props {
@@ -17,25 +19,28 @@ interface Props {
 
 function VerticalChallengeItems({ data }: Props) {
   const navigate = useNavigate();
-  const onClick = (id: number) => {
-    navigate(`${PATH.CHALLENGE_DETAIL}/${id}`);
+  const onClick = (instanceId: number) => {
+    navigate(`${PATH.CHALLENGE_DETAIL}/${instanceId}`);
   };
   return (
     <div className="w-full max-w-[72.2rem] grid grid-cols-4 gap-x-[2.2rem] gap-y-[0.3rem] _md:grid-cols-3 _sm:grid-cols-2">
       {data.map((item, index) => (
         <div key={index} className="my-[0.4rem] ">
-          <ChallengeItem key={index} onClick={() => onClick(item.id)}>
+          <ChallengeItem key={index} onClick={() => onClick(item.instanceId)}>
             <ChallengeItem.Image
-              imgSrc={item.imgSrc}
-              alt={item.alt}
+              imgSrc={makeBase64IncodedImage({
+                uri: item.fileResponse.encodedFile,
+                format: "jpg",
+              })}
               direction="vertical"
+              alt="챌린지 이미지"
             >
               <ChallengeItem.NumberOfParticipant
-                numberOfParticipants={item.numberOfParticipants}
+                numberOfParticipants={item.participantCnt}
               />
             </ChallengeItem.Image>
             <ChallengeItem.Title title={item.title} />
-            <ChallengeItem.Reward point={item.point} />
+            <ChallengeItem.Reward point={item.pointPerPerson} />
           </ChallengeItem>
         </div>
       ))}

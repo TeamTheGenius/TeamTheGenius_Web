@@ -1,16 +1,16 @@
 import axios from "axios";
 
 interface Params {
-  page: number;
+  pageParams: number;
   size: number;
 }
 
-const getRecommendedChallenge = async ({ page, size }: Params) => {
+const getRecommendedChallenge = async ({ pageParams, size }: Params) => {
   const data = await axios
     .get("http://localhost:8080/api/challenges/recommend", {
       withCredentials: true,
       params: {
-        page: page,
+        page: pageParams,
         size: size,
       },
       headers: {
@@ -18,10 +18,12 @@ const getRecommendedChallenge = async ({ page, size }: Params) => {
       },
     })
     .then((res) => {
-      console.log(res.data);
-      return res.data || {};
+      console.log(res.data.data.content);
+      const { content } = res.data.data;
+      const { last } = res.data.data;
+      return { posts: content, isLast: last } || {};
     });
-  return data.content || {};
+  return data || {};
 };
 
 export default getRecommendedChallenge;
