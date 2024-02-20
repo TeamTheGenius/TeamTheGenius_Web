@@ -25,6 +25,7 @@ export const PATH = {
   MY_PAGE_INTEREST_CHALLENGE: "/main/my-page/interest",
   MY_PAGE_SETTING_MENU: "/main/my-page/setting",
   MY_PAGE_INTEREST_EDIT: "/main/my-page/interestedit",
+  MY_PAGE_USERINFO_DIT: "/main/my-page/userinfoedit",
 
   CERTIFICATION: "/certification",
   CERTIFICATION_ID: "/certification/:id",

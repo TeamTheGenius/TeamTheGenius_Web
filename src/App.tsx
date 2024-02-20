@@ -30,6 +30,7 @@ import SignUp from "./pages/SignUp/SignUp";
 import MyAllCurrentCertification from "./pages/Certification/MyAllCurrentCertification/MyAllCurrentCertification";
 import OthersAllCurrentCertification from "./pages/Certification/OthersAllCurrentCertification/OthersAllCurrentCertification";
 import InterestEdit from "./pages/MyPage/InterestEdit/InterestEdit";
+import UserInfoEdit from "./pages/MyPage/UserInfoEdit/UserInfoEdit";
 
 function App() {
   const queryClient = new QueryClient();
@@ -54,6 +55,10 @@ function App() {
             <Route
               path={PATH.MY_PAGE_INTEREST_EDIT}
               element={<InterestEdit />}
+            />
+            <Route
+              path={PATH.MY_PAGE_USERINFO_DIT}
+              element={<UserInfoEdit />}
             />
             <Route path={PATH.HOME} element={<Home />} />
             <Route

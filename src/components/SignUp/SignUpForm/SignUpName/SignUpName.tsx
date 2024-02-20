@@ -5,7 +5,6 @@ import React, {
   Dispatch,
   FocusEvent,
   SetStateAction,
-  useEffect,
   useState,
 } from "react";
 import nickname_X from "@/assets/icon/nickname_X.svg";

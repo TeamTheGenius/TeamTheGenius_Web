@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FocusEvent } from "react";
+import React, { ChangeEvent, FocusEvent, useState } from "react";
 
 type SignUpInputProps = {
   label: string;
@@ -27,6 +27,14 @@ const SignUpDesc: React.FC<SignUpInputProps> = ({
   required,
   margin,
 }) => {
+  const [inputCount, setInputCount] = useState(0);
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
+    setInputCount(inputValue.length);
+    onChange(event);
+  };
+
   return (
     <li className={`flex flex-col ${margin}`}>
       <label htmlFor={id} className={`signUp-lable ${required} relative`}>
@@ -40,11 +48,19 @@ const SignUpDesc: React.FC<SignUpInputProps> = ({
         placeholder={placeholder}
         maxLength={maxLength}
         value={value}
-        onChange={onChange}
+        onChange={handleInputChange}
         onBlur={onBlur}
       />
-      {error && <div className="signUp-err">{error}</div>}
+
+      {error ? (
+        <div className="signUp-err">{error}</div>
+      ) : (
+        <span className="text-[#A8A8A8] text-[1.3rem] font-medium ml-auto">
+          {inputCount}/100
+        </span>
+      )}
     </li>
   );
 };
+
 export default SignUpDesc;
