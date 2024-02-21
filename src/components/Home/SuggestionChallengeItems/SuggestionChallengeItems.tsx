@@ -3,26 +3,32 @@ import MoreButton from "../MoreButton/MoreButton";
 import { PATH } from "@/constants/path";
 import HorizontalScroll from "../HorizontalScroll/HorizontalScroll";
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
-import { allChallengeData } from "@/data/allChallengeData";
 import { useNavigate } from "react-router-dom";
 import getRecommendedChallenge from "@/apis/getRecommendedChallenge";
 import { useQuery } from "@tanstack/react-query";
-import Loading from "@/components/common/Loading/Loading";
-import Error from "@/components/Error/ErrorHeader/ErrorHeader";
 import { useState } from "react";
+import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
+
+interface Post {
+  instanceId: number;
+  title: string;
+  participantCnt: number;
+  pointPerPerson: number;
+  fileResponse: {
+    encodedFile: string;
+  };
+}
+
+interface Data {
+  posts: Post[];
+}
 
 function SuggestionChallengeItems() {
   const [clickPossible, setClickPossible] = useState<boolean>(true);
-  /*
-  useEffect(() => {
-    getRecommendedChallenge({ page: 0, size: 7 });
-  }, []);
-  */
   const navigate = useNavigate();
-
-  const { isLoading, error, data, isFetching } = useQuery({
+  const { data } = useQuery<Data>({
     queryKey: ["recommendedChallenges"],
-    queryFn: () => getRecommendedChallenge({ page: 0, size: 7 }),
+    queryFn: () => getRecommendedChallenge({ pageParams: 0, size: 7 }),
   });
 
   const onClick = (id: number, clickPossible: boolean) => {
@@ -43,29 +49,32 @@ function SuggestionChallengeItems() {
 
       <HorizontalScroll setClickPossible={setClickPossible}>
         <div className="max-w-[18.8rem] flex gap-[2.2rem]">
-          {allChallengeData.map(
-            (item, index) =>
-              index < 7 && (
-                <div key={index} className="my-[0.4rem] ">
-                  <ChallengeItem
-                    key={index}
-                    onClick={() => onClick(item.id, clickPossible)}
-                  >
-                    <ChallengeItem.Image
-                      imgSrc={item.imgSrc}
-                      alt={item.alt}
-                      direction="horizontal"
+          {Array.isArray(data?.posts) &&
+            data.posts.map(
+              (item, index) =>
+                index < 7 && (
+                  <div key={index} className="my-[0.4rem] ">
+                    <ChallengeItem
+                      onClick={() => onClick(item.instanceId, clickPossible)}
                     >
-                      <ChallengeItem.NumberOfParticipant
-                        numberOfParticipants={item.numberOfParticipants}
-                      />
-                    </ChallengeItem.Image>
-                    <ChallengeItem.Title title={item.title} />
-                    <ChallengeItem.Reward point={item.point} />
-                  </ChallengeItem>
-                </div>
-              )
-          )}
+                      <ChallengeItem.Image
+                        imgSrc={makeBase64IncodedImage({
+                          uri: item.fileResponse.encodedFile,
+                          format: "jpg",
+                        })}
+                        alt="챌린지 사진"
+                        direction="horizontal"
+                      >
+                        <ChallengeItem.NumberOfParticipant
+                          numberOfParticipants={item.participantCnt}
+                        />
+                      </ChallengeItem.Image>
+                      <ChallengeItem.Title title={item.title} />
+                      <ChallengeItem.Reward point={item.pointPerPerson} />
+                    </ChallengeItem>
+                  </div>
+                )
+            )}
         </div>
       </HorizontalScroll>
     </div>
