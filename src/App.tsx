@@ -29,6 +29,7 @@ import SettingMenu from "./pages/MyPage/SettingMenu/SettingMenu";
 import SignUp from "./pages/SignUp/SignUp";
 import MyAllCurrentCertification from "./pages/Certification/MyAllCurrentCertification/MyAllCurrentCertification";
 import OthersAllCurrentCertification from "./pages/Certification/OthersAllCurrentCertification/OthersAllCurrentCertification";
+import GithubTokken from "./pages/MyPage/GithubToken/GithubToken";
 
 function App() {
   const queryClient = new QueryClient();
@@ -50,6 +51,10 @@ function App() {
               element={<InterestChallenge />}
             />
             <Route path={PATH.MY_PAGE_SETTING_MENU} element={<SettingMenu />} />
+            <Route
+              path={PATH.MY_PAGE_GITHUB_TOKEN}
+              element={<GithubTokken />}
+            />
             <Route path={PATH.HOME} element={<Home />} />
             <Route
               path={PATH.POPULAR_CHALLENGE}
