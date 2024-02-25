@@ -24,12 +24,10 @@ function CoreInformation({
           현재 {applicant}명
         </p>
       </div>
-      <p className="text-[1.6rem] font-normal">{period}</p>
-      {dDay && (
-        <p className="text-[1.2rem] font-normal text-[#FF2626]">
-          {dDay}일 후 시작
-        </p>
-      )}
+      <p className="text-[1.6rem] font-normal">{period} / 매일</p>
+      <p className="text-[1.2rem] font-normal text-[#FF2626]">
+        {dDay}일 후 시작
+      </p>
       <p className="text-[1.6rem] ">
         <span className="font-normal leading-_normal">완료 보상</span>{" "}
         <span className="font-medium leading-_normal">{point}P</span>
