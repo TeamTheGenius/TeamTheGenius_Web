@@ -5,22 +5,44 @@ import Image from "@/components/ChallengeDetail/Image/Image";
 import Information from "@/components/ChallengeDetail/Information/Information";
 import Line from "@/components/ChallengeDetail/Line/Line";
 import MobCard from "@/components/Common/MobCard";
-import { allChallengeData } from "@/data/allChallengeData";
 import { useState } from "react";
 import DynamicBackIcon from "@/components/Common/DynamicBackIcon/DynamicBackIcon";
+import getInstanceDetail from "@/apis/getInstanceDetail";
+import { useQuery } from "@tanstack/react-query";
+import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
+
+interface Data {
+  instanceId: number;
+  remainDays: number;
+  period: string;
+  participantCount: number;
+  pointPerPerson: number;
+  description: string;
+  notice: string;
+  certificationMethod: string;
+  joinStatus: string;
+  hitCount: number;
+  fileResponse: File;
+}
+
+interface File {
+  encodedFile: string;
+}
 
 function ChallengeDetail() {
   const [heartActive, setHeartActive] = useState<boolean>(false);
 
   const { id } = useParams();
 
-  const selectedChallenge = allChallengeData.find(
-    (challenge) => challenge.id.toString() === id
-  );
+  const { data } = useQuery<Data>({
+    queryKey: ["instanceDetail", { id }],
+    queryFn: () =>
+      id
+        ? getInstanceDetail({ instanceId: parseInt(id) })
+        : Promise.resolve(null),
+  });
 
-  if (!selectedChallenge) {
-    return;
-  }
+  if (!data) return;
 
   return (
     <MobCard>
@@ -31,25 +53,25 @@ function ChallengeDetail() {
       <div className="pb-[8rem] flex flex-col items-center">
         <div className="max-w-[54.6rem] w-full flex flex-col gap-[2.3rem]">
           <Image
-            imgSrc={selectedChallenge.imgSrc}
-            alt={selectedChallenge.alt}
+            imgSrc={makeBase64IncodedImage({
+              uri: data.fileResponse.encodedFile,
+              format: "jpg",
+            })}
+            alt={"챌린지 이미지"}
           />
           <CoreInformation
-            challengeTitle={selectedChallenge.title}
-            applicant={selectedChallenge.numberOfParticipants}
-            period={selectedChallenge.period}
-            dDay={selectedChallenge.dDay}
-            point={selectedChallenge.point}
+            challengeTitle={"title이 없다.."}
+            applicant={data.participantCount}
+            period={data.period}
+            dDay={data.remainDays}
+            point={data.pointPerPerson}
           />
           <Line />
-          <Information title="상세 정보" content="상세 정보 어쩌구" />
+          <Information title="상세 정보" content={data.description} />
           <Line />
-          <Information title="인증 방법" content="깃허브 커밋 ~ 어쩌고" />
+          <Information title="인증 방법" content={data.certificationMethod} />
           <Line />
-          <Information
-            title="유의 사항"
-            content="인증은 참가자에게만 공개됩니다. 00시 00분 ~ 23시 59분 사이에 인증 하셔야 합니다."
-          />
+          <Information title="유의 사항" content={data.notice} />
           <Line />
         </div>
 
@@ -58,7 +80,7 @@ function ChallengeDetail() {
             <Bottom.Heart
               heartActive={heartActive}
               setHeartActive={setHeartActive}
-              heartCount={13}
+              heartCount={data.hitCount}
             />
             <Bottom.Button />
           </Bottom>
