@@ -12,7 +12,7 @@ import {
   topicDeteilType,
   topicListType,
   uploadDataType,
-} from "@/pages/Admin/adminType";
+} from "@/types/adminType";
 
 type topicSubmitType = {
   tags: any;

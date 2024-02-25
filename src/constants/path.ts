@@ -34,6 +34,9 @@ export const PATH = {
   CERTIFICATION_OTHERS_ALL_CURRENT:
     "/certification/:id/others-current/:othersId",
 
+  // 임시 주손
+  GITHUB_PULLREQ: "/pullrequest",
+
   ADMIN: "/admin",
   ADMIN_INSTANCE: "/admin/instance",
   ADMIN_INSTANCE_ID: "/admin/instance/:id",

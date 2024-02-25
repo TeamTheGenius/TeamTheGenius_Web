@@ -30,6 +30,7 @@ import SignUp from "./pages/SignUp/SignUp";
 import MyAllCurrentCertification from "./pages/Certification/MyAllCurrentCertification/MyAllCurrentCertification";
 import OthersAllCurrentCertification from "./pages/Certification/OthersAllCurrentCertification/OthersAllCurrentCertification";
 import GithubTokken from "./pages/MyPage/GithubToken/GithubToken";
+import GitPullReqConnect from "./pages/GitPullReqConnect/GitPullReqConnect";
 
 function App() {
   const queryClient = new QueryClient();
@@ -89,6 +90,7 @@ function App() {
             path={PATH.CHALLENGE_DETAIL_ID}
             element={<ChallengeDetail />}
           />
+          <Route path={PATH.GITHUB_PULLREQ} element={<GitPullReqConnect />} />
           <Route path={PATH.ADMIN} element={<AdminTopic />} />
           <Route path={PATH.ADMIN_INSTANCE_ID} element={<AdminInstance />} />
         </Routes>

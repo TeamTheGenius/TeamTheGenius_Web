@@ -1,5 +1,5 @@
 import Header from "@/components/Common/Header/Header";
-import GithubTokenInput from "@/components/MyPage/GithubToken/GithubTokenInput";
+import GithubTokenInput from "@/components/GithubToken/GithubTokenInput";
 import { useState } from "react";
 import "@/pages/MyPage/GithubToken/githubTokenStyle.css";
 import Button from "@/components/Common/Button";

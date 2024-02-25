@@ -1,18 +1,8 @@
 import Button from "@/components/Common/Button";
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
-
-type GithubTokenInputType = {
-  label: string;
-  id: string;
-  name: string;
-  placeholder: string;
-  value: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  githubBoolean: boolean;
-  setGithubBoolean: Dispatch<SetStateAction<boolean>>;
-};
-
-const SignUpName = ({
+import { GithubTokenInputType } from "@/types/githubTokenType";
+import { ChangeEvent, useState } from "react";
+import checkIcon from "@/assets/icon/check-icon.svg";
+const GithubTokenInput = ({
   label,
   id,
   name,
@@ -37,8 +27,8 @@ const SignUpName = ({
   };
 
   return (
-    <div className={`flex flex-col w-5/6`}>
-      <div className="flex items-center">
+    <div className={`flex flex-col w-full`}>
+      <div className="flex items-center ml-[6.5rem] _md:ml-0 _sm:ml-0">
         <label
           htmlFor={id}
           className={`text-[1.8rem] font-bold relative mr-[1.2rem]`}
@@ -46,12 +36,11 @@ const SignUpName = ({
           {label}
         </label>
         <div>
-          <span className="text-[2rem]">✅</span>
-          {/* <span className="text-[2rem]">❌</span> */}
+          <img src={checkIcon} alt="signIcon" />
         </div>
       </div>
       <div className="flex items-end justify-center pt-[2.5rem]">
-        <div className="w-8/12 relative pr-[1.1rem]">
+        <div className="w-8/12 _md:w-full _sm:w-full relative pr-[1.1rem]">
           <input
             className="githubtoken-placeholder border-b-2 focus:border-black w-full text-[1.3rem] outline-none relative"
             type="text"
@@ -85,4 +74,4 @@ const SignUpName = ({
     </div>
   );
 };
-export default SignUpName;
+export default GithubTokenInput;
