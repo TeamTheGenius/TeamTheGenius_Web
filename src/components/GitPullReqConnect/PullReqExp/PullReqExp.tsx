@@ -24,16 +24,24 @@ function PullReqExp({ label }: PullReqType) {
             src={dropDownIcon}
             alt="dropDownIcon"
             className={`transform ${isOpen ? "rotate-180" : ""} cursor-pointer`} // isOpen 상태에 따라 이미지의 회전을 조정합니다.
-            onClick={handleClick} // 이미지를 클릭하면 handleClick 함수가 호출됩니다.
+            onClick={handleClick}
           />
         </div>
       </div>
       {!isOpen && (
         <div className="flex items-center ml-[8.5rem] _md:ml-[2rem] _sm:ml-[2rem] pt-[2.5rem]">
           <ul>
-            <li className="flex">
+            <li className="flex mb-[1.8rem]">
               <img src={diaIcon} alt="diaIcon" className="mr-[1.3rem]" />
-              <span>방법 설명</span>
+              <span className="text-[1.5rem] text-[#333333]">방법 설명</span>
+            </li>
+            <li className="flex mb-[1.8rem]">
+              <img src={diaIcon} alt="diaIcon" className="mr-[1.3rem]" />
+              <span className="text-[1.5rem] text-[#333333]">방법 설명</span>
+            </li>
+            <li className="flex mb-[1.8rem]">
+              <img src={diaIcon} alt="diaIcon" className="mr-[1.3rem]" />
+              <span className="text-[1.5rem] text-[#333333]">방법 설명</span>
             </li>
           </ul>
         </div>
