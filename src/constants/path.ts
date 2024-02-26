@@ -24,6 +24,7 @@ export const PATH = {
   MY_PAGE: "/main/my-page",
   MY_PAGE_INTEREST_CHALLENGE: "/main/my-page/interest",
   MY_PAGE_SETTING_MENU: "/main/my-page/setting",
+  MY_PAGE_GITHUB_TOKEN: "/main/my-page/token",
 
   CERTIFICATION: "/certification",
   CERTIFICATION_ID: "/certification/:id",
@@ -32,6 +33,9 @@ export const PATH = {
   CERTIFICATION_OTHERS_CURRENT: "/certification/:id/others-current",
   CERTIFICATION_OTHERS_ALL_CURRENT:
     "/certification/:id/others-current/:othersId",
+
+  // 임시 주손
+  GITHUB_PULLREQ: "/pullrequest",
 
   ADMIN: "/admin",
   ADMIN_INSTANCE: "/admin/instance",

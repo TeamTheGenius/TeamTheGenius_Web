@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import getAdminTopicListApi from "./getAdminTopicListApi";
-import { adminTopicEditApiType } from "@/pages/Admin/adminType";
+import { adminTopicEditApiType } from "@/types/adminType";
 
 const patchAdminTopicEditApi = async ({
   topicId,

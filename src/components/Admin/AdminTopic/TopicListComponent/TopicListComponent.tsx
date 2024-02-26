@@ -9,7 +9,7 @@ import {
   adminTopicDataType,
   topicDeteilType,
   topicListType,
-} from "@/pages/Admin/adminType";
+} from "@/types/adminType";
 import Loading from "@/components/common/Loading/Loading";
 
 type adminProps = {
