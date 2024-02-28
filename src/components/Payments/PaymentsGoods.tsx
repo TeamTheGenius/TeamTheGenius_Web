@@ -32,12 +32,12 @@ const PaymentsGoods = ({
             {formatNumber(amount)} 원
           </span>
         </div>
-        <span className="w-full h-[0.2rem] my-[1.65rem] bg-[#FF4356]"></span>
-        <ul className="flex flex-row justify-between w-[37.8rem]">
+        <span className="w-full h-[0.2rem] my-[1.65rem] mx-[3.7rem] bg-[#FF4356] block"></span>
+        <ul className="flex flex-row justify-between _sm:justify-around w-[37.8rem]">
           {paymentsData.map((point, index) => (
-            <li key={index} className="">
+            <li key={index}>
               <button
-                className="w-[72px] h-[38px] bg-white border border-gray-300 shadow-lg rounded-full"
+                className="w-[7.2rem] h-[3.8rem] bg-white border border-gray-300 shadow-lg rounded-full"
                 onClick={() => handlePointClick(point.value, point.amount)}
                 style={{
                   backgroundColor:

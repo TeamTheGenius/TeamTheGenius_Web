@@ -1,4 +1,4 @@
-import { adminTopicDataType } from "@/pages/Admin/AdminTopic/AdminTopic";
+import { adminTopicDataType } from "@/pages/Admin/adminType";
 import axios from "axios";
 
 type adminTopicListApiType = {
