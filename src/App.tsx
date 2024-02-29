@@ -28,11 +28,13 @@ import OthersCurrentCertification from "./pages/Certification/OthersCurrentCerti
 import SettingMenu from "./pages/MyPage/SettingMenu/SettingMenu";
 import MyAllCurrentCertification from "./pages/Certification/MyAllCurrentCertification/MyAllCurrentCertification";
 import OthersAllCurrentCertification from "./pages/Certification/OthersAllCurrentCertification/OthersAllCurrentCertification";
+
 import SignUp from "./pages/SignUp/SignUp";
 import Payments from "./pages/Payments/Payments";
-
 import { Fail } from "./pages/Payments/Fail/Fail";
 import Success from "./pages/Payments/Success/Success";
+import GithubTokken from "./pages/MyPage/GithubToken/GithubToken";
+import GitPullReqConnect from "./pages/GitPullReqConnect/GitPullReqConnect";
 
 function App() {
   const queryClient = new QueryClient();
@@ -54,6 +56,10 @@ function App() {
               element={<InterestChallenge />}
             />
             <Route path={PATH.MY_PAGE_SETTING_MENU} element={<SettingMenu />} />
+            <Route
+              path={PATH.MY_PAGE_GITHUB_TOKEN}
+              element={<GithubTokken />}
+            />
             <Route path={PATH.HOME} element={<Home />} />
             <Route
               path={PATH.POPULAR_CHALLENGE}
@@ -88,9 +94,12 @@ function App() {
             path={PATH.CHALLENGE_DETAIL_ID}
             element={<ChallengeDetail />}
           />
+
           <Route path={PATH.PAYMENTS} element={<Payments />} />
           <Route path={PATH.PAYMENTS_SUCCESS} element={<Success />} />
           <Route path={PATH.PAYMENTS_FAIL} element={<Fail />} />
+        
+          <Route path={PATH.GITHUB_PULLREQ} element={<GitPullReqConnect />} />
 
           <Route path={PATH.ADMIN} element={<AdminTopic />} />
           <Route path={PATH.ADMIN_INSTANCE_ID} element={<AdminInstance />} />

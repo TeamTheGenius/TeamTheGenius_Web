@@ -5,7 +5,7 @@ import Title from "@/components/Admin/Title/Title";
 import { useEffect, useState } from "react";
 import { Pagination } from "antd";
 import getAdminTopicListApi from "@/apis/getAdminTopicListApi";
-import { adminTopicDataType } from "../adminType";
+import { adminTopicDataType } from "@/types/adminType";
 
 const AdminTopic = () => {
   const [topicModalIsOpen, setTopicModalIsOpen] = useState<boolean>(false);

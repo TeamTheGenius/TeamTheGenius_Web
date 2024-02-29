@@ -8,7 +8,7 @@ import {
   adminTopicDataType,
   instanceDeteilType,
   instanceListDataType,
-} from "@/pages/Admin/adminType";
+} from "@/types/adminType";
 import Loading from "@/components/common/Loading/Loading";
 
 type instanceListPropsType = {

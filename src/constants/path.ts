@@ -24,6 +24,7 @@ export const PATH = {
   MY_PAGE: "/main/my-page",
   MY_PAGE_INTEREST_CHALLENGE: "/main/my-page/interest",
   MY_PAGE_SETTING_MENU: "/main/my-page/setting",
+  MY_PAGE_GITHUB_TOKEN: "/main/my-page/token",
 
   CERTIFICATION: "/certification",
   CERTIFICATION_ID: "/certification/:id",
@@ -36,6 +37,10 @@ export const PATH = {
   PAYMENTS: "/payments",
   PAYMENTS_SUCCESS: "/payments/success",
   PAYMENTS_FAIL: "/payments/fail",
+
+  // 임시 주손
+  GITHUB_PULLREQ: "/pullrequest",
+
 
   ADMIN: "/admin",
   ADMIN_INSTANCE: "/admin/instance",

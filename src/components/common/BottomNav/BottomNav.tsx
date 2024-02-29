@@ -43,6 +43,7 @@ function BottomNav() {
         PATH.MY_PAGE,
         PATH.MY_PAGE_INTEREST_CHALLENGE,
         PATH.MY_PAGE_SETTING_MENU,
+        PATH.MY_PAGE_GITHUB_TOKEN,
       ],
     },
   ];
