@@ -1,7 +1,7 @@
-import { instanceListDataType } from "@/components/Admin/AdminInstance/InstanceListComponent/InstanceListComponent";
 import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
 import getAdminInstanceListApi from "./getAdminInstanceListApi";
+import { instanceListDataType } from "@/pages/Admin/adminType";
 
 type editInstacneType = {
   topicIdId: number;

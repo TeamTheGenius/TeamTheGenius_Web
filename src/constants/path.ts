@@ -34,8 +34,13 @@ export const PATH = {
   CERTIFICATION_OTHERS_ALL_CURRENT:
     "/certification/:id/others-current/:othersId",
 
+  PAYMENTS: "/payments",
+  PAYMENTS_SUCCESS: "/payments/success",
+  PAYMENTS_FAIL: "/payments/fail",
+
   // 임시 주손
   GITHUB_PULLREQ: "/pullrequest",
+
 
   ADMIN: "/admin",
   ADMIN_INSTANCE: "/admin/instance",
