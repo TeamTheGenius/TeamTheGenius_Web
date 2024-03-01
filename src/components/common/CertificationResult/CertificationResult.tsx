@@ -1,5 +1,7 @@
 import linkIcon from "@/assets/icon/link-icon.svg";
 import failIcon from "@/assets/icon/cross-icon.svg";
+import reportCheckIcon from "@/assets/icon/white-check.svg";
+import reportNotCheckIcon from "@/assets/icon/gray-check.svg";
 import React from "react";
 
 interface MainProps {
@@ -10,16 +12,8 @@ interface OrdinalProps {
   content: number;
 }
 
-interface SuccessWrapperProps {
-  children: React.ReactNode;
-}
-
-interface FailWrapperProps {
-  children: React.ReactNode;
-}
-
-interface EmptyWrapperProps {
-  children: React.ReactNode;
+interface WrapperProps {
+  children?: React.ReactNode;
 }
 
 interface DateProps {
@@ -48,7 +42,7 @@ function ActiveOrdinal({ content }: OrdinalProps) {
   </div>;
 }
 
-function SuccessWrapper({ children }: SuccessWrapperProps) {
+function SuccessWrapper({ children }: WrapperProps) {
   return (
     <div className="w-full h-[5.05rem] _sm:h-[3.9rem] bg-[#61FBAB] rounded-b-[1rem]">
       {children}
@@ -56,7 +50,7 @@ function SuccessWrapper({ children }: SuccessWrapperProps) {
   );
 }
 
-function FailWrapper({ children }: FailWrapperProps) {
+function FailWrapper({ children }: WrapperProps) {
   return (
     <div className="w-full h-[5.05rem] _sm:h-[3.9rem] bg-[#F88591] rounded-b-[1rem]">
       {children}
@@ -64,9 +58,17 @@ function FailWrapper({ children }: FailWrapperProps) {
   );
 }
 
-function EmptyWrapper({ children }: EmptyWrapperProps) {
+function EmptyWrapper({ children }: WrapperProps) {
   return (
-    <div className="w-full h-[5.05rem] _sm:h-[3.9rem] bg-[#E6E6E6] rounded-b-[1rem]">
+    <div className="w-full h-[5.05rem] _sm:h-[3.9rem] bg-[#E6E6E6] rounded-b-[1rem] flex justify-center items-center">
+      {children}
+    </div>
+  );
+}
+
+function ReportWrapper({ children }: WrapperProps) {
+  return (
+    <div className="w-full h-[5.05rem] _sm:h-[3.9rem] bg-_coral-70 rounded-b-[1rem] flex justify-center items-center">
       {children}
     </div>
   );
@@ -91,7 +93,12 @@ function FailDate({ content }: DateProps) {
 function SuccessIcon() {
   return (
     <div className="mt-[0.1rem] _sm:mt-[-0.5rem] _sm:ml-[0.1rem] flex justify-center items-center">
-      <img src={linkIcon} alt="링크 연결 아이콘" />
+      <img
+        src={linkIcon}
+        alt="링크 연결 아이콘"
+        width={2.5}
+        className="_sm:w-[2.5rem] w-[2.5rem]"
+      />
     </div>
   );
 }
@@ -99,7 +106,38 @@ function SuccessIcon() {
 function FailIcon() {
   return (
     <div className="mt-[0.5rem] _sm:mt-[0.05rem]  flex justify-center items-center">
-      <img src={failIcon} alt="링크 연결 아이콘" />
+      <img
+        src={failIcon}
+        alt="링크 연결 아이콘"
+        width={1.3}
+        className="_sm:w-[1.2rem] w-[1.3rem]"
+      />
+    </div>
+  );
+}
+
+function ReportCheckIcon() {
+  return (
+    <div className="flex justify-center items-center">
+      <img
+        src={reportCheckIcon}
+        alt="신고 아이콘"
+        width={21}
+        className="w-[2.1rem] _sm:w-[1.1rem]"
+      />
+    </div>
+  );
+}
+
+function ReportNotCheckIcon() {
+  return (
+    <div className="flex justify-center items-center">
+      <img
+        src={reportNotCheckIcon}
+        alt="신고 아이콘"
+        width={21}
+        className="w-[2.1rem] _sm:w-[1.1rem]"
+      />
     </div>
   );
 }
@@ -110,8 +148,11 @@ export const CertificationResult = Object.assign(Main, {
   SuccessWrapper: SuccessWrapper,
   FailWrapper: FailWrapper,
   EmptyWrapper: EmptyWrapper,
+  ReportWrapper: ReportWrapper,
   SuccessDate: SuccessDate,
   FailDate: FailDate,
   SuccessIcon: SuccessIcon,
   FailIcon: FailIcon,
+  ReportCheckIcon: ReportCheckIcon,
+  ReportNotCheckIcon: ReportNotCheckIcon,
 });
