@@ -29,23 +29,22 @@ function ReportSelect() {
                   checked={isChecked(item.index.toString())}
                   onChange={() => onChangeCheckbox(item.index.toString())}
                 />
-                <label htmlFor={item.index.toString()}>
-                  <div className="mx-auto cursor-pointer">
-                    <CertificationResult>
-                      <CertificationResult.InActiveOrdinal
-                        content={item.index}
-                      />
-                      {isChecked(item.index.toString()) ? (
-                        <CertificationResult.ReportWrapper>
-                          <CertificationResult.ReportCheckIcon />
-                        </CertificationResult.ReportWrapper>
-                      ) : (
-                        <CertificationResult.EmptyWrapper>
-                          <CertificationResult.ReportNotCheckIcon />
-                        </CertificationResult.EmptyWrapper>
-                      )}
-                    </CertificationResult>
-                  </div>
+                <label
+                  htmlFor={item.index.toString()}
+                  className="mx-auto cursor-pointer"
+                >
+                  <CertificationResult>
+                    <CertificationResult.InActiveOrdinal content={item.index} />
+                    {isChecked(item.index.toString()) ? (
+                      <CertificationResult.ReportWrapper>
+                        <CertificationResult.ReportCheckIcon />
+                      </CertificationResult.ReportWrapper>
+                    ) : (
+                      <CertificationResult.EmptyWrapper>
+                        <CertificationResult.ReportNotCheckIcon />
+                      </CertificationResult.EmptyWrapper>
+                    )}
+                  </CertificationResult>
                 </label>
               </>
             )}
