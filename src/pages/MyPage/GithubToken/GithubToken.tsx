@@ -4,6 +4,7 @@ import { useState } from "react";
 import "@/pages/MyPage/GithubToken/githubTokenStyle.css";
 import Button from "@/components/Common/Button";
 import { useNavigate } from "react-router-dom";
+import MobCard from "@/components/Common/MobCard";
 const GithubTokken = () => {
   const [githubBoolean, setGithubBoolean] = useState(false);
   const [nickName, setNickName] = useState("");
@@ -17,7 +18,7 @@ const GithubTokken = () => {
     navigate("notionUrl");
   };
   return (
-    <>
+    <MobCard>
       <Header content="Github Token 등록" />
       <div className="pt-[8.5rem] px-[2.2rem] flex justify-center items-center flex-col">
         <GithubTokenInput
@@ -43,7 +44,7 @@ const GithubTokken = () => {
           />
         </div>
       </div>
-    </>
+    </MobCard>
   );
 };
 
