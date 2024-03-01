@@ -39,12 +39,7 @@ function BottomNav() {
       url: [PATH.PET],
     },
     {
-      url: [
-        PATH.MY_PAGE,
-        PATH.MY_PAGE_INTEREST_CHALLENGE,
-        PATH.MY_PAGE_SETTING_MENU,
-        PATH.MY_PAGE_GITHUB_TOKEN,
-      ],
+      url: [PATH.MY_PAGE],
     },
   ];
   const iconOff = [
