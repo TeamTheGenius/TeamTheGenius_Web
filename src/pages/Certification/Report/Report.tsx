@@ -28,7 +28,7 @@ function Report() {
         <div className="mt-[5.7rem] w-full max-w-[54.6rem] mx-auto">
           <Title />
         </div>
-        <div className="mt-[5.2rem]">
+        <div className="mt-[5.2rem] _sm:mt-[2.5rem]">
           <ReportSelect />
         </div>
       </div>
