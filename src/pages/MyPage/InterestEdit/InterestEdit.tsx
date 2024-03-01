@@ -34,9 +34,6 @@ const InterestEdit = () => {
           setCheckedValues={setCheckedValues}
           checkedValues={checkedValues}
         />
-        <div className="w-full h-[8.5rem] fixed bottom-0">
-          하단 공통 컴포넌트 버튼
-        </div>
       </div>
     </>
   );
