@@ -23,6 +23,7 @@ function Button({
     <button
       className={`${width} ${height} ${backgroundColor} ${textColor} ${textSize} ${fontWeight} rounded-[1rem]`}
       onClick={handleClick}
+      id="payment-button"
     >
       {content}
     </button>

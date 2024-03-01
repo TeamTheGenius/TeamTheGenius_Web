@@ -22,6 +22,8 @@ const postJWTApi = async ({ navigate }: Params) => {
       navigate(PATH.HOME);
     })
     .catch((err) => {
+      window.localStorage.removeItem(IDENTIFIER);
+      navigate(PATH.LOGIN);
       console.log("err", err);
     });
   return data;

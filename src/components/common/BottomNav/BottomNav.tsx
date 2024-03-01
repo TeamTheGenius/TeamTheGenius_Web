@@ -40,11 +40,7 @@ function BottomNav() {
       url: [PATH.PET],
     },
     {
-      url: [
-        PATH.MY_PAGE,
-        PATH.MY_PAGE_INTEREST_CHALLENGE,
-        PATH.MY_PAGE_SETTING_MENU,
-      ],
+      url: [PATH.MY_PAGE],
     },
   ];
   // 하단 메뉴 hidden 시킬 상세 주소

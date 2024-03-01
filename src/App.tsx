@@ -26,11 +26,18 @@ import Certification from "./pages/Certification/Certification/Certification";
 import MyCurrentCertification from "./pages/Certification/MyCurrentCertification/MyCurrentCertification";
 import OthersCurrentCertification from "./pages/Certification/OthersCurrentCertification/OthersCurrentCertification";
 import SettingMenu from "./pages/MyPage/SettingMenu/SettingMenu";
-import SignUp from "./pages/SignUp/SignUp";
 import MyAllCurrentCertification from "./pages/Certification/MyAllCurrentCertification/MyAllCurrentCertification";
 import OthersAllCurrentCertification from "./pages/Certification/OthersAllCurrentCertification/OthersAllCurrentCertification";
 import InterestEdit from "./pages/MyPage/InterestEdit/InterestEdit";
 import UserInfoEdit from "./pages/MyPage/UserInfoEdit/UserInfoEdit";
+
+import SignUp from "./pages/SignUp/SignUp";
+import Payments from "./pages/Payments/Payments";
+import { Fail } from "./pages/Payments/Fail/Fail";
+import Success from "./pages/Payments/Success/Success";
+import GithubTokken from "./pages/MyPage/GithubToken/GithubToken";
+import GitPullReqConnect from "./pages/GitPullReqConnect/GitPullReqConnect";
+import ServiceWithdraw from "./pages/MyPage/ServiceWithdraw/ServiceWithdraw";
 
 function App() {
   const queryClient = new QueryClient();
@@ -47,19 +54,6 @@ function App() {
             <Route path={PATH.MY_CHALLENGE} element={<MyChallenge />} />
             <Route path={PATH.PET} element={<Pet />} />
             <Route path={PATH.MY_PAGE} element={<MyPage />} />
-            <Route
-              path={PATH.MY_PAGE_INTEREST_CHALLENGE}
-              element={<InterestChallenge />}
-            />
-            <Route path={PATH.MY_PAGE_SETTING_MENU} element={<SettingMenu />} />
-            <Route
-              path={PATH.MY_PAGE_INTEREST_EDIT}
-              element={<InterestEdit />}
-            />
-            <Route
-              path={PATH.MY_PAGE_USERINFO_DIT}
-              element={<UserInfoEdit />}
-            />
             <Route path={PATH.HOME} element={<Home />} />
             <Route
               path={PATH.POPULAR_CHALLENGE}
@@ -72,6 +66,22 @@ function App() {
             />
             <Route path={PATH.SEARCH} element={<Search />} />
           </Route>
+          <Route
+            path={PATH.MY_PAGE_INTEREST_CHALLENGE}
+            element={<InterestChallenge />}
+          />
+          <Route path={PATH.MY_PAGE_SETTING_MENU} element={<SettingMenu />} />
+        <Route
+              path={PATH.MY_PAGE_INTEREST_EDIT}
+              element={<InterestEdit />}
+            />
+            <Route
+              path={PATH.MY_PAGE_USERINFO_DIT}
+              element={<UserInfoEdit />}
+            />
+          <Route path={PATH.MY_PAGE_GITHUB_TOKEN} element={<GithubTokken />} />
+          <Route path={PATH.MY_PAGE_WITHDRAW} element={<ServiceWithdraw />} />
+
           <Route path={PATH.CERTIFICATION} element={<Certification />}>
             <Route
               path={PATH.CERTIFICATION_MY_CURRENT}
@@ -94,6 +104,12 @@ function App() {
             path={PATH.CHALLENGE_DETAIL_ID}
             element={<ChallengeDetail />}
           />
+
+          <Route path={PATH.PAYMENTS} element={<Payments />} />
+          <Route path={PATH.PAYMENTS_SUCCESS} element={<Success />} />
+          <Route path={PATH.PAYMENTS_FAIL} element={<Fail />} />
+          <Route path={PATH.GITHUB_PULLREQ} element={<GitPullReqConnect />} />
+
           <Route path={PATH.ADMIN} element={<AdminTopic />} />
           <Route path={PATH.ADMIN_INSTANCE_ID} element={<AdminInstance />} />
         </Routes>

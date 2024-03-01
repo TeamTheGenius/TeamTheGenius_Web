@@ -96,7 +96,7 @@ function Image({
         src={imgSrc}
         alt={alt}
         className={cls(
-          "w-full h-full rounded-[1rem]",
+          "w-full h-full rounded-[1rem] object-contain",
           direction === "vertical" ? "absolute top-0 left-0 " : ""
         )}
       />

@@ -7,7 +7,7 @@ import { Pagination } from "antd";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import getAdminInstanceListApi from "@/apis/getAdminInstanceListApi";
-import { instanceListDataType, topicDeteilType } from "../adminType";
+import { instanceListDataType, topicDeteilType } from "@/types/adminType";
 
 const AdminInstance = () => {
   const [instanceModalIsOpen, setInstanceModalIsOpen] =

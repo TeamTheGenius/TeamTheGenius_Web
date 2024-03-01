@@ -1,0 +1,6 @@
+.githubtoken-placeholder::placeholder {
+  font-family: "Pretendard-Regular", sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: -0.032rem;
+  font-weight: 500;
+}
