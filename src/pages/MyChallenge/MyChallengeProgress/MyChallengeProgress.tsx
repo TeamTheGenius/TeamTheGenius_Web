@@ -3,6 +3,7 @@ import MyChallengeLabel from "@/components/Main/MyChallenge/MyChallengeLabel/MyC
 import MyChallengeLinkWrap from "@/components/Main/MyChallenge/MyChallengeLinkWrap/MyChallengeLinkWrap";
 import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyChallengeTitle";
 import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyChallengeWrap";
+import successStamp from "@/assets/icon/success-stamp.svg";
 import { PATH } from "@/constants/path";
 import { allChallengeData } from "@/data/allChallengeData";
 
@@ -11,17 +12,18 @@ const MyChallengeProgress = () => {
     {
       challengeItem: allChallengeData[0],
       labelText: "인증 필요",
-      labelState: true,
+      repositoryName: "dddddddddddddddddddddddd",
     },
     {
       challengeItem: allChallengeData[1],
-      labelText: "인증 완료",
-      labelState: false,
+      labelText: "패스 완료",
+      repositoryName: "dddddddddddddddddddddddd",
     },
     {
       challengeItem: allChallengeData[2],
-      labelText: "인증 완료",
-      labelState: false,
+      labelText: "인증 갱신",
+      repositoryName:
+        "아아아아아ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ",
     },
   ];
   return (
@@ -41,17 +43,27 @@ const MyChallengeProgress = () => {
                     imgSrc={item.challengeItem.imgSrc}
                     alt={item.challengeItem.alt}
                     direction="vertical"
-                  />
+                  >
+                    {item.labelText == "인증 갱신" && (
+                      <img
+                        src={successStamp}
+                        alt="성공 스탬프"
+                        className="bottom-[1rem] right-[1rem] absolute "
+                      />
+                    )}
+                  </ChallengeItem.Image>
                 </ChallengeItem>
               </div>
               <MyChallengeTitle
                 title={item.challengeItem.title}
                 point={item.challengeItem.point}
                 authTime={item.challengeItem.authTime}
+                repositoryName={item.repositoryName}
               />
               <MyChallengeLabel
-                labelState={item.labelState}
-                labelText={item.labelText}
+                labelText={
+                  item.labelText as "인증 필요" | "패스 완료" | "인증 갱신"
+                }
               />
             </MyChallengeLinkWrap>
           );

@@ -5,9 +5,15 @@ type MyChallengeTitleType = {
   title: string;
   point: number;
   authTime?: string;
+  repositoryName?: string;
 };
 
-const MyChallengeTitle = ({ title, point, authTime }: MyChallengeTitleType) => {
+const MyChallengeTitle = ({
+  title,
+  point,
+  authTime,
+  repositoryName,
+}: MyChallengeTitleType) => {
   const [mobView, setMobView] = useState(false);
 
   useEffect(() => {
@@ -27,7 +33,18 @@ const MyChallengeTitle = ({ title, point, authTime }: MyChallengeTitleType) => {
 
   const mobTitle = title.length <= 8 ? title : title.slice(0, 8) + "...";
   const pcTitle = title.length <= 12 ? title : title.slice(0, 12) + "...";
+  const mobRepositoryName = repositoryName
+    ? repositoryName.length <= 12
+      ? repositoryName
+      : repositoryName.slice(0, 12) + "..."
+    : "";
+  const pcRepositoryName = repositoryName
+    ? repositoryName.length <= 20
+      ? repositoryName
+      : repositoryName.slice(0, 20) + "..."
+    : "";
   const displayTitle = mobView ? mobTitle : pcTitle;
+  const displayRepositoryName = mobView ? mobRepositoryName : pcRepositoryName;
 
   return (
     <div>
@@ -36,6 +53,11 @@ const MyChallengeTitle = ({ title, point, authTime }: MyChallengeTitleType) => {
         <span className="font-normal text-[12px]">보상 {point}P</span>
         {authTime && (
           <span className="font-normal text-[10px]">인증시간: {authTime}</span>
+        )}
+        {repositoryName && (
+          <span className="text-[1rem] font-normal text-[#777] ">
+            {displayRepositoryName}
+          </span>
         )}
       </div>
       <img
