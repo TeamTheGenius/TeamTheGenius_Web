@@ -1,6 +1,7 @@
 import axios from "axios";
 import getAdminTopicListApi from "./getAdminTopicListApi";
-import { adminTopicDataType } from "@/pages/Admin/AdminTopic/AdminTopic";
+import { adminTopicDataType } from "@/types/adminType";
+
 
 type topicCreateApiType = {
   topicTitle: string;

@@ -6,6 +6,7 @@ import userImage from "@/assets/icon/image-edit.svg";
 import { useFormik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
+import MobCard from "@/components/Common/MobCard";
 
 type userNameType = {
   gitName: string;
@@ -62,57 +63,59 @@ const UserInfoEdit = () => {
   };
   return (
     <>
-      <Header content="회원 정보 수정" />
-      <div className="w-full pt-[7.8rem] px-[2.2rem] flex flex-col justify-center items-center">
-        <Form onFinish={userEditSubmit}>
-          <FormImg />
-        </Form>
-        <UserName gitName={"gitName"} userName={"userName"} />
-        <form
-          onSubmit={formik.handleSubmit}
-          className="w-full flex justify-center"
-        >
-          <ul className="w-5/6 _sm:w-11/12 _md:w-11/12">
-            <SignUpName
-              label="닉네임"
-              required="required"
-              margin="mb-[5rem]"
-              id="nickName"
-              name="nickName"
-              placeholder="2 ~ 15자 입력 가능합니다."
-              maxLength={15}
-              signUpBoolean={signUpBoolean}
-              setsignUpBoolean={setsignUpBoolean}
-              value={nickName}
-              setValue={setNickName}
-              onChange={handleNickNameChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched.nickName && formik.errors.nickName
-                  ? formik.errors.nickName
-                  : null
-              }
-            />
-            <SignUpDesc
-              label="한 줄 소개"
-              required={null}
-              margin={null}
-              id="myInfo"
-              name="myInfo"
-              placeholder="자신을 소개해주세요. (100자까지)"
-              maxLength={100}
-              value={formik.values.myInfo}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched.myInfo && formik.errors.myInfo
-                  ? formik.errors.myInfo
-                  : null
-              }
-            />
-          </ul>
-        </form>
-      </div>
+      <MobCard>
+        <Header content="회원 정보 수정" />
+        <div className="w-full pt-[7.8rem] px-[2.2rem] flex flex-col justify-center items-center">
+          <Form onFinish={userEditSubmit}>
+            <FormImg />
+          </Form>
+          <UserName gitName={"gitName"} userName={"userName"} />
+          <form
+            onSubmit={formik.handleSubmit}
+            className="w-full flex justify-center"
+          >
+            <ul className="w-5/6 _sm:w-11/12 _md:w-11/12">
+              <SignUpName
+                label="닉네임"
+                required="required"
+                margin="mb-[5rem]"
+                id="nickName"
+                name="nickName"
+                placeholder="2 ~ 15자 입력 가능합니다."
+                maxLength={15}
+                signUpBoolean={signUpBoolean}
+                setsignUpBoolean={setsignUpBoolean}
+                value={nickName}
+                setValue={setNickName}
+                onChange={handleNickNameChange}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched.nickName && formik.errors.nickName
+                    ? formik.errors.nickName
+                    : null
+                }
+              />
+              <SignUpDesc
+                label="한 줄 소개"
+                required={null}
+                margin={null}
+                id="myInfo"
+                name="myInfo"
+                placeholder="자신을 소개해주세요. (100자까지)"
+                maxLength={100}
+                value={formik.values.myInfo}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched.myInfo && formik.errors.myInfo
+                    ? formik.errors.myInfo
+                    : null
+                }
+              />
+            </ul>
+          </form>
+        </div>
+      </MobCard>
     </>
   );
 };
