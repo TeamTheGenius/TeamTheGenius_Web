@@ -36,6 +36,7 @@ import Success from "./pages/Payments/Success/Success";
 import GithubTokken from "./pages/MyPage/GithubToken/GithubToken";
 import GitPullReqConnect from "./pages/GitPullReqConnect/GitPullReqConnect";
 import ServiceWithdraw from "./pages/MyPage/ServiceWithdraw/ServiceWithdraw";
+import Report from "./pages/Certification/Report/Report";
 
 function App() {
   const queryClient = new QueryClient();
@@ -90,6 +91,7 @@ function App() {
             path={PATH.CERTIFICATION_OTHERS_ALL_CURRENT}
             element={<OthersAllCurrentCertification />}
           />
+          <Route path={PATH.CERTIFICATION_REPORT} element={<Report />} />
           <Route
             path={PATH.CHALLENGE_DETAIL_ID}
             element={<ChallengeDetail />}

@@ -34,6 +34,7 @@ export const PATH = {
   CERTIFICATION_OTHERS_CURRENT: "/certification/:id/others-current",
   CERTIFICATION_OTHERS_ALL_CURRENT:
     "/certification/:id/others-current/:othersId",
+  CERTIFICATION_REPORT: "/certification/:id/others-current/:othersId/report",
 
   PAYMENTS: "/payments",
   PAYMENTS_SUCCESS: "/payments/success",
