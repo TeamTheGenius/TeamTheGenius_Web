@@ -45,7 +45,14 @@ const MyChallengeProgress = () => {
                       alt={item.challengeItem.alt}
                       direction="vertical"
                     >
-                      {item.labelText == "인증 갱신" && (
+                      {item.labelText === "패스 완료" && (
+                        <ChallengeItem.Overlay text="패 스" />
+                      )}
+                      {item.labelText === "인증 갱신" && (
+                        <ChallengeItem.Overlay />
+                      )}
+
+                      {item.labelText === "인증 갱신" && (
                         <img
                           src={successStamp}
                           alt="성공 스탬프"
