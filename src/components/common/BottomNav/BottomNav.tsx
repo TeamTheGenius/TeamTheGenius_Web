@@ -10,6 +10,7 @@ import icon_on_myChallenge from "@/assets/icon/icon_on_myChallenge.svg";
 import icon_on_pet from "@/assets/icon/icon_on_pet.svg";
 import icon_on_myPage from "@/assets/icon/icon_on_myPage.svg";
 import { PATH } from "@/constants/path";
+type HiddenUrlType = string[];
 
 function BottomNav() {
   const navData = [
@@ -42,6 +43,13 @@ function BottomNav() {
       url: [PATH.MY_PAGE],
     },
   ];
+  // 하단 메뉴 hidden 시킬 상세 주소
+  const hiddenUrl: HiddenUrlType = [
+    PATH.MY_PAGE_USERINFO_DIT,
+    PATH.MY_PAGE_INTEREST_EDIT,
+  ];
+  const isShowData: HiddenUrlType[] = Array(4).fill(hiddenUrl);
+
   const iconOff = [
     icon_off_home,
     icon_off_myChallenge,
@@ -68,12 +76,13 @@ function BottomNav() {
           const offIcon = iconOff[i];
           const onIcon = iconOn[i];
           const isActive = isActiveData[i].url.includes(url);
+          const isShow = isShowData[i].includes(url);
           return (
             <li className="w-full" key={i}>
               {!imageLoaded ? (
                 <></>
               ) : (
-                <>
+                <div className={isShow ? "hidden" : "block"}>
                   <NavLink
                     to={data.to}
                     className={isActive ? "nav-active" : "nav-pending"}
@@ -85,7 +94,7 @@ function BottomNav() {
                     />
                     <span>{data.title}</span>
                   </NavLink>
-                </>
+                </div>
               )}
             </li>
           );

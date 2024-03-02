@@ -11,12 +11,11 @@ function SettingMenu() {
       <Header content="설정" />
       <div className="pt-[6rem] px-[2.2rem] flex justify-center items-center">
         <div className="mt-[2.5rem] max-w-[50rem] w-full flex flex-col gap-[2.5rem]">
-          <Title content="내 정보" />
-          <LinkButton content="회원 정보 수정" path="" />
+          <Title content="내 정보" />         
+          <LinkButton content="회원 정보 수정" path={PATH.MY_PAGE_USERINFO_DIT} />
           <LinkButton
             content="Github Tokken 등록"
-            path={PATH.MY_PAGE_GITHUB_TOKEN}
-          />
+            path={PATH.MY_PAGE_GITHUB_TOKEN} />
         </div>
       </div>
 

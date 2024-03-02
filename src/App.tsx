@@ -28,6 +28,8 @@ import OthersCurrentCertification from "./pages/Certification/OthersCurrentCerti
 import SettingMenu from "./pages/MyPage/SettingMenu/SettingMenu";
 import MyAllCurrentCertification from "./pages/Certification/MyAllCurrentCertification/MyAllCurrentCertification";
 import OthersAllCurrentCertification from "./pages/Certification/OthersAllCurrentCertification/OthersAllCurrentCertification";
+import InterestEdit from "./pages/MyPage/InterestEdit/InterestEdit";
+import UserInfoEdit from "./pages/MyPage/UserInfoEdit/UserInfoEdit";
 
 import SignUp from "./pages/SignUp/SignUp";
 import Payments from "./pages/Payments/Payments";
@@ -70,6 +72,14 @@ function App() {
             element={<InterestChallenge />}
           />
           <Route path={PATH.MY_PAGE_SETTING_MENU} element={<SettingMenu />} />
+        <Route
+              path={PATH.MY_PAGE_INTEREST_EDIT}
+              element={<InterestEdit />}
+            />
+            <Route
+              path={PATH.MY_PAGE_USERINFO_DIT}
+              element={<UserInfoEdit />}
+            />
           <Route path={PATH.MY_PAGE_GITHUB_TOKEN} element={<GithubTokken />} />
           <Route path={PATH.MY_PAGE_WITHDRAW} element={<ServiceWithdraw />} />
 

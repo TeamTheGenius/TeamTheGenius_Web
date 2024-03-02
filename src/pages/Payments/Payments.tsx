@@ -4,12 +4,15 @@ import MobCard from "@/components/Common/MobCard";
 import PaymentsGoods from "@/components/Payments/PaymentsGoods";
 import PaymentsPayInfo from "@/components/Payments/PaymentsPayInfo";
 import BottomButton from "@/components/Common/BottomButton/BottomButton";
+
 import {
   loadPaymentWidget,
   PaymentWidgetInstance,
 } from "@tosspayments/payment-widget-sdk";
 import { nanoid } from "nanoid";
+
 import postPaymentData from "@/apis/postPaymentData";
+
 const Payments = () => {
   const [selectedPoint, setSelectedPoint] = useState<string>("");
   const [amount, setAmount] = useState(0);
@@ -22,6 +25,7 @@ const Payments = () => {
   const paymentMethodsWidgetRef = useRef<ReturnType<
     PaymentWidgetInstance["renderPaymentMethods"]
   > | null>(null);
+  
   console.log(
     "`${window.location.origin}/payments/success`",
     `${window.location.origin}/payments/success`

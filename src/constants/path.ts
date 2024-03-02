@@ -24,8 +24,13 @@ export const PATH = {
   MY_PAGE: "/main/my-page",
   MY_PAGE_INTEREST_CHALLENGE: "/main/my-page/interest",
   MY_PAGE_SETTING_MENU: "/main/my-page/setting",
+
+  MY_PAGE_INTEREST_EDIT: "/main/my-page/interestedit",
+  MY_PAGE_USERINFO_DIT: "/main/my-page/userinfoedit",
+
   MY_PAGE_GITHUB_TOKEN: "/main/my-page/token",
   MY_PAGE_WITHDRAW: "/main/my-page/service-withdraw",
+
 
   CERTIFICATION: "/certification",
   CERTIFICATION_ID: "/certification/:id",

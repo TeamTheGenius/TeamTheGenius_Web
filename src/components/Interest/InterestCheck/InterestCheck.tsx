@@ -4,15 +4,10 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import InterestBtn from "@/components/Interest/InterestButton/InterestBtn";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import "@/components/Interest/InterestCheck/antdCheckbox.css";
-type Interest = {
-  id: number;
-  name: string;
-};
-type InterestsData = {
-  interests: Interest[];
-};
+import Interest from "@/pages/Interest/Interest";
+
 type InterestCheckType = {
-  InterestValue: InterestsData;
+  InterestValue: Interest[];
   checkedValues: CheckboxValueType[];
   setCheckedValues: (check: CheckboxValueType[]) => void;
 };
@@ -36,7 +31,7 @@ const InterestCheck = ({
         onChange={onChange}
       >
         <Row>
-          {InterestValue.interests.map((valueInterest: Interest) => (
+          {InterestValue.map((valueInterest: Interest) => (
             <Col key={valueInterest.id}>
               <Checkbox value={valueInterest.name} className="checkboxHidden">
                 {checkedValues.includes(valueInterest.name) ? (
