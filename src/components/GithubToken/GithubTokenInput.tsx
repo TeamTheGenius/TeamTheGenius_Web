@@ -2,6 +2,8 @@ import Button from "@/components/Common/Button";
 import { GithubTokenInputType } from "@/types/githubTokenType";
 import { ChangeEvent, useState } from "react";
 import checkIcon from "@/assets/icon/check-icon.svg";
+import failIcon from "@/assets/icon/sign-icon.svg";
+import postGithubTokenRegi from "@/apis/postGithubTokenRegi";
 const GithubTokenInput = ({
   label,
   id,
@@ -12,11 +14,15 @@ const GithubTokenInput = ({
   githubBoolean,
   setGithubBoolean,
 }: GithubTokenInputType) => {
-  const [tokenChecn, setTokenCheck] = useState("");
+  const [tokenState, setTokenState] = useState("");
+  const [tokenBoolean, setTokenBoolean] = useState(false);
 
   const gitTokenCheck = () => {
-    // setTokenCheck
-    console.log("등록 버튼");
+    postGithubTokenRegi({
+      githubToken: value,
+      setTokenState: setTokenState,
+      setTokenBoolean: setTokenBoolean,
+    });
   };
 
   const inputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +42,15 @@ const GithubTokenInput = ({
           {label}
         </label>
         <div>
-          <img src={checkIcon} alt="signIcon" />
+          {tokenBoolean === false ? (
+            <>
+              <img src={failIcon} alt="Icon" />
+            </>
+          ) : (
+            <>
+              <img src={checkIcon} alt="Icon" />
+            </>
+          )}
         </div>
       </div>
       <div className="flex items-end justify-center pt-[2.5rem]">
@@ -50,9 +64,19 @@ const GithubTokenInput = ({
             value={value}
             onChange={inputChange}
           />
-          <div className="text-[#4C7CF6] font-[1.2rem] absolute right-[1rem]">
-            등록 완료 되었습니다
-          </div>
+          {tokenBoolean === false ? (
+            <>
+              <div className="text-[#ff4356] font-[1.2rem] absolute right-[1rem]">
+                {tokenState}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="text-[#4C7CF6] font-[1.2rem] absolute right-[1rem]">
+                등록 완료 되었습니다
+              </div>
+            </>
+          )}
         </div>
         <Button
           width="w-[6.2rem]"
@@ -65,12 +89,6 @@ const GithubTokenInput = ({
           handleClick={gitTokenCheck}
         />
       </div>
-
-      {/* {githubBoolean && !error ? (
-        <div className="text-[#4C7CF6] font-[1.2rem] ml-auto">{tokenChecn}</div>
-      ) : (
-        ""
-      )} */}
     </div>
   );
 };
