@@ -1,4 +1,4 @@
-import { topicDeteilType } from "@/components/Admin/AdminTopic/TopicListComponent/TopicListComponent";
+import { topicDeteilType } from "@/types/adminType";
 import axios from "axios";
 import { SetStateAction } from "react";
 

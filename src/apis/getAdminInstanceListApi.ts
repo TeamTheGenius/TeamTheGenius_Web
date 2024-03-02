@@ -1,5 +1,4 @@
-import { instanceListDataType } from "@/components/Admin/AdminInstance/InstanceListComponent/InstanceListComponent";
-
+import { instanceListDataType } from "@/types/adminType";
 import axios from "axios";
 
 type adminInstanceListApiType = {

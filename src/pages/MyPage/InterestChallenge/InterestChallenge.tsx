@@ -5,8 +5,6 @@ import { allChallengeData } from "@/data/allChallengeData";
 
 function InterestChallenge() {
   return (
-
-    <>    
     <MobCard>
       <Header content="관심사 수정" />
       <div className="px-[2.2rem] flex justify-center items-center">

@@ -72,14 +72,8 @@ function App() {
             element={<InterestChallenge />}
           />
           <Route path={PATH.MY_PAGE_SETTING_MENU} element={<SettingMenu />} />
-        <Route
-              path={PATH.MY_PAGE_INTEREST_EDIT}
-              element={<InterestEdit />}
-            />
-            <Route
-              path={PATH.MY_PAGE_USERINFO_DIT}
-              element={<UserInfoEdit />}
-            />
+          <Route path={PATH.MY_PAGE_INTEREST_EDIT} element={<InterestEdit />} />
+          <Route path={PATH.MY_PAGE_USERINFO_DIT} element={<UserInfoEdit />} />
           <Route path={PATH.MY_PAGE_GITHUB_TOKEN} element={<GithubTokken />} />
           <Route path={PATH.MY_PAGE_WITHDRAW} element={<ServiceWithdraw />} />
 

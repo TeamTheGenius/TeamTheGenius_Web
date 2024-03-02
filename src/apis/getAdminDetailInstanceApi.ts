@@ -1,10 +1,7 @@
-import {
-  instanceDeteilType,
-  instanceListDataType,
-} from "@/components/Admin/AdminInstance/InstanceListComponent/InstanceListComponent";
 import axios from "axios";
-import React, { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import getAdminInstanceListApi from "./getAdminInstanceListApi";
+import { instanceDeteilType, instanceListDataType } from "@/types/adminType";
 
 type AdminDetailInstanceApiType = {
   instanceId?: number;

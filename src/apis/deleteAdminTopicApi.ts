@@ -1,6 +1,6 @@
-import { adminTopicDataType } from "@/pages/Admin/AdminTopic/AdminTopic";
 import axios from "axios";
 import getAdminTopicListApi from "./getAdminTopicListApi";
+import { adminTopicDataType } from "@/types/adminType";
 
 type topicDeleteType = {
   topicId: number;
