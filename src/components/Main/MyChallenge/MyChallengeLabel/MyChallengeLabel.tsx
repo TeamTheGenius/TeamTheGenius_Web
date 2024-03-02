@@ -1,7 +1,7 @@
 import { cls } from "@/utils/mergeTailwind";
 
 interface Props {
-  labelText: "인증 필요" | "패스 완료" | "인증 갱신";
+  labelText: "인증 필요" | "패스 완료" | "인증 갱신" | "보상 수령";
 }
 
 const MyChallengeLabel = ({ labelText }: Props) => {
@@ -9,6 +9,7 @@ const MyChallengeLabel = ({ labelText }: Props) => {
     "인증 필요": "bg-_coral-70",
     "패스 완료": "bg-[#A0A0A0] cursor-default",
     "인증 갱신": "bg-[#282828]",
+    "보상 수령": "bg-_coral-70",
   };
 
   const onClickCertificationNeededLabel = () => {
@@ -18,11 +19,13 @@ const MyChallengeLabel = ({ labelText }: Props) => {
   const onClickCertificationReplaceLabel = () => {
     console.log("인증 갱신");
   };
+  const onClickGetRewardLabel = () => {};
 
   const labelClick: { [key in Props["labelText"]]: () => void } = {
     "인증 필요": onClickCertificationNeededLabel,
     "패스 완료": onClickCertificationPassLabel,
     "인증 갱신": onClickCertificationReplaceLabel,
+    "보상 수령": onClickGetRewardLabel,
   };
 
   return (
