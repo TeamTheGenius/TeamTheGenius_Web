@@ -19,6 +19,10 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.scroll-locked {
+  overflow: hidden;
+}
+
 @font-face {
   font-family: "RobotoMedium";
   src: url("./assets/font/subset-Roboto-Medium.ttf") format("truetype");

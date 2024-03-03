@@ -1,21 +1,19 @@
 import { useState, useEffect } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { PATH } from "@/constants/path";
 
 const MyChallengeHeader = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const location = useLocation();
-  const navigate = useNavigate();
 
   const handleNavLink = (index: number) => {
     setActiveIndex(index);
-    navigate(PATH.MY_CHALLENGE);
   };
 
   const tabs = [
-    { label: "시작 전", to: "start" },
-    { label: "진행 중", to: "progress" },
-    { label: "완료", to: "completed" },
+    { label: "시작 전", to: PATH.MY_CHALLENGE_START },
+    { label: "진행 중", to: PATH.MY_CHALLENGE_PROGRESS },
+    { label: "완료", to: PATH.MY_CHALLENGE_COMPLETED },
   ];
 
   useEffect(() => {
@@ -49,6 +47,7 @@ const MyChallengeHeader = () => {
                 >
                   <NavLink
                     to={tab.to}
+                    replace={true}
                     className={"flex items-center justify-center w-full h-full"}
                     onClick={() => {
                       handleNavLink(i);

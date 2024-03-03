@@ -39,6 +39,9 @@ import GithubTokken from "./pages/MyPage/GithubToken/GithubToken";
 import GitPullReqConnect from "./pages/GitPullReqConnect/GitPullReqConnect";
 import ServiceWithdraw from "./pages/MyPage/ServiceWithdraw/ServiceWithdraw";
 import Report from "./pages/Certification/Report/Report";
+import MyChallengeStart from "./pages/MyChallenge/MyChallengeStart/MyChallengeStart";
+import MyChallengeProgress from "./pages/MyChallenge/MyChallengeProgress/MyChallengeProgress";
+import MyChallengeComplete from "./pages/MyChallenge/MyChallengeComplete/MyChallengeComplete";
 
 function App() {
   const queryClient = new QueryClient();
@@ -52,7 +55,24 @@ function App() {
           <Route path={PATH.INTEREST} element={<Interest />} />
           <Route path={PATH.ERROR} element={<Error />} />
           <Route path={PATH.MAIN} element={<Main />}>
-            <Route path={PATH.MY_CHALLENGE} element={<MyChallenge />} />
+            <Route
+              path={PATH.MY_CHALLENGE}
+              element={<MyChallenge />}
+            >
+              <Route
+                path={PATH.MY_CHALLENGE_START}
+                element={<MyChallengeStart />}
+              />
+              <Route
+                path={PATH.MY_CHALLENGE_PROGRESS}
+                element={<MyChallengeProgress />}
+              />
+              <Route
+                path={PATH.MY_CHALLENGE_COMPLETED}
+                element={<MyChallengeComplete />}
+              />
+            </Route>
+
             <Route path={PATH.PET} element={<Pet />} />
             <Route path={PATH.MY_PAGE} element={<MyPage />} />
             <Route path={PATH.HOME} element={<Home />} />

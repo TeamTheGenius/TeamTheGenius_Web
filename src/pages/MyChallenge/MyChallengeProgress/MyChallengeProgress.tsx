@@ -29,11 +29,14 @@ const MyChallengeProgress = () => {
   return (
     <>
       <MyChallengeWrap>
-        {data.map((item) => {
+        {data.map((item, index) => {
           if (!item.challengeItem) return null;
 
           return (
-            <li className="flex justify-between w-full relative mb-[1.3rem]">
+            <li
+              key={index}
+              className="flex justify-between w-full relative mb-[1.3rem]"
+            >
               <MyChallengeLinkWrap
                 key={item.challengeItem.id}
                 link={`${PATH.CHALLENGE_DETAIL}/${item.challengeItem.id}`}
