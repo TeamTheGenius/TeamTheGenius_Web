@@ -11,17 +11,14 @@ const MyChallengeStart = () => {
     {
       challengeItem: allChallengeData[0],
       labelText: "시작 전",
-      labelState: false,
     },
     {
       challengeItem: allChallengeData[1],
       labelText: "시작 전",
-      labelState: false,
     },
     {
       challengeItem: allChallengeData[2],
       labelText: "시작 전",
-      labelState: false,
     },
   ];
 
@@ -32,40 +29,39 @@ const MyChallengeStart = () => {
           if (!item.challengeItem) return null;
 
           return (
-            <MyChallengeLinkWrap
-              key={item.challengeItem.id}
-              link={`${PATH.CHALLENGE_DETAIL}/${item.challengeItem.id}`}
-            >
-              <div className="w-[16.4rem] h-[12.6rem] mr-[1.8rem] _sm:mr-[1.1rem]">
-                <ChallengeItem>
-                  <ChallengeItem.Image
-                    imgSrc={item.challengeItem.imgSrc}
-                    alt={item.challengeItem.alt}
-                    direction="vertical"
-                  >
-                    <ChallengeItem.Overlay
-                      text={`D - ${item.challengeItem.dDay}`}
-                    />
-                    <ChallengeItem.NumberOfParticipant
-                      numberOfParticipants={
-                        item.challengeItem.numberOfParticipants
-                      }
-                    />
-                  </ChallengeItem.Image>
-                </ChallengeItem>
-              </div>
+            <li className="flex justify-between w-full relative mb-[1.3rem]">
+              <MyChallengeLinkWrap
+                key={item.challengeItem.id}
+                link={`${PATH.CHALLENGE_DETAIL}/${item.challengeItem.id}`}
+              >
+                <div className="w-[16.4rem] h-[12.6rem] mr-[1.8rem] _sm:mr-[1.1rem]">
+                  <ChallengeItem>
+                    <ChallengeItem.Image
+                      imgSrc={item.challengeItem.imgSrc}
+                      alt={item.challengeItem.alt}
+                      direction="vertical"
+                    >
+                      <ChallengeItem.Overlay
+                        text={`D - ${item.challengeItem.dDay}`}
+                      />
+                      <ChallengeItem.NumberOfParticipant
+                        numberOfParticipants={
+                          item.challengeItem.numberOfParticipants
+                        }
+                      />
+                    </ChallengeItem.Image>
+                  </ChallengeItem>
+                </div>
 
-              <div className="flex flex-col gap-[4.7rem]">
-                <MyChallengeTitle
-                  title={item.challengeItem.title}
-                  point={item.challengeItem.point}
-                />
-                <MyChallengeLabel
-                  labelState={item.labelState}
-                  labelText={item.labelText}
-                />
-              </div>
-            </MyChallengeLinkWrap>
+                <div className="flex flex-col gap-[4.7rem]">
+                  <MyChallengeTitle
+                    title={item.challengeItem.title}
+                    point={item.challengeItem.point}
+                  />
+                </div>
+              </MyChallengeLinkWrap>
+              <MyChallengeLabel labelText={item.labelText as "시작 전"} />
+            </li>
           );
         })}
       </MyChallengeWrap>
