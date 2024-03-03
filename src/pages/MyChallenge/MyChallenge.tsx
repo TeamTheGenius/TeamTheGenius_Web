@@ -1,26 +1,23 @@
 import MyChallengeHeader from "@/components/Main/MyChallenge/MyChallengeHeader/MyChallengeHeader";
 import "@/pages/MyChallenge/MyChallengeStyle.css";
-import { useRoutes } from "react-router-dom";
-import MyChallengeProgress from "./MyChallengeProgress/MyChallengeProgress";
-import MyChallengeComplete from "./MyChallengeComplete/MyChallengeComplete";
-import MyChallengeStart from "./MyChallengeStart/MyChallengeStart";
+import useModal from "@/hooks/useModal";
+import React, { useState } from "react";
+import { Outlet } from "react-router-dom";
+import { ModalLayer } from "@/components/Common/Modal/Modal";
 
 const MyChallenge = () => {
-  const routes = useRoutes([
-    {
-      path: "start",
-      element: <MyChallengeStart />,
-    },
-    { path: "progress", element: <MyChallengeProgress /> },
-    { path: "completed", element: <MyChallengeComplete /> },
-  ]);
+  const { isModalOpened, openModal, closeModal, modalRef } = useModal();
+  const [modal, setModal] = useState<React.ReactNode>(<div></div>);
 
   return (
     <>
-      <div className="w-full relative px-[2rem]">
+      {modal && isModalOpened && (
+        <ModalLayer modalRef={modalRef}>{modal}</ModalLayer>
+      )}
+      <div className="w-full px-[2rem]">
         <MyChallengeHeader />
-        {routes}
       </div>
+      <Outlet context={{ setModal, openModal, closeModal }} />
     </>
   );
 };

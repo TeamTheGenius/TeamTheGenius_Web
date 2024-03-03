@@ -14,7 +14,7 @@ export const PATH = {
   CHALLENGE_DETAIL: "/challenge-detail",
   CHALLENGE_DETAIL_ID: "/challenge-detail/:id",
 
-  MY_CHALLENGE: "/main/my-challenge/*",
+  MY_CHALLENGE: "/main/my-challenge",
   MY_CHALLENGE_START: "/main/my-challenge/start",
   MY_CHALLENGE_PROGRESS: "/main/my-challenge/progress",
   MY_CHALLENGE_COMPLETED: "/main/my-challenge/completed",
@@ -30,7 +30,6 @@ export const PATH = {
 
   MY_PAGE_GITHUB_TOKEN: "/main/my-page/token",
   MY_PAGE_WITHDRAW: "/main/my-page/service-withdraw",
-
 
   CERTIFICATION: "/certification",
   CERTIFICATION_ID: "/certification/:id",

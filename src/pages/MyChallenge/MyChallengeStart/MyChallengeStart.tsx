@@ -20,16 +20,55 @@ const MyChallengeStart = () => {
       challengeItem: allChallengeData[2],
       labelText: "시작 전",
     },
+    {
+      challengeItem: allChallengeData[0],
+      labelText: "시작 전",
+    },
+    {
+      challengeItem: allChallengeData[1],
+      labelText: "시작 전",
+    },
+    {
+      challengeItem: allChallengeData[2],
+      labelText: "시작 전",
+    },
+    {
+      challengeItem: allChallengeData[0],
+      labelText: "시작 전",
+    },
+    {
+      challengeItem: allChallengeData[1],
+      labelText: "시작 전",
+    },
+    {
+      challengeItem: allChallengeData[2],
+      labelText: "시작 전",
+    },
+    {
+      challengeItem: allChallengeData[0],
+      labelText: "시작 전",
+    },
+    {
+      challengeItem: allChallengeData[1],
+      labelText: "시작 전",
+    },
+    {
+      challengeItem: allChallengeData[2],
+      labelText: "시작 전",
+    },
   ];
 
   return (
     <>
       <MyChallengeWrap>
-        {data.map((item) => {
+        {data.map((item, index) => {
           if (!item.challengeItem) return null;
 
           return (
-            <li className="flex justify-between w-full relative mb-[1.3rem]">
+            <li
+              key={index}
+              className="flex justify-between w-full relative mb-[1.3rem]"
+            >
               <MyChallengeLinkWrap
                 key={item.challengeItem.id}
                 link={`${PATH.CHALLENGE_DETAIL}/${item.challengeItem.id}`}
