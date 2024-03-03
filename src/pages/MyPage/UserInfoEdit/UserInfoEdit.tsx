@@ -7,7 +7,9 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
 import MobCard from "@/components/Common/MobCard";
-
+import { Profile } from "@/components/Common/Profile/Profile";
+import BottomButton from "@/components/Common/BottomButton/BottomButton";
+import dummyImg from "@/assets/image/google-logo.png";
 type userNameType = {
   gitName: string;
   userName: string;
@@ -49,7 +51,7 @@ const UserInfoEdit = () => {
   const userEditSubmit = () => {
     alert("api연동전");
   };
-  //버튼입력
+
   const naviState = () => {
     if (formik.values.nickName && signUpBoolean) {
       if (/[^ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-Z0-9]/.test(formik.values.nickName)) {
@@ -113,6 +115,18 @@ const UserInfoEdit = () => {
                 }
               />
             </ul>
+            <BottomButton
+              onClick={naviState}
+              content="수정완료"
+              borderColor="border-black"
+              btnMaxWidth="max-w-[46.7rem]"
+              btnHeight="h-[5.1rem]"
+              marginX="mx-[2rem]"
+              marginXmob="_sm:ml-[20rem]"
+              btnColor="bg-black"
+              btnTextColor="text-white"
+              btnMaxWidthMob="_sm:max-w-[16.4rem]"
+            />
           </form>
         </div>
       </MobCard>
@@ -120,7 +134,8 @@ const UserInfoEdit = () => {
   );
 };
 const FormImg = ({ file }: any) => {
-  const imageData = `data:image/png;base64,${file?.encodedFile}`;
+  // 수정 되어있을 경우 불러올 이미지 파일
+  // const imageData = `data:image/png;base64,${file?.encodedFile}`;
 
   const normFile = (e: any) => {
     console.log("Upload event:", e);
@@ -142,20 +157,18 @@ const FormImg = ({ file }: any) => {
         getValueFromEvent={normFile}
       >
         <Upload {...props}>
-          <div className="w-[13.5rem] h-[13.5rem] bg-[#D9D9D9] rounded-full overflow-hidden">
-            <div className="relative w-full h-full">
-              <img
-                src={imageData}
-                alt=""
-                className="w-full h-full absolute top-1/2 left-1/2 translate-x-1/2 translate-y-1/2"
-              />
-            </div>
+          <Profile>
+            <Profile.Image
+              imgSrc={dummyImg}
+              alt="프로필 이미지"
+              width="w-[13.5rem]"
+            />
             <img
               src={userImage}
               alt="이미지 수정 아이콘"
               className="absolute right-0 bottom-0"
             />
-          </div>
+          </Profile>
         </Upload>
       </Form.Item>
     </>
