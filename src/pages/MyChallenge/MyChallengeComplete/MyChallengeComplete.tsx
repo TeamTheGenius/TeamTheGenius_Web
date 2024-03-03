@@ -22,6 +22,15 @@ const MyChallengeComplete = () => {
       completePer: "100%",
       completeState: true,
       getReward: false,
+      haveItem: false,
+    },
+    {
+      challengeItem: allChallengeData[0],
+      completePoint: "130p",
+      completePer: "100%",
+      completeState: true,
+      getReward: false,
+      haveItem: true,
     },
     {
       challengeItem: allChallengeData[1],
@@ -45,7 +54,14 @@ const MyChallengeComplete = () => {
       <MyChallengeModal.MyChallengeGetRewardModal closeModal={closeModal} />
     );
     openModal();
-    console.log("here2");
+  };
+  const onClickGetRewardTwiceButton = () => {
+    setModal(
+      <MyChallengeModal.MyChallengeGetRewardTwiceModal
+        closeModal={closeModal}
+      />
+    );
+    openModal();
   };
   return (
     <>
@@ -101,10 +117,16 @@ const MyChallengeComplete = () => {
                   </div>
                 )}
               </MyChallengeLinkWrap>
-              {!item.getReward && item.completeState && (
+              {!item.getReward && item.completeState && !item.haveItem && (
                 <MyChallengeLabel
                   labelText="보상 수령"
                   onClick={onClickGetRewardButton}
+                />
+              )}
+              {!item.getReward && item.completeState && item.haveItem && (
+                <MyChallengeLabel
+                  labelText="보상 수령"
+                  onClick={onClickGetRewardTwiceButton}
                 />
               )}
             </li>
