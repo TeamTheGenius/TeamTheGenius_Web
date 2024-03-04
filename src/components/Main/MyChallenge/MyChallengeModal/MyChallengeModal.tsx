@@ -1,3 +1,4 @@
+import getMyChallengeDoneReward from "@/apis/getMyChallengeDoneReward";
 import Button from "@/components/Common/Button";
 import { Modal } from "@/components/Common/Modal/Modal";
 
@@ -8,10 +9,12 @@ const MyChallengeModal = {
 
 interface ModalProps {
   closeModal: () => void;
+  instanceId: number;
 }
 
-function MyChallengeGetRewardModal({ closeModal }: ModalProps) {
-  const onClick = () => {
+function MyChallengeGetRewardModal({ closeModal, instanceId }: ModalProps) {
+  const onClick = async () => {
+    await getMyChallengeDoneReward({ item: false, instanceId });
     closeModal();
   };
   return (
@@ -33,11 +36,16 @@ function MyChallengeGetRewardModal({ closeModal }: ModalProps) {
   );
 }
 
-function MyChallengeGetRewardTwiceModal({ closeModal }: ModalProps) {
-  const onClickUse = () => {
+function MyChallengeGetRewardTwiceModal({
+  closeModal,
+  instanceId,
+}: ModalProps) {
+  const onClickUse = async () => {
+    await getMyChallengeDoneReward({ item: true, instanceId });
     closeModal();
   };
-  const onClickNotUse = () => {
+  const onClickNotUse = async () => {
+    await getMyChallengeDoneReward({ item: false, instanceId });
     closeModal();
   };
 
