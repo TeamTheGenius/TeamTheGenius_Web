@@ -14,6 +14,7 @@ interface OrdinalProps {
 
 interface WrapperProps {
   children?: React.ReactNode;
+  onClick?: () => void;
 }
 
 interface DateProps {
@@ -37,14 +38,19 @@ function InActiveOrdinal({ content }: OrdinalProps) {
 }
 
 function ActiveOrdinal({ content }: OrdinalProps) {
-  <div className="w-full h-[2.45rem] _sm:h-[2.1rem] bg-[#463F3F] text-white rounded-t-[1rem] text-[1.4rem] font-medium flex justify-center items-center">
-    {content}
-  </div>;
+  return (
+    <div className="w-full h-[2.45rem] _sm:h-[2.1rem] bg-[#463F3F] text-white rounded-t-[1rem] text-[1.4rem] font-medium flex justify-center items-center">
+      {content}
+    </div>
+  );
 }
 
-function SuccessWrapper({ children }: WrapperProps) {
+function SuccessWrapper({ children, onClick }: WrapperProps) {
   return (
-    <div className="w-full h-[5.05rem] _sm:h-[3.9rem] bg-[#61FBAB] rounded-b-[1rem]">
+    <div
+      onClick={onClick}
+      className="w-full h-[5.05rem] _sm:h-[3.9rem] bg-[#61FBAB] rounded-b-[1rem] cursor-pointer"
+    >
       {children}
     </div>
   );
