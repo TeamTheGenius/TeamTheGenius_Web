@@ -2,91 +2,61 @@ import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyCha
 import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyChallengeTitle";
 import MyChallengeLinkWrap from "@/components/Main/MyChallenge/MyChallengeLinkWrap/MyChallengeLinkWrap";
 import MyChallengeLabel from "@/components/Main/MyChallenge/MyChallengeLabel/MyChallengeLabel";
-import { allChallengeData } from "@/data/allChallengeData";
 import { PATH } from "@/constants/path";
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
+import getMyChallengePreActivity from "@/apis/getMyChallengePreActivity";
+import { useQuery } from "@tanstack/react-query";
+import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
+
+interface Data {
+  instanceId: number;
+  title: string;
+  remainDays: number;
+  participantCount: number;
+  pointPerPerson: number;
+  fileResponse: File;
+}
+
+interface File {
+  encodedFile: string;
+}
 
 const MyChallengeStart = () => {
-  const data = [
-    {
-      challengeItem: allChallengeData[0],
-      labelText: "시작 전",
-    },
-    {
-      challengeItem: allChallengeData[1],
-      labelText: "시작 전",
-    },
-    {
-      challengeItem: allChallengeData[2],
-      labelText: "시작 전",
-    },
-    {
-      challengeItem: allChallengeData[0],
-      labelText: "시작 전",
-    },
-    {
-      challengeItem: allChallengeData[1],
-      labelText: "시작 전",
-    },
-    {
-      challengeItem: allChallengeData[2],
-      labelText: "시작 전",
-    },
-    {
-      challengeItem: allChallengeData[0],
-      labelText: "시작 전",
-    },
-    {
-      challengeItem: allChallengeData[1],
-      labelText: "시작 전",
-    },
-    {
-      challengeItem: allChallengeData[2],
-      labelText: "시작 전",
-    },
-    {
-      challengeItem: allChallengeData[0],
-      labelText: "시작 전",
-    },
-    {
-      challengeItem: allChallengeData[1],
-      labelText: "시작 전",
-    },
-    {
-      challengeItem: allChallengeData[2],
-      labelText: "시작 전",
-    },
-  ];
+  const { data } = useQuery<Data[]>({
+    queryKey: ["myChallengePreActivity"],
+    queryFn: () => getMyChallengePreActivity(),
+  });
+
+  if (!data) {
+    return;
+  }
 
   return (
     <>
       <MyChallengeWrap>
         {data.map((item, index) => {
-          if (!item.challengeItem) return null;
-
           return (
             <li
               key={index}
               className="flex justify-between w-full relative mb-[1.3rem]"
             >
               <MyChallengeLinkWrap
-                key={item.challengeItem.id}
-                link={`${PATH.CHALLENGE_DETAIL}/${item.challengeItem.id}`}
+                key={index}
+                link={`${PATH.CERTIFICATION}/${item.instanceId}/my-current`}
               >
                 <div className="w-[16.4rem] h-[12.6rem] mr-[1.8rem] _sm:mr-[1.1rem]">
                   <ChallengeItem>
                     <ChallengeItem.Image
-                      imgSrc={item.challengeItem.imgSrc}
-                      alt={item.challengeItem.alt}
+                      imgSrc={makeBase64IncodedImage({
+                        uri: item.fileResponse.encodedFile,
+                        format: "jpg",
+                      })}
+                      alt={"챌린지 이미지"}
                       direction="vertical"
                     >
-                      <ChallengeItem.Overlay
-                        text={`D - ${item.challengeItem.dDay}`}
-                      />
+                      <ChallengeItem.Overlay text={`D - ${item.remainDays}`} />
                       <ChallengeItem.NumberOfParticipant
-                        numberOfParticipants={
-                          item.challengeItem.numberOfParticipants
-                        }
+                        numberOfParticipants={item.participantCount}
                       />
                     </ChallengeItem.Image>
                   </ChallengeItem>
@@ -94,12 +64,12 @@ const MyChallengeStart = () => {
 
                 <div className="flex flex-col gap-[4.7rem]">
                   <MyChallengeTitle
-                    title={item.challengeItem.title}
-                    point={item.challengeItem.point}
+                    title={item.title}
+                    point={item.pointPerPerson}
                   />
                 </div>
               </MyChallengeLinkWrap>
-              <MyChallengeLabel labelText={item.labelText as "시작 전"} />
+              <MyChallengeLabel labelText="시작 전" />
             </li>
           );
         })}
