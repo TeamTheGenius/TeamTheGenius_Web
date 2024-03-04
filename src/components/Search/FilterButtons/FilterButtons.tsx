@@ -1,19 +1,13 @@
 import FilterButton from "../FilterButton/FilterButton";
+import { PATH } from "@/constants/path";
 
-interface Props {
-  setFilter: React.Dispatch<
-    React.SetStateAction<"전체" | "모집중" | "진행중" | "완료">
-  >;
-  filter: "전체" | "모집중" | "진행중" | "완료";
-}
-
-function FilterButtons({ filter, setFilter }: Props) {
+function FilterButtons() {
   return (
     <div className="flex gap-[1rem]">
-      <FilterButton content="전체" filter={filter} onClick={setFilter} />
-      <FilterButton content="모집중" filter={filter} onClick={setFilter} />
-      <FilterButton content="진행중" filter={filter} onClick={setFilter} />
-      <FilterButton content="완료" filter={filter} onClick={setFilter} />
+      <FilterButton content="전체" path={PATH.SEARCH_ALL} />
+      <FilterButton content="모집중" path={PATH.SEARCH_PREACTIVITY} />
+      <FilterButton content="진행중" path={PATH.SEARCH_ACTIVITY} />
+      <FilterButton content="완료" path={PATH.SEARCH_DONE} />
     </div>
   );
 }

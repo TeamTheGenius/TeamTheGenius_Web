@@ -6,7 +6,13 @@ export const PATH = {
   ERROR: "/error",
   MAIN: "/main",
   HOME: "/main/home",
+
   SEARCH: "/main/home/search",
+  SEARCH_ALL: "/main/home/search/all",
+  SEARCH_PREACTIVITY: "/main/home/search/pre-activity",
+  SEARCH_ACTIVITY: "/main/home/search/activity",
+  SEARCH_DONE: "/main/home/search/done",
+
   POPULAR_CHALLENGE: "/main/home/popular",
   NEW_CHALLENGE: "/main/home/new",
   SUGGESTION_CHALLENGE: "/main/home/suggestion",
