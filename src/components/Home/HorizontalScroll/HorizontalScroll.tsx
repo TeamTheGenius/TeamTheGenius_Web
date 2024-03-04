@@ -8,7 +8,7 @@ function HorizontalScroll({ children, setClickPossible }: Props) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [isDrag, setIsDrag] = useState<boolean>(false);
   const [startX, setStartX] = useState<number | undefined>();
-
+  const delay = 30;
   const onDragStart = (e: MouseEvent) => {
     scrollRef.current?.classList.add("cursor-grab");
     e.preventDefault();
@@ -19,6 +19,10 @@ function HorizontalScroll({ children, setClickPossible }: Props) {
   const onDragEnd = () => {
     setIsDrag(false);
     scrollRef.current?.classList.remove("cursor-grab");
+
+    setTimeout(() => {
+      setClickPossible(true);
+    }, delay);
   };
 
   const onDragMove = (e: MouseEvent) => {
@@ -56,7 +60,6 @@ function HorizontalScroll({ children, setClickPossible }: Props) {
     };
   };
 
-  const delay = 30;
   const onThrottleDragMove = throttle(onDragMove, delay);
 
   return (

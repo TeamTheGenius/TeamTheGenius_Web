@@ -2,17 +2,12 @@ import ChallengeInformation from "@/components/Certification/Certification/Chall
 import Tabs from "@/components/Certification/Certification/Tabs/Tabs";
 import DynamicBackIcon from "@/components/Common/DynamicBackIcon/DynamicBackIcon";
 import MobCard from "@/components/Common/MobCard";
-import { allChallengeData } from "@/data/allChallengeData";
-
 import { Outlet, useParams } from "react-router-dom";
 
 function Certification() {
   const { id } = useParams();
-  const selectedChallenge = allChallengeData.find(
-    (challenge) => challenge.id.toString() === id
-  );
 
-  if (!selectedChallenge) {
+  if (!id) {
     return;
   }
   return (
@@ -23,7 +18,7 @@ function Certification() {
       <div className="flex flex-col items-center">
         <div className="max-w-[54.6rem] w-full flex flex-col">
           <ChallengeInformation />
-          <Tabs id={selectedChallenge.id} />
+          <Tabs id={parseInt(id)} />
           <Outlet />
         </div>
       </div>

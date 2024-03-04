@@ -31,9 +31,6 @@ function PopularChallengeItems() {
   const onClick = (id: number, clickPossible: boolean) => {
     if (clickPossible) {
       navigate(`${PATH.CHALLENGE_DETAIL}/${id}`);
-    } else {
-      setClickPossible(true);
-      return;
     }
   };
 
