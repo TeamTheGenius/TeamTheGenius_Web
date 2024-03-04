@@ -7,6 +7,7 @@ import successStamp from "@/assets/icon/success-stamp.svg";
 import { PATH } from "@/constants/path";
 import { useQuery } from "@tanstack/react-query";
 import getMyChallengeActivity from "@/apis/getMyChallengeActivity";
+import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 
 interface Data {
   instanceId: number;
@@ -44,12 +45,15 @@ const MyChallengeProgress = () => {
             >
               <MyChallengeLinkWrap
                 key={index}
-                link={`${PATH.CHALLENGE_DETAIL}/${item.instanceId}`}
+                link={`${PATH.CERTIFICATION}/${item.instanceId}/my-current`}
               >
                 <div className="w-[16.4rem] h-[12.6rem] mr-[1.8rem] _sm:mr-[1.1rem]">
                   <ChallengeItem>
                     <ChallengeItem.Image
-                      imgSrc={item.fileResponse.encodedFile}
+                      imgSrc={makeBase64IncodedImage({
+                        uri: item.fileResponse.encodedFile,
+                        format: "jpg",
+                      })}
                       alt={"챌린지 이미지"}
                       direction="vertical"
                     >
