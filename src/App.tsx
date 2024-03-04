@@ -42,6 +42,10 @@ import Report from "./pages/Certification/Report/Report";
 import MyChallengeStart from "./pages/MyChallenge/MyChallengeStart/MyChallengeStart";
 import MyChallengeProgress from "./pages/MyChallenge/MyChallengeProgress/MyChallengeProgress";
 import MyChallengeComplete from "./pages/MyChallenge/MyChallengeComplete/MyChallengeComplete";
+import AllSearch from "./pages/Home/Search/AllSearch/AllSearch";
+import PreActivitySearch from "./pages/Home/Search/PreActivitySearch/PreActivitySearch";
+import ActivitySearch from "./pages/Home/Search/ActivitySearch/ActivitySearch";
+import DoneSearch from "./pages/Home/Search/DoneSearch/DoneSearch";
 
 function App() {
   const queryClient = new QueryClient();
@@ -55,10 +59,7 @@ function App() {
           <Route path={PATH.INTEREST} element={<Interest />} />
           <Route path={PATH.ERROR} element={<Error />} />
           <Route path={PATH.MAIN} element={<Main />}>
-            <Route
-              path={PATH.MY_CHALLENGE}
-              element={<MyChallenge />}
-            >
+            <Route path={PATH.MY_CHALLENGE} element={<MyChallenge />}>
               <Route
                 path={PATH.MY_CHALLENGE_START}
                 element={<MyChallengeStart />}
@@ -85,7 +86,15 @@ function App() {
               path={PATH.SUGGESTION_CHALLENGE}
               element={<SuggestionChallenge />}
             />
-            <Route path={PATH.SEARCH} element={<Search />} />
+            <Route path={PATH.SEARCH} element={<Search />}>
+              <Route path={PATH.SEARCH_ALL} element={<AllSearch />} />
+              <Route
+                path={PATH.SEARCH_PREACTIVITY}
+                element={<PreActivitySearch />}
+              />
+              <Route path={PATH.SEARCH_ACTIVITY} element={<ActivitySearch />} />
+              <Route path={PATH.SEARCH_DONE} element={<DoneSearch />} />
+            </Route>
           </Route>
           <Route
             path={PATH.MY_PAGE_INTEREST_CHALLENGE}

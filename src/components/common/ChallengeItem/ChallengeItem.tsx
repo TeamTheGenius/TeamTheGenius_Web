@@ -69,7 +69,7 @@ function NumberOfParticipant({ numberOfParticipants }: ParticipantProps) {
     <div className="absolute bg-black opacity-80 top-[0.3rem] left-[1rem] rounded-[8px] w-[4.8rem] h-[1.9rem] flex justify-center items-center gap-[0.6rem]">
       <img src={personIcon} alt="신청 인원 수 아이콘" />
       <span className="text-[1rem] font-extralight leading-normal text-white">
-        {numberOfParticipants}명
+        {numberOfParticipants | 0}명
       </span>
     </div>
   );

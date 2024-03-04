@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import getSearchedChallengeItem from "@/apis/getSearchedChallengeItem";
 import VerticalChallengeItems from "@/components/Common/VerticalChallengeItems/VerticalChallengeItems";
-import HomeLayout from "@/layout/HomeLayout/HomeLayout";
+import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
-import getRecommendedChallenge from "@/apis/getRecommendedChallenge";
+import { useOutletContext } from "react-router-dom";
 
 interface Data {
   instanceId: number;
@@ -14,16 +14,24 @@ interface Data {
   };
 }
 
-const SuggestionChallenge = () => {
+interface Outlet {
+  searchQuery: string;
+}
+
+function PreActivitySearch() {
+  const { searchQuery } = useOutletContext<Outlet>();
   const [page, setPage] = useState(0);
   const [ref, inView] = useInView();
   const [challenges, setChallenges] = useState<Data[]>([]);
 
   const loadChallenges = async () => {
-    const newData = await getRecommendedChallenge({
+    const newData = await getSearchedChallengeItem({
       pageParams: page,
-      size: 20,
+      size: 10,
+      keyword: searchQuery,
+      progress: "PREACTIVITY",
     });
+
     setChallenges([...challenges, ...newData.posts]);
     setPage((page) => page + 1);
   };
@@ -35,13 +43,11 @@ const SuggestionChallenge = () => {
   }, [inView]);
 
   return (
-    <HomeLayout>
-      <div className="mx-[2.2rem] mt-[1rem]">
-        <VerticalChallengeItems data={challenges} />
-        <div ref={ref} style={{ height: "10px", background: "transparent" }} />
-      </div>
-    </HomeLayout>
+    <>
+      <VerticalChallengeItems data={challenges} />
+      <div ref={ref} style={{ height: "10px" }}></div>
+    </>
   );
-};
+}
 
-export default SuggestionChallenge;
+export default PreActivitySearch;

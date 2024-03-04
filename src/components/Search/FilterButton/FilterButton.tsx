@@ -1,18 +1,23 @@
 import { cls } from "@/utils/mergeTailwind";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface Props {
   content: string;
-  onClick: React.Dispatch<
-    React.SetStateAction<"전체" | "모집중" | "진행중" | "완료">
-  >;
-  filter: "전체" | "모집중" | "진행중" | "완료";
+  path: string;
 }
 
-function FilterButton({ content, filter, onClick }: Props) {
-  const isActive = filter === content;
+function FilterButton({ content, path }: Props) {
+  const navigate = useNavigate();
+  const onClickTab = (path: string) => {
+    navigate(path, { replace: true });
+  };
+
+  const url = useLocation().pathname;
+  const isActive = url === path;
+
   return (
     <button
-      onClick={() => onClick(content as Props["filter"])}
+      onClick={() => onClickTab(path)}
       className={cls(
         "h-[3rem] px-[1.2rem] text-[1.2rem] font-medium",
         isActive
