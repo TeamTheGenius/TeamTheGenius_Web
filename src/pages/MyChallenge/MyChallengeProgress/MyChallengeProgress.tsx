@@ -5,57 +5,62 @@ import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyC
 import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyChallengeWrap";
 import successStamp from "@/assets/icon/success-stamp.svg";
 import { PATH } from "@/constants/path";
-import { allChallengeData } from "@/data/allChallengeData";
+import { useQuery } from "@tanstack/react-query";
+import getMyChallengeActivity from "@/apis/getMyChallengeActivity";
+
+interface Data {
+  instanceId: number;
+  title: string;
+  pointPerPerson: number;
+  repository: string;
+  certificateStatus: "패스 완료" | "인증 갱신" | "인증 필요";
+  numOfPassItem: number;
+  canUsePassItem: boolean;
+  fileResponse: File;
+}
+
+interface File {
+  encodedFile: string;
+}
 
 const MyChallengeProgress = () => {
-  const data = [
-    {
-      challengeItem: allChallengeData[0],
-      labelText: "인증 필요",
-      repositoryName: "dddddddddddddddddddddddd",
-    },
-    {
-      challengeItem: allChallengeData[1],
-      labelText: "패스 완료",
-      repositoryName: "dddddddddddddddddddddddd",
-    },
-    {
-      challengeItem: allChallengeData[2],
-      labelText: "인증 갱신",
-      repositoryName:
-        "아아아아아ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ",
-    },
-  ];
+  const { data } = useQuery<Data[]>({
+    queryKey: ["myChallengeActivity"],
+    queryFn: () => getMyChallengeActivity(),
+  });
+
+  if (!data) {
+    return;
+  }
+
   return (
     <>
       <MyChallengeWrap>
         {data.map((item, index) => {
-          if (!item.challengeItem) return null;
-
           return (
             <li
               key={index}
               className="flex justify-between w-full relative mb-[1.3rem]"
             >
               <MyChallengeLinkWrap
-                key={item.challengeItem.id}
-                link={`${PATH.CHALLENGE_DETAIL}/${item.challengeItem.id}`}
+                key={index}
+                link={`${PATH.CHALLENGE_DETAIL}/${item.instanceId}`}
               >
                 <div className="w-[16.4rem] h-[12.6rem] mr-[1.8rem] _sm:mr-[1.1rem]">
                   <ChallengeItem>
                     <ChallengeItem.Image
-                      imgSrc={item.challengeItem.imgSrc}
-                      alt={item.challengeItem.alt}
+                      imgSrc={item.fileResponse.encodedFile}
+                      alt={"챌린지 이미지"}
                       direction="vertical"
                     >
-                      {item.labelText === "패스 완료" && (
+                      {item.certificateStatus === "패스 완료" && (
                         <ChallengeItem.Overlay text="패 스" />
                       )}
-                      {item.labelText === "인증 갱신" && (
+                      {item.certificateStatus === "인증 갱신" && (
                         <ChallengeItem.Overlay />
                       )}
 
-                      {item.labelText === "인증 갱신" && (
+                      {item.certificateStatus === "인증 갱신" && (
                         <img
                           src={successStamp}
                           alt="성공 스탬프"
@@ -66,16 +71,12 @@ const MyChallengeProgress = () => {
                   </ChallengeItem>
                 </div>
                 <MyChallengeTitle
-                  title={item.challengeItem.title}
-                  point={item.challengeItem.point}
-                  repositoryName={item.repositoryName}
+                  title={item.title}
+                  point={item.pointPerPerson}
+                  repositoryName={item.repository}
                 />
               </MyChallengeLinkWrap>
-              <MyChallengeLabel
-                labelText={
-                  item.labelText as "인증 필요" | "패스 완료" | "인증 갱신"
-                }
-              />
+              <MyChallengeLabel labelText={item.certificateStatus} />
             </li>
           );
         })}
