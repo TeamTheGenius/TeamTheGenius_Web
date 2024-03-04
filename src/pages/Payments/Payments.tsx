@@ -25,7 +25,7 @@ const Payments = () => {
   const paymentMethodsWidgetRef = useRef<ReturnType<
     PaymentWidgetInstance["renderPaymentMethods"]
   > | null>(null);
-  
+
   console.log(
     "`${window.location.origin}/payments/success`",
     `${window.location.origin}/payments/success`
@@ -87,7 +87,16 @@ const Payments = () => {
             <div id="payment-widget" />
             <div id="agreement" />
           </div>
-          <BottomButton onClick={paymentApi} content="결제하기" />
+          <BottomButton
+            onClick={paymentApi}
+            content="결제하기"
+            borderColor="border-[#FF4356]"
+            btnTextColor="text-[#ffffff]"
+            btnHeight="h-[6.1rem]"
+            marginX="mx-[2rem]"
+            btnColor="bg-[#ff4356]"
+            btnMaxWidth="max-w-[46.7rem]"
+          />
         </div>
       </MobCard>
     </>

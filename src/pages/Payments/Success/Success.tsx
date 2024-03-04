@@ -39,8 +39,8 @@ const Success = () => {
           />
           <h3 className="text-[1.8rem] font-bold">결제에 성공하였습니다</h3>
         </div>
-        <div className="w-full">
-          <ul className="w-full text-[1.4rem]">
+        <div className="w-full flex justify-center">
+          <ul className="w-[24.7rem] text-[1.4rem]">
             <li className="w-full flex justify-between mb-[1.2rem]">
               <span className="text-[#666666]">paymentKey</span>
               <span>{`${searchParams.get("paymentKey")}`}</span>
@@ -57,7 +57,16 @@ const Success = () => {
             </li>
           </ul>
         </div>
-        <BottomButton onClick={navigate(PATH.HOME)} content="홈으로" />
+        <BottomButton
+          onClick={navigate(PATH.HOME)}
+          content="홈으로"
+          borderColor="border-[#FF4356]"
+          btnColor="bg-[#ffffff]"
+          btnHeight="h-[6.1rem]"
+          btnMaxWidth="max-w-[46.7rem]"
+          btnTextColor="text-[#FF4356]"
+          marginX="mx-[2rem]"
+        />
       </div>
     </MobCard>
   );
