@@ -1,13 +1,33 @@
 import Button from "@/components/Common/Button";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import DropDownIcon from "@/assets/icon/arrow-down.svg";
 import checkIcon from "@/assets/icon/check-icon.svg";
-function Repo({ label, id, value }: any) {
-  const [tokenChecn, setTokenCheck] = useState("");
+import getRepoVertifyApi from "@/apis/getRepoVertifyApi";
+type repoType = {
+  label: string;
+  value: string;
+  id: string;
+  repo?: string[];
+  setRepoState: Dispatch<SetStateAction<string>>;
+  githubTokenOk?: string;
+  setRepoBoolean: Dispatch<SetStateAction<boolean>>;
+};
+function Repo({
+  label,
+  id,
+  value,
+  repo,
+  setRepoState,
+  githubTokenOk,
+  setRepoBoolean,
+}: repoType) {
   const [selectedValue, setSelectedValue] = useState("");
-  const gitTokenCheck = () => {
-    // setTokenCheck
-    console.log("등록 버튼");
+  const gitRepoCheck = () => {
+    getRepoVertifyApi({ repo: selectedValue, setRepoBoolean: setRepoBoolean });
+    setRepoState(selectedValue);
+  };
+  const gitRepoFlase = () => {
+    alert("깃허브 토큰 등록을 먼저 진행해주세요.");
   };
 
   const handleDropdownChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -40,9 +60,11 @@ function Repo({ label, id, value }: any) {
               className="relative w-full bg-transparent text-[1.3rem] outline-none border-b-2 focus:border-black appearance-none"
             >
               <option className="hidden">{selectedValue}</option>
-              <option value="값1">값1</option>
-              <option value="값2">값2</option>
-              <option value="값3">값3</option>
+              {repo?.map((item: string, id: number) => (
+                <option key={id} value={item}>
+                  {item}
+                </option>
+              ))}
             </select>
             <img
               src={DropDownIcon}
@@ -50,16 +72,29 @@ function Repo({ label, id, value }: any) {
               className="absolute top-0 right-7"
             />
           </div>
-          <Button
-            width="w-[8.7rem]"
-            height="h-[3.1rem]"
-            content="선택완료"
-            fontWeight="font-medium"
-            backgroundColor="bg-[#6893FF]"
-            textColor="text-white"
-            textSize="text-[1.3rem]"
-            handleClick={gitTokenCheck}
-          />
+          {githubTokenOk === "OK" ? (
+            <Button
+              width="w-[8.7rem]"
+              height="h-[3.1rem]"
+              content="선택완료"
+              fontWeight="font-medium"
+              backgroundColor="bg-[#6893FF]"
+              textColor="text-white"
+              textSize="text-[1.3rem]"
+              handleClick={gitRepoCheck}
+            />
+          ) : (
+            <Button
+              width="w-[8.7rem]"
+              height="h-[3.1rem]"
+              content="선택완료"
+              fontWeight="font-medium"
+              backgroundColor="bg-[#666666]"
+              textColor="text-[#dddddd]"
+              textSize="text-[1.3rem]"
+              handleClick={gitRepoFlase}
+            />
+          )}
         </div>
       </div>
     </>

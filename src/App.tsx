@@ -36,7 +36,7 @@ import Payments from "./pages/Payments/Payments";
 import { Fail } from "./pages/Payments/Fail/Fail";
 import Success from "./pages/Payments/Success/Success";
 import GithubTokken from "./pages/MyPage/GithubToken/GithubToken";
-import GitPullReqConnect from "./pages/GitPullReqConnect/GitPullReqConnect";
+import GitPullReqConnect from "./pages/ChallengeDetail/GitPullReqConnect/GitPullReqConnect";
 import ServiceWithdraw from "./pages/MyPage/ServiceWithdraw/ServiceWithdraw";
 import Report from "./pages/Certification/Report/Report";
 import MyChallengeStart from "./pages/MyChallenge/MyChallengeStart/MyChallengeStart";
