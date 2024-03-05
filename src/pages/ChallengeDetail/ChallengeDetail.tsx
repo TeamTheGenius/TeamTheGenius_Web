@@ -15,7 +15,8 @@ interface Data {
   instanceId: number;
   title: string;
   remainDays: number;
-  period: string;
+  startedDate: string;
+  completedDate: string;
   participantCount: number;
   pointPerPerson: number;
   description: string;
@@ -46,13 +47,12 @@ function ChallengeDetail() {
   if (!data) return;
 
   const tempToday = new Date();
-  const startDate = new Date("2024-03-07T00:00:00");
-  const lastDate = new Date("2024-03-14T00:00:00");
-  const applyLastDate = new Date(startDate);
-  const challengeEndDate = new Date(lastDate);
-  applyLastDate.setSeconds(startDate.getSeconds() - 1);
-  challengeEndDate.setSeconds(lastDate.getSeconds() + 1);
-  let tempJoinStatus = "NO";
+  const certificationStartDate = new Date(`${data.startedDate}T00:00:00`);
+  const certificationEndDate = new Date(`${data.completedDate}T00:00:00`);
+  const applyLastDate = new Date(certificationStartDate);
+  const challengeEndDate = new Date(certificationEndDate);
+  applyLastDate.setSeconds(certificationStartDate.getSeconds() - 1);
+  challengeEndDate.setSeconds(certificationEndDate.getSeconds() + 1);
 
   return (
     <MobCard>
@@ -72,7 +72,7 @@ function ChallengeDetail() {
           <CoreInformation
             challengeTitle={data.title}
             applicant={data.participantCount}
-            period={data.period}
+            period={`${data.startedDate} - ${data.completedDate} / 매일`}
             dDay={data.remainDays}
             point={data.pointPerPerson}
           />
@@ -96,16 +96,18 @@ function ChallengeDetail() {
               <Bottom.Button status="챌린지종료" />
             )) ||
               (applyLastDate.getTime() >= tempToday.getTime() &&
-                tempJoinStatus === "NO" && (
+                data.joinStatus === "NO" && (
                   <Bottom.Button status="참가하기" />
                 )) ||
-              (lastDate.getTime() >= tempToday.getTime() &&
-                tempJoinStatus === "YES" && (
+              (certificationEndDate.getTime() >= tempToday.getTime() &&
+                data.joinStatus === "YES" && (
                   <Bottom.Button status="참가완료" />
                 )) ||
-              (startDate.getTime() <= tempToday.getTime() &&
-                lastDate.getTime() >= tempToday.getTime() &&
-                tempJoinStatus === "NO" && <Bottom.Button status="모집완료" />)}
+              (certificationStartDate.getTime() <= tempToday.getTime() &&
+                certificationEndDate.getTime() >= tempToday.getTime() &&
+                data.joinStatus === "NO" && (
+                  <Bottom.Button status="모집완료" />
+                ))}
           </Bottom>
         </div>
       </div>
