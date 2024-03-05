@@ -52,6 +52,7 @@ export const PATH = {
 
   // 임시 주손
   GITHUB_PULLREQ: "/pullrequest",
+  GITHUB_REPO_REGISTER: "/challenge-detail/:id/repo-register",
 
   ADMIN: "/admin",
   ADMIN_INSTANCE: "/admin/instance",

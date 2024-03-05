@@ -13,6 +13,7 @@ import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 
 interface Data {
   instanceId: number;
+  title: string;
   remainDays: number;
   period: string;
   participantCount: number;
@@ -44,6 +45,15 @@ function ChallengeDetail() {
 
   if (!data) return;
 
+  const tempToday = new Date();
+  const startDate = new Date("2024-03-07T00:00:00");
+  const lastDate = new Date("2024-03-14T00:00:00");
+  const applyLastDate = new Date(startDate);
+  const challengeEndDate = new Date(lastDate);
+  applyLastDate.setSeconds(startDate.getSeconds() - 1);
+  challengeEndDate.setSeconds(lastDate.getSeconds() + 1);
+  let tempJoinStatus = "NO";
+
   return (
     <MobCard>
       <div className="max-w-[77.3rem] w-full z-10 fixed ml-[1.9rem] top-[1.3rem]">
@@ -60,7 +70,7 @@ function ChallengeDetail() {
             alt={"챌린지 이미지"}
           />
           <CoreInformation
-            challengeTitle={"title이 없다.."}
+            challengeTitle={data.title}
             applicant={data.participantCount}
             period={data.period}
             dDay={data.remainDays}
@@ -82,8 +92,20 @@ function ChallengeDetail() {
               setHeartActive={setHeartActive}
               heartCount={data.hitCount}
             />
-
-            <Bottom.Button joinStatus={data.joinStatus as "NO" | "YES"} />
+            {(challengeEndDate.getTime() <= tempToday.getTime() && (
+              <Bottom.Button status="챌린지종료" />
+            )) ||
+              (applyLastDate.getTime() >= tempToday.getTime() &&
+                tempJoinStatus === "NO" && (
+                  <Bottom.Button status="참가하기" />
+                )) ||
+              (lastDate.getTime() >= tempToday.getTime() &&
+                tempJoinStatus === "YES" && (
+                  <Bottom.Button status="참가완료" />
+                )) ||
+              (startDate.getTime() <= tempToday.getTime() &&
+                lastDate.getTime() >= tempToday.getTime() &&
+                tempJoinStatus === "NO" && <Bottom.Button status="모집완료" />)}
           </Bottom>
         </div>
       </div>

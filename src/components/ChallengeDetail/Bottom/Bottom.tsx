@@ -1,5 +1,6 @@
 import Button from "@/components/Common/Button";
 import Heart from "../Heart/Heart";
+import { useNavigate } from "react-router-dom";
 
 interface HeartProps {
   heartActive: boolean;
@@ -12,7 +13,7 @@ interface MainProps {
 }
 
 interface ButtonProps {
-  joinStatus: "NO" | "YES";
+  status: "참가하기" | "참가완료" | "모집완료" | "챌린지종료";
 }
 
 function BottomHeart({ heartActive, setHeartActive, heartCount }: HeartProps) {
@@ -41,25 +42,40 @@ function BottomMain({ children }: MainProps) {
   );
 }
 
-function BottomButton({ joinStatus }: ButtonProps) {
-  const onClickParticipation = () => {};
+function BottomButton({ status }: ButtonProps) {
+  const navigate = useNavigate();
+  const onClickParticipation = () => {
+    navigate("repo-register");
+  };
   const joinStatusVariants = {
-    NO: {
+    참가하기: {
       buttonText: "참가하기",
       backgroundColor: "bg-[#FF4356]",
       textColor: "text-white",
       onClick: onClickParticipation,
     },
-    YES: {
+    참가완료: {
       buttonText: "참가완료",
-      backgroundColor: "bg-[#DDD]",
+      backgroundColor: "bg-[#DDD] cursor-default",
+      textColor: "text-[#7C7C7C]",
+      onClick: () => {},
+    },
+    모집완료: {
+      buttonText: "모집완료",
+      backgroundColor: "bg-[#DDD] cursor-default",
+      textColor: "text-[#7C7C7C]",
+      onClick: () => {},
+    },
+    챌린지종료: {
+      buttonText: "챌린지 종료",
+      backgroundColor: "bg-[#DDD] cursor-default",
       textColor: "text-[#7C7C7C]",
       onClick: () => {},
     },
   };
 
   const { buttonText, backgroundColor, textColor, onClick } =
-    joinStatusVariants[joinStatus as keyof typeof joinStatusVariants];
+    joinStatusVariants[status as keyof typeof joinStatusVariants];
   return (
     <Button
       content={buttonText}
