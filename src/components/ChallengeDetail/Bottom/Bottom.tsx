@@ -12,7 +12,7 @@ interface MainProps {
 }
 
 interface ButtonProps {
-  joinStatus: "NO" | "YES";
+  status: "참가하기" | "참가완료" | "모집완료" | "챌린지종료";
 }
 
 function BottomHeart({ heartActive, setHeartActive, heartCount }: HeartProps) {
@@ -41,17 +41,29 @@ function BottomMain({ children }: MainProps) {
   );
 }
 
-function BottomButton({ joinStatus }: ButtonProps) {
+function BottomButton({ status }: ButtonProps) {
   const onClickParticipation = () => {};
   const joinStatusVariants = {
-    NO: {
+    참가하기: {
       buttonText: "참가하기",
       backgroundColor: "bg-[#FF4356]",
       textColor: "text-white",
       onClick: onClickParticipation,
     },
-    YES: {
+    참가완료: {
       buttonText: "참가완료",
+      backgroundColor: "bg-[#DDD]",
+      textColor: "text-[#7C7C7C]",
+      onClick: () => {},
+    },
+    모집완료: {
+      buttonText: "모집완료",
+      backgroundColor: "bg-[#DDD]",
+      textColor: "text-[#7C7C7C]",
+      onClick: () => {},
+    },
+    챌린지종료: {
+      buttonText: "챌린지 종료",
       backgroundColor: "bg-[#DDD]",
       textColor: "text-[#7C7C7C]",
       onClick: () => {},
@@ -59,7 +71,7 @@ function BottomButton({ joinStatus }: ButtonProps) {
   };
 
   const { buttonText, backgroundColor, textColor, onClick } =
-    joinStatusVariants[joinStatus as keyof typeof joinStatusVariants];
+    joinStatusVariants[status as keyof typeof joinStatusVariants];
   return (
     <Button
       content={buttonText}
