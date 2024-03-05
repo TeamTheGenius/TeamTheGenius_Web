@@ -8,7 +8,7 @@ type PullReqType = {
 
 function PullReq({ label, repoState }: PullReqType) {
   const pullReqCheck = () => {
-    getPullRequestVerifyApi({ repoState: repoState });
+    getPullRequestVerifyApi({ repo: repoState });
   };
   return (
     <div className={`flex flex-col w-full`}>

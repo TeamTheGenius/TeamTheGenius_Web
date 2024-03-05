@@ -1,18 +1,20 @@
 import axios from "axios";
 
 type getPullRequestVerifyApiType = {
-  repoState: string;
+  repo: string;
 };
 const getPullRequestVerifyApi = async ({
-  repoState,
+  repo,
 }: getPullRequestVerifyApiType) => {
+  console.log("repo", repo);
   await axios
-    .get(
-      `http://localhost:8080/api/certification/verify/pull-request/?repo=${repoState}`,
-      {
-        withCredentials: true,
-      }
-    )
+    .get(`http://localhost:8080/api/certification/verify/pull-request`, {
+      withCredentials: true,
+      headers: {
+        Accept: "*/*",
+      },
+      params: { repo },
+    })
     .then((res) => {
       console.log("PR 인증 완료", res);
     })

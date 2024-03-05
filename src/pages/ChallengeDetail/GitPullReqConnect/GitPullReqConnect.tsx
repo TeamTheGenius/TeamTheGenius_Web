@@ -10,6 +10,8 @@ import PullReq from "@/components/GitPullReqConnect/PullReq/PullReq";
 import PullReqExp from "@/components/GitPullReqConnect/PullReqExp/PullReqExp";
 import { useQuery } from "@tanstack/react-query";
 import getUserRepoApi from "@/apis/getUserRepoApi";
+import BottomButton from "@/components/Common/BottomButton/BottomButton";
+import postChallengeRepoRegiApi from "@/apis/postChallengeRepoRegiApi";
 
 const GitPullReqConnect = () => {
   // 등록 시 이미지 변환boolean
@@ -26,7 +28,15 @@ const GitPullReqConnect = () => {
     setNickName(e.target.value);
   };
   const notionUrl = () => {
-    navigate("notionUrl");
+    alert("노션 웹으로 이동하기");
+    // navigate("notionUrl");
+  };
+
+  const challengeRegiHandle = () => {
+    postChallengeRepoRegiApi({
+      instanceId: paramNumber,
+      repo: repoState,
+    });
   };
   const { data } = useQuery<any>({
     queryKey: ["getUserRepo"],
@@ -68,7 +78,6 @@ const GitPullReqConnect = () => {
               label="2. Repository 선택"
               repo={data}
               id="repository"
-              paramNumber={paramNumber}
               value={nickName}
               setRepoState={setRepoState}
             />
@@ -79,6 +88,16 @@ const GitPullReqConnect = () => {
           <div className="w-full">
             <PullReqExp label="Pull Request 연결 방법" />
           </div>
+          <BottomButton
+            onClick={challengeRegiHandle}
+            content="참가하기"
+            borderColor="border-[#FF4356]"
+            btnTextColor="text-[#ffffff]"
+            btnHeight="h-[6.1rem]"
+            marginX="mx-[2rem]"
+            btnColor="bg-[#ff4356]"
+            btnMaxWidth="max-w-[46.7rem]"
+          />
         </div>
       </MobCard>
     </>

@@ -2,23 +2,19 @@ import Button from "@/components/Common/Button";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import DropDownIcon from "@/assets/icon/arrow-down.svg";
 import checkIcon from "@/assets/icon/check-icon.svg";
-import postChallengeRepoRegiApi from "@/apis/postChallengeRepoRegiApi";
+import getRepoVertifyApi from "@/apis/getRepoVertifyApi";
 type repoType = {
   label: string;
   value: string;
   id: string;
   repo?: string[];
-  paramNumber?: string;
   setRepoState: Dispatch<SetStateAction<string>>;
 };
-function Repo({ label, id, value, repo, paramNumber, setRepoState }: repoType) {
+function Repo({ label, id, value, repo, setRepoState }: repoType) {
   const [selectedValue, setSelectedValue] = useState("");
-  const gitTokenCheck = () => {
-    postChallengeRepoRegiApi({
-      instanceId: paramNumber,
-      repo: selectedValue,
-      setRepoState: setRepoState,
-    });
+  const gitRepoCheck = () => {
+    getRepoVertifyApi({ repo: selectedValue });
+    setRepoState(selectedValue);
   };
 
   const handleDropdownChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -71,7 +67,7 @@ function Repo({ label, id, value, repo, paramNumber, setRepoState }: repoType) {
             backgroundColor="bg-[#6893FF]"
             textColor="text-white"
             textSize="text-[1.3rem]"
-            handleClick={gitTokenCheck}
+            handleClick={gitRepoCheck}
           />
         </div>
       </div>

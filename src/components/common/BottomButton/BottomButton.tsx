@@ -29,7 +29,7 @@ const BottomButton = ({
           className={`w-full ${btnMaxWidth} ${btnMaxWidthMob} ${btnHeight} ${marginX} ${marginXmob} mt-[1.2rem] mb-[1.7rem] text-[1.8rem] ${btnTextColor} ${btnColor} font-medium rounded-[1rem] border-2 ${borderColor}`}
           onClick={() => {
             {
-              onClick;
+              onClick();
             }
           }}
         >
