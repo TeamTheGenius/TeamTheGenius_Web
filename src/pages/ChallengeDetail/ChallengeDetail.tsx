@@ -47,7 +47,7 @@ function ChallengeDetail() {
 
   const tempToday = new Date();
   const startDate = new Date("2024-03-07T00:00:00");
-  const lastDate = new Date("2024-03-04T00:00:00");
+  const lastDate = new Date("2024-03-14T00:00:00");
   const applyLastDate = new Date(startDate);
   const challengeEndDate = new Date(lastDate);
   applyLastDate.setSeconds(startDate.getSeconds() - 1);

@@ -1,5 +1,6 @@
 import Button from "@/components/Common/Button";
 import Heart from "../Heart/Heart";
+import { useNavigate } from "react-router-dom";
 
 interface HeartProps {
   heartActive: boolean;
@@ -42,7 +43,10 @@ function BottomMain({ children }: MainProps) {
 }
 
 function BottomButton({ status }: ButtonProps) {
-  const onClickParticipation = () => {};
+  const navigate = useNavigate();
+  const onClickParticipation = () => {
+    navigate("repo-register");
+  };
   const joinStatusVariants = {
     참가하기: {
       buttonText: "참가하기",
@@ -52,19 +56,19 @@ function BottomButton({ status }: ButtonProps) {
     },
     참가완료: {
       buttonText: "참가완료",
-      backgroundColor: "bg-[#DDD]",
+      backgroundColor: "bg-[#DDD] cursor-default",
       textColor: "text-[#7C7C7C]",
       onClick: () => {},
     },
     모집완료: {
       buttonText: "모집완료",
-      backgroundColor: "bg-[#DDD]",
+      backgroundColor: "bg-[#DDD] cursor-default",
       textColor: "text-[#7C7C7C]",
       onClick: () => {},
     },
     챌린지종료: {
       buttonText: "챌린지 종료",
-      backgroundColor: "bg-[#DDD]",
+      backgroundColor: "bg-[#DDD] cursor-default",
       textColor: "text-[#7C7C7C]",
       onClick: () => {},
     },
