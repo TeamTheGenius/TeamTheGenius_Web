@@ -133,7 +133,10 @@ function App() {
           <Route path={PATH.PAYMENTS} element={<Payments />} />
           <Route path={PATH.PAYMENTS_SUCCESS} element={<Success />} />
           <Route path={PATH.PAYMENTS_FAIL} element={<Fail />} />
-          <Route path={PATH.GITHUB_PULLREQ} element={<GitPullReqConnect />} />
+          <Route
+            path={PATH.GITHUB_REPO_REGISTER}
+            element={<GitPullReqConnect />}
+          />
 
           <Route path={PATH.ADMIN} element={<AdminTopic />} />
           <Route path={PATH.ADMIN_INSTANCE_ID} element={<AdminInstance />} />

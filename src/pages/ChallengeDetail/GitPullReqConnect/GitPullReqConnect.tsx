@@ -34,6 +34,7 @@ const GitPullReqConnect = () => {
 
   const challengeRegiHandle = () => {
     postChallengeRepoRegiApi({
+      navigate: navigate,
       instanceId: paramNumber,
       repo: repoState,
     });
@@ -41,17 +42,18 @@ const GitPullReqConnect = () => {
   const challengeRegiFalseHandle = () => {
     alert("pull request 확인 후 참가하기가 가능합니다.");
   };
+
   const { data: githubTokenOk } = useQuery<string>({
     queryKey: ["getGithubToken"],
     queryFn: getGithubTokenApi,
   });
 
-  const { data: repoList } = useQuery<any>({
+  const { data: repoList } = useQuery<string[]>({
     queryKey: ["getUserRepo"],
     queryFn: getUserRepoApi,
     enabled: githubTokenOk === "OK",
   });
-
+  console.log("githubTokenOk", githubTokenOk);
   return (
     <>
       <MobCard>
@@ -100,6 +102,7 @@ const GitPullReqConnect = () => {
               repoState={repoState}
               setPrBoolean={setPrBoolean}
               repoBoolean={repoBoolean}
+              prBoolean={prBoolean}
             />
           </div>
           <div className="w-full">

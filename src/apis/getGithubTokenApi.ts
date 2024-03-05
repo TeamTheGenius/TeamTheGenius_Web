@@ -12,7 +12,7 @@ const getGithubTokenApi = async () => {
     .catch((err) => {
       console.log("토큰 정보 요청 실패", err);
     });
-  return data || [];
+  return data || null;
 };
 
 export default getGithubTokenApi;

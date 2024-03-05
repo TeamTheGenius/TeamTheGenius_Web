@@ -1,14 +1,22 @@
 import Button from "@/components/Common/Button";
-import signIcon from "@/assets/icon/sign-icon.svg";
 import getPullRequestVerifyApi from "@/apis/getPullRequestVerifyApi";
+import checkIcon from "@/assets/icon/check-icon.svg";
+import failIcon from "@/assets/icon/sign-icon.svg";
 type PullReqType = {
   label: string;
   repoState: string;
   setPrBoolean: React.Dispatch<React.SetStateAction<boolean>>;
   repoBoolean: boolean;
+  prBoolean: boolean;
 };
 
-function PullReq({ label, repoState, setPrBoolean, repoBoolean }: PullReqType) {
+function PullReq({
+  label,
+  repoState,
+  setPrBoolean,
+  repoBoolean,
+  prBoolean,
+}: PullReqType) {
   const pullReqCheck = () => {
     getPullRequestVerifyApi({ repo: repoState, setPrBoolean: setPrBoolean });
   };
@@ -22,7 +30,15 @@ function PullReq({ label, repoState, setPrBoolean, repoBoolean }: PullReqType) {
           {label}
         </span>
         <div>
-          <img src={signIcon} alt="signIcon" />
+          {prBoolean === true ? (
+            <>
+              <img src={checkIcon} alt="Icon" />
+            </>
+          ) : (
+            <>
+              <img src={failIcon} alt="Icon" />
+            </>
+          )}
         </div>
       </div>
       <div className="flex items-center ml-[8.5rem] _md:ml-[2rem] _sm:ml-[2rem] pt-[0.6rem] ">

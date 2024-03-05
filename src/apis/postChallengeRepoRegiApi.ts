@@ -1,17 +1,18 @@
 import { PATH } from "@/constants/path";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction } from "react-router-dom";
 
 type postChallengeRepoRegiApiType = {
   instanceId?: string;
   repo: string;
+  navigate: NavigateFunction;
 };
 
 const postChallengeRepoRegiApi = async ({
   instanceId,
   repo,
+  navigate,
 }: postChallengeRepoRegiApiType) => {
-  const navigate = useNavigate();
   await axios
     .post(`http://localhost:8080/api/challenges/${instanceId}`, " ", {
       withCredentials: true,
