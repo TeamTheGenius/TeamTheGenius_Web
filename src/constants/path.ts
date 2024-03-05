@@ -50,7 +50,7 @@ export const PATH = {
   PAYMENTS_SUCCESS: "/payments/success",
   PAYMENTS_FAIL: "/payments/fail",
 
-  GITHUB_PULLREQ: "/challenge-detail/:id/reporegister",
+  GITHUB_PULLREQ: "/challenge-detail/:id/repo-register",
 
   ADMIN: "/admin",
   ADMIN_INSTANCE: "/admin/instance",

@@ -9,12 +9,25 @@ type repoType = {
   id: string;
   repo?: string[];
   setRepoState: Dispatch<SetStateAction<string>>;
+  githubTokenOk?: string;
+  setRepoBoolean: Dispatch<SetStateAction<boolean>>;
 };
-function Repo({ label, id, value, repo, setRepoState }: repoType) {
+function Repo({
+  label,
+  id,
+  value,
+  repo,
+  setRepoState,
+  githubTokenOk,
+  setRepoBoolean,
+}: repoType) {
   const [selectedValue, setSelectedValue] = useState("");
   const gitRepoCheck = () => {
-    getRepoVertifyApi({ repo: selectedValue });
+    getRepoVertifyApi({ repo: selectedValue, setRepoBoolean: setRepoBoolean });
     setRepoState(selectedValue);
+  };
+  const gitRepoFlase = () => {
+    alert("깃허브 토큰 등록을 먼저 진행해주세요.");
   };
 
   const handleDropdownChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -59,16 +72,29 @@ function Repo({ label, id, value, repo, setRepoState }: repoType) {
               className="absolute top-0 right-7"
             />
           </div>
-          <Button
-            width="w-[8.7rem]"
-            height="h-[3.1rem]"
-            content="선택완료"
-            fontWeight="font-medium"
-            backgroundColor="bg-[#6893FF]"
-            textColor="text-white"
-            textSize="text-[1.3rem]"
-            handleClick={gitRepoCheck}
-          />
+          {githubTokenOk === "OK" ? (
+            <Button
+              width="w-[8.7rem]"
+              height="h-[3.1rem]"
+              content="선택완료"
+              fontWeight="font-medium"
+              backgroundColor="bg-[#6893FF]"
+              textColor="text-white"
+              textSize="text-[1.3rem]"
+              handleClick={gitRepoCheck}
+            />
+          ) : (
+            <Button
+              width="w-[8.7rem]"
+              height="h-[3.1rem]"
+              content="선택완료"
+              fontWeight="font-medium"
+              backgroundColor="bg-[#666666]"
+              textColor="text-[#dddddd]"
+              textSize="text-[1.3rem]"
+              handleClick={gitRepoFlase}
+            />
+          )}
         </div>
       </div>
     </>

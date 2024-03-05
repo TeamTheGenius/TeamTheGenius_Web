@@ -41,7 +41,3 @@ const BottomButton = ({
 };
 
 export default BottomButton;
-// max-w-[46.7rem]   h-[6.1rem]
-// boder color border-[#FF4356]
-// btn ccolor text-[#FF4356]
-// mx-[2rem]
