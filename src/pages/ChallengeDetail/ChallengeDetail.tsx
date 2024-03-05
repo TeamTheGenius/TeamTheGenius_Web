@@ -13,6 +13,7 @@ import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 
 interface Data {
   instanceId: number;
+  title: string;
   remainDays: number;
   period: string;
   participantCount: number;
@@ -60,7 +61,7 @@ function ChallengeDetail() {
             alt={"챌린지 이미지"}
           />
           <CoreInformation
-            challengeTitle={"title이 없다.."}
+            challengeTitle={data.title}
             applicant={data.participantCount}
             period={data.period}
             dDay={data.remainDays}
