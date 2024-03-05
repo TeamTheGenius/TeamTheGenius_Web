@@ -2,6 +2,7 @@ import { Profile } from "@/components/Common/Profile/Profile";
 import SettingButton from "../SettingButton/SettingButton";
 import Temperature from "../Temperature/Temperature";
 import test from "@/assets/image/google-logo.png";
+import MyPoint from "../MyPoint/MyPoint";
 function MyProfile() {
   return (
     <>
@@ -48,6 +49,9 @@ function MyProfile() {
         <Profile>
           <Profile.Introduce />
         </Profile>
+      </div>
+      <div className="w-full max-w-[44.5rem] _sm:max-w-[27.8rem] mt-[2.9rem] mx-auto">
+        <MyPoint />
       </div>
     </>
   );
