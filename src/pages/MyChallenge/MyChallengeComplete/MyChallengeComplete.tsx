@@ -44,15 +44,19 @@ const MyChallengeComplete = () => {
     return;
   }
 
-  const onClickGetRewardButton = () => {
+  const onClickGetRewardButton = (instanceId: number) => {
     setModal(
-      <MyChallengeModal.MyChallengeGetRewardModal closeModal={closeModal} />
+      <MyChallengeModal.MyChallengeGetRewardModal
+        closeModal={closeModal}
+        instanceId={instanceId}
+      />
     );
     openModal();
   };
-  const onClickGetRewardTwiceButton = () => {
+  const onClickGetRewardTwiceButton = (instanceId: number) => {
     setModal(
       <MyChallengeModal.MyChallengeGetRewardTwiceModal
+        instanceId={instanceId}
         closeModal={closeModal}
       />
     );
@@ -116,13 +120,13 @@ const MyChallengeComplete = () => {
               {item.canGetReward && item.numOfPointItem === 0 && (
                 <MyChallengeLabel
                   labelText="보상 수령"
-                  onClick={onClickGetRewardButton}
+                  onClick={() => onClickGetRewardButton(item.instanceId)}
                 />
               )}
               {!item.canGetReward && item.numOfPointItem > 0 && (
                 <MyChallengeLabel
                   labelText="보상 수령"
-                  onClick={onClickGetRewardTwiceButton}
+                  onClick={() => onClickGetRewardTwiceButton(item.instanceId)}
                 />
               )}
             </li>
