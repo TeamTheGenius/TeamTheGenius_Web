@@ -1,12 +1,14 @@
 import Button from "@/components/Common/Button";
 import signIcon from "@/assets/icon/sign-icon.svg";
+import getPullRequestVerifyApi from "@/apis/getPullRequestVerifyApi";
 type PullReqType = {
   label: string;
+  repoState: string;
 };
 
-function PullReq({ label }: PullReqType) {
+function PullReq({ label, repoState }: PullReqType) {
   const pullReqCheck = () => {
-    console.log("풀리퀘 체크");
+    getPullRequestVerifyApi({ repoState: repoState });
   };
   return (
     <div className={`flex flex-col w-full`}>

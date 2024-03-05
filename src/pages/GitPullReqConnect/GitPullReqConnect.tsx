@@ -3,24 +3,36 @@ import Button from "@/components/Common/Button";
 import Header from "@/components/Common/Header/Header";
 import MobCard from "@/components/Common/MobCard";
 import GithubTokenInput from "@/components/GithubToken/GithubTokenInput";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { ChangeEvent, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Repo from "@/components/GitPullReqConnect/Repo/Repo";
 import PullReq from "@/components/GitPullReqConnect/PullReq/PullReq";
 import PullReqExp from "@/components/GitPullReqConnect/PullReqExp/PullReqExp";
+import { useQuery } from "@tanstack/react-query";
+import getUserRepoApi from "@/apis/getUserRepoApi";
 
 const GitPullReqConnect = () => {
+  // 등록 시 이미지 변환boolean
   const [githubBoolean, setGithubBoolean] = useState(false);
+  const [repoBoolean, setRepoBoolean] = useState(false);
+  const [repoState, setRepoState] = useState("");
+
   const [nickName, setNickName] = useState("");
 
   const navigate = useNavigate();
-
-  const handleNickNameChange = (e: any) => {
+  const param = useParams();
+  const paramNumber = param.id;
+  const handleNickNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNickName(e.target.value);
   };
   const notionUrl = () => {
     navigate("notionUrl");
   };
+  const { data } = useQuery<any>({
+    queryKey: ["getUserRepo"],
+    queryFn: () => getUserRepoApi(),
+  });
+
   return (
     <>
       <MobCard>
@@ -54,14 +66,15 @@ const GitPullReqConnect = () => {
           <div className="w-full mb-[3.4rem]">
             <Repo
               label="2. Repository 선택"
+              repo={data}
               id="repository"
-              name="repository"
+              paramNumber={paramNumber}
               value={nickName}
-              onChange={handleNickNameChange}
+              setRepoState={setRepoState}
             />
           </div>
           <div className="w-full mb-[3rem]">
-            <PullReq label="3. Pull Request" />
+            <PullReq label="3. Pull Request" repoState={repoState} />
           </div>
           <div className="w-full">
             <PullReqExp label="Pull Request 연결 방법" />

@@ -83,7 +83,10 @@ function ChallengeDetail() {
               heartCount={data.hitCount}
             />
 
-            <Bottom.Button joinStatus={data.joinStatus as "NO" | "YES"} />
+            <Bottom.Button
+              id={id}
+              joinStatus={data.joinStatus as "NO" | "YES"}
+            />
           </Bottom>
         </div>
       </div>

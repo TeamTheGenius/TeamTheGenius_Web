@@ -1,13 +1,24 @@
 import Button from "@/components/Common/Button";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import DropDownIcon from "@/assets/icon/arrow-down.svg";
 import checkIcon from "@/assets/icon/check-icon.svg";
-function Repo({ label, id, value }: any) {
-  const [tokenChecn, setTokenCheck] = useState("");
+import postChallengeRepoRegiApi from "@/apis/postChallengeRepoRegiApi";
+type repoType = {
+  label: string;
+  value: string;
+  id: string;
+  repo?: string[];
+  paramNumber?: string;
+  setRepoState: Dispatch<SetStateAction<string>>;
+};
+function Repo({ label, id, value, repo, paramNumber, setRepoState }: repoType) {
   const [selectedValue, setSelectedValue] = useState("");
   const gitTokenCheck = () => {
-    // setTokenCheck
-    console.log("등록 버튼");
+    postChallengeRepoRegiApi({
+      instanceId: paramNumber,
+      repo: selectedValue,
+      setRepoState: setRepoState,
+    });
   };
 
   const handleDropdownChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -40,9 +51,11 @@ function Repo({ label, id, value }: any) {
               className="relative w-full bg-transparent text-[1.3rem] outline-none border-b-2 focus:border-black appearance-none"
             >
               <option className="hidden">{selectedValue}</option>
-              <option value="값1">값1</option>
-              <option value="값2">값2</option>
-              <option value="값3">값3</option>
+              {repo?.map((item: string, id: number) => (
+                <option key={id} value={item}>
+                  {item}
+                </option>
+              ))}
             </select>
             <img
               src={DropDownIcon}

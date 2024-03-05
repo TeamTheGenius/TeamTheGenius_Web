@@ -1,5 +1,7 @@
 import Button from "@/components/Common/Button";
 import Heart from "../Heart/Heart";
+import { useNavigate, useParams } from "react-router-dom";
+import { PATH } from "@/constants/path";
 
 interface HeartProps {
   heartActive: boolean;
@@ -12,6 +14,7 @@ interface MainProps {
 }
 
 interface ButtonProps {
+  id?: string;
   joinStatus: "NO" | "YES";
 }
 
@@ -41,8 +44,12 @@ function BottomMain({ children }: MainProps) {
   );
 }
 
-function BottomButton({ joinStatus }: ButtonProps) {
-  const onClickParticipation = () => {};
+function BottomButton({ joinStatus, id }: ButtonProps) {
+  const navigate = useNavigate();
+
+  const onClickParticipation = () => {
+    navigate(`${PATH.CHALLENGE_DETAIL}/${id}/reporegister`);
+  };
   const joinStatusVariants = {
     NO: {
       buttonText: "참가하기",
