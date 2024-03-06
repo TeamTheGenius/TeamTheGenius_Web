@@ -53,7 +53,10 @@ function ServiceWithdraw() {
         </div>
       </div>
       <div className="h-[8.5rem] px-[2.2rem] fixed bottom-0 flex justify-center items-center _sm:justify-end w-full max-w-[77.3rem] mx-auto bg-white">
-        <WithdrawButton />
+        <WithdrawButton
+          selectedReason={selectedReason}
+          otherReason={otherReason}
+        />
       </div>
     </MobCard>
   );
