@@ -7,9 +7,9 @@ import Information from "../Information/Information";
 import Line from "../Line/Line";
 import ChallengeDetailLinkButton from "../ChallengeDetailLinkButton/ChallengeDetailLinkButton";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import getCertificationInstanceDetail from "@/apis/getCertificationInstanceDetail ";
+import { useQuery } from "react-query";
 
 interface Data {
   instanceId: number;

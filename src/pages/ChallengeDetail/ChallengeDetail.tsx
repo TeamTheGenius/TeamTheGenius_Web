@@ -8,8 +8,8 @@ import MobCard from "@/components/Common/MobCard";
 import { useState } from "react";
 import DynamicBackIcon from "@/components/Common/DynamicBackIcon/DynamicBackIcon";
 import getInstanceDetail from "@/apis/getInstanceDetail";
-import { useQuery } from "@tanstack/react-query";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
+import { useQuery } from "react-query";
 
 interface Data {
   instanceId: number;

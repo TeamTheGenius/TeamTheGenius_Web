@@ -3,6 +3,7 @@ import VerticalChallengeItems from "@/components/Common/VerticalChallengeItems/V
 import HomeLayout from "@/layout/HomeLayout/HomeLayout";
 import getPopularChallenge from "@/apis/getPopularChallenge";
 import { useInView } from "react-intersection-observer";
+import { useInfiniteQuery } from "react-query";
 
 interface Data {
   instanceId: number;
@@ -15,21 +16,30 @@ interface Data {
 }
 
 const PopularChallenge = () => {
-  const [page, setPage] = useState(0);
   const [ref, inView] = useInView();
   const [challenges, setChallenges] = useState<Data[]>([]);
 
-  const loadChallenges = async () => {
-    const newData = await getPopularChallenge({ pageParams: page, size: 20 });
-    setChallenges([...challenges, ...newData.posts]);
-    setPage((page) => page + 1);
-  };
+  const { fetchNextPage, hasNextPage } = useInfiniteQuery({
+    queryKey: ["getPopularChallenges"],
+    queryFn: ({ pageParam = 0 }) =>
+      getPopularChallenge({ pageParams: pageParam, size: 20 }),
+    getNextPageParam: (lastPage) => {
+      return lastPage.isLast ? undefined : lastPage.page + 1;
+    },
+    onSuccess: (res) => {
+      const challenges = res.pages.map((page) => page.posts).flat();
+      setChallenges(challenges);
+    },
+    cacheTime: 0,
+  });
 
   useEffect(() => {
-    if (inView) {
-      loadChallenges();
+    if (inView && hasNextPage) {
+      fetchNextPage();
     }
-  }, [inView]);
+  }, [inView, hasNextPage, fetchNextPage]);
+
+  if (!challenges) return;
 
   return (
     <HomeLayout>

@@ -8,11 +8,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import Repo from "@/components/GitPullReqConnect/Repo/Repo";
 import PullReq from "@/components/GitPullReqConnect/PullReq/PullReq";
 import PullReqExp from "@/components/GitPullReqConnect/PullReqExp/PullReqExp";
-import { useQuery } from "@tanstack/react-query";
 import getUserRepoApi from "@/apis/getUserRepoApi";
 import BottomButton from "@/components/Common/BottomButton/BottomButton";
 import postChallengeRepoRegiApi from "@/apis/postChallengeRepoRegiApi";
 import getGithubTokenApi from "@/apis/getGithubTokenApi";
+import { useQuery } from "react-query";
 
 const GitPullReqConnect = () => {
   const [githubBoolean, setGithubBoolean] = useState(false);
