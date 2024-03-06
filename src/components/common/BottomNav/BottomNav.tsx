@@ -3,20 +3,20 @@ import { NavLink, useLocation } from "react-router-dom";
 import "@/components/Common/BottomNav/BottomNavStyle.css";
 import icon_off_home from "@/assets/icon/icon_off_home.svg";
 import icon_off_myChallenge from "@/assets/icon/icon_off_myChallenge.svg";
-import icon_off_pet from "@/assets/icon/icon_off_pet.svg";
+// 교체할 이미지
+import icon_off_shop from "@/assets/icon/icon_off_shop.svg";
+import icon_on_shop from "@/assets/icon/icon_on_shop.svg";
 import icon_off_myPage from "@/assets/icon/icon_off_myPage.svg";
 import icon_on_home from "@/assets/icon/icon_on_home.svg";
 import icon_on_myChallenge from "@/assets/icon/icon_on_myChallenge.svg";
-import icon_on_pet from "@/assets/icon/icon_on_pet.svg";
 import icon_on_myPage from "@/assets/icon/icon_on_myPage.svg";
 import { PATH } from "@/constants/path";
-type HiddenUrlType = string[];
 
 function BottomNav() {
   const navData = [
     { to: PATH.HOME, title: "홈" },
     { to: PATH.MY_CHALLENGE_PROGRESS, title: "마이챌린지" },
-    { to: PATH.PET, title: "펫" },
+    { to: PATH.SHOP, title: "포인트상점" },
     { to: PATH.MY_PAGE, title: "마이페이지" },
   ];
   const isActiveData = [
@@ -37,7 +37,7 @@ function BottomNav() {
       ],
     },
     {
-      url: [PATH.PET],
+      url: [PATH.SHOP],
     },
     {
       url: [PATH.MY_PAGE],
@@ -47,13 +47,13 @@ function BottomNav() {
   const iconOff = [
     icon_off_home,
     icon_off_myChallenge,
-    icon_off_pet,
+    icon_off_shop,
     icon_off_myPage,
   ];
   const iconOn = [
     icon_on_home,
     icon_on_myChallenge,
-    icon_on_pet,
+    icon_on_shop,
     icon_on_myPage,
   ];
   const [imageLoaded, setImageLoaded] = useState(false);

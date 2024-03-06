@@ -25,7 +25,7 @@ export const PATH = {
   MY_CHALLENGE_PROGRESS: "/main/my-challenge/progress",
   MY_CHALLENGE_COMPLETED: "/main/my-challenge/completed",
 
-  PET: "/main/pet",
+  SHOP: "/main/shop",
 
   MY_PAGE: "/main/my-page",
   MY_PAGE_INTEREST_CHALLENGE: "/main/my-page/interest",
@@ -51,7 +51,6 @@ export const PATH = {
   PAYMENTS_FAIL: "/payments/fail",
 
   GITHUB_REPO_REGISTER: "/challenge-detail/:id/repo-register",
-
 
   ADMIN: "/admin",
   ADMIN_INSTANCE: "/admin/instance",
