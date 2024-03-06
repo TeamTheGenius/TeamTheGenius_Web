@@ -5,7 +5,7 @@ import { ChangeEvent, useState } from "react";
 import postGithubTokenRegi from "@/apis/postGithubTokenRegi";
 import GitTokenCheckIcon from "../GitPullReqConnect/GitTokenCheckIcon/GitTokenCheckIcon";
 import Label from "../GitPullReqConnect/Label/Label";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "react-query";
 const GithubTokenInput = ({
   label,
   id,
