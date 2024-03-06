@@ -21,7 +21,8 @@ const getLikeChallenges = async ({ pageParams, size }: Params) => {
       console.log(res.data.data.content);
       const { content } = res.data.data;
       const { last } = res.data.data;
-      return { posts: content, isLast: last } || {};
+      const { pageNumber } = res.data.data.pageable;
+      return { posts: content, isLast: last, page: pageNumber } || {};
     });
   return data || {};
 };

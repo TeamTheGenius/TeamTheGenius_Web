@@ -7,6 +7,7 @@ import { PATH } from "@/constants/path";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
+import { useInfiniteQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 
 interface Data {
@@ -16,33 +17,44 @@ interface Data {
   fileResponse: {
     encodedFile: string;
   };
+  likesId: number;
 }
 
 function InterestChallenge() {
-  const [page, setPage] = useState(0);
   const [ref, inView] = useInView();
   const [challenges, setChallenges] = useState<Data[]>([]);
   const navigate = useNavigate();
 
-  const loadChallenges = async () => {
-    const newData = await getLikeChallenges({ pageParams: page, size: 20 });
-    setChallenges([...challenges, ...newData.posts]);
-    setPage((page) => page + 1);
-  };
+  const { fetchNextPage, hasNextPage, refetch } = useInfiniteQuery({
+    queryKey: ["getLikeChallenges"],
+    queryFn: ({ pageParam = 0 }) =>
+      getLikeChallenges({ pageParams: pageParam, size: 20 }),
+    getNextPageParam: (lastPage) => {
+      return lastPage.isLast ? undefined : lastPage.page + 1;
+    },
+    onSuccess: (res) => {
+      const newChallenges = res.pages.map((page) => page.posts).flat();
+      setChallenges(newChallenges);
+    },
+    cacheTime: 0,
+  });
 
   useEffect(() => {
-    if (inView) {
-      loadChallenges();
+    if (inView && hasNextPage) {
+      fetchNextPage();
     }
-  }, [inView]);
+  }, [inView, hasNextPage, fetchNextPage]);
+
+  if (!challenges) return null;
 
   const onClickChallengeItem = (instanceId: number) => {
     navigate(`${PATH.CHALLENGE_DETAIL}/${instanceId}`);
   };
 
-  const onClickHeart = (e: React.MouseEvent) => {
+  const onClickHeart = async (e: React.MouseEvent, likesId: number) => {
     e.stopPropagation();
-    deleteLikeChallenge({ likesId: 4 });
+    await deleteLikeChallenge({ likesId: 7 });
+    refetch();
   };
 
   return (
@@ -65,7 +77,9 @@ function InterestChallenge() {
                   maxWidth="max-w-[16.5rem]"
                   paddingBottom="pb-[72.7%]"
                 >
-                  <ChallengeItem.Heart onClick={onClickHeart} />
+                  <ChallengeItem.Heart
+                    onClick={(e) => onClickHeart(e, item.likesId)}
+                  />
                 </ChallengeItem.Image>
                 <ChallengeItem.Title title={item.title} />
                 <ChallengeItem.Reward point={item.pointPerPerson} />

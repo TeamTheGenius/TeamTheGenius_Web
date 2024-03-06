@@ -1,6 +1,6 @@
 import getMyPageChallengesStatus from "@/apis/getMyPageChallengesStatus";
 import { PATH } from "@/constants/path";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 
 interface Data {

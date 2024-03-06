@@ -6,7 +6,7 @@ interface Params {
 
 const deleteLikeChallenge = async ({ likesId }: Params) => {
   await axios
-    .delete(`http://localhost:8080/api/profile/likes${likesId}`, {
+    .delete(`http://localhost:8080/api/profile/likes/${likesId}`, {
       withCredentials: true,
     })
     .then((res) => {

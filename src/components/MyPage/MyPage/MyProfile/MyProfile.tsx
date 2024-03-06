@@ -2,9 +2,9 @@ import { Profile } from "@/components/Common/Profile/Profile";
 import SettingButton from "../SettingButton/SettingButton";
 import Temperature from "../Temperature/Temperature";
 import MyPoint from "../MyPoint/MyPoint";
-import { useQuery } from "@tanstack/react-query";
 import getMyPageProfile from "@/apis/getMyPageProfile";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
+import { useQuery } from "react-query";
 
 interface Data {
   identifier: "string";
