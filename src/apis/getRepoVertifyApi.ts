@@ -4,10 +4,14 @@ import { Dispatch, SetStateAction } from "react";
 type getRepoVertifyApiType = {
   repo: string;
   setRepoBoolean: Dispatch<SetStateAction<boolean>>;
+  setRepoState: Dispatch<SetStateAction<string>>;
+  selectedValue: string;
 };
 const getRepoVertifyApi = async ({
   repo,
   setRepoBoolean,
+  selectedValue,
+  setRepoState,
 }: getRepoVertifyApiType) => {
   await axios
     .get(`http://localhost:8080/api/certification/verify/repository`, {
@@ -19,6 +23,7 @@ const getRepoVertifyApi = async ({
     })
     .then((res) => {
       console.log("레포유효성 성공", res);
+      setRepoState(selectedValue);
       setRepoBoolean(true);
     })
     .catch((err) => {

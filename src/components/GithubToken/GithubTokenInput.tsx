@@ -1,9 +1,11 @@
 import Button from "@/components/Common/Button";
 import { GithubTokenInputType } from "@/types/githubTokenType";
 import { ChangeEvent, useState } from "react";
-import checkIcon from "@/assets/icon/check-icon.svg";
-import failIcon from "@/assets/icon/sign-icon.svg";
+
 import postGithubTokenRegi from "@/apis/postGithubTokenRegi";
+import GitTokenCheckIcon from "../GitPullReqConnect/GitTokenCheckIcon/GitTokenCheckIcon";
+import Label from "../GitPullReqConnect/Label/Label";
+import { useQueryClient } from "@tanstack/react-query";
 const GithubTokenInput = ({
   label,
   id,
@@ -17,12 +19,14 @@ const GithubTokenInput = ({
 }: GithubTokenInputType) => {
   const [tokenState, setTokenState] = useState("");
   const [tokenBoolean, setTokenBoolean] = useState(false);
-
+  const queryClient: any = useQueryClient();
   const gitTokenCheck = () => {
     postGithubTokenRegi({
+      queryClient: queryClient,
       githubToken: value,
       setTokenState: setTokenState,
       setTokenBoolean: setTokenBoolean,
+      setGithubBoolean: setGithubBoolean,
     });
   };
 
@@ -36,23 +40,8 @@ const GithubTokenInput = ({
   return (
     <div className={`flex flex-col w-full`}>
       <div className="flex items-center ml-[6.5rem] _md:ml-0 _sm:ml-0">
-        <label
-          htmlFor={id}
-          className={`text-[1.8rem] font-bold relative mr-[1.2rem]`}
-        >
-          {label}
-        </label>
-        <div>
-          {githubTokenOk === "OK" ? (
-            <>
-              <img src={checkIcon} alt="Icon" />
-            </>
-          ) : (
-            <>
-              <img src={failIcon} alt="Icon" />
-            </>
-          )}
-        </div>
+        <Label id={id} label={label} />
+        <GitTokenCheckIcon githubTokenOk={githubTokenOk} />
       </div>
       <div className="flex items-end justify-center pt-[2.5rem]">
         <div className="w-8/12 _md:w-full _sm:w-full relative pr-[1.1rem]">

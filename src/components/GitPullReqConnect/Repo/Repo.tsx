@@ -3,6 +3,8 @@ import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import DropDownIcon from "@/assets/icon/arrow-down.svg";
 import checkIcon from "@/assets/icon/check-icon.svg";
 import getRepoVertifyApi from "@/apis/getRepoVertifyApi";
+import GitTokenCheckIcon from "../GitTokenCheckIcon/GitTokenCheckIcon";
+import Label from "../Label/Label";
 type repoType = {
   label: string;
   value: string;
@@ -23,8 +25,12 @@ function Repo({
 }: repoType) {
   const [selectedValue, setSelectedValue] = useState("");
   const gitRepoCheck = () => {
-    getRepoVertifyApi({ repo: selectedValue, setRepoBoolean: setRepoBoolean });
-    setRepoState(selectedValue);
+    getRepoVertifyApi({
+      repo: selectedValue,
+      setRepoBoolean: setRepoBoolean,
+      setRepoState: setRepoState,
+      selectedValue: selectedValue,
+    });
   };
   const gitRepoFlase = () => {
     alert("깃허브 토큰 등록을 먼저 진행해주세요.");
@@ -38,15 +44,8 @@ function Repo({
     <>
       <div className={`flex flex-col w-full`}>
         <div className="flex items-center ml-[6.5rem] _md:ml-0 _sm:ml-0">
-          <label
-            htmlFor={id}
-            className={`text-[1.8rem] font-bold relative mr-[1.2rem]`}
-          >
-            {label}
-          </label>
-          <div>
-            <img src={checkIcon} alt="signIcon" />
-          </div>
+          <Label id={id} label={label} />
+          <GitTokenCheckIcon githubTokenOk={githubTokenOk} />
         </div>
         <div className="flex items-center ml-[6.5rem] _md:ml-0 _sm:ml-0 pt-[0.6rem] text-[#F64C4C]">
           <span>한번 지정된 Repository는 다시 변경될 수 없습니다</span>
