@@ -1,7 +1,7 @@
 import "./index.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 import LogIn from "./pages/LogIn/LogIn";
 
@@ -36,7 +36,7 @@ import Payments from "./pages/Payments/Payments";
 import { Fail } from "./pages/Payments/Fail/Fail";
 import Success from "./pages/Payments/Success/Success";
 import GithubTokken from "./pages/MyPage/GithubToken/GithubToken";
-import GitPullReqConnect from "./pages/GitPullReqConnect/GitPullReqConnect";
+import GitPullReqConnect from "./pages/ChallengeDetail/GitPullReqConnect/GitPullReqConnect";
 import ServiceWithdraw from "./pages/MyPage/ServiceWithdraw/ServiceWithdraw";
 import Report from "./pages/Certification/Report/Report";
 import MyChallengeStart from "./pages/MyChallenge/MyChallengeStart/MyChallengeStart";
@@ -133,7 +133,10 @@ function App() {
           <Route path={PATH.PAYMENTS} element={<Payments />} />
           <Route path={PATH.PAYMENTS_SUCCESS} element={<Success />} />
           <Route path={PATH.PAYMENTS_FAIL} element={<Fail />} />
-          <Route path={PATH.GITHUB_PULLREQ} element={<GitPullReqConnect />} />
+          <Route
+            path={PATH.GITHUB_REPO_REGISTER}
+            element={<GitPullReqConnect />}
+          />
 
           <Route path={PATH.ADMIN} element={<AdminTopic />} />
           <Route path={PATH.ADMIN_INSTANCE_ID} element={<AdminInstance />} />

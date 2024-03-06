@@ -5,8 +5,8 @@ import MyChallengeLabel from "@/components/Main/MyChallenge/MyChallengeLabel/MyC
 import { PATH } from "@/constants/path";
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import getMyChallengePreActivity from "@/apis/getMyChallengePreActivity";
-import { useQuery } from "@tanstack/react-query";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
+import { useQuery } from "react-query";
 
 interface Data {
   instanceId: number;

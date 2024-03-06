@@ -33,15 +33,25 @@ function PullReqExp({ label }: PullReqType) {
           <ul>
             <li className="flex mb-[1.8rem]">
               <img src={diaIcon} alt="diaIcon" className="mr-[1.3rem]" />
-              <span className="text-[1.5rem] text-[#333333]">방법 설명</span>
+              <span className="text-[1.5rem] text-[#333333]">
+                인증에 사용할 레포지토리에서 Branch 생성
+              </span>
             </li>
             <li className="flex mb-[1.8rem]">
               <img src={diaIcon} alt="diaIcon" className="mr-[1.3rem]" />
-              <span className="text-[1.5rem] text-[#333333]">방법 설명</span>
+              <span className="text-[1.5rem] text-[#333333]">
+                해당 Branch에서 아무런 수정 작업 진행
+              </span>
             </li>
             <li className="flex mb-[1.8rem]">
               <img src={diaIcon} alt="diaIcon" className="mr-[1.3rem]" />
-              <span className="text-[1.5rem] text-[#333333]">방법 설명</span>
+              <span className="text-[1.5rem] text-[#333333]">
+                Create pull request를 통해 PR 생성
+              </span>
+            </li>
+            <li className="flex mb-[1.8rem]">
+              <img src={diaIcon} alt="diaIcon" className="mr-[1.3rem]" />
+              <span className="text-[1.5rem] text-[#333333]">PR 확인</span>
             </li>
           </ul>
         </div>

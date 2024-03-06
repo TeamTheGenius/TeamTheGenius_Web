@@ -6,8 +6,8 @@ import { getIsToday } from "@/utils/getIsToday";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { IDENTIFIER } from "@/constants/localStorageKey";
-import { useQuery } from "@tanstack/react-query";
 import getCertificationWeek from "@/apis/getCertificationWeek";
+import { useQuery } from "react-query";
 
 interface Data {
   certificationId: number;

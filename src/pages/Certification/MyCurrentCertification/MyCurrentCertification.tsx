@@ -4,7 +4,7 @@ import MyAllCertificationLinkButton from "@/components/Certification/MyCurrentCe
 import MyCertificationSummary from "@/components/Certification/MyCurrentCertification/MyCertificationSummary/MyCertificationSummary";
 import MyRepository from "@/components/Certification/MyCurrentCertification/MyRepository/MyRepository";
 import ThisWeekCertification from "@/components/Certification/MyCurrentCertification/ThisWeekCertification/ThisWeekCertification";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 
 interface Data {

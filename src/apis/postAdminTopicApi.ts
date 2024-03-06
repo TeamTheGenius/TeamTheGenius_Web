@@ -50,7 +50,7 @@ const postAdminTopicApi = async ({
       },
     })
     .then((res) => {
-      console.log("응답:", res);
+      console.log("토픽 생성 응답:", res);
       setModalIsOpen(false);
       getAdminTopicListApi({ setAdminList });
     })

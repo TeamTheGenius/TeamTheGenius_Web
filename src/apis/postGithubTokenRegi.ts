@@ -5,11 +5,15 @@ type postGithubTokenRegiType = {
   githubToken: string;
   setTokenState: Dispatch<SetStateAction<string>>;
   setTokenBoolean: Dispatch<SetStateAction<boolean>>;
+  setGithubBoolean: Dispatch<SetStateAction<boolean>>;
+  queryClient: any;
 };
 const postGithubTokenRegi = async ({
   githubToken,
   setTokenState,
   setTokenBoolean,
+  setGithubBoolean,
+  queryClient,
 }: postGithubTokenRegiType) => {
   const body = {
     githubToken: githubToken,
@@ -22,6 +26,8 @@ const postGithubTokenRegi = async ({
     .then((res) => {
       console.log("등록성공", res);
       setTokenBoolean(true);
+      setGithubBoolean(true);
+      queryClient.invalidateQueries(["getGithubToken"]);
     })
     .catch((err) => {
       console.log("등록실패", err);

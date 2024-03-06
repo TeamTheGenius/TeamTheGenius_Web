@@ -50,9 +50,8 @@ export const PATH = {
   PAYMENTS_SUCCESS: "/payments/success",
   PAYMENTS_FAIL: "/payments/fail",
 
-  // 임시 주손
-  GITHUB_PULLREQ: "/pullrequest",
   GITHUB_REPO_REGISTER: "/challenge-detail/:id/repo-register",
+
 
   ADMIN: "/admin",
   ADMIN_INSTANCE: "/admin/instance",

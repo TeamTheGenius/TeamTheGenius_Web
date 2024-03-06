@@ -5,9 +5,9 @@ import HorizontalScroll from "../HorizontalScroll/HorizontalScroll";
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import { useNavigate } from "react-router-dom";
 import getRecommendedChallenge from "@/apis/getRecommendedChallenge";
-import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
+import { useQuery } from "react-query";
 
 interface Post {
   instanceId: number;
