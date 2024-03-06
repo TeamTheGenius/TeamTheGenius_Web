@@ -1,7 +1,9 @@
 import "./index.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { PATH } from "./constants/path";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+
 
 import LogIn from "./pages/LogIn/LogIn";
 
@@ -10,8 +12,6 @@ import Main from "./pages/Main/Main";
 import AdminTopic from "./pages/Admin/AdminTopic/AdminTopic";
 import AdminInstance from "./pages/Admin/AdminInstance/AdminInstance";
 import MyChallenge from "./pages/MyChallenge/MyChallenge";
-import Pet from "./pages/Pet/Pet";
-import { PATH } from "./constants/path";
 import Home from "./pages/Home/Home";
 import ChallengeDetail from "./pages/ChallengeDetail/ChallengeDetail";
 import Auth from "./pages/Auth/Auth";
@@ -46,6 +46,7 @@ import AllSearch from "./pages/Home/Search/AllSearch/AllSearch";
 import PreActivitySearch from "./pages/Home/Search/PreActivitySearch/PreActivitySearch";
 import ActivitySearch from "./pages/Home/Search/ActivitySearch/ActivitySearch";
 import DoneSearch from "./pages/Home/Search/DoneSearch/DoneSearch";
+import Shop from "./pages/Shop/Shop";
 
 function App() {
   const queryClient = new QueryClient();
@@ -74,7 +75,7 @@ function App() {
               />
             </Route>
 
-            <Route path={PATH.PET} element={<Pet />} />
+            <Route path={PATH.SHOP} element={<Shop />} />
             <Route path={PATH.MY_PAGE} element={<MyPage />} />
             <Route path={PATH.HOME} element={<Home />} />
             <Route

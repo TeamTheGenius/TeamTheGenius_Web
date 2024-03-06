@@ -4,6 +4,7 @@ import pointBigIcon from "@/assets/icon/point-big-icon.svg";
 import pointSmallIcon from "@/assets/icon/point-small-icon.svg";
 import paymentLinkButton from "@/assets/icon/gray-next-arrow.svg";
 import debounce from "lodash/debounce";
+import { PATH } from "@/constants/path";
 
 function MyPoint() {
   const [width, setWidth] = useState(window.innerWidth);
@@ -32,7 +33,7 @@ function MyPoint() {
           <p className="text-[2rem] font-medium">5000P</p>
         </div>
         <div className="self-end ">
-          <Link className="flex gap-[1.6rem]">
+          <Link to={PATH.PAYMENTS} className="flex gap-[1.6rem]">
             <p className="text-[1.4rem] font-medium text-[#777]">충전</p>
             <img src={paymentLinkButton} alt="결제창 이동 아이콘" />
           </Link>

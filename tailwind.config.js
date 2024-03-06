@@ -3,7 +3,7 @@ export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
   theme: {
     screens: {
-      _sm: { max: "396px" },
+      _sm: { max: "392px" },
       _md: { min: "396px", max: "582px" },
       _ld: { min: "582px", max: "630px" }
     },
