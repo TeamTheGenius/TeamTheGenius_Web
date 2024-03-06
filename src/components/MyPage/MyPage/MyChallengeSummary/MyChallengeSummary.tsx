@@ -1,13 +1,13 @@
+import getMyPageChallengesStatus from "@/apis/getMyPageChallengesStatus";
 import { PATH } from "@/constants/path";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import getMyPageChallengesStatus from "../../../../apis/getMyPageChallengesStatus";
 
 interface Data {
-  fail: 0;
-  success: 0;
-  processing: 0;
-  beforeStart: 0;
+  fail: number;
+  success: number;
+  processing: number;
+  beforeStart: number;
 }
 
 function MyChallengeSummary() {
@@ -33,7 +33,7 @@ function MyChallengeSummary() {
               시작 전
             </p>
             <p className="text-[2.2rem] _sm:text-[2rem] font-medium">
-              {data.beforeStart || 0}
+              {data.beforeStart}
             </p>
           </div>
         </Link>
@@ -46,7 +46,7 @@ function MyChallengeSummary() {
               진행 중
             </p>
             <p className="text-[2.2rem] _sm:text-[2rem] font-medium">
-              {data.processing || 0}
+              {data.processing}
             </p>
           </div>
         </Link>
@@ -59,7 +59,7 @@ function MyChallengeSummary() {
               완료/실패
             </p>
             <p className="text-[2.2rem] _sm:text-[2rem] font-medium">
-              {data.success || 0}/{data.fail || 0}
+              {data.success}/{data.fail}
             </p>
           </div>
         </Link>

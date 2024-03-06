@@ -2,7 +2,7 @@ import axios from "axios";
 
 const getMyPageChallengesStatus = async () => {
   const data = await axios
-    .get(`http://localhost:8080/api/challenges`, {
+    .get(`http://localhost:8080/api/profile/challenges`, {
       withCredentials: true,
       headers: {
         Accept: "*/*",
