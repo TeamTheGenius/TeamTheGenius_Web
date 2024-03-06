@@ -7,7 +7,7 @@ import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyC
 import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyChallengeWrap";
 import { PATH } from "@/constants/path";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "react-query";
 import { useOutletContext } from "react-router-dom";
 
 interface Props {

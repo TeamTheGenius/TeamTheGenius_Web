@@ -5,7 +5,7 @@ interface Params {
   size: number;
 }
 
-const getRecommendedChallenge = async ({ pageParams, size }: Params) => {
+const getRecommendChallenge = async ({ pageParams, size }: Params) => {
   const data = await axios
     .get("http://localhost:8080/api/challenges/recommend", {
       withCredentials: true,
@@ -18,12 +18,13 @@ const getRecommendedChallenge = async ({ pageParams, size }: Params) => {
       },
     })
     .then((res) => {
-      console.log(res.data.data.content);
+      console.log(res.data.data);
       const { content } = res.data.data;
       const { last } = res.data.data;
-      return { posts: content, isLast: last } || {};
+      const { pageNumber } = res.data.data.pageable;
+      return { posts: content, isLast: last, page: pageNumber } || {};
     });
   return data || {};
 };
 
-export default getRecommendedChallenge;
+export default getRecommendChallenge;

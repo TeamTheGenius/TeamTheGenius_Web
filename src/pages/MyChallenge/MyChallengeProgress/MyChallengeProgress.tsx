@@ -5,9 +5,9 @@ import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyC
 import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyChallengeWrap";
 import successStamp from "@/assets/icon/success-stamp.svg";
 import { PATH } from "@/constants/path";
-import { useQuery } from "@tanstack/react-query";
 import getMyChallengeActivity from "@/apis/getMyChallengeActivity";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
+import { useQuery } from "react-query";
 
 interface Data {
   instanceId: number;
