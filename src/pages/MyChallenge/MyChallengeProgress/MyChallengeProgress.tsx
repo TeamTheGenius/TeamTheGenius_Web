@@ -8,6 +8,7 @@ import { PATH } from "@/constants/path";
 import getMyChallengeActivity from "@/apis/getMyChallengeActivity";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
+import postTodayCertification from "@/apis/postTodayCertification";
 
 interface Data {
   instanceId: number;
@@ -25,10 +26,25 @@ interface File {
 }
 
 const MyChallengeProgress = () => {
-  const { data } = useQuery<Data[]>({
+  const { data, refetch } = useQuery<Data[]>({
     queryKey: ["myChallengeActivity"],
     queryFn: () => getMyChallengeActivity(),
   });
+
+  const reNewCertification = async (instanceId: number) => {
+    const currentDate = new Date();
+    const formattedDate = `${currentDate.getFullYear()}-${(
+      currentDate.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, "0")}-${currentDate.getDate().toString().padStart(2, "0")}`;
+    await postTodayCertification({
+      instanceId: instanceId,
+      targetDate: formattedDate,
+    });
+
+    refetch();
+  };
 
   if (!data) {
     return;
@@ -80,7 +96,15 @@ const MyChallengeProgress = () => {
                   repositoryName={item.repository}
                 />
               </MyChallengeLinkWrap>
-              <MyChallengeLabel labelText={item.certificateStatus} />
+              {item.certificateStatus === "인증 갱신" ||
+              item.certificateStatus === "인증 필요" ? (
+                <MyChallengeLabel
+                  labelText={item.certificateStatus}
+                  onClick={() => reNewCertification(item.instanceId)}
+                />
+              ) : (
+                <MyChallengeLabel labelText={item.certificateStatus} />
+              )}
             </li>
           );
         })}
