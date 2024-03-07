@@ -1,7 +1,29 @@
+import deleteServiceWithdraw from "@/apis/deleteServiceWithdraw";
 import Button from "@/components/Common/Button";
+import { PATH } from "@/constants/path";
+import { useNavigate } from "react-router-dom";
 
-function WithdrawButton() {
-  const onClick = () => {};
+type Reason =
+  | "앱 사용이 불편해요"
+  | "참여할 만한 챌린지가 없어요"
+  | "쓰지 않는 서비스예요"
+  | "기타";
+
+interface Props {
+  selectedReason: Reason;
+  otherReason: string;
+}
+
+function WithdrawButton({ selectedReason, otherReason }: Props) {
+  const navigate = useNavigate();
+
+  const onClick = async () => {
+    await deleteServiceWithdraw()
+      .then(() => navigate(PATH.LOGIN))
+      .then((err) => {
+        throw err;
+      });
+  };
 
   return (
     <Button

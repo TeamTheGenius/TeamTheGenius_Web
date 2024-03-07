@@ -37,7 +37,7 @@ function ReasonChoice({
             className="hidden"
           />
           <label key={`${index}_${reason}`} htmlFor={reason}>
-            <div className="flex items-center gap-[1.3rem] py-[1.3rem]">
+            <div className="flex items-center gap-[1.3rem] py-[1.3rem] cursor-pointer">
               <div
                 className={cls(
                   "relative w-[2.3rem] h-[2.3rem] border-2 rounded-full",

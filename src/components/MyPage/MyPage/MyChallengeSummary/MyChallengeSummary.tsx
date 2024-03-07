@@ -1,7 +1,25 @@
+import getMyPageChallengesStatus from "@/apis/getMyPageChallengesStatus";
 import { PATH } from "@/constants/path";
+import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 
+interface Data {
+  fail: number;
+  success: number;
+  processing: number;
+  beforeStart: number;
+}
+
 function MyChallengeSummary() {
+  const { data } = useQuery<Data>({
+    queryKey: ["myPageChallengeStatus"],
+    queryFn: () => getMyPageChallengesStatus(),
+  });
+
+  if (!data) {
+    return;
+  }
+
   return (
     <>
       <p className="text-[1.8rem] font-semibold">챌린지 현황</p>
@@ -14,7 +32,9 @@ function MyChallengeSummary() {
             <p className="text-[1.6rem] _sm:text-[1.4rem] font-medium text-[#777]">
               시작 전
             </p>
-            <p className="text-[2.2rem] _sm:text-[2rem] font-medium">2</p>
+            <p className="text-[2.2rem] _sm:text-[2rem] font-medium">
+              {data.beforeStart}
+            </p>
           </div>
         </Link>
         <Link
@@ -25,7 +45,9 @@ function MyChallengeSummary() {
             <p className="text-[1.6rem] _sm:text-[1.4rem] font-medium text-[#777]">
               진행 중
             </p>
-            <p className="text-[2.2rem] _sm:text-[2rem] font-medium">10</p>
+            <p className="text-[2.2rem] _sm:text-[2rem] font-medium">
+              {data.processing}
+            </p>
           </div>
         </Link>
         <Link
@@ -36,7 +58,9 @@ function MyChallengeSummary() {
             <p className="text-[1.6rem] _sm:text-[1.4rem] font-medium text-[#777]">
               완료/실패
             </p>
-            <p className="text-[2.2rem] _sm:text-[2rem] font-medium">5/2</p>
+            <p className="text-[2.2rem] _sm:text-[2rem] font-medium">
+              {data.success}/{data.fail}
+            </p>
           </div>
         </Link>
       </div>
