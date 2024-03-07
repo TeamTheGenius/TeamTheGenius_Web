@@ -11,6 +11,7 @@ import { useQuery } from "react-query";
 import useModal from "@/hooks/useModal";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import { MyChallengePassModal } from "./MyChallengePassModal/MyChallengePassModal";
+import MyChallengePassItem from "@/components/Main/MyChallenge/MyChallengePass/MyChallengePassItem";
 
 interface Data {
   instanceId: number;
@@ -40,6 +41,7 @@ const MyChallengeProgress = () => {
   const passModal = () => {
     openModal();
   };
+
   return (
     <>
       <MyChallengeWrap>
@@ -86,7 +88,7 @@ const MyChallengeProgress = () => {
                   repositoryName={item.repository}
                 />
               </MyChallengeLinkWrap>
-              <MyChallengePassModal
+              <MyChallengePassItem
                 passModal={passModal}
                 passCount={item.numOfPassItem}
               />
