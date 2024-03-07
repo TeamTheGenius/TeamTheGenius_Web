@@ -8,6 +8,9 @@ import { PATH } from "@/constants/path";
 import getMyChallengeActivity from "@/apis/getMyChallengeActivity";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
+import useModal from "@/hooks/useModal";
+import { ModalLayer } from "@/components/Common/Modal/Modal";
+import { MyChallengePassModal } from "./MyChallengePassModal/MyChallengePassModal";
 
 interface Data {
   instanceId: number;
@@ -25,6 +28,7 @@ interface File {
 }
 
 const MyChallengeProgress = () => {
+  const { isModalOpened, openModal, closeModal, modalRef } = useModal();
   const { data } = useQuery<Data[]>({
     queryKey: ["myChallengeActivity"],
     queryFn: () => getMyChallengeActivity(),
@@ -33,7 +37,9 @@ const MyChallengeProgress = () => {
   if (!data) {
     return;
   }
-
+  const passModal = () => {
+    openModal();
+  };
   return (
     <>
       <MyChallengeWrap>
@@ -80,10 +86,19 @@ const MyChallengeProgress = () => {
                   repositoryName={item.repository}
                 />
               </MyChallengeLinkWrap>
+              <MyChallengePassModal
+                passModal={passModal}
+                passCount={item.numOfPassItem}
+              />
               <MyChallengeLabel labelText={item.certificateStatus} />
             </li>
           );
         })}
+        {isModalOpened && (
+          <ModalLayer modalRef={modalRef}>
+            <MyChallengePassModal closeModal={closeModal} />
+          </ModalLayer>
+        )}
       </MyChallengeWrap>
     </>
   );

@@ -46,7 +46,7 @@ const Layer: React.ForwardRefRenderFunction<HTMLDivElement, ModalLayerProps> = (
   return (
     <div
       ref={modalRef}
-      className="z-[9999] w-full h-full absolute top-0 left-0 flex justify-center items-center bg-[#00000080]"
+      className="z-[9999] w-full h-full fixed top-0 left-0 flex justify-center items-center bg-[#00000080]"
     >
       {children}
     </div>
