@@ -50,7 +50,9 @@ const MyChallengeTitle = ({
     <div>
       <h3 className="text-[1.6rem] font-medium text-black">{displayTitle}</h3>
       <div className="flex text-[#777777] flex-col">
-        <span className="font-normal text-[12px]">보상 {point}P</span>
+        <span className="whitespace-nowrap font-normal text-[12px]">
+          보상 {point}P
+        </span>
         {authTime && (
           <span className="font-normal text-[10px]">인증시간: {authTime}</span>
         )}
