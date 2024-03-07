@@ -21,7 +21,7 @@ function ModalContentBox({ width, height, children }: ModalContentBoxProps) {
   return (
     <div
       className={cls(
-        "bg-white z-20 mx-[2.2rem] pb-[7.2rem] rounded-[2rem] p-[1.7rem] flex justify-center items-center",
+        "bg-white z-[9999] mx-[2.2rem] pb-[7.2rem] rounded-[2rem] p-[1.7rem] flex justify-center items-center",
         width,
         height
       )}
@@ -46,7 +46,7 @@ const Layer: React.ForwardRefRenderFunction<HTMLDivElement, ModalLayerProps> = (
   return (
     <div
       ref={modalRef}
-      className="z-10 w-full h-full absolute top-0 left-0 flex justify-center items-center bg-[#00000080]"
+      className="z-[9999] w-full h-full absolute top-0 left-0 flex justify-center items-center bg-[#00000080]"
     >
       {children}
     </div>

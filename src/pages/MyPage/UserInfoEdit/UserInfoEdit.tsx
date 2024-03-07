@@ -10,6 +10,7 @@ import MobCard from "@/components/Common/MobCard";
 import { Profile } from "@/components/Common/Profile/Profile";
 import BottomButton from "@/components/Common/BottomButton/BottomButton";
 import dummyImg from "@/assets/image/google-logo.png";
+
 type userNameType = {
   gitName: string;
   userName: string;
@@ -48,9 +49,7 @@ const UserInfoEdit = () => {
     formik.handleChange(e);
     setNickName(e.target.value);
   };
-  const userEditSubmit = () => {
-    alert("api연동전");
-  };
+  const userEditSubmit = () => {};
 
   const naviState = () => {
     if (formik.values.nickName && signUpBoolean) {
