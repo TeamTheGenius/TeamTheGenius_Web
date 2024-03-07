@@ -21,7 +21,6 @@ const InterestEdit = () => {
   const [checkedValues, setCheckedValues] = useState<CheckboxValueType[]>([]);
   const [editApiBoolean, setEditApiBoolean] = useState(false);
   const { isModalOpened, openModal, closeModal, modalRef } = useModal();
-  const [modal, setModal] = useState<React.ReactNode>(<div></div>);
 
   const InterestValue: Interest[] = interestsData;
 
@@ -61,7 +60,7 @@ const InterestEdit = () => {
           btnMaxWidthMob="_sm:max-w-[16.4rem]"
         />
       </MobCard>
-      {modal && isModalOpened && (
+      {isModalOpened && (
         <ModalLayer modalRef={modalRef}>
           <InterestEditModal
             closeModal={closeModal}
