@@ -9,12 +9,11 @@ const MyChallengeModal = {
 
 interface ModalProps {
   closeModal: () => void;
-  instanceId: number;
+  instanceId?: number;
 }
 
-function MyChallengeGetRewardModal({ closeModal, instanceId }: ModalProps) {
+function MyChallengeGetRewardModal({ closeModal }: ModalProps) {
   const onClick = async () => {
-    await getMyChallengeDoneReward({ item: false, instanceId });
     closeModal();
   };
   return (
@@ -40,6 +39,7 @@ function MyChallengeGetRewardTwiceModal({
   closeModal,
   instanceId,
 }: ModalProps) {
+  if (!instanceId) return null;
   const onClickUse = async () => {
     await getMyChallengeDoneReward({ item: true, instanceId });
     closeModal();

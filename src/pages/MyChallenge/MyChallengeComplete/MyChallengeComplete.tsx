@@ -1,4 +1,5 @@
 import getMyChallengeDone from "@/apis/getMyChallengeDone";
+import getMyChallengeDoneReward from "@/apis/getMyChallengeDoneReward";
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import MyChallengeLabel from "@/components/Main/MyChallenge/MyChallengeLabel/MyChallengeLabel";
 import MyChallengeLinkWrap from "@/components/Main/MyChallenge/MyChallengeLinkWrap/MyChallengeLinkWrap";
@@ -35,7 +36,7 @@ interface File {
 const MyChallengeComplete = () => {
   const { setModal, closeModal, openModal } = useOutletContext<Props>();
 
-  const { data } = useQuery<Data[]>({
+  const { data, refetch } = useQuery<Data[]>({
     queryKey: ["myChallengeDone"],
     queryFn: () => getMyChallengeDone(),
   });
@@ -44,14 +45,14 @@ const MyChallengeComplete = () => {
     return;
   }
 
-  const onClickGetRewardButton = (instanceId: number) => {
+  const onClickGetRewardButton = async (instanceId: number) => {
+    await getMyChallengeDoneReward({ item: false, instanceId });
+
     setModal(
-      <MyChallengeModal.MyChallengeGetRewardModal
-        closeModal={closeModal}
-        instanceId={instanceId}
-      />
+      <MyChallengeModal.MyChallengeGetRewardModal closeModal={closeModal} />
     );
     openModal();
+    refetch();
   };
   const onClickGetRewardTwiceButton = (instanceId: number) => {
     setModal(
@@ -103,7 +104,7 @@ const MyChallengeComplete = () => {
                         획득 포인트
                       </span>
                       <span className="text-black text-[18px] font-medium">
-                        {item.rewardPoints}
+                        {item.rewardPoints || 0}P
                       </span>
                     </div>
                     <div className="flex justify-start flex-col">
@@ -111,7 +112,7 @@ const MyChallengeComplete = () => {
                         달성률
                       </span>
                       <span className="text-black text-[18px] font-medium">
-                        {item.achievementRate}
+                        {item.achievementRate}%
                       </span>
                     </div>
                   </div>
