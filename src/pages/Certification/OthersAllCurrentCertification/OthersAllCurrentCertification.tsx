@@ -43,9 +43,9 @@ function OthersAllCurrentCertification() {
     <MobCard>
       <Header content="참가자 인증 현황" />
       <div className="py-[6rem] px-[2.2rem] relative">
-        <div className="absolute top-[6rem] right-[2.2rem]">
+        {/* <div className="absolute top-[6rem] right-[2.2rem]">
           <ReportButton />
-        </div>
+        </div> */}
         <div className="mt-[3.4rem] _sm:mt-[1.8rem]">
           <OthersProfile
             imgSrc={""}
