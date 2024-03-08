@@ -3,7 +3,8 @@ import getMyChallengeDoneReward from "@/apis/getMyChallengeDoneReward";
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import MyChallengeLabel from "@/components/Main/MyChallenge/MyChallengeLabel/MyChallengeLabel";
 import MyChallengeLinkWrap from "@/components/Main/MyChallenge/MyChallengeLinkWrap/MyChallengeLinkWrap";
-import MyChallengeModal from "@/components/Main/MyChallenge/MyChallengeModal/MyChallengeModal";
+import GetRewardModal from "@/components/Main/MyChallenge/MyChallengeModal/GetRewardModal/GetRewardModal";
+import GetRewardTwiceModal from "@/components/Main/MyChallenge/MyChallengeModal/GetRewardTwiceModal/GetRewardTwiceModal";
 import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyChallengeTitle";
 import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyChallengeWrap";
 import { PATH } from "@/constants/path";
@@ -47,19 +48,13 @@ const MyChallengeComplete = () => {
 
   const onClickGetRewardButton = async (instanceId: number) => {
     await getMyChallengeDoneReward({ item: false, instanceId });
-
-    setModal(
-      <MyChallengeModal.MyChallengeGetRewardModal closeModal={closeModal} />
-    );
+    setModal(<GetRewardModal closeModal={closeModal} />);
     openModal();
     refetch();
   };
   const onClickGetRewardTwiceButton = (instanceId: number) => {
     setModal(
-      <MyChallengeModal.MyChallengeGetRewardTwiceModal
-        instanceId={instanceId}
-        closeModal={closeModal}
-      />
+      <GetRewardTwiceModal instanceId={instanceId} closeModal={closeModal} />
     );
     openModal();
   };

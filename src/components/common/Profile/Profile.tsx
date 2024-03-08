@@ -22,6 +22,10 @@ interface NickNameProps {
   content: string;
 }
 
+interface IntroduceProps {
+  content: string;
+}
+
 function Image({ width, imgSrc, alt }: ImageProps) {
   return (
     <div className={`${width}`}>
@@ -29,7 +33,7 @@ function Image({ width, imgSrc, alt }: ImageProps) {
         <img
           src={imgSrc}
           alt={alt}
-          className="w-full h-full absolute top-0 left-0 rounded-full"
+          className="w-full h-full absolute top-0 left-0 rounded-full object-cover"
         />
       </div>
     </div>
@@ -56,8 +60,8 @@ function NickName({ content, textSize, smTextSize, textColor }: NickNameProps) {
   );
 }
 
-function Introduce() {
-  return <p className="text-[1.4rem] font-medium">안녕하세요 반갑습니다</p>;
+function Introduce({ content }: IntroduceProps) {
+  return <p className="text-[1.4rem] font-medium">{content}</p>;
 }
 
 function ProfileMain({ children }: ProfileProps) {

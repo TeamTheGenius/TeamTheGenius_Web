@@ -9,13 +9,19 @@ import getMyChallengeActivity from "@/apis/getMyChallengeActivity";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
 import postTodayCertification from "@/apis/postTodayCertification";
+import MyChallengePassItem from "@/components/Main/MyChallenge/MyChallengePass/MyChallengePassItem";
+import useModal from "@/hooks/useModal";
+import { useState } from "react";
+import { ModalLayer } from "@/components/Common/Modal/Modal";
+import { getToday } from "@/utils/getToday";
+import CertificationPassModal from "@/components/Main/MyChallenge/MyChallengeModal/CertificationPassModal/CertificationPassModal";
 
 interface Data {
   instanceId: number;
   title: string;
   pointPerPerson: number;
   repository: string;
-  certificateStatus: "패스 완료" | "인증 갱신" | "인증 필요";
+  certificateStatus: "패스 완료" | "인증 갱신" | "인증하기";
   numOfPassItem: number;
   canUsePassItem: boolean;
   fileResponse: File;
@@ -26,32 +32,45 @@ interface File {
 }
 
 const MyChallengeProgress = () => {
+  const { isModalOpened, openModal, closeModal, modalRef } = useModal();
+  const [modal, setModal] = useState<React.ReactNode>();
+
   const { data, refetch } = useQuery<Data[]>({
     queryKey: ["myChallengeActivity"],
     queryFn: () => getMyChallengeActivity(),
   });
 
-  const reNewCertification = async (instanceId: number) => {
-    const currentDate = new Date();
-    const formattedDate = `${currentDate.getFullYear()}-${(
-      currentDate.getMonth() + 1
-    )
-      .toString()
-      .padStart(2, "0")}-${currentDate.getDate().toString().padStart(2, "0")}`;
-    await postTodayCertification({
-      instanceId: instanceId,
-      targetDate: formattedDate,
-    });
-
-    refetch();
-  };
-
   if (!data) {
     return;
   }
 
+  const onClickPassItem = (instanceId: number) => {
+    setModal(
+      <CertificationPassModal
+        closeModal={closeModal}
+        instanceId={instanceId}
+        refetch={refetch}
+        setModal={setModal}
+      />
+    );
+    openModal();
+  };
+
+  const reNewCertification = async (instanceId: number) => {
+    const today = getToday();
+    await postTodayCertification({
+      instanceId: instanceId,
+      targetDate: today,
+    });
+    refetch();
+  };
+
   return (
     <>
+      {modal && isModalOpened && (
+        <ModalLayer modalRef={modalRef}>{modal}</ModalLayer>
+      )}
+
       <MyChallengeWrap>
         {data.map((item, index) => {
           return (
@@ -96,8 +115,14 @@ const MyChallengeProgress = () => {
                   repositoryName={item.repository}
                 />
               </MyChallengeLinkWrap>
+
+              <MyChallengePassItem
+                passCount={item.numOfPassItem}
+                onClick={() => onClickPassItem(item.instanceId)}
+              />
+
               {item.certificateStatus === "인증 갱신" ||
-              item.certificateStatus === "인증 필요" ? (
+              item.certificateStatus === "인증하기" ? (
                 <MyChallengeLabel
                   labelText={item.certificateStatus}
                   onClick={() => reNewCertification(item.instanceId)}

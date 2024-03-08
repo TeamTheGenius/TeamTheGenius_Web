@@ -6,7 +6,11 @@ import paymentLinkButton from "@/assets/icon/gray-next-arrow.svg";
 import debounce from "lodash/debounce";
 import { PATH } from "@/constants/path";
 
-function MyPoint() {
+interface Props {
+  point: number;
+}
+
+function MyPoint({ point }: Props) {
   const [width, setWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -30,7 +34,7 @@ function MyPoint() {
       <div className="ml-[2.7rem] _sm:ml-[1.4rem] flex justify-between w-full">
         <div className="flex flex-col gap-[0.3rem] mt-[0.5rem] ">
           <p className="text-[1.2rem] font-medium text-[#777]">포인트</p>
-          <p className="text-[2rem] font-medium">5000P</p>
+          <p className="text-[2rem] font-medium">{point}P</p>
         </div>
         <div className="self-end ">
           <Link to={PATH.PAYMENTS} className="flex gap-[1.6rem]">
