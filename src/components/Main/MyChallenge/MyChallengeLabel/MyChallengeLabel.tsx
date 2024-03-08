@@ -2,7 +2,7 @@ import { cls } from "@/utils/mergeTailwind";
 
 interface Props {
   labelText: "인증하기" | "패스 완료" | "인증 갱신" | "보상 수령" | "시작 전";
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent) => void;
 }
 
 const MyChallengeLabel = ({ labelText, onClick }: Props) => {
