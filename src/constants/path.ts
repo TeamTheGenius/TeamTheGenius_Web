@@ -39,11 +39,10 @@ export const PATH = {
 
   CERTIFICATION: "/certification",
   CERTIFICATION_ID: "/certification/:id",
-  CERTIFICATION_MY_CURRENT: "/certification/:id/my-current",
-  CERTIFICATION_MY_ALL_CURRENT: "/certification/:id/my-all-current",
-  CERTIFICATION_OTHERS_CURRENT: "/certification/:id/others-current",
-  CERTIFICATION_OTHERS_ALL_CURRENT:
-    "/certification/:id/others-current/:othersId",
+  CERTIFICATION_MY_CURRENT: "/certification/:id/my-week",
+  CERTIFICATION_MY_ALL_CURRENT: "/certification/:id/my-all/:userId",
+  CERTIFICATION_OTHERS_CURRENT: "/certification/:id/others-week",
+  CERTIFICATION_OTHERS_ALL_CURRENT: "/certification/:id/others-all/:userId",
   CERTIFICATION_REPORT: "/certification/:id/others-current/:othersId/report",
 
   PAYMENTS: "/payments",

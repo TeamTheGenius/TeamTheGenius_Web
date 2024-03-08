@@ -66,7 +66,7 @@ function FailWrapper({ children }: WrapperProps) {
 
 function EmptyWrapper({ children }: WrapperProps) {
   return (
-    <div className="w-full h-[5.05rem] _sm:h-[3.9rem] bg-[#E6E6E6] rounded-b-[1rem] flex justify-center items-center">
+    <div className="w-full h-[5.05rem] _sm:h-[3.9rem] bg-[#E6E6E6] rounded-b-[1rem] flex flex-col justify-start items-center">
       {children}
     </div>
   );

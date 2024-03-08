@@ -4,7 +4,6 @@ import { PATH } from "./constants/path";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 
-
 import LogIn from "./pages/LogIn/LogIn";
 
 import Interest from "./pages/Interest/Interest";
