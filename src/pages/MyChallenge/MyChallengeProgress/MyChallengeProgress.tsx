@@ -42,7 +42,11 @@ const MyChallengeProgress = () => {
     return;
   }
 
-  const onClickPassItem = (e: React.MouseEvent, instanceId: number) => {
+  const onClickPassItem = (
+    e: React.MouseEvent,
+    instanceId: number,
+    numOfPassItem: number
+  ) => {
     e.stopPropagation();
     setModal(
       <CertificationPassModal
@@ -50,6 +54,7 @@ const MyChallengeProgress = () => {
         instanceId={instanceId}
         refetch={refetch}
         setModal={setModal}
+        numOfPassItem={numOfPassItem}
       />
     );
     openModal();
@@ -113,13 +118,19 @@ const MyChallengeProgress = () => {
                     point={item.pointPerPerson}
                     repositoryName={item.repository}
                   />
-
-                  <MyChallengePassItem
-                    passCount={item.numOfPassItem}
-                    onClick={(e: React.MouseEvent) =>
-                      onClickPassItem(e, item.instanceId)
-                    }
-                  />
+                  {item.canUsePassItem &&
+                    item.certificateStatus == "인증하기" && (
+                      <MyChallengePassItem
+                        passCount={item.numOfPassItem}
+                        onClick={(e: React.MouseEvent) =>
+                          onClickPassItem(
+                            e,
+                            item.instanceId,
+                            item.numOfPassItem
+                          )
+                        }
+                      />
+                    )}
 
                   {item.certificateStatus === "인증 갱신" ||
                   item.certificateStatus === "인증하기" ? (
