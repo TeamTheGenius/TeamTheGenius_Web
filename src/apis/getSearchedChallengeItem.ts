@@ -7,6 +7,16 @@ interface Params {
   progress?: "PREACTIVITY" | "ACTIVITY" | "DONE";
 }
 
+interface Data {
+  instanceId: number;
+  keyword: string;
+  participantCnt: number;
+  pointPerPerson: number;
+  fileResponse: {
+    encodedFile: string;
+  };
+}
+
 const getSearchedChallengeItem = async ({
   pageParams,
   size,
@@ -31,9 +41,16 @@ const getSearchedChallengeItem = async ({
     })
     .then((res) => {
       console.log(res.data.data.content);
-      const { content } = res.data.data;
+      const transformedContent = res.data.data.content.map((item: Data) => ({
+        ...item,
+        title: item.keyword,
+      }));
+
       const { last } = res.data.data;
-      return { posts: content, isLast: last } || {};
+      const { pageNumber } = res.data.data.pageable;
+      return (
+        { posts: transformedContent, isLast: last, page: pageNumber } || {}
+      );
     });
   return data || {};
 };

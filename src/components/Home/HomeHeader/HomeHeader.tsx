@@ -7,14 +7,28 @@ interface OutletProps {
   searchQuery: string;
   setSearchQuery: Dispatch<SetStateAction<string>>;
 }
-function HomeHeader() {
+
+interface Props {
+  setSearchEnter: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function HomeHeader({ setSearchEnter }: Props) {
   const { searchQuery, setSearchQuery } = useOutletContext<OutletProps>();
   const navigate = useNavigate();
   const currentUrl = useLocation().pathname;
 
   const onClickKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter" && currentUrl !== PATH.SEARCH) {
-      navigate(PATH.SEARCH);
+    if (
+      event.key === "Enter" &&
+      currentUrl !== PATH.SEARCH &&
+      currentUrl !== PATH.SEARCH_ALL &&
+      currentUrl !== PATH.SEARCH_PREACTIVITY &&
+      currentUrl !== PATH.SEARCH_ACTIVITY &&
+      currentUrl !== PATH.SEARCH_DONE
+    ) {
+      navigate(PATH.SEARCH_ALL);
+    } else if (event.key === "Enter") {
+      setSearchEnter(true);
     }
   };
 

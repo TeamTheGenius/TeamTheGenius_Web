@@ -9,7 +9,13 @@ function Main() {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
-    if (pathname !== PATH.SEARCH) {
+    if (
+      pathname !== PATH.SEARCH &&
+      pathname !== PATH.SEARCH_ALL &&
+      pathname !== PATH.SEARCH_PREACTIVITY &&
+      pathname !== PATH.SEARCH_ACTIVITY &&
+      pathname !== PATH.SEARCH_DONE
+    ) {
       setSearchQuery("");
     }
   }, [pathname]);

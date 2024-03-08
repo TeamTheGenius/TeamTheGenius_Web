@@ -26,6 +26,10 @@ function BottomNav() {
         PATH.POPULAR_CHALLENGE,
         PATH.SUGGESTION_CHALLENGE,
         PATH.NEW_CHALLENGE,
+        PATH.SEARCH_ACTIVITY,
+        PATH.SEARCH_ALL,
+        PATH.SEARCH_DONE,
+        PATH.SEARCH_PREACTIVITY,
       ],
     },
     {
