@@ -21,7 +21,7 @@ function ModalContentBox({ width, height, children }: ModalContentBoxProps) {
   return (
     <div
       className={cls(
-        "bg-white z-[9999] mx-[2.2rem] pb-[7.2rem] rounded-[2rem] p-[1.7rem] flex justify-center items-center",
+        " bg-white z-[9999] mx-[2.2rem] pb-[7.2rem] rounded-[2rem] p-[1.7rem] flex justify-center items-center",
         width,
         height
       )}

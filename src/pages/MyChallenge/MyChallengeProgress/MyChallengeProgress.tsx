@@ -8,16 +8,20 @@ import { PATH } from "@/constants/path";
 import getMyChallengeActivity from "@/apis/getMyChallengeActivity";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
+import postTodayCertification from "@/apis/postTodayCertification";
+import MyChallengePassItem from "@/components/Main/MyChallenge/MyChallengePass/MyChallengePassItem";
 import useModal from "@/hooks/useModal";
+import { useState } from "react";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
-import { MyChallengePassModal } from "./MyChallengePassModal/MyChallengePassModal";
+import { getToday } from "@/utils/getToday";
+import CertificationPassModal from "@/components/Main/MyChallenge/MyChallengeModal/CertificationPassModal/CertificationPassModal";
 
 interface Data {
   instanceId: number;
   title: string;
   pointPerPerson: number;
   repository: string;
-  certificateStatus: "패스 완료" | "인증 갱신" | "인증 필요";
+  certificateStatus: "패스 완료" | "인증 갱신" | "인증하기";
   numOfPassItem: number;
   canUsePassItem: boolean;
   fileResponse: File;
@@ -29,7 +33,9 @@ interface File {
 
 const MyChallengeProgress = () => {
   const { isModalOpened, openModal, closeModal, modalRef } = useModal();
-  const { data } = useQuery<Data[]>({
+  const [modal, setModal] = useState<React.ReactNode>();
+
+  const { data, refetch } = useQuery<Data[]>({
     queryKey: ["myChallengeActivity"],
     queryFn: () => getMyChallengeActivity(),
   });
@@ -37,11 +43,34 @@ const MyChallengeProgress = () => {
   if (!data) {
     return;
   }
-  const passModal = () => {
+
+  const onClickPassItem = (instanceId: number) => {
+    setModal(
+      <CertificationPassModal
+        closeModal={closeModal}
+        instanceId={instanceId}
+        refetch={refetch}
+        setModal={setModal}
+      />
+    );
     openModal();
   };
+
+  const reNewCertification = async (instanceId: number) => {
+    const today = getToday();
+    await postTodayCertification({
+      instanceId: instanceId,
+      targetDate: today,
+    });
+    refetch();
+  };
+
   return (
     <>
+      {modal && isModalOpened && (
+        <ModalLayer modalRef={modalRef}>{modal}</ModalLayer>
+      )}
+
       <MyChallengeWrap>
         {data.map((item, index) => {
           return (
@@ -86,19 +115,24 @@ const MyChallengeProgress = () => {
                   repositoryName={item.repository}
                 />
               </MyChallengeLinkWrap>
-              <MyChallengePassModal
-                passModal={passModal}
+
+              <MyChallengePassItem
                 passCount={item.numOfPassItem}
+                onClick={() => onClickPassItem(item.instanceId)}
               />
-              <MyChallengeLabel labelText={item.certificateStatus} />
+
+              {item.certificateStatus === "인증 갱신" ||
+              item.certificateStatus === "인증하기" ? (
+                <MyChallengeLabel
+                  labelText={item.certificateStatus}
+                  onClick={() => reNewCertification(item.instanceId)}
+                />
+              ) : (
+                <MyChallengeLabel labelText={item.certificateStatus} />
+              )}
             </li>
           );
         })}
-        {isModalOpened && (
-          <ModalLayer modalRef={modalRef}>
-            <MyChallengePassModal closeModal={closeModal} />
-          </ModalLayer>
-        )}
       </MyChallengeWrap>
     </>
   );

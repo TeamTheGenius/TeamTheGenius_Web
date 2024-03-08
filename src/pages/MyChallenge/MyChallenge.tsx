@@ -16,8 +16,8 @@ const MyChallenge = () => {
       )}
       <div className="w-full px-[2rem]">
         <MyChallengeHeader />
+        <Outlet context={{ setModal, openModal, closeModal }} />
       </div>
-      <Outlet context={{ setModal, openModal, closeModal }} />
     </>
   );
 };
