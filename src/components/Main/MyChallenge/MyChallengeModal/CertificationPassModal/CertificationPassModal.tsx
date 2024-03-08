@@ -9,6 +9,7 @@ interface PassItemModalProps {
   instanceId: number;
   refetch: () => void;
   setModal: React.Dispatch<React.SetStateAction<React.ReactNode>>;
+  numOfPassItem: number;
 }
 
 function CertificationPassModal({
@@ -16,6 +17,7 @@ function CertificationPassModal({
   instanceId,
   refetch,
   setModal,
+  numOfPassItem,
 }: PassItemModalProps) {
   const onClickNotUse = () => {
     closeModal();
@@ -37,7 +39,7 @@ function CertificationPassModal({
     <Modal.ModalContentBox width="w-[35.5rem]" height="h-[32.3rem]">
       <div className="flex flex-col gap-[1.4rem] mt-[9rem] justify-center items-center">
         <Modal.ModalContent
-          content={`인증 패스권 아이템을\n 사용하시겠어요?\n (현재 5개 보유중)`}
+          content={`인증 패스권 아이템을\n 사용하시겠어요?\n (현재 ${numOfPassItem}개 보유중)`}
         />
         <button className="w-full pt-[1.5rem]" onClick={onClickNotUse}>
           <span className="whitespace-nowrap relative text-[1.3rem] text-[#777777] hover:border-b-[1px] hover:border-[#777777]">

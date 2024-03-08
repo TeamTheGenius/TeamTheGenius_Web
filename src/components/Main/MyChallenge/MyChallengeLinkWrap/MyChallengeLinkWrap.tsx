@@ -1,16 +1,27 @@
+import { PATH } from "@/constants/path";
 import { ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 type MyChallengeLinkWrapType = {
-  link: string;
+  instanceId: number;
   children: ReactNode;
 };
 
-const MyChallengeLinkWrap = ({ link, children }: MyChallengeLinkWrapType) => {
+const MyChallengeLinkWrap = ({
+  instanceId,
+  children,
+}: MyChallengeLinkWrapType) => {
+  const navigate = useNavigate();
+  const onClick = () => {
+    navigate(`${PATH.CERTIFICATION}/${instanceId}/my-current`);
+  };
   return (
-    <Link to={link} className="w-full h-full flex">
+    <div
+      onClick={onClick}
+      className="cursor-pointer flex justify-between gap-[1.8rem] _sm:gap-[1.1rem] h-[12.6rem]"
+    >
       {children}
-    </Link>
+    </div>
   );
 };
 
