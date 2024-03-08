@@ -17,11 +17,11 @@ const MyChallengeLabel = ({ labelText, onClick }: Props) => {
   return (
     <button
       onClick={onClick}
-      className="flex justify-end w-full absolute bottom-0 right-0 max-w-[24.8rem] h-[3.8rem] _sm:w-[16.4rem] _ld:w-[22.4rem] _md:w-[20.4rem]"
+      className="flex w-full max-w-[24.8rem] h-[3.8rem] self-end"
     >
       <div
         className={cls(
-          "flex justify-center  items-center w-full rounded-[10px]",
+          "flex justify-center  items-center w-full h-full rounded-[10px]",
           labelCSS[labelText]
         )}
       >
