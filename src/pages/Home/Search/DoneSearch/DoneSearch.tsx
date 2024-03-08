@@ -17,15 +17,18 @@ interface Data {
 
 interface Outlet {
   searchQuery: string;
+  searchEnter: string;
+  setSearchEnter: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function DoneSearch() {
-  const { searchQuery } = useOutletContext<Outlet>();
+  const { searchQuery, searchEnter, setSearchEnter } =
+    useOutletContext<Outlet>();
 
   const [ref, inView] = useInView();
   const [challenges, setChallenges] = useState<Data[]>([]);
 
-  const { fetchNextPage, hasNextPage } = useInfiniteQuery({
+  const { fetchNextPage, hasNextPage, refetch } = useInfiniteQuery({
     queryKey: ["getSearchedChallenge", "done"],
     queryFn: ({ pageParam = 0 }) =>
       getSearchedChallengeItem({
@@ -49,6 +52,13 @@ function DoneSearch() {
       fetchNextPage();
     }
   }, [inView, hasNextPage, fetchNextPage]);
+
+  useEffect(() => {
+    if (searchEnter) {
+      refetch();
+      setSearchEnter(false);
+    }
+  }, [searchEnter]);
 
   if (!challenges) return null;
 

@@ -53,7 +53,6 @@ function AllSearch() {
   }, [inView]);
 
   useEffect(() => {
-    console.log("here");
     if (searchEnter) {
       refetch();
       setSearchEnter(false);
