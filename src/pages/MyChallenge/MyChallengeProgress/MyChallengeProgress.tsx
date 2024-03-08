@@ -13,8 +13,6 @@ import MyChallengePassItem from "@/components/Main/MyChallenge/MyChallengePass/M
 import useModal from "@/hooks/useModal";
 import { useState } from "react";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
-import { MyChallengePassModal } from "./MyChallengePassModal/MyChallengePassModal";
-import MyChallengePassItem from "@/components/Main/MyChallenge/MyChallengePass/MyChallengePassItem";
 import { getToday } from "@/utils/getToday";
 import CertificationPassModal from "@/components/Main/MyChallenge/MyChallengeModal/CertificationPassModal/CertificationPassModal";
 
@@ -112,28 +110,30 @@ const MyChallengeProgress = () => {
                       </ChallengeItem.Image>
                     </ChallengeItem>
                   </div>
-               <MyChallengeTitle
-                  title={item.title}
-                  point={item.pointPerPerson}
-                  repositoryName={item.repository}
-                />
-              </MyChallengeLinkWrap>
+                  <MyChallengeTitle
+                    title={item.title}
+                    point={item.pointPerPerson}
+                    repositoryName={item.repository}
+                  />
+                </MyChallengeLinkWrap>
 
-              <MyChallengePassItem
-                passCount={item.numOfPassItem}
-                onClick={() => onClickPassItem(item.instanceId)}
-              />
+                <div className="w-full max-w-[24.8rem] flex flex-col items-center self-end">
+                  <MyChallengePassItem
+                    passCount={item.numOfPassItem}
+                    onClick={() => onClickPassItem(item.instanceId)}
+                  />
 
-              {item.certificateStatus === "인증 갱신" ||
-              item.certificateStatus === "인증하기" ? (
-                <MyChallengeLabel
-                  labelText={item.certificateStatus}
-                  onClick={() => reNewCertification(item.instanceId)}
-                />
-              ) : (
-                <MyChallengeLabel labelText={item.certificateStatus} />
-              )}
-            </div>              
+                  {item.certificateStatus === "인증 갱신" ||
+                  item.certificateStatus === "인증하기" ? (
+                    <MyChallengeLabel
+                      labelText={item.certificateStatus}
+                      onClick={() => reNewCertification(item.instanceId)}
+                    />
+                  ) : (
+                    <MyChallengeLabel labelText={item.certificateStatus} />
+                  )}
+                </div>
+              </div>
             </div>
           );
         })}
