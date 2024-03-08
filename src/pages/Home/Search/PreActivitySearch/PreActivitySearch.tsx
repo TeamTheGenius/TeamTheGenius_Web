@@ -2,6 +2,7 @@ import getSearchedChallengeItem from "@/apis/getSearchedChallengeItem";
 import VerticalChallengeItems from "@/components/Common/VerticalChallengeItems/VerticalChallengeItems";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
+import { useInfiniteQuery } from "react-query";
 import { useOutletContext } from "react-router-dom";
 
 interface Data {
@@ -16,31 +17,50 @@ interface Data {
 
 interface Outlet {
   searchQuery: string;
+  searchEnter: string;
+  setSearchEnter: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function PreActivitySearch() {
-  const { searchQuery } = useOutletContext<Outlet>();
-  const [page, setPage] = useState(0);
+  const { searchQuery, searchEnter, setSearchEnter } =
+    useOutletContext<Outlet>();
+
   const [ref, inView] = useInView();
   const [challenges, setChallenges] = useState<Data[]>([]);
 
-  const loadChallenges = async () => {
-    const newData = await getSearchedChallengeItem({
-      pageParams: page,
-      size: 10,
-      keyword: searchQuery,
-      progress: "PREACTIVITY",
-    });
-
-    setChallenges([...challenges, ...newData.posts]);
-    setPage((page) => page + 1);
-  };
+  const { fetchNextPage, hasNextPage, refetch } = useInfiniteQuery({
+    queryKey: ["getSearchedChallenge", "preActivity"],
+    queryFn: ({ pageParam = 0 }) =>
+      getSearchedChallengeItem({
+        pageParams: pageParam,
+        size: pageParam === 0 ? 20 : 10,
+        keyword: searchQuery,
+        progress: "PREACTIVITY",
+      }),
+    getNextPageParam: (lastPage) => {
+      return lastPage.isLast ? undefined : lastPage.page + 1;
+    },
+    onSuccess: (res) => {
+      const newChallenges = res.pages.map((page) => page.posts).flat();
+      setChallenges(newChallenges);
+    },
+    cacheTime: 0,
+  });
 
   useEffect(() => {
-    if (inView) {
-      loadChallenges();
+    if (inView && hasNextPage) {
+      fetchNextPage();
     }
-  }, [inView]);
+  }, [inView, hasNextPage, fetchNextPage]);
+
+  useEffect(() => {
+    if (searchEnter) {
+      refetch();
+      setSearchEnter(false);
+    }
+  }, [searchEnter]);
+
+  if (!challenges) return null;
 
   return (
     <>
