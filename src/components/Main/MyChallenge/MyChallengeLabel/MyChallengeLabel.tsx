@@ -1,13 +1,13 @@
 import { cls } from "@/utils/mergeTailwind";
 
 interface Props {
-  labelText: "인증 필요" | "패스 완료" | "인증 갱신" | "보상 수령" | "시작 전";
+  labelText: "인증하기" | "패스 완료" | "인증 갱신" | "보상 수령" | "시작 전";
   onClick?: () => void;
 }
 
 const MyChallengeLabel = ({ labelText, onClick }: Props) => {
   const labelCSS: { [key in Props["labelText"]]: string } = {
-    "인증 필요": "bg-_coral-70 text-white",
+    인증하기: "bg-_coral-70 text-white",
     "패스 완료": "bg-[#A0A0A0] cursor-default text-white",
     "인증 갱신": "bg-[#282828] text-white",
     "보상 수령": "bg-_coral-70 text-white",

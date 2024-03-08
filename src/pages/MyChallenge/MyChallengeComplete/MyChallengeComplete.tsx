@@ -1,8 +1,10 @@
 import getMyChallengeDone from "@/apis/getMyChallengeDone";
+import getMyChallengeDoneReward from "@/apis/getMyChallengeDoneReward";
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import MyChallengeLabel from "@/components/Main/MyChallenge/MyChallengeLabel/MyChallengeLabel";
 import MyChallengeLinkWrap from "@/components/Main/MyChallenge/MyChallengeLinkWrap/MyChallengeLinkWrap";
-import MyChallengeModal from "@/components/Main/MyChallenge/MyChallengeModal/MyChallengeModal";
+import GetRewardModal from "@/components/Main/MyChallenge/MyChallengeModal/GetRewardModal/GetRewardModal";
+import GetRewardTwiceModal from "@/components/Main/MyChallenge/MyChallengeModal/GetRewardTwiceModal/GetRewardTwiceModal";
 import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyChallengeTitle";
 import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyChallengeWrap";
 import { PATH } from "@/constants/path";
@@ -35,7 +37,7 @@ interface File {
 const MyChallengeComplete = () => {
   const { setModal, closeModal, openModal } = useOutletContext<Props>();
 
-  const { data } = useQuery<Data[]>({
+  const { data, refetch } = useQuery<Data[]>({
     queryKey: ["myChallengeDone"],
     queryFn: () => getMyChallengeDone(),
   });
@@ -44,21 +46,15 @@ const MyChallengeComplete = () => {
     return;
   }
 
-  const onClickGetRewardButton = (instanceId: number) => {
-    setModal(
-      <MyChallengeModal.MyChallengeGetRewardModal
-        closeModal={closeModal}
-        instanceId={instanceId}
-      />
-    );
+  const onClickGetRewardButton = async (instanceId: number) => {
+    await getMyChallengeDoneReward({ item: false, instanceId });
+    setModal(<GetRewardModal closeModal={closeModal} />);
     openModal();
+    refetch();
   };
   const onClickGetRewardTwiceButton = (instanceId: number) => {
     setModal(
-      <MyChallengeModal.MyChallengeGetRewardTwiceModal
-        instanceId={instanceId}
-        closeModal={closeModal}
-      />
+      <GetRewardTwiceModal instanceId={instanceId} closeModal={closeModal} />
     );
     openModal();
   };
@@ -103,7 +99,7 @@ const MyChallengeComplete = () => {
                         획득 포인트
                       </span>
                       <span className="text-black text-[18px] font-medium">
-                        {item.rewardPoints}
+                        {item.rewardPoints || 0}P
                       </span>
                     </div>
                     <div className="flex justify-start flex-col">
@@ -111,7 +107,7 @@ const MyChallengeComplete = () => {
                         달성률
                       </span>
                       <span className="text-black text-[18px] font-medium">
-                        {item.achievementRate}
+                        {item.achievementRate}%
                       </span>
                     </div>
                   </div>
