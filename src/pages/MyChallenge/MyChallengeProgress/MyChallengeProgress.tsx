@@ -13,6 +13,8 @@ import MyChallengePassItem from "@/components/Main/MyChallenge/MyChallengePass/M
 import useModal from "@/hooks/useModal";
 import { useState } from "react";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
+import { MyChallengePassModal } from "./MyChallengePassModal/MyChallengePassModal";
+import MyChallengePassItem from "@/components/Main/MyChallenge/MyChallengePass/MyChallengePassItem";
 import { getToday } from "@/utils/getToday";
 import CertificationPassModal from "@/components/Main/MyChallenge/MyChallengeModal/CertificationPassModal/CertificationPassModal";
 
@@ -74,42 +76,43 @@ const MyChallengeProgress = () => {
       <MyChallengeWrap>
         {data.map((item, index) => {
           return (
-            <li
-              key={index}
-              className="flex justify-between w-full relative mb-[1.3rem]"
-            >
-              <MyChallengeLinkWrap
+            <div className="relative w-full">
+              <div
                 key={index}
-                link={`${PATH.CERTIFICATION}/${item.instanceId}/my-current`}
+                className="flex justify-between w-full relative mb-[1.3rem]"
               >
-                <div className="w-[16.4rem] h-[12.6rem] mr-[1.8rem] _sm:mr-[1.1rem]">
-                  <ChallengeItem>
-                    <ChallengeItem.Image
-                      imgSrc={makeBase64IncodedImage({
-                        uri: item.fileResponse.encodedFile,
-                        format: "jpg",
-                      })}
-                      alt={"챌린지 이미지"}
-                      direction="vertical"
-                    >
-                      {item.certificateStatus === "패스 완료" && (
-                        <ChallengeItem.Overlay text="패 스" />
-                      )}
-                      {item.certificateStatus === "인증 갱신" && (
-                        <ChallengeItem.Overlay />
-                      )}
+                <MyChallengeLinkWrap
+                  key={index}
+                  link={`${PATH.CERTIFICATION}/${item.instanceId}/my-current`}
+                >
+                  <div className="w-[16.4rem] h-[12.6rem] mr-[1.8rem] _sm:mr-[1.1rem]">
+                    <ChallengeItem>
+                      <ChallengeItem.Image
+                        imgSrc={makeBase64IncodedImage({
+                          uri: item.fileResponse.encodedFile,
+                          format: "jpg",
+                        })}
+                        alt={"챌린지 이미지"}
+                        direction="vertical"
+                      >
+                        {item.certificateStatus === "패스 완료" && (
+                          <ChallengeItem.Overlay text="패 스" />
+                        )}
+                        {item.certificateStatus === "인증 갱신" && (
+                          <ChallengeItem.Overlay />
+                        )}
 
-                      {item.certificateStatus === "인증 갱신" && (
-                        <img
-                          src={successStamp}
-                          alt="성공 스탬프"
-                          className="bottom-[1rem] right-[1rem] absolute "
-                        />
-                      )}
-                    </ChallengeItem.Image>
-                  </ChallengeItem>
-                </div>
-                <MyChallengeTitle
+                        {item.certificateStatus === "인증 갱신" && (
+                          <img
+                            src={successStamp}
+                            alt="성공 스탬프"
+                            className="bottom-[1rem] right-[1rem] absolute "
+                          />
+                        )}
+                      </ChallengeItem.Image>
+                    </ChallengeItem>
+                  </div>
+               <MyChallengeTitle
                   title={item.title}
                   point={item.pointPerPerson}
                   repositoryName={item.repository}
@@ -130,7 +133,8 @@ const MyChallengeProgress = () => {
               ) : (
                 <MyChallengeLabel labelText={item.certificateStatus} />
               )}
-            </li>
+            </div>              
+            </div>
           );
         })}
       </MyChallengeWrap>
