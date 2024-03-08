@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 
 interface Props {
   instanceId: number;
-  othersId: number;
+  userId: number;
 }
 
-function OthersAllCertificationLinkButton({ instanceId, othersId }: Props) {
+function OthersAllCertificationLinkButton({ instanceId, userId }: Props) {
   return (
     <Link
-      to={`${PATH.CERTIFICATION}/${instanceId}/all/${othersId}`}
+      to={`${PATH.CERTIFICATION}/${instanceId}/others-all/${userId}`}
       className="flex justify-center items-center"
     >
       <img

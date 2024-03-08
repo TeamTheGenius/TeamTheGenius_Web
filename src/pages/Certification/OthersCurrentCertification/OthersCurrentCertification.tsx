@@ -77,7 +77,7 @@ function OthersCurrentCertification() {
                 nickName={item.nickname}
               />
               <OthersAllCertificationLinkButton
-                othersId={item.userId}
+                userId={item.userId}
                 instanceId={parseInt(id)}
               />
             </div>
