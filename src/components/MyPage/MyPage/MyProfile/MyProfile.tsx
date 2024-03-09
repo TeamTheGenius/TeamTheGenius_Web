@@ -5,17 +5,7 @@ import MyPoint from "../MyPoint/MyPoint";
 import getMyPageProfile from "@/apis/getMyPageProfile";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
-
-interface Data {
-  identifier: "string";
-  nickname: "string";
-  information: "string";
-  point: number;
-  progressBar: number;
-  fileResponse: {
-    encodedFile: "string";
-  };
-}
+import { Data } from "@/types/myProfileData";
 
 function MyProfile() {
   const { data } = useQuery<Data>({

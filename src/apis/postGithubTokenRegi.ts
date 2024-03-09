@@ -27,7 +27,7 @@ const postGithubTokenRegi = async ({
       console.log("등록성공", res);
       setTokenBoolean(true);
       setGithubBoolean(true);
-      queryClient.invalidateQueries(["getGithubToken"]);
+      queryClient.invalidateQueries(["myPageProfile"]);
     })
     .catch((err) => {
       console.log("등록실패", err);

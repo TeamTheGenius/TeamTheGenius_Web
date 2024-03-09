@@ -17,6 +17,8 @@ type SignUpInputProps = {
   maxLength: number;
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
+  nickCheck: string;
+  setNickCheck: React.Dispatch<React.SetStateAction<string>>;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onBlur: (event: FocusEvent<HTMLInputElement>) => void;
   error: string | null;
@@ -26,7 +28,7 @@ type SignUpInputProps = {
   setsignUpBoolean: Dispatch<SetStateAction<boolean>>;
 };
 
-const SignUpName: React.FC<SignUpInputProps> = ({
+const NickNameInput: React.FC<SignUpInputProps> = ({
   label,
   id,
   name,
@@ -34,6 +36,8 @@ const SignUpName: React.FC<SignUpInputProps> = ({
   maxLength,
   value,
   setValue,
+  nickCheck,
+  setNickCheck,
   onChange,
   onBlur,
   error,
@@ -42,8 +46,6 @@ const SignUpName: React.FC<SignUpInputProps> = ({
   signUpBoolean,
   setsignUpBoolean,
 }) => {
-  const [nickCheck, setNickCheck] = useState("");
-
   const nickNameCheck = () => {
     getCheckNicknameApi({ value, setNickCheck, setsignUpBoolean });
   };
@@ -105,4 +107,4 @@ const SignUpName: React.FC<SignUpInputProps> = ({
     </li>
   );
 };
-export default SignUpName;
+export default NickNameInput;

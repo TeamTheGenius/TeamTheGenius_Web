@@ -1,5 +1,5 @@
 interface Params {
-  uri: string;
+  uri?: string;
   format: string;
 }
 

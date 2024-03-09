@@ -14,7 +14,7 @@ type SignUpInputProps = {
   margin: string | null;
 };
 
-const SignUpDesc: React.FC<SignUpInputProps> = ({
+const InfoInput: React.FC<SignUpInputProps> = ({
   label,
   id,
   name,
@@ -51,7 +51,6 @@ const SignUpDesc: React.FC<SignUpInputProps> = ({
         onChange={handleInputChange}
         onBlur={onBlur}
       />
-
       {error ? (
         <div className="signUp-err">{error}</div>
       ) : (
@@ -63,4 +62,4 @@ const SignUpDesc: React.FC<SignUpInputProps> = ({
   );
 };
 
-export default SignUpDesc;
+export default InfoInput;

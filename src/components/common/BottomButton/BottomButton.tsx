@@ -27,6 +27,7 @@ const BottomButton = ({
       <div className="w-full flex justify-center">
         <button
           className={`w-full ${btnMaxWidth} ${btnMaxWidthMob} ${btnHeight} ${marginX} ${marginXmob} mt-[1.2rem] mb-[1.7rem] text-[1.8rem] ${btnTextColor} ${btnColor} font-medium rounded-[1rem] border-2 ${borderColor}`}
+          type="submit"
           onClick={() => {
             {
               onClick();
