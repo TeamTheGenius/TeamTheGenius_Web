@@ -2,7 +2,6 @@ import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyCha
 import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyChallengeTitle";
 import MyChallengeLinkWrap from "@/components/Main/MyChallenge/MyChallengeLinkWrap/MyChallengeLinkWrap";
 import MyChallengeLabel from "@/components/Main/MyChallenge/MyChallengeLabel/MyChallengeLabel";
-import { PATH } from "@/constants/path";
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import getMyChallengePreActivity from "@/apis/getMyChallengePreActivity";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
@@ -36,15 +35,9 @@ const MyChallengeStart = () => {
       <MyChallengeWrap>
         {data.map((item, index) => {
           return (
-            <li
-              key={index}
-              className="flex justify-between w-full relative mb-[1.3rem]"
-            >
-              <MyChallengeLinkWrap
-                key={index}
-                link={`${PATH.CERTIFICATION}/${item.instanceId}/my-current`}
-              >
-                <div className="w-[16.4rem] h-[12.6rem] mr-[1.8rem] _sm:mr-[1.1rem]">
+            <li key={index} className="mb-[1.3rem] list-none">
+              <MyChallengeLinkWrap key={index} instanceId={item.instanceId}>
+                <div className="min-w-[16.4rem] w-[16.4rem] h-[12.6rem]">
                   <ChallengeItem>
                     <ChallengeItem.Image
                       imgSrc={makeBase64IncodedImage({
@@ -62,14 +55,17 @@ const MyChallengeStart = () => {
                   </ChallengeItem>
                 </div>
 
-                <div className="flex flex-col gap-[4.7rem]">
+                <div className="w-full justify-between flex flex-col ">
                   <MyChallengeTitle
                     title={item.title}
                     point={item.pointPerPerson}
                   />
+                  <MyChallengeLabel
+                    labelText="시작 전"
+                    onClick={(e) => e.stopPropagation()}
+                  />
                 </div>
               </MyChallengeLinkWrap>
-              <MyChallengeLabel labelText="시작 전" />
             </li>
           );
         })}

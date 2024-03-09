@@ -7,7 +7,6 @@ import GetRewardModal from "@/components/Main/MyChallenge/MyChallengeModal/GetRe
 import GetRewardTwiceModal from "@/components/Main/MyChallenge/MyChallengeModal/GetRewardTwiceModal/GetRewardTwiceModal";
 import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyChallengeTitle";
 import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyChallengeWrap";
-import { PATH } from "@/constants/path";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
 import { useOutletContext } from "react-router-dom";
@@ -63,15 +62,9 @@ const MyChallengeComplete = () => {
       <MyChallengeWrap>
         {data.map((item, index) => {
           return (
-            <li
-              key={index}
-              className="flex justify-between w-full relative mb-[1.3rem]"
-            >
-              <MyChallengeLinkWrap
-                key={index}
-                link={`${PATH.CERTIFICATION}/${item.instanceId}/my-current`}
-              >
-                <div className="w-[16.4rem] h-[12.6rem] mr-[1.8rem] _sm:mr-[1.1rem]">
+            <li key={index} className="mb-[1.3rem] list-none">
+              <MyChallengeLinkWrap key={index} instanceId={item.instanceId}>
+                <div className="min-w-[16.4rem] w-[16.4rem]">
                   <ChallengeItem>
                     <ChallengeItem.Image
                       imgSrc={makeBase64IncodedImage({
@@ -88,43 +81,47 @@ const MyChallengeComplete = () => {
                   </ChallengeItem>
                 </div>
 
-                <MyChallengeTitle
-                  title={item.title}
-                  point={item.pointPerPerson}
-                />
-                {!item.canGetReward && (
-                  <div className="flex justify-between w-full max-w-[16rem] absolute bottom-0 right-0">
-                    <div className="flex justify-start flex-col">
-                      <span className="text-[#777777] text-[12px] font-medium">
-                        획득 포인트
-                      </span>
-                      <span className="text-black text-[18px] font-medium">
-                        {item.rewardPoints || 0}P
-                      </span>
+                <div className="w-full justify-between flex flex-col ">
+                  <MyChallengeTitle
+                    title={item.title}
+                    point={item.pointPerPerson}
+                  />
+                  {!item.canGetReward && (
+                    <div className="flex justify-around w-full">
+                      <div className="flex flex-col">
+                        <span className="text-[#777777] text-[12px] font-medium">
+                          획득 포인트
+                        </span>
+                        <span className="text-black text-[18px] font-medium">
+                          {item.rewardPoints || 0}P
+                        </span>
+                      </div>
+                      <div className="flex justify-start flex-col">
+                        <span className="text-[#777777] text-[12px] font-medium">
+                          달성률
+                        </span>
+                        <span className="text-black text-[18px] font-medium">
+                          {item.achievementRate}%
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex justify-start flex-col">
-                      <span className="text-[#777777] text-[12px] font-medium">
-                        달성률
-                      </span>
-                      <span className="text-black text-[18px] font-medium">
-                        {item.achievementRate}%
-                      </span>
-                    </div>
-                  </div>
-                )}
+                  )}
+                  {item.canGetReward && item.numOfPointItem === 0 && (
+                    <MyChallengeLabel
+                      labelText="보상 수령"
+                      onClick={() => onClickGetRewardButton(item.instanceId)}
+                    />
+                  )}
+                  {!item.canGetReward && item.numOfPointItem > 0 && (
+                    <MyChallengeLabel
+                      labelText="보상 수령"
+                      onClick={() =>
+                        onClickGetRewardTwiceButton(item.instanceId)
+                      }
+                    />
+                  )}
+                </div>
               </MyChallengeLinkWrap>
-              {item.canGetReward && item.numOfPointItem === 0 && (
-                <MyChallengeLabel
-                  labelText="보상 수령"
-                  onClick={() => onClickGetRewardButton(item.instanceId)}
-                />
-              )}
-              {!item.canGetReward && item.numOfPointItem > 0 && (
-                <MyChallengeLabel
-                  labelText="보상 수령"
-                  onClick={() => onClickGetRewardTwiceButton(item.instanceId)}
-                />
-              )}
             </li>
           );
         })}

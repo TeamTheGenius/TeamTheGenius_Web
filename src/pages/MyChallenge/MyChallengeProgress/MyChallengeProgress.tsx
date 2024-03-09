@@ -4,7 +4,6 @@ import MyChallengeLinkWrap from "@/components/Main/MyChallenge/MyChallengeLinkWr
 import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyChallengeTitle";
 import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyChallengeWrap";
 import successStamp from "@/assets/icon/success-stamp.svg";
-import { PATH } from "@/constants/path";
 import getMyChallengeActivity from "@/apis/getMyChallengeActivity";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
@@ -34,7 +33,6 @@ interface File {
 const MyChallengeProgress = () => {
   const { isModalOpened, openModal, closeModal, modalRef } = useModal();
   const [modal, setModal] = useState<React.ReactNode>();
-
   const { data, refetch } = useQuery<Data[]>({
     queryKey: ["myChallengeActivity"],
     queryFn: () => getMyChallengeActivity(),
@@ -44,19 +42,29 @@ const MyChallengeProgress = () => {
     return;
   }
 
-  const onClickPassItem = (instanceId: number) => {
+  const onClickPassItem = (
+    e: React.MouseEvent,
+    instanceId: number,
+    numOfPassItem: number
+  ) => {
+    e.stopPropagation();
     setModal(
       <CertificationPassModal
         closeModal={closeModal}
         instanceId={instanceId}
         refetch={refetch}
         setModal={setModal}
+        numOfPassItem={numOfPassItem}
       />
     );
     openModal();
   };
 
-  const reNewCertification = async (instanceId: number) => {
+  const reNewCertification = async (
+    e: React.MouseEvent,
+    instanceId: number
+  ) => {
+    e.stopPropagation();
     const today = getToday();
     await postTodayCertification({
       instanceId: instanceId,
@@ -74,65 +82,67 @@ const MyChallengeProgress = () => {
       <MyChallengeWrap>
         {data.map((item, index) => {
           return (
-            <div className="relative w-full">
-              <div
-                key={index}
-                className="flex justify-between w-full relative mb-[1.3rem]"
-              >
-                <MyChallengeLinkWrap
-                  key={index}
-                  link={`${PATH.CERTIFICATION}/${item.instanceId}/my-current`}
-                >
-                  <div className="w-[16.4rem] h-[12.6rem] mr-[1.8rem] _sm:mr-[1.1rem]">
-                    <ChallengeItem>
-                      <ChallengeItem.Image
-                        imgSrc={makeBase64IncodedImage({
-                          uri: item.fileResponse.encodedFile,
-                          format: "jpg",
-                        })}
-                        alt={"챌린지 이미지"}
-                        direction="vertical"
-                      >
-                        {item.certificateStatus === "패스 완료" && (
-                          <ChallengeItem.Overlay text="패 스" />
-                        )}
-                        {item.certificateStatus === "인증 갱신" && (
-                          <ChallengeItem.Overlay />
-                        )}
-
-                        {item.certificateStatus === "인증 갱신" && (
-                          <img
-                            src={successStamp}
-                            alt="성공 스탬프"
-                            className="bottom-[1rem] right-[1rem] absolute "
-                          />
-                        )}
-                      </ChallengeItem.Image>
-                    </ChallengeItem>
-                  </div>
+            <li key={index} className=" mb-[1.3rem] list-none">
+              <MyChallengeLinkWrap instanceId={item.instanceId}>
+                <div className="min-w-[16.4rem] w-[16.4rem]">
+                  <ChallengeItem>
+                    <ChallengeItem.Image
+                      imgSrc={makeBase64IncodedImage({
+                        uri: item.fileResponse.encodedFile,
+                        format: "jpg",
+                      })}
+                      alt={"챌린지 이미지"}
+                      direction="vertical"
+                    >
+                      {item.certificateStatus === "패스 완료" && (
+                        <ChallengeItem.Overlay text="패 스" />
+                      )}
+                      {item.certificateStatus === "인증 갱신" && (
+                        <ChallengeItem.Overlay />
+                      )}
+                      {item.certificateStatus === "인증 갱신" && (
+                        <img
+                          src={successStamp}
+                          alt="성공 스탬프"
+                          className="bottom-[1rem] right-[1rem] absolute"
+                        />
+                      )}
+                    </ChallengeItem.Image>
+                  </ChallengeItem>
+                </div>
+                <div className="w-full justify-between flex flex-col ">
                   <MyChallengeTitle
                     title={item.title}
                     point={item.pointPerPerson}
                     repositoryName={item.repository}
                   />
-                </MyChallengeLinkWrap>
-
-                <MyChallengePassItem
-                  passCount={item.numOfPassItem}
-                  onClick={() => onClickPassItem(item.instanceId)}
-                />
-
-                {item.certificateStatus === "인증 갱신" ||
-                item.certificateStatus === "인증하기" ? (
-                  <MyChallengeLabel
-                    labelText={item.certificateStatus}
-                    onClick={() => reNewCertification(item.instanceId)}
-                  />
-                ) : (
-                  <MyChallengeLabel labelText={item.certificateStatus} />
-                )}
-              </div>
-            </div>
+                  {item.canUsePassItem &&
+                    item.certificateStatus == "인증하기" && (
+                      <MyChallengePassItem
+                        passCount={item.numOfPassItem}
+                        onClick={(e: React.MouseEvent) =>
+                          onClickPassItem(
+                            e,
+                            item.instanceId,
+                            item.numOfPassItem
+                          )
+                        }
+                      />
+                    )}
+                  {item.certificateStatus === "인증 갱신" ||
+                  item.certificateStatus === "인증하기" ? (
+                    <MyChallengeLabel
+                      labelText={item.certificateStatus}
+                      onClick={(e: React.MouseEvent) =>
+                        reNewCertification(e, item.instanceId)
+                      }
+                    />
+                  ) : (
+                    <MyChallengeLabel labelText={item.certificateStatus} />
+                  )}
+                </div>
+              </MyChallengeLinkWrap>
+            </li>
           );
         })}
       </MyChallengeWrap>

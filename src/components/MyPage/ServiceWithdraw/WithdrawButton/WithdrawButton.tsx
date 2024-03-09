@@ -1,5 +1,6 @@
 import deleteServiceWithdraw from "@/apis/deleteServiceWithdraw";
 import Button from "@/components/Common/Button";
+import { IDENTIFIER } from "@/constants/localStorageKey";
 import { PATH } from "@/constants/path";
 import { useNavigate } from "react-router-dom";
 
@@ -18,8 +19,12 @@ function WithdrawButton({ selectedReason, otherReason }: Props) {
   const navigate = useNavigate();
 
   const onClick = async () => {
-    await deleteServiceWithdraw()
-      .then(() => navigate(PATH.LOGIN))
+    const reason = selectedReason == "기타" ? otherReason : selectedReason;
+    await deleteServiceWithdraw({ reason: reason })
+      .then(() => {
+        navigate(PATH.LOGIN);
+        localStorage.removeItem(IDENTIFIER);
+      })
       .then((err) => {
         throw err;
       });
