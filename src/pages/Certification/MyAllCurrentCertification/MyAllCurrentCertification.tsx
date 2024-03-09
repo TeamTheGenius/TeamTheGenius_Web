@@ -1,11 +1,12 @@
 import MyProfile from "@/components/Certification/MyAllCurrentCertification/MyProfile/MyProfile";
 import Header from "@/components/Common/Header/Header";
 import MobCard from "@/components/Common/MobCard";
-import test from "@/assets/image/google-logo.png";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import getTotalCertification from "@/apis/getTotalCertification";
 import TotalCertification from "@/components/Certification/TotalCertification/TotalCertification";
+import postUserProfile from "@/apis/postUserProfile";
+import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 
 interface Data {
   totalAttempts: number;
@@ -22,11 +23,19 @@ interface CertificationData {
   prLinks: string[];
 }
 
+interface UserData {
+  identifier: string;
+  nickname: string;
+  fileResponse: {
+    encodedFile: "none" | string;
+  };
+}
+
 function MyAllCurrentCertification() {
   const { id } = useParams();
   const { userId } = useParams();
 
-  const { data } = useQuery<Data>({
+  const { data: certifications } = useQuery<Data>({
     queryKey: ["totalCertification", { id }, { userId }],
     queryFn: () =>
       id && userId
@@ -37,7 +46,16 @@ function MyAllCurrentCertification() {
         : Promise.resolve(null),
   });
 
-  if (!data) return null;
+  const { data: userProfile } = useQuery<UserData>({
+    queryKey: ["userProfile", { userId }],
+    queryFn: () =>
+      userId
+        ? postUserProfile({ userId: parseInt(userId) })
+        : Promise.resolve(null),
+  });
+
+  if (!certifications) return null;
+  if (!userProfile) return null;
 
   return (
     <MobCard>
@@ -45,15 +63,18 @@ function MyAllCurrentCertification() {
       <div className="py-[6rem] px-[2.2rem]">
         <div className="mt-[3.4rem] _sm:mt-[1.8rem]">
           <MyProfile
-            imgSrc={test}
+            imgSrc={makeBase64IncodedImage({
+              uri: userProfile.fileResponse.encodedFile,
+              format: "jpg",
+            })}
             alt="프로필 이미지"
-            nickName="희연"
-            githubId="Ssung023"
+            nickName={userProfile.nickname}
+            githubId={userProfile.identifier}
           />
           <div className="mt-[9.2rem] _sm:mt-[4.8rem]">
             <div className="flex justify-center items-center w-full">
               <div className="w-full max-w-[54rem] grid grid-cols-7 _sm:grid-cols-5 _md:grid-cols-6 gap-x-[2rem] gap-y-[5rem] ">
-                <TotalCertification data={data} />
+                <TotalCertification data={certifications} />
               </div>
             </div>
           </div>
