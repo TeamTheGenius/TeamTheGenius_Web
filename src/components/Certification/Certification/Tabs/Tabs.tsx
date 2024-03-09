@@ -10,11 +10,11 @@ function Tabs({ id }: Params) {
     <div className="flex justify-center">
       <Tab
         content="나의 인증 현황"
-        path={`${PATH.CERTIFICATION}/${id}/my-current`}
+        path={`${PATH.CERTIFICATION}/${id}/my-week`}
       />
       <Tab
         content="참가자 인증 현황"
-        path={`${PATH.CERTIFICATION}/${id}/others-current`}
+        path={`${PATH.CERTIFICATION}/${id}/others-week`}
       />
     </div>
   );

@@ -1,13 +1,14 @@
 import getCertificationInformation from "@/apis/getCertificationInformation ";
+import getMyWeekCertification from "@/apis/getMyWeekCertification";
 import CurrentAchivementRate from "@/components/Certification/MyCurrentCertification/CurrentAchivementRate/CurrentAchivementRate";
 import MyAllCertificationLinkButton from "@/components/Certification/MyCurrentCertification/MyAllCertificationLinkButton/MyAllCertificationLinkButton";
 import MyCertificationSummary from "@/components/Certification/MyCurrentCertification/MyCertificationSummary/MyCertificationSummary";
 import MyRepository from "@/components/Certification/MyCurrentCertification/MyRepository/MyRepository";
-import ThisWeekCertification from "@/components/Certification/MyCurrentCertification/ThisWeekCertification/ThisWeekCertification";
+import MyThisWeekCertification from "@/components/Certification/MyCurrentCertification/MyWeekCertification/MyThisWeekCertification";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 
-interface Data {
+interface myCurrentCertificationData {
   repository: string;
   successPercent: number;
   totalAttempt: number;
@@ -18,48 +19,89 @@ interface Data {
   remainCount: number;
 }
 
+interface myWeekCertificationData {
+  userId: number;
+  certifications: CertificationData[];
+}
+
+interface CertificationData {
+  certificationId: number;
+  certificationAttempt: number;
+  dayOfWeek: string;
+  certificatedAt: string;
+  certificateStatus: "NOT_YET" | "CERTIFICATED";
+  prCount: number;
+  prLinks: string[];
+}
+
 function MyCurrentCertification() {
   const { id } = useParams();
 
-  const { data } = useQuery<Data>({
-    queryKey: ["myCurrentCertification", { id }],
+  const { data: myCurrentCertificationData } =
+    useQuery<myCurrentCertificationData>({
+      queryKey: ["myCurrentCertification", { id }],
+      queryFn: () =>
+        id
+          ? getCertificationInformation({ instanceId: parseInt(id) })
+          : Promise.resolve(null),
+    });
+
+  const { data: myWeekCertificationData } = useQuery<myWeekCertificationData>({
+    queryKey: ["myWeekCertification", { id }],
     queryFn: () =>
       id
-        ? getCertificationInformation({ instanceId: parseInt(id) })
+        ? getMyWeekCertification({
+            instanceId: parseInt(id),
+          })
         : Promise.resolve(null),
   });
 
-  if (!data) {
+  if (!myCurrentCertificationData) {
     return;
   }
+
+  if (!myWeekCertificationData) {
+    return;
+  }
+
+  const {
+    successPercent,
+    totalAttempt,
+    currentAttempt,
+    pointPerPerson,
+    repository,
+    successCount,
+    failureCount,
+    remainCount,
+  } = myCurrentCertificationData;
 
   return (
     <div className="px-[2.2rem] pb-[2.2rem]">
       <div className="mt-[2.4rem]">
-        <MyAllCertificationLinkButton />
+        <MyAllCertificationLinkButton userId={myWeekCertificationData.userId} />
       </div>
       <div className="mt-[1rem] max-w-[45.6rem]">
         <MyRepository
-          repository={data.repository || "설정된 레포지토리가 없습니다"}
+          repository={repository || "설정된 레포지토리가 없습니다"}
         />
       </div>
       <div className=" mt-[1.4rem] ">
         <CurrentAchivementRate
-          successPercent={data.successPercent || 0}
-          totalAttempt={data.totalAttempt || 0}
-          currentAttempt={data.currentAttempt || 0}
-          pointPerPerson={data.pointPerPerson || 0}
+          successPercent={successPercent}
+          totalAttempt={totalAttempt}
+          currentAttempt={currentAttempt}
+          pointPerPerson={pointPerPerson}
         />
       </div>
       <div className="mt-[2.3rem] _sm:mt-[3.7rem]">
         <MyCertificationSummary
-          successCount={data.successCount || 0}
-          failureCount={data.failureCount || 0}
-          remainCount={data.remainCount || 0}
+          successCount={successCount}
+          failureCount={failureCount}
+          remainCount={remainCount}
         />
       </div>
       <div className="mt-[4.6rem] _sm:mt-[3.7rem]">
-        <ThisWeekCertification />
+        <MyThisWeekCertification data={myWeekCertificationData} />
       </div>
     </div>
   );
