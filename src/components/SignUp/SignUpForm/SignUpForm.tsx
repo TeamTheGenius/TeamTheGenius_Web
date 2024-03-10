@@ -4,11 +4,12 @@ import * as Yup from "yup";
 import Button from "@/components/Common/Button";
 import { PATH } from "@/constants/path";
 import SignUpDesc from "./SignUpInput/SignUpDesc";
-import SignUpName from "./SignUpName/SignUpName";
 import { useState } from "react";
+import NickNameInput from "@/components/Common/NickNameInput/NickNameInput";
 const SignUpForm = () => {
   const [signUpBoolean, setsignUpBoolean] = useState(false);
   const [nickName, setNickName] = useState("");
+  const [nickCheck, setNickCheck] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -67,7 +68,7 @@ const SignUpForm = () => {
     <>
       <form onSubmit={formik.handleSubmit}>
         <ul className="mb-[15rem]">
-          <SignUpName
+          <NickNameInput
             label="닉네임"
             required="required"
             margin="mb-[5rem]"
@@ -79,6 +80,8 @@ const SignUpForm = () => {
             setsignUpBoolean={setsignUpBoolean}
             value={nickName}
             setValue={setNickName}
+            nickCheck={nickCheck}
+            setNickCheck={setNickCheck}
             onChange={handleNickNameChange}
             onBlur={formik.handleBlur}
             error={

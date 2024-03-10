@@ -3,9 +3,8 @@ import BottomButton from "@/components/Common/BottomButton/BottomButton";
 import Header from "@/components/Common/Header/Header";
 import MobCard from "@/components/Common/MobCard";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
-
-import InterestCheck from "@/components/Interest/InterestCheck/InterestCheck";
 import InterestHeader from "@/components/Interest/InterestHeader/InterestHeader";
+import InterestCheckEdit from "@/components/MyPage/InterestEdit/InterestCheckEdit/InterestCheckEdit";
 import { InterestEditModal } from "@/components/MyPage/InterestEdit/InterestEditModal/InterestEditModal";
 import { interestsData } from "@/data/InterestData";
 import useModal from "@/hooks/useModal";
@@ -41,7 +40,7 @@ const InterestEdit = () => {
           <div className="mb-[22rem]">
             <InterestHeader />
           </div>
-          <InterestCheck
+          <InterestCheckEdit
             InterestValue={InterestValue}
             setCheckedValues={setCheckedValues}
             checkedValues={checkedValues}

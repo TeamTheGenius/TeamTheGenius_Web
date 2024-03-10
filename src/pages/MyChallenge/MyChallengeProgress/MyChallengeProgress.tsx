@@ -100,7 +100,6 @@ const MyChallengeProgress = () => {
                       {item.certificateStatus === "인증 갱신" && (
                         <ChallengeItem.Overlay />
                       )}
-
                       {item.certificateStatus === "인증 갱신" && (
                         <img
                           src={successStamp}
@@ -111,7 +110,6 @@ const MyChallengeProgress = () => {
                     </ChallengeItem.Image>
                   </ChallengeItem>
                 </div>
-
                 <div className="w-full justify-between flex flex-col ">
                   <MyChallengeTitle
                     title={item.title}
@@ -131,7 +129,6 @@ const MyChallengeProgress = () => {
                         }
                       />
                     )}
-
                   {item.certificateStatus === "인증 갱신" ||
                   item.certificateStatus === "인증하기" ? (
                     <MyChallengeLabel
