@@ -9,7 +9,7 @@ interface MainProps {
 }
 
 interface OrdinalProps {
-  content: number;
+  content: string | number;
 }
 
 interface WrapperProps {
@@ -42,6 +42,12 @@ function ActiveOrdinal({ content }: OrdinalProps) {
     <div className="w-full h-[2.45rem] _sm:h-[2.1rem] bg-[#463F3F] text-white rounded-t-[1rem] text-[1.4rem] font-medium flex justify-center items-center">
       {content}
     </div>
+  );
+}
+
+function EmptyOrdinal() {
+  return (
+    <div className="w-full h-[2.45rem] _sm:h-[2.1rem] bg-[#E6E6E6] text-white rounded-t-[1rem] text-[1.4rem] font-medium flex justify-center items-center" />
   );
 }
 
@@ -151,6 +157,7 @@ function ReportNotCheckIcon() {
 export const CertificationResult = Object.assign(Main, {
   InActiveOrdinal: InActiveOrdinal,
   ActiveOrdinal: ActiveOrdinal,
+  EmptyOrdinal: EmptyOrdinal,
   SuccessWrapper: SuccessWrapper,
   FailWrapper: FailWrapper,
   EmptyWrapper: EmptyWrapper,

@@ -8,12 +8,21 @@ interface Data {
   };
 }
 
+type DayOfWeek =
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+
 interface CertificationData {
   certificationId: number;
   certificationAttempt: number;
-  dayOfWeek: string;
+  dayOfWeek: DayOfWeek;
   certificatedAt: string;
-  certificateStatus: "NOT_YET" | "CERTIFICATED";
+  certificateStatus: "NOT_YET" | "CERTIFICATED" | "PASSED";
   prCount: number;
   prLinks: string[];
 }

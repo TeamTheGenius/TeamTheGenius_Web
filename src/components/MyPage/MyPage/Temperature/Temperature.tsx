@@ -9,7 +9,7 @@ function Temperature({ temperature }: Props) {
         src={temperatureIndicator}
         alt="temperature-indicator"
         className="absolute top-[-1rem] "
-        style={{ left: `calc(${temperature}% - 0.78rem)` }}
+        style={{ left: `calc(${36.5 + temperature}% - 0.78rem)` }}
       />
       <div className="bg-[#7EC7FC] w-[12%] h-full rounded-l-[2.4rem]" />
       <div className="bg-[#72EF86] w-[21%] h-full" />

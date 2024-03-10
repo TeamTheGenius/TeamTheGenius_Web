@@ -16,9 +16,9 @@ interface Data {
 interface CertificationData {
   certificationId: number;
   certificationAttempt: number;
-  dayOfWeek: string;
+  dayOfWeek: DayOfWeek;
   certificatedAt: string;
-  certificateStatus: "NOT_YET" | "CERTIFICATED";
+  certificateStatus: "NOT_YET" | "CERTIFICATED" | "PASSED";
   prCount: number;
   prLinks: string[];
 }
@@ -30,6 +30,15 @@ interface UserData {
     encodedFile: "none" | string;
   };
 }
+
+type DayOfWeek =
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
 
 function MyAllCurrentCertification() {
   const { id } = useParams();
