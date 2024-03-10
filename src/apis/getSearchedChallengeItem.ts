@@ -10,7 +10,7 @@ interface Params {
 interface Data {
   instanceId: number;
   keyword: string;
-  participantCnt: number;
+  participantCount: number;
   pointPerPerson: number;
   fileResponse: {
     encodedFile: string;
@@ -44,6 +44,7 @@ const getSearchedChallengeItem = async ({
       const transformedContent = res.data.data.content.map((item: Data) => ({
         ...item,
         title: item.keyword,
+        participantCnt: item.participantCount,
       }));
 
       const { last } = res.data.data;

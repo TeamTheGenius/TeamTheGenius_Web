@@ -13,7 +13,7 @@ const MyChallengeLinkWrap = ({
 }: MyChallengeLinkWrapType) => {
   const navigate = useNavigate();
   const onClick = () => {
-    navigate(`${PATH.CERTIFICATION}/${instanceId}/my-current`);
+    navigate(`${PATH.CERTIFICATION}/${instanceId}/my-week`);
   };
   return (
     <div

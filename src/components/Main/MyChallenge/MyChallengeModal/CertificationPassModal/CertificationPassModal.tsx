@@ -26,6 +26,7 @@ function CertificationPassModal({
   const onClickUsePassItem = async () => {
     postPassCertification({ instanceId: instanceId, targetDate: getToday() })
       .then(() => {
+        closeModal();
         refetch();
       })
       .catch(() => {
