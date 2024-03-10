@@ -27,12 +27,21 @@ interface myWeekCertificationData {
 interface CertificationData {
   certificationId: number;
   certificationAttempt: number;
-  dayOfWeek: string;
+  dayOfWeek: DayOfWeek;
   certificatedAt: string;
   certificateStatus: "NOT_YET" | "CERTIFICATED";
   prCount: number;
   prLinks: string[];
 }
+
+type DayOfWeek =
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
 
 function MyCurrentCertification() {
   const { id } = useParams();

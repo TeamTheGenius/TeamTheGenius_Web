@@ -24,7 +24,7 @@ interface Data {
   joinResult: "SUCCESS" | "FAIL";
   canGetReward: boolean;
   numOfPointItem: number;
-  rewardPoints: number;
+  rewardedPoints: number;
   achievementRate: number;
   fileResponse: File;
 }
@@ -45,15 +45,29 @@ const MyChallengeComplete = () => {
     return;
   }
 
-  const onClickGetRewardButton = async (instanceId: number) => {
+  const onClickGetRewardButton = async (
+    e: React.MouseEvent,
+    instanceId: number
+  ) => {
+    e.stopPropagation();
     await getMyChallengeDoneReward({ item: false, instanceId });
     setModal(<GetRewardModal closeModal={closeModal} />);
     openModal();
     refetch();
   };
-  const onClickGetRewardTwiceButton = (instanceId: number) => {
+  const onClickGetRewardTwiceButton = (
+    e: React.MouseEvent,
+    instanceId: number,
+    numOfPointItem: number
+  ) => {
+    e.stopPropagation();
     setModal(
-      <GetRewardTwiceModal instanceId={instanceId} closeModal={closeModal} />
+      <GetRewardTwiceModal
+        numOfPointItem={numOfPointItem}
+        instanceId={instanceId}
+        closeModal={closeModal}
+        refetch={refetch}
+      />
     );
     openModal();
   };
@@ -93,7 +107,7 @@ const MyChallengeComplete = () => {
                           획득 포인트
                         </span>
                         <span className="text-black text-[18px] font-medium">
-                          {item.rewardPoints || 0}P
+                          {item.rewardedPoints}P
                         </span>
                       </div>
                       <div className="flex justify-start flex-col">
@@ -109,14 +123,20 @@ const MyChallengeComplete = () => {
                   {item.canGetReward && item.numOfPointItem === 0 && (
                     <MyChallengeLabel
                       labelText="보상 수령"
-                      onClick={() => onClickGetRewardButton(item.instanceId)}
+                      onClick={(e: React.MouseEvent) =>
+                        onClickGetRewardButton(e, item.instanceId)
+                      }
                     />
                   )}
-                  {!item.canGetReward && item.numOfPointItem > 0 && (
+                  {item.canGetReward && item.numOfPointItem > 0 && (
                     <MyChallengeLabel
                       labelText="보상 수령"
-                      onClick={() =>
-                        onClickGetRewardTwiceButton(item.instanceId)
+                      onClick={(e: React.MouseEvent) =>
+                        onClickGetRewardTwiceButton(
+                          e,
+                          item.instanceId,
+                          item.numOfPointItem
+                        )
                       }
                     />
                   )}

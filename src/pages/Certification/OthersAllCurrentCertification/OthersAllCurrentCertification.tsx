@@ -1,7 +1,6 @@
 import getTotalCertification from "@/apis/getTotalCertification";
 import postUserProfile from "@/apis/postUserProfile";
 import OthersProfile from "@/components/Certification/OthersAllCurrentCertification/OthersProfile/OthersProfile";
-import ReportButton from "@/components/Certification/OthersAllCurrentCertification/ReportButton/ReportButton";
 import TotalCertification from "@/components/Certification/TotalCertification/TotalCertification";
 import Header from "@/components/Common/Header/Header";
 import MobCard from "@/components/Common/MobCard";
@@ -17,12 +16,21 @@ interface Data {
 interface CertificationData {
   certificationId: number;
   certificationAttempt: number;
-  dayOfWeek: string;
+  dayOfWeek: DayOfWeek;
   certificatedAt: string;
-  certificateStatus: "NOT_YET" | "CERTIFICATED";
+  certificateStatus: "NOT_YET" | "CERTIFICATED" | "PASSED";
   prCount: number;
   prLinks: string[];
 }
+
+type DayOfWeek =
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
 
 interface UserData {
   identifier: string;

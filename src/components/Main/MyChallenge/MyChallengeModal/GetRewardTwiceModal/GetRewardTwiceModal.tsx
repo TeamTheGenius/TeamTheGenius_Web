@@ -5,20 +5,26 @@ import { Modal } from "@/components/Common/Modal/Modal";
 interface TwiceRewardModalProps {
   closeModal: () => void;
   instanceId: number;
+  numOfPointItem: number;
+  refetch: () => void;
 }
 
 function GetRewardTwiceModal({
   closeModal,
   instanceId,
+  numOfPointItem,
+  refetch,
 }: TwiceRewardModalProps) {
   if (!instanceId) return null;
   const onClickUse = async () => {
     await getMyChallengeDoneReward({ item: true, instanceId });
     closeModal();
+    refetch();
   };
   const onClickNotUse = async () => {
     await getMyChallengeDoneReward({ item: false, instanceId });
     closeModal();
+    refetch();
   };
 
   return (
@@ -28,7 +34,7 @@ function GetRewardTwiceModal({
           content={"포인트 2배 획득 아이템을\n사용하시겠어요?"}
         />
         <p className="text-center font-[500] text-[1.6rem]">
-          (현재 n개 보유중)
+          (현재 {numOfPointItem}개 보유중)
         </p>
         <button
           onClick={onClickNotUse}

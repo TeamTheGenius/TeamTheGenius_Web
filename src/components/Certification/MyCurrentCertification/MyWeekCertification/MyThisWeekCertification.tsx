@@ -8,12 +8,21 @@ interface Data {
   };
 }
 
+type DayOfWeek =
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY";
+
 interface CertificationData {
   certificationId: number;
   certificationAttempt: number;
-  dayOfWeek: string;
+  dayOfWeek: DayOfWeek;
   certificatedAt: string;
-  certificateStatus: "NOT_YET" | "CERTIFICATED";
+  certificateStatus: "NOT_YET" | "CERTIFICATED" | "PASSED";
   prCount: number;
   prLinks: string[];
 }
@@ -25,7 +34,7 @@ function MyThisWeekCertification({ data }: Data) {
         <img src={checkIcon} alt="레드 체크 모양 아이콘" />
         <p className="text-[1.4rem] font-medium">이번 주 인증 모아보기</p>
       </div>
-      <div className=" mt-[2.3rem] pb-[5rem] pl-[2.5rem] ">
+      <div className=" mt-[2.3rem] pb-[5rem]">
         <ThisWeekCertification data={data} />
       </div>
     </>

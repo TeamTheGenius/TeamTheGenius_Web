@@ -45,10 +45,11 @@ function ChallengeDetail() {
   });
 
   if (!data) return;
-
   const tempToday = new Date();
+
   const certificationStartDate = new Date(`${data.startedDate}T00:00:00`);
   const certificationEndDate = new Date(`${data.completedDate}T00:00:00`);
+  certificationEndDate.setDate(certificationEndDate.getDate() + 1);
   const applyLastDate = new Date(certificationStartDate);
   const challengeEndDate = new Date(certificationEndDate);
   applyLastDate.setSeconds(certificationStartDate.getSeconds() - 1);
