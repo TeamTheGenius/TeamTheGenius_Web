@@ -4,6 +4,7 @@ import OthersProfile from "@/components/Certification/OthersCurrentCertification
 import ThisWeekCertification from "@/components/Certification/ThisWeekCertification/ThisWeekCertification";
 import Line from "@/components/Common/Line/Line";
 import { othersAllCertificationData } from "@/data/othersCertificationResultData";
+import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "react-query";
@@ -72,7 +73,10 @@ function OthersCurrentCertification() {
           <div>
             <div className="flex justify-between mb-[2.3rem] _sm:mb-[1.7rem]">
               <OthersProfile
-                imgSrc={item.profile.encodedFile}
+                imgSrc={makeBase64IncodedImage({
+                  uri: item.profile.encodedFile,
+                  format: "jpg",
+                })}
                 alt="프로필 이미지"
                 nickName={item.nickname}
               />
