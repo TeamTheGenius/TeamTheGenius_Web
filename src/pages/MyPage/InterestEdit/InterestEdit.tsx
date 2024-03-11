@@ -19,7 +19,7 @@ export type Interest = {
 const InterestEdit = () => {
   const [checkedValues, setCheckedValues] = useState<CheckboxValueType[]>([]);
   const [editApiBoolean, setEditApiBoolean] = useState(false);
-  const { isModalOpened, openModal, closeModal, modalRef } = useModal();
+  const { isModalOpened, openModal, closeModal } = useModal();
 
   const InterestValue: Interest[] = interestsData;
 
@@ -60,7 +60,7 @@ const InterestEdit = () => {
         />
       </MobCard>
       {isModalOpened && (
-        <ModalLayer modalRef={modalRef}>
+        <ModalLayer onClick={closeModal}>
           <InterestEditModal
             closeModal={closeModal}
             editApiBoolean={editApiBoolean}

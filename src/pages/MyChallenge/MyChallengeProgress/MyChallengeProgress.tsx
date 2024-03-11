@@ -31,7 +31,7 @@ interface File {
 }
 
 const MyChallengeProgress = () => {
-  const { isModalOpened, openModal, closeModal, modalRef } = useModal();
+  const { isModalOpened, openModal, closeModal } = useModal();
   const [modal, setModal] = useState<React.ReactNode>();
   const { data, refetch } = useQuery<Data[]>({
     queryKey: ["myChallengeActivity"],
@@ -76,7 +76,7 @@ const MyChallengeProgress = () => {
   return (
     <>
       {modal && isModalOpened && (
-        <ModalLayer modalRef={modalRef}>{modal}</ModalLayer>
+        <ModalLayer onClick={closeModal}>{modal}</ModalLayer>
       )}
 
       <MyChallengeWrap>

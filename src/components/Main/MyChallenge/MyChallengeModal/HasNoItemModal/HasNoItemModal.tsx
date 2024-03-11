@@ -13,7 +13,7 @@ function HasNoItemModal({ closeModal, itemName }: NoItemModalProps) {
 
   return (
     <Modal.ModalContentBox width="w-[35.5rem]" height="h-[32.3rem]">
-      <div className="flex flex-col gap-[1.4rem] mt-[9rem] justify-center items-center">
+      <div className="flex flex-col gap-[1.4rem] justify-center items-center">
         <Modal.ModalContent
           content={`보유하신\n ${itemName} 아이템이 없습니다`}
         />

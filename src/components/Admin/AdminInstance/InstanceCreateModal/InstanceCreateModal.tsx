@@ -55,13 +55,13 @@ const InstanceCreateModal = ({
 
   const instanceSumbit = (values: instanceCreateData) => {
     const formmatStartDate = moment(values.ranger[0].$d).format(
-      "YYYY-MM-DDTHH:mm:ss"
+      "YYYY-MM-DDT00:00:00"
     );
 
     const formmatEndDate = moment(values.ranger[1].$d).format(
-      "YYYY-MM-DDTHH:mm:ss"
+      "YYYY-MM-DDT23:59:59"
     );
-    console.log("values", values);
+    
     let instanceData = {
       setModalIsOpen: setModalIsOpen,
       setInstanceList: setInstanceList,

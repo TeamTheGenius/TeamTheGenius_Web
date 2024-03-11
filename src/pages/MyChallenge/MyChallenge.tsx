@@ -6,13 +6,13 @@ import { Outlet } from "react-router-dom";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 
 const MyChallenge = () => {
-  const { isModalOpened, openModal, closeModal, modalRef } = useModal();
+  const { isModalOpened, openModal, closeModal } = useModal();
   const [modal, setModal] = useState<React.ReactNode>(<div></div>);
 
   return (
     <>
       {modal && isModalOpened && (
-        <ModalLayer modalRef={modalRef}>{modal}</ModalLayer>
+        <ModalLayer onClick={closeModal}>{modal}</ModalLayer>
       )}
       <div className="w-full px-[2rem]">
         <MyChallengeHeader />

@@ -11,7 +11,7 @@ function GetRewardModal({ closeModal }: RewardModalProps) {
   };
   return (
     <Modal.ModalContentBox width="w-[35.5rem]" height="h-[32.3rem]">
-      <div className="flex flex-col gap-[7.4rem] mt-[9rem] justify-center items-center">
+      <div className="flex flex-col gap-[7.4rem] justify-center items-center">
         <Modal.ModalContent content={"챌린지 완료!\n100P를 획득하셨습니다."} />
         <Button
           content="확인"

@@ -34,10 +34,8 @@ function BottomHeart({ heartActive, setHeartActive, heartCount }: HeartProps) {
 
 function BottomMain({ children }: MainProps) {
   return (
-    <div className="w-full h-[8rem] flex items-center bg-white">
-      <div className="flex justify-between gap-[13.8rem] w-full">
-        {children}
-      </div>
+    <div className="px-[3rem] w-full h-[8rem] flex items-center bg-white">
+      <div className="flex justify-between gap-[10rem] w-full">{children}</div>
     </div>
   );
 }
@@ -79,7 +77,7 @@ function BottomButton({ status }: ButtonProps) {
   return (
     <Button
       content={buttonText}
-      width="w-full max-w-[35.4rem]"
+      width="w-full max-w-[35.4rem] _sm:max-w-[16.4rem]"
       height="h-[5rem]"
       backgroundColor={backgroundColor}
       textSize="text-[1.5rem]"
