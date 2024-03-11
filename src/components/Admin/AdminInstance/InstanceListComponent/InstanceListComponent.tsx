@@ -9,7 +9,8 @@ import {
   instanceDeteilType,
   instanceListDataType,
 } from "@/types/adminType";
-import Loading from "@/components/common/Loading/Loading";
+import Loading from "@/components/Common/Loading/Loading";
+import InstanceTitle from "./InstanceTitle/InstanceTitle";
 
 type instanceListPropsType = {
   instanceList: any;
@@ -66,21 +67,12 @@ const InstanceListComponent = ({
                   className="flex justify-between w-full relative bg-_neutral-10"
                   key={item.instanceId}
                 >
-                  <div className="flex">
-                    <img
-                      src={imageData}
-                      alt={item.title}
-                      className="mr-8 w-[25rem] h-[17rem] rounded-l-xl"
-                    />
-                    <span className="flex flex-col gap-2">
-                      <h3 className="mt-5 text-_h3">{item.title}</h3>
-                      <div className="flex text-_h4">
-                        <span>{startDate}</span>
-                        <span className="mx-[0.5rem]">~</span>
-                        <span>{completedDate}</span>
-                      </div>
-                    </span>
-                  </div>
+                  <InstanceTitle
+                    imageData={imageData}
+                    startDate={startDate}
+                    completedDate={completedDate}
+                    title={item.title}
+                  />
                   <div className="flex w-1/6 justify-between absolute right-10 bottom-8">
                     <Button
                       width="w-[10rem]"

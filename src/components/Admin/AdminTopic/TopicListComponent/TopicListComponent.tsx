@@ -11,6 +11,7 @@ import {
   topicListType,
 } from "@/types/adminType";
 import Loading from "@/components/common/Loading/Loading";
+import TopicTitle from "./TopicTitle/TopicTitle";
 
 type adminProps = {
   pageNumber: number;
@@ -64,14 +65,7 @@ const TopicListComponent = ({
                   key={item.topicId}
                   className="flex justify-between w-full relative bg-_neutral-10"
                 >
-                  <div className="flex">
-                    <img
-                      src={imageData}
-                      alt={item.title}
-                      className="mr-8 w-[25rem] h-[17rem] rounded-l-xl"
-                    />
-                    <h3 className="mt-5 text-_h3">{item.title}</h3>
-                  </div>
+                  <TopicTitle imageData={imageData} title={item.title} />
                   <div className="flex w-2/5 justify-between absolute right-10 bottom-8">
                     <Button
                       width="w-[20rem]"

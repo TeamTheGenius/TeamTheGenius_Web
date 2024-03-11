@@ -5,7 +5,7 @@ import { Button, Form, Image, Input, Select, Upload, UploadProps } from "antd";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Modal from "react-modal";
 import getAdminDetailTopicApi from "@/apis/getAdminDetailTopicApi";
-import Loading from "@/components/common/Loading/Loading";
+
 import {
   adminTopicDataType,
   fileType,
@@ -13,6 +13,7 @@ import {
   topicListType,
   uploadDataType,
 } from "@/types/adminType";
+import Loading from "@/components/Common/Loading/Loading";
 
 type topicSubmitType = {
   tags: any;

@@ -11,7 +11,7 @@ import {
   instanceListDataType,
   topicDeteilType,
 } from "@/types/adminType";
-import Loading from "@/components/common/Loading/Loading";
+import Loading from "@/components/Common/Loading/Loading";
 
 type TopicModalType = {
   setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,6 +25,7 @@ type instanceCreateData = {
   instanceId: number;
   title: string;
   description: string;
+  certMethod: string;
   pointPerPerson: number;
   tags: string;
   notice: string;
@@ -60,13 +61,14 @@ const InstanceCreateModal = ({
     const formmatEndDate = moment(values.ranger[1].$d).format(
       "YYYY-MM-DDTHH:mm:ss"
     );
-
+    console.log("values", values);
     let instanceData = {
       setModalIsOpen: setModalIsOpen,
       setInstanceList: setInstanceList,
       instanceTitle: values.title,
       instanceDesc: values.description,
       instanceNotice: values.notice,
+      instanceCertMethod: values.certMethod,
       instanceTags: values.tags,
       instancePoint: values.pointPerPerson,
       instanceRangeStart: formmatStartDate,
@@ -78,7 +80,7 @@ const InstanceCreateModal = ({
     if (values.fileResponse) {
       instanceData.instanceImg = values.fileResponse[0]?.originFileObj;
     }
-
+    console.log("instancesdsd", instanceData);
     postAdminInstanceApi(instanceData);
   };
 
@@ -141,6 +143,10 @@ const FormDesc = ({
   description: string | undefined;
   notice: string | undefined;
 }) => {
+  const [certMethod, setCertMethod] = useState("");
+  const certMethodHandle = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCertMethod(e.target.value);
+  };
   return (
     <>
       <Form.Item
@@ -152,6 +158,15 @@ const FormDesc = ({
       </Form.Item>
       <Form.Item label="유의사항" name="notice" initialValue={notice}>
         <Input.TextArea allowClear showCount />
+      </Form.Item>
+      <Form.Item
+        label="인증방법"
+        validateStatus={certMethod ? "success" : "error"}
+        hasFeedback
+        help={certMethod ? null : "인증방법을 입력해주세요"}
+        name="certMethod"
+      >
+        <Input.TextArea allowClear showCount onChange={certMethodHandle} />
       </Form.Item>
     </>
   );
@@ -238,11 +253,13 @@ const FormPoint = ({ point }: { point: number | undefined }) => {
 };
 const FormRangePicker = () => {
   const { RangePicker } = DatePicker;
-
+  const disabledDate = (current: any) => {
+    return current && current < moment().startOf("day");
+  };
   return (
     <>
       <Form.Item name="ranger" label="RangePicker">
-        <RangePicker format="YYYY-MM-DD" />
+        <RangePicker format="YYYY-MM-DD" disabledDate={disabledDate} />
       </Form.Item>
     </>
   );
