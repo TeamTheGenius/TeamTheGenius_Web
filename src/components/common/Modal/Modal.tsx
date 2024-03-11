@@ -26,7 +26,7 @@ function ModalContentBox({ width, height, children }: ModalContentBoxProps) {
     <div
       onClick={onClickModalBox}
       className={cls(
-        " overflow-scroll scrollbar-hide bg-white z-[9999] mx-[2.2rem] rounded-[2rem] p-[1.7rem] flex justify-center items-center",
+        "relative overflow-scroll scrollbar-hide bg-white z-[9999] mx-[2.2rem] rounded-[2rem] p-[1.7rem] flex justify-center items-center",
         width,
         height
       )}

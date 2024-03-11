@@ -3,6 +3,10 @@ import HorizontalScroll from "@/components/Home/HorizontalScroll/HorizontalScrol
 import { getSlashDate } from "@/utils/getSlashDate";
 import { getIsToday } from "@/utils/getIsToday";
 import { useState } from "react";
+import useModal from "@/hooks/useModal";
+import { createPortal } from "react-dom";
+import { Modal, ModalLayer } from "@/components/Common/Modal/Modal";
+import CertificationPRLinkModal from "../CertificationModal/CertificationPRLinkModal/CertificationPRLinkModal";
 
 interface Data {
   data: {
@@ -36,10 +40,13 @@ type DayOfWeek =
 
 function ThisWeekCertification({ data }: Data) {
   const [clickPossible, setClickPossible] = useState<boolean>(true);
+  const { openModal, closeModal, isModalOpened } = useModal();
+  const [modal, setModal] = useState(<></>);
 
-  const onClickSuccessCertification = (prLink: string) => {
+  const onClickSuccessCertification = (prLinks: string[]) => {
     if (clickPossible) {
-      window.open(prLink);
+      setModal(<CertificationPRLinkModal prLinks={prLinks} />);
+      openModal();
     }
   };
 
@@ -63,159 +70,174 @@ function ThisWeekCertification({ data }: Data) {
     7: "일",
   };
 
-  const emptyCount = DayOfWeek[data.certifications[0].dayOfWeek] - 1;
-
+  const emptyCount = data.certifications[0]
+    ? DayOfWeek[data.certifications[0].dayOfWeek] - 1
+    : 0;
   return (
-    <HorizontalScroll setClickPossible={setClickPossible}>
-      <div className="pl-[2.5rem] _sm:pl-[0.4rem] max-w-[5rem] _sm:max-w-[4rem] flex gap-[1.2rem] _sm:gap-[0.2rem] pb-[0.6rem]">
-        {[...Array(emptyCount)].map((_, index) => (
-          <div key={index} className="pl-[0.4rem] pr-[0.4rem]">
-            <CertificationResult>
-              <CertificationResult.InActiveOrdinal
-                content={DayOfWeekIndex[index]}
-              />
-              <CertificationResult.EmptyWrapper />
-            </CertificationResult>
-          </div>
-        ))}
+    <>
+      {isModalOpened &&
+        createPortal(
+          <ModalLayer onClick={closeModal}>
+            <Modal.ModalContentBox width="w-[46.2rem]" height="h-[39.5rem]">
+              {modal}
+            </Modal.ModalContentBox>
+          </ModalLayer>,
+          document.body
+        )}
 
-        {data.certifications.map((item, index) => {
-          const isToday = getIsToday({ date: item.certificatedAt });
-          const TODAY_NOT_YET = isToday && item.certificateStatus === "NOT_YET";
-          const NOT_TODAY_NOT_YET =
-            !isToday && item.certificateStatus === "NOT_YET";
-          const TODAY_CERTIFICATED =
-            isToday && item.certificateStatus === "CERTIFICATED";
-          const NOT_TODAY_CERTIFICATED =
-            !isToday && item.certificateStatus === "CERTIFICATED";
-          const TODAY_PASSED = isToday && item.certificateStatus === "PASSED";
-          const NOT_TODAY_PASSED =
-            !isToday && item.certificateStatus === "PASSED";
-
-          if (TODAY_NOT_YET)
-            return (
-              <div className="pl-[0.4rem] pr-[0.4rem]">
-                <CertificationResult>
-                  <CertificationResult.ActiveOrdinal
-                    content={DayOfWeekIndex[emptyCount + 1 + index]}
-                  />
-                  <CertificationResult.EmptyWrapper>
-                    <CertificationResult.FailDate
-                      content={getSlashDate({
-                        date: item.certificatedAt,
-                      })}
-                    />
-                  </CertificationResult.EmptyWrapper>
-                </CertificationResult>
-              </div>
-            );
-          else if (NOT_TODAY_NOT_YET)
-            return (
-              <div className="pl-[0.4rem] pr-[0.4rem]">
-                <CertificationResult>
-                  <CertificationResult.InActiveOrdinal
-                    content={DayOfWeekIndex[emptyCount + 1 + index]}
-                  />
-                  <CertificationResult.FailWrapper>
-                    <CertificationResult.FailDate
-                      content={getSlashDate({
-                        date: item.certificatedAt,
-                      })}
-                    />
-                    <CertificationResult.FailIcon />
-                  </CertificationResult.FailWrapper>
-                </CertificationResult>
-              </div>
-            );
-          else if (TODAY_CERTIFICATED)
-            return (
-              <div className="pl-[0.4rem] pr-[0.4rem]">
-                <CertificationResult>
-                  <CertificationResult.ActiveOrdinal
-                    content={DayOfWeekIndex[emptyCount + 1 + index]}
-                  />
-                  <CertificationResult.SuccessWrapper
-                    onClick={() => onClickSuccessCertification(item.prLinks[0])}
-                  >
-                    <CertificationResult.SuccessDate
-                      content={getSlashDate({
-                        date: item.certificatedAt,
-                      })}
-                    />
-                    <CertificationResult.SuccessIcon />
-                  </CertificationResult.SuccessWrapper>
-                </CertificationResult>
-              </div>
-            );
-          else if (NOT_TODAY_CERTIFICATED)
-            return (
-              <div className="pl-[0.4rem] pr-[0.4rem]">
-                <CertificationResult>
-                  <CertificationResult.InActiveOrdinal
-                    content={DayOfWeekIndex[emptyCount + 1 + index]}
-                  />
-                  <CertificationResult.SuccessWrapper
-                    onClick={() => onClickSuccessCertification(item.prLinks[0])}
-                  >
-                    <CertificationResult.SuccessDate
-                      content={getSlashDate({
-                        date: item.certificatedAt,
-                      })}
-                    />
-                    <CertificationResult.SuccessIcon />
-                  </CertificationResult.SuccessWrapper>
-                </CertificationResult>
-              </div>
-            );
-          else if (TODAY_PASSED)
-            return (
-              <div className="pl-[0.4rem] pr-[0.4rem]">
-                <CertificationResult>
-                  <CertificationResult.ActiveOrdinal
-                    content={DayOfWeekIndex[emptyCount + 1 + index]}
-                  />
-
-                  <CertificationResult.SuccessWrapper>
-                    <CertificationResult.SuccessDate
-                      content={getSlashDate({
-                        date: item.certificatedAt,
-                      })}
-                    />
-                  </CertificationResult.SuccessWrapper>
-                </CertificationResult>
-              </div>
-            );
-          else if (NOT_TODAY_PASSED)
-            return (
-              <div className="pl-[0.4rem] pr-[0.4rem]">
-                <CertificationResult>
-                  <CertificationResult.InActiveOrdinal
-                    content={DayOfWeekIndex[emptyCount + 1 + index]}
-                  />
-                  <CertificationResult.SuccessWrapper />
-                </CertificationResult>
-              </div>
-            );
-        })}
-
-        {[...Array(7 - data.certifications.length - emptyCount)].map(
-          (_, index) => (
-            <div className="pl-[0.4rem] pr-[0.4rem]">
+      <HorizontalScroll setClickPossible={setClickPossible}>
+        <div className="pl-[2.5rem] _sm:pl-[0.4rem] max-w-[5rem] _sm:max-w-[4rem] flex gap-[1.2rem] _sm:gap-[0.2rem] pb-[0.6rem]">
+          {[...Array(emptyCount)].map((_, index) => (
+            <div key={index} className="pl-[0.4rem] pr-[0.4rem]">
               <CertificationResult>
                 <CertificationResult.InActiveOrdinal
-                  content={
-                    DayOfWeekIndex[
-                      emptyCount + index + 1 + data.certifications.length
-                    ]
-                  }
+                  content={DayOfWeekIndex[index + 1]}
                 />
                 <CertificationResult.EmptyWrapper />
               </CertificationResult>
             </div>
-          )
-        )}
-      </div>
-    </HorizontalScroll>
+          ))}
+
+          {data.certifications.map((item, index) => {
+            const isToday = getIsToday({ date: item.certificatedAt });
+            const TODAY_NOT_YET =
+              isToday && item.certificateStatus === "NOT_YET";
+            const NOT_TODAY_NOT_YET =
+              !isToday && item.certificateStatus === "NOT_YET";
+            const TODAY_CERTIFICATED =
+              isToday && item.certificateStatus === "CERTIFICATED";
+            const NOT_TODAY_CERTIFICATED =
+              !isToday && item.certificateStatus === "CERTIFICATED";
+            const TODAY_PASSED = isToday && item.certificateStatus === "PASSED";
+            const NOT_TODAY_PASSED =
+              !isToday && item.certificateStatus === "PASSED";
+
+            if (TODAY_NOT_YET)
+              return (
+                <div className="pl-[0.4rem] pr-[0.4rem]">
+                  <CertificationResult>
+                    <CertificationResult.ActiveOrdinal
+                      content={DayOfWeekIndex[emptyCount + 1 + index]}
+                    />
+                    <CertificationResult.EmptyWrapper>
+                      <CertificationResult.FailDate
+                        content={getSlashDate({
+                          date: item.certificatedAt,
+                        })}
+                      />
+                    </CertificationResult.EmptyWrapper>
+                  </CertificationResult>
+                </div>
+              );
+            else if (NOT_TODAY_NOT_YET)
+              return (
+                <div className="pl-[0.4rem] pr-[0.4rem]">
+                  <CertificationResult>
+                    <CertificationResult.InActiveOrdinal
+                      content={DayOfWeekIndex[emptyCount + 1 + index]}
+                    />
+                    <CertificationResult.FailWrapper>
+                      <CertificationResult.FailDate
+                        content={getSlashDate({
+                          date: item.certificatedAt,
+                        })}
+                      />
+                      <CertificationResult.FailIcon />
+                    </CertificationResult.FailWrapper>
+                  </CertificationResult>
+                </div>
+              );
+            else if (TODAY_CERTIFICATED)
+              return (
+                <div className="pl-[0.4rem] pr-[0.4rem]">
+                  <CertificationResult>
+                    <CertificationResult.ActiveOrdinal
+                      content={DayOfWeekIndex[emptyCount + 1 + index]}
+                    />
+                    <CertificationResult.SuccessWrapper
+                      onClick={() => onClickSuccessCertification(item.prLinks)}
+                    >
+                      <CertificationResult.SuccessDate
+                        content={getSlashDate({
+                          date: item.certificatedAt,
+                        })}
+                      />
+                      <CertificationResult.SuccessIcon />
+                    </CertificationResult.SuccessWrapper>
+                  </CertificationResult>
+                </div>
+              );
+            else if (NOT_TODAY_CERTIFICATED)
+              return (
+                <div className="pl-[0.4rem] pr-[0.4rem]">
+                  <CertificationResult>
+                    <CertificationResult.InActiveOrdinal
+                      content={DayOfWeekIndex[emptyCount + 1 + index]}
+                    />
+                    <CertificationResult.SuccessWrapper
+                      onClick={() => onClickSuccessCertification(item.prLinks)}
+                    >
+                      <CertificationResult.SuccessDate
+                        content={getSlashDate({
+                          date: item.certificatedAt,
+                        })}
+                      />
+                      <CertificationResult.SuccessIcon />
+                    </CertificationResult.SuccessWrapper>
+                  </CertificationResult>
+                </div>
+              );
+            else if (TODAY_PASSED)
+              return (
+                <div className="pl-[0.4rem] pr-[0.4rem]">
+                  <CertificationResult>
+                    <CertificationResult.ActiveOrdinal
+                      content={DayOfWeekIndex[emptyCount + 1 + index]}
+                    />
+
+                    <CertificationResult.SuccessWrapper>
+                      <CertificationResult.SuccessDate
+                        content={getSlashDate({
+                          date: item.certificatedAt,
+                        })}
+                      />
+                    </CertificationResult.SuccessWrapper>
+                  </CertificationResult>
+                </div>
+              );
+            else if (NOT_TODAY_PASSED)
+              return (
+                <div className="pl-[0.4rem] pr-[0.4rem]">
+                  <CertificationResult>
+                    <CertificationResult.InActiveOrdinal
+                      content={DayOfWeekIndex[emptyCount + 1 + index]}
+                    />
+                    <CertificationResult.SuccessWrapper />
+                  </CertificationResult>
+                </div>
+              );
+          })}
+
+          {7 - data.certifications.length - emptyCount >= 0 &&
+            [...Array(7 - data.certifications.length - emptyCount)].map(
+              (_, index) => (
+                <div className="pl-[0.4rem] pr-[0.4rem]">
+                  <CertificationResult>
+                    <CertificationResult.InActiveOrdinal
+                      content={
+                        DayOfWeekIndex[
+                          emptyCount + index + 1 + data.certifications.length
+                        ]
+                      }
+                    />
+                    <CertificationResult.EmptyWrapper />
+                  </CertificationResult>
+                </div>
+              )
+            )}
+        </div>
+      </HorizontalScroll>
+    </>
   );
 }
 
