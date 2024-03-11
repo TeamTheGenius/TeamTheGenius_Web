@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
 import getAdminInstanceListApi from "./getAdminInstanceListApi";
@@ -8,6 +7,7 @@ type instanceCreateApiType = {
   instanceTitle: string;
   instanceDesc: string;
   instanceNotice: string;
+  instanceCertMethod: string;
   instanceTags: string;
   instancePoint: number;
   instanceRangeStart: string;
@@ -22,6 +22,7 @@ const postAdminInstanceApi = async ({
   instanceTitle,
   instanceDesc,
   instanceNotice,
+  instanceCertMethod,
   instanceTags,
   instancePoint,
   instanceRangeStart,
@@ -35,8 +36,9 @@ const postAdminInstanceApi = async ({
     topicId: topicId,
     title: instanceTitle,
     description: instanceDesc,
-    pointPerPerson: instancePoint,
     notice: instanceNotice,
+    certificationMethod: instanceCertMethod,
+    pointPerPerson: instancePoint,
     tags: instanceTags,
     startedAt: instanceRangeStart,
     completedAt: instanceRangeEnd,

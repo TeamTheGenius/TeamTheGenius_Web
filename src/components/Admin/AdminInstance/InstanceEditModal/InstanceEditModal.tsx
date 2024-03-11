@@ -1,4 +1,4 @@
-import { adminmodalCard } from "@/utils/modalCard";
+import { instanceEditCard } from "@/utils/modalCard";
 import { Button, Form, Image, Input, Upload, UploadProps } from "antd";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
@@ -13,7 +13,7 @@ import {
   instanceDeteilType,
   instanceListDataType,
 } from "@/types/adminType";
-import Loading from "@/components/common/Loading/Loading";
+import Loading from "@/components/Common/Loading/Loading";
 
 type InstanceEditModalType = {
   setinstanceEditModalIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -96,7 +96,7 @@ const InstanceEditModal = ({
       contentLabel="sign complete message"
       shouldCloseOnOverlayClick={true}
       ariaHideApp={false}
-      style={adminmodalCard}
+      style={instanceEditCard}
     >
       {isLoading ? (
         <Loading />
@@ -125,6 +125,9 @@ const FormDesc = () => {
         <Input.TextArea allowClear showCount />
       </Form.Item>
       <Form.Item label="유의사항" name="notice">
+        <Input.TextArea allowClear showCount />
+      </Form.Item>
+      <Form.Item label="인증 방법" name="certMethod">
         <Input.TextArea allowClear showCount />
       </Form.Item>
     </>

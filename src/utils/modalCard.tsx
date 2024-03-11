@@ -65,3 +65,20 @@ export const instancePostCard = {
     alignItems: "center",
   },
 };
+export const instanceEditCard = {
+  overlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  content: {
+    width: "40%",
+    height: "700px",
+    margin: "auto",
+    border: "1px solid #ccc",
+    background: "#fff",
+    borderRadius: "12px",
+    outline: "none",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+};
