@@ -38,7 +38,7 @@ function ChallengeDetail() {
 
   const { id } = useParams();
 
-  const { data } = useQuery<Data>({
+  const { data, refetch } = useQuery<Data>({
     queryKey: ["instanceDetail", { id }],
     queryFn: () =>
       id
@@ -46,6 +46,7 @@ function ChallengeDetail() {
         : Promise.resolve(null),
   });
 
+  if (!id) return;
   if (!data) return;
 
   const PARTICIPATION_YET =
@@ -89,7 +90,13 @@ function ChallengeDetail() {
         </div>
 
         <div className="max-w-[54.6rem] w-full z-10 fixed bottom-0">
-          {PARTICIPATION_COMPLETE && <ParticipationCancelButton />}
+          {PARTICIPATION_COMPLETE && (
+            <ParticipationCancelButton
+              instanceId={parseInt(id)}
+              refetch={refetch}
+              title={data.title}
+            />
+          )}
           <Bottom>
             <Bottom.Heart
               heartActive={heartActive}
