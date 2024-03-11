@@ -38,7 +38,7 @@ function CertificationPassModal({
 
   return (
     <Modal.ModalContentBox width="w-[35.5rem]" height="h-[32.3rem]">
-      <div className="flex flex-col gap-[1.4rem] mt-[9rem] justify-center items-center">
+      <div className="flex flex-col gap-[1.4rem] justify-center items-center">
         <Modal.ModalContent
           content={`인증 패스권 아이템을\n 사용하시겠어요?\n (현재 ${numOfPassItem}개 보유중)`}
         />

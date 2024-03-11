@@ -29,7 +29,7 @@ function GetRewardTwiceModal({
 
   return (
     <Modal.ModalContentBox width="w-[35.5rem]" height="h-[32.3rem]">
-      <div className="flex flex-col mt-[7rem]  items-center">
+      <div className="flex flex-col  items-center">
         <Modal.ModalContent
           content={"포인트 2배 획득 아이템을\n사용하시겠어요?"}
         />
