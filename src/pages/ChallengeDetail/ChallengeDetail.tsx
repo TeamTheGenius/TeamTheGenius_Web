@@ -10,6 +10,7 @@ import DynamicBackIcon from "@/components/Common/DynamicBackIcon/DynamicBackIcon
 import getInstanceDetail from "@/apis/getInstanceDetail";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
+import ParticipationCancelButton from "@/components/ChallengeDetail/ParticipationCancelButton/ParticipationCancelButton";
 
 interface Data {
   instanceId: number;
@@ -22,9 +23,10 @@ interface Data {
   description: string;
   notice: string;
   certificationMethod: string;
-  joinStatus: string;
-  hitCount: number;
+  joinStatus: "NO" | "YES";
+  likesCount: number;
   fileResponse: File;
+  progress: "PREACTIVITY" | "ACTIVITY" | "DONE";
 }
 
 interface File {
@@ -36,7 +38,7 @@ function ChallengeDetail() {
 
   const { id } = useParams();
 
-  const { data } = useQuery<Data>({
+  const { data, refetch } = useQuery<Data>({
     queryKey: ["instanceDetail", { id }],
     queryFn: () =>
       id
@@ -44,16 +46,17 @@ function ChallengeDetail() {
         : Promise.resolve(null),
   });
 
+  if (!id) return;
   if (!data) return;
-  const tempToday = new Date();
 
-  const certificationStartDate = new Date(`${data.startedDate}T00:00:00`);
-  const certificationEndDate = new Date(`${data.completedDate}T00:00:00`);
-  certificationEndDate.setDate(certificationEndDate.getDate() + 1);
-  const applyLastDate = new Date(certificationStartDate);
-  const challengeEndDate = new Date(certificationEndDate);
-  applyLastDate.setSeconds(certificationStartDate.getSeconds() - 1);
-  challengeEndDate.setSeconds(certificationEndDate.getSeconds() + 1);
+  const PARTICIPATION_YET =
+    data.joinStatus === "NO" && data.progress === "PREACTIVITY";
+  const PARTICIPATION_COMPLETE =
+    data.joinStatus === "YES" &&
+    (data.progress === "PREACTIVITY" || data.progress === "ACTIVITY");
+  const PARTICIPATION_NONE =
+    data.joinStatus === "NO" && data.progress === "ACTIVITY";
+  const CHALLENGE_FINISHED = data.progress === "DONE";
 
   return (
     <MobCard>
@@ -61,7 +64,7 @@ function ChallengeDetail() {
         <DynamicBackIcon />
       </div>
 
-      <div className="pb-[8rem] flex flex-col items-center">
+      <div className="pb-[13rem] flex flex-col items-center">
         <div className="max-w-[54.6rem] w-full flex flex-col gap-[2.3rem]">
           <Image
             imgSrc={makeBase64IncodedImage({
@@ -86,29 +89,24 @@ function ChallengeDetail() {
           <Line />
         </div>
 
-        <div className="px-[2.2rem] max-w-[59rem] w-full z-10 fixed bottom-0">
+        <div className="max-w-[54.6rem] w-full z-10 fixed bottom-0">
+          {PARTICIPATION_COMPLETE && (
+            <ParticipationCancelButton
+              instanceId={parseInt(id)}
+              refetch={refetch}
+              title={data.title}
+            />
+          )}
           <Bottom>
             <Bottom.Heart
               heartActive={heartActive}
               setHeartActive={setHeartActive}
-              heartCount={data.hitCount}
+              heartCount={data.likesCount}
             />
-            {(challengeEndDate.getTime() <= tempToday.getTime() && (
-              <Bottom.Button status="챌린지종료" />
-            )) ||
-              (applyLastDate.getTime() >= tempToday.getTime() &&
-                data.joinStatus === "NO" && (
-                  <Bottom.Button status="참가하기" />
-                )) ||
-              (certificationEndDate.getTime() >= tempToday.getTime() &&
-                data.joinStatus === "YES" && (
-                  <Bottom.Button status="참가완료" />
-                )) ||
-              (certificationStartDate.getTime() <= tempToday.getTime() &&
-                certificationEndDate.getTime() >= tempToday.getTime() &&
-                data.joinStatus === "NO" && (
-                  <Bottom.Button status="모집완료" />
-                ))}
+            {(CHALLENGE_FINISHED && <Bottom.Button status="챌린지종료" />) ||
+              (PARTICIPATION_YET && <Bottom.Button status="참가하기" />) ||
+              (PARTICIPATION_COMPLETE && <Bottom.Button status="참가완료" />) ||
+              (PARTICIPATION_NONE && <Bottom.Button status="모집완료" />)}
           </Bottom>
         </div>
       </div>
