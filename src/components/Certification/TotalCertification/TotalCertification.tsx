@@ -49,15 +49,6 @@ function TotalCertification({ data }: Data) {
   const emptyCount = DayOfWeek[data.certifications[0].dayOfWeek] - 1;
   return (
     <>
-      {[...Array(emptyCount)].map((_, index) => (
-        <div key={`empty_${index}`} className="pl-[0.4rem] pr-[0.4rem]">
-          <CertificationResult>
-            <CertificationResult.EmptyOrdinal />
-            <CertificationResult.EmptyWrapper />
-          </CertificationResult>
-        </div>
-      ))}
-
       {data.certifications.map((item, index) => {
         const TODAY_NOT_YET =
           getIsToday({ date: item.certificatedAt }) &&
