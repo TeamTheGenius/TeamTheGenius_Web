@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const useModal = () => {
   const [isModalOpened, setIsModalOpened] = useState(false);
+  const modalContentRef = useRef<HTMLDivElement>(null);
 
   const openModal = () => {
     setIsModalOpened(true);
@@ -13,6 +14,7 @@ const useModal = () => {
 
   return {
     isModalOpened,
+    modalContentRef,
     openModal,
     closeModal,
   };

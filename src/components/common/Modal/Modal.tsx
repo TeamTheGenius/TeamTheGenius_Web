@@ -18,8 +18,13 @@ interface ModalContentProps {
 }
 
 function ModalContentBox({ width, height, children }: ModalContentBoxProps) {
+  const onClickModalBox = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   return (
     <div
+      onClick={onClickModalBox}
       className={cls(
         " overflow-scroll scrollbar-hide bg-white z-[9999] mx-[2.2rem] rounded-[2rem] p-[1.7rem] flex justify-center items-center",
         width,
@@ -39,10 +44,10 @@ function ModalContent({ content }: ModalContentProps) {
   );
 }
 
-const Layer: React.ForwardRefRenderFunction<
-  HTMLDivElement,
-  ModalLayerProps
-> = ({ children, onClick }) => {
+const Layer: React.ForwardRefRenderFunction<HTMLDivElement, ModalLayerProps> = (
+  { children, onClick },
+  ref
+) => {
   return (
     <div
       onClick={onClick}
