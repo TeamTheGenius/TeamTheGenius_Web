@@ -3,7 +3,7 @@ import axios from "axios";
 const postAuthLogout = (): Promise<void> => {
   return new Promise<void>((resolve, reject) => {
     axios
-      .post(`http://localhost:8080/api/auth/logout`, " ", {
+      .post(`http://localhost:8080/api/logout`, " ", {
         withCredentials: true,
         headers: {
           Accept: "*/*",
