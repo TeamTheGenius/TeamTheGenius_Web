@@ -4,14 +4,18 @@ import Line from "@/components/Common/Line/Line";
 import MobCard from "@/components/Common/MobCard";
 import LinkButton from "@/components/MyPage/SettingMenu/LinkButton/LinkButton";
 import Title from "@/components/MyPage/SettingMenu/Title/Title";
+import { IDENTIFIER } from "@/constants/localStorageKey";
 import { PATH } from "@/constants/path";
 import { useNavigate } from "react-router-dom";
 
 function SettingMenu() {
   const navigate = useNavigate();
-  const onClickLogOut = () =>
-    postAuthLogout()
-      .then(() => navigate(PATH.LOGIN))
+  const onClickLogOut = async () =>
+    await postAuthLogout()
+      .then(() => {
+        localStorage.removeItem(IDENTIFIER);
+        navigate(PATH.LOGIN);
+      })
       .catch((err) => {
         throw err;
       });

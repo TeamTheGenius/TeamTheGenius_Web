@@ -1,6 +1,5 @@
 import postJWTApi from "@/apis/postJWTApi";
 import { IDENTIFIER } from "@/constants/localStorageKey";
-import { PATH } from "@/constants/path";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -15,8 +14,9 @@ const Auth = () => {
   const auth = async () => {
     if (identifier) {
       postJWTApi({ navigate: navigate });
-    } else {
-      navigate(`${PATH.SIGNUP}?identifier=${gitName}`);
+    } else if (gitName) {
+      localStorage.setItem(IDENTIFIER, gitName);
+      postJWTApi({ navigate: navigate });
     }
   };
 
