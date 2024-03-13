@@ -1,4 +1,5 @@
-import axios from "axios";
+import { multiInstance } from "./axios/axios";
+import requests from "./axios/request";
 
 type postUserInfoEditType = {
   nickName?: string;
@@ -23,7 +24,7 @@ const postUserInfoEdit = async ({
     nickname: nickName,
     information: myInfo,
   };
-  console.log("myInfo", myInfo);
+
   const posFile = files?.file?.originFileObj;
   const formData = new FormData();
   formData.append(
@@ -35,13 +36,8 @@ const postUserInfoEdit = async ({
   }
   formData.append("type", "profile");
 
-  await axios
-    .post("http://localhost:8080/api/profile/information", formData, {
-      withCredentials: true,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
+  await multiInstance
+    .post(`${requests.fetchProfileInfo}`, formData)
     .then((res) => {
       console.log("응답:", res);
       setNickCheck("");

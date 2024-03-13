@@ -1,6 +1,7 @@
 import { PATH } from "@/constants/path";
-import axios from "axios";
 import { NavigateFunction } from "react-router-dom";
+import { acceptInstance } from "./axios/axios";
+import requests from "./axios/request";
 
 type postChallengeRepoRegiApiType = {
   instanceId?: string;
@@ -13,12 +14,8 @@ const postChallengeRepoRegiApi = async ({
   repo,
   navigate,
 }: postChallengeRepoRegiApiType) => {
-  await axios
-    .post(`http://localhost:8080/api/challenges/${instanceId}`, " ", {
-      withCredentials: true,
-      headers: {
-        Accept: "*/*",
-      },
+  await acceptInstance
+    .post(`${requests.fetchChallenges}/${instanceId}`, " ", {
       params: { repo: repo },
     })
     .then((res) => {

@@ -1,4 +1,5 @@
-import axios from "axios";
+import { instance } from "./axios/axios";
+import requests from "./axios/request";
 
 type postPaymentFailType = {
   orderId: string | null;
@@ -10,10 +11,8 @@ const postPaymentFail = async ({ orderId, message }: postPaymentFailType) => {
     orderId: orderId,
     message: message,
   };
-  await axios
-    .post("http://localhost:8080/api/payment/toss/fail", body, {
-      withCredentials: true,
-    })
+  await instance
+    .post(`${requests.fetchPaymentTossFail}`, body)
     .then((res) => {
       console.log("failRes", res);
     })

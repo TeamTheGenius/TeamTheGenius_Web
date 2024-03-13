@@ -1,6 +1,5 @@
 import { IDENTIFIER } from "@/constants/localStorageKey";
 import { PATH } from "@/constants/path";
-
 import { NavigateFunction } from "react-router-dom";
 import { instance } from "./axios/axios";
 import requests from "./axios/request";
@@ -17,7 +16,7 @@ const postJWTApi = async ({ navigate }: Params) => {
     identifier: identifier,
   };
   const data = await instance
-    .post(`${requests.fetchJwt}`, body)
+    .post(`${requests.fetchAuth}`, body)
     .then((res) => {
       console.log("로그인 요청", res);
       navigate(PATH.HOME);

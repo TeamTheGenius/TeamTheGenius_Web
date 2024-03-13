@@ -1,5 +1,6 @@
 import { CheckboxValueType } from "antd/es/checkbox/Group";
-import axios from "axios";
+import requests from "./axios/request";
+import { instance } from "./axios/axios";
 
 type postInterestEditApiType = {
   interestEditData: CheckboxValueType[];
@@ -14,10 +15,8 @@ const postInterestEditApi = async ({
   const body = {
     tags: interestEditData,
   };
-  await axios
-    .post("http://localhost:8080/api/profile/interest", body, {
-      withCredentials: true,
-    })
+  await instance
+    .post(`${requests.fetchProfileInterest}`, body)
     .then((res) => {
       console.log("관심사 수정 성공", res);
       setEditApiBoolean(true);

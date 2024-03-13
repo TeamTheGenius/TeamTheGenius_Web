@@ -20,6 +20,7 @@ const getPullRequestVerifyApi = async ({
     })
     .catch((err) => {
       console.log("PR 인증 오류", err);
+      alert(err.request.response);
       setPrBoolean(false);
     });
 };

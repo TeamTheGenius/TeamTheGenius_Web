@@ -1,4 +1,5 @@
-import axios from "axios";
+import { acceptInstance } from "./axios/axios";
+import requests from "./axios/request";
 
 interface Params {
   instanceId: number;
@@ -11,13 +12,8 @@ const postPassCertification = async ({ instanceId, targetDate }: Params) => {
     targetDate,
   };
   return new Promise<void>((resolve, reject) => {
-    axios
-      .post(`http://localhost:8080/api/certification/pass`, body, {
-        withCredentials: true,
-        headers: {
-          Accept: "*/*",
-        },
-      })
+    acceptInstance
+      .post(`${requests.fetchCertPass}`, body)
       .then((res) => {
         console.log("인증패스 성공", res);
         resolve();

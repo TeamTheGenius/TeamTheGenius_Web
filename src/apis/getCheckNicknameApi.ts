@@ -1,5 +1,6 @@
 import requests from "./axios/request";
-import { instance } from "./axios/axios";
+
+import axios from "axios";
 type nickNameCheckApiType = {
   value: string;
   setNickCheck: React.Dispatch<React.SetStateAction<string>>;
@@ -20,8 +21,8 @@ export const getCheckNicknameApi = async ({
     setsignUpBoolean(false);
     return;
   }
-  await instance
-    .get(`${requests.fetchCheckNickname}`, { params })
+  await axios
+    .get(`/api${requests.fetchCheckNickname}`, { params })
     .then((res) => {
       console.log("닉네임 체크 성공", res);
       setsignUpBoolean(true);

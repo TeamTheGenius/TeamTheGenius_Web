@@ -7,6 +7,7 @@ const instanceConfig = {
   withCredentials: true,
 };
 
+export const noCookieinstance = axios.create({ baseURL: BASE_URL });
 export const instance = axios.create(instanceConfig);
 
 export const acceptInstance = axios.create({

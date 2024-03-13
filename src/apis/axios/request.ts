@@ -1,5 +1,7 @@
 const requests = {
-  fetchJwt: `/auth`,
+  fetchAuth: `/auth`,
+  fetchAuthSignup: `/auth/signup`,
+  fetchLogout: `/logout`,
   fetchTopic: `/admin/topic`,
   fetchInstance: `/admin/instance`,
   fetchChallenges: `/challenges`,
@@ -13,6 +15,7 @@ const requests = {
   fetchChallengesSearch: `/challenges/search`,
   fetchProfile: `/profile`,
   fetchProfileInterest: `/profile/interest`,
+  fetchProfileInfo: `/profile/information`,
   fetchProfileChallenges: `/profile/challenges`,
   fetchLikeChallenge: `/profile/likes`,
   fetchCert: `/certification`,
@@ -20,11 +23,16 @@ const requests = {
   fetchCertInfo: `/certification/information`,
   fetchCertRepo: `/certification/repositories`,
   fetchCertPullReq: `/certification/verify/pull-request`,
+  fetchCertToday: `/certification/today`,
   fetchCertWeek: `/certification/week`,
+  fetchCertPass: `/certification/pass`,
   fetchCertWeekAll: `/certification/week/all`,
   fetchCertVerifyToken: `/certification/verify/token`,
   fetchCertVerifyRepo: `/certification/verify/repository`,
+  fetchCertRegisterToken: `/certification/register/token`,
   fetchCheckNickname: `/signup/check-nickname`,
+  fetchPaymentToss: `/payment/toss`,
+  fetchPaymentTossFail: `/payment/toss/fail`,
 };
 
 export default requests;
