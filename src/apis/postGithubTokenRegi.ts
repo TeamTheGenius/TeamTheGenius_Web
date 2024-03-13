@@ -1,13 +1,14 @@
 import { Dispatch, SetStateAction } from "react";
 import { instance } from "./axios/axios";
 import requests from "./axios/request";
+import { QueryClient } from "react-query";
 
 type postGithubTokenRegiType = {
   githubToken: string;
   setTokenState: Dispatch<SetStateAction<string>>;
   setTokenBoolean: Dispatch<SetStateAction<boolean>>;
   setGithubBoolean: Dispatch<SetStateAction<boolean>>;
-  queryClient: any;
+  queryClient: QueryClient;
 };
 const postGithubTokenRegi = async ({
   githubToken,
