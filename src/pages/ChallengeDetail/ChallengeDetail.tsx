@@ -5,7 +5,6 @@ import Image from "@/components/ChallengeDetail/Image/Image";
 import Information from "@/components/ChallengeDetail/Information/Information";
 import Line from "@/components/ChallengeDetail/Line/Line";
 import MobCard from "@/components/Common/MobCard";
-import { useState } from "react";
 import DynamicBackIcon from "@/components/Common/DynamicBackIcon/DynamicBackIcon";
 import getInstanceDetail from "@/apis/getInstanceDetail";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";

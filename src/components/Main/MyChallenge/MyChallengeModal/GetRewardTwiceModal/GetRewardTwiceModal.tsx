@@ -1,4 +1,5 @@
 import getMyChallengeDoneReward from "@/apis/getMyChallengeDoneReward";
+import postUseItem from "@/apis/postUseItem";
 import Button from "@/components/Common/Button";
 import { Modal } from "@/components/Common/Modal/Modal";
 
@@ -7,6 +8,7 @@ interface TwiceRewardModalProps {
   instanceId: number;
   numOfPointItem: number;
   refetch: () => void;
+  itemId: number;
 }
 
 function GetRewardTwiceModal({
@@ -14,17 +16,28 @@ function GetRewardTwiceModal({
   instanceId,
   numOfPointItem,
   refetch,
+  itemId,
 }: TwiceRewardModalProps) {
   if (!instanceId) return null;
   const onClickUse = async () => {
-    await getMyChallengeDoneReward({ item: true, instanceId });
-    closeModal();
-    refetch();
+    await postUseItem({ itemId, instanceId })
+      .then(() => {
+        closeModal();
+        refetch();
+      })
+      .catch((err) => {
+        throw err;
+      });
   };
   const onClickNotUse = async () => {
-    await getMyChallengeDoneReward({ item: false, instanceId });
-    closeModal();
-    refetch();
+    await getMyChallengeDoneReward({ instanceId })
+      .then(() => {
+        closeModal();
+        refetch();
+      })
+      .catch((err) => {
+        throw err;
+      });
   };
 
   return (
