@@ -1,11 +1,15 @@
 import Button from "@/components/Common/Button";
 import Heart from "../Heart/Heart";
 import { useNavigate } from "react-router-dom";
+import deleteLikeChallenge from "@/apis/deleteLikeChallenge";
+import postLikeChallenge from "@/apis/postLikeChallenge";
 
 interface HeartProps {
-  heartActive: boolean;
-  setHeartActive: React.Dispatch<React.SetStateAction<boolean>>;
+  isHearted: boolean;
+  likesId: number;
   heartCount: number;
+  refetch: () => void;
+  instanceId: number;
 }
 
 interface MainProps {
@@ -16,14 +20,36 @@ interface ButtonProps {
   status: "참가하기" | "참가완료" | "모집완료" | "챌린지종료";
 }
 
-function BottomHeart({ heartActive, setHeartActive, heartCount }: HeartProps) {
+function BottomHeart({
+  isHearted,
+  likesId,
+  refetch,
+  heartCount,
+  instanceId,
+}: HeartProps) {
   const onClick = () => {
-    setHeartActive(!heartActive);
+    if (isHearted) {
+      deleteLikeChallenge({ likesId: likesId })
+        .then(() => {
+          refetch();
+        })
+        .catch((err) => {
+          throw err;
+        });
+    } else {
+      postLikeChallenge({ instanceId: instanceId })
+        .then(() => {
+          refetch();
+        })
+        .catch((err) => {
+          throw err;
+        });
+    }
   };
   return (
     <div className="flex flex-col justify-center">
       <div onClick={onClick} className="w-[3.4rem] h-[2.9rem] cursor-pointer">
-        <Heart isActive={heartActive} />
+        <Heart isActive={isHearted} />
       </div>
       <span className="text-[1.2rem] font-medium leading-_normal text-center text-_coral-70">
         {heartCount}

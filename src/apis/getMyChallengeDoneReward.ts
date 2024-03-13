@@ -3,16 +3,11 @@ import requests from "./axios/request";
 
 interface Params {
   instanceId: number;
-  item: boolean;
 }
 
-const getMyChallengeDoneReward = async ({ item, instanceId }: Params) => {
+const getMyChallengeDoneReward = async ({ instanceId }: Params) => {
   const data = await axios
-    .get(`${requests.fetchChallengesReward}/${instanceId}`, {
-      params: {
-        item: item,
-      },
-    })
+    .get(`${requests.fetchChallengesReward}/${instanceId}`)
     .then((res) => {
       console.log(res.data.data);
       return res.data.data || {};
