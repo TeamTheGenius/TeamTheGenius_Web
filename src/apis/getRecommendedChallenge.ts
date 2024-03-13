@@ -1,4 +1,5 @@
-import axios from "axios";
+import { acceptInstance } from "./axios/axios";
+import requests from "./axios/request";
 
 interface Params {
   pageParams: number;
@@ -6,8 +7,8 @@ interface Params {
 }
 
 const getRecommendChallenge = async ({ pageParams, size }: Params) => {
-  const data = await axios
-    .get("http://localhost:8080/api/challenges/recommend", {
+  const data = await acceptInstance
+    .get(`${requests.fetchChallengesRecommend}`, {
       withCredentials: true,
       params: {
         page: pageParams,

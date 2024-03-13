@@ -1,4 +1,5 @@
-import axios from "axios";
+import { acceptInstance } from "./axios/axios";
+import requests from "./axios/request";
 
 interface Params {
   pageParams: number;
@@ -28,15 +29,11 @@ const getSearchedChallengeItem = async ({
     keyword: keyword,
     progress: progress,
   };
-  const data = await axios
-    .post("http://localhost:8080/api/challenges/search", body, {
-      withCredentials: true,
+  const data = await acceptInstance
+    .post(`${requests.fetchChallengesSearch}`, body, {
       params: {
         page: pageParams,
         size: size,
-      },
-      headers: {
-        Accept: "*/*",
       },
     })
     .then((res) => {

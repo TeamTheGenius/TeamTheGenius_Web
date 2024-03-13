@@ -1,7 +1,7 @@
-import axios from "axios";
 import getAdminTopicListApi from "./getAdminTopicListApi";
 import { adminTopicDataType } from "@/types/adminType";
-
+import { multiInstance } from "./axios/axios";
+import requests from "./axios/request";
 
 type topicCreateApiType = {
   topicTitle: string;
@@ -42,13 +42,8 @@ const postAdminTopicApi = async ({
   formData.append("files", topicImg);
   formData.append("type", "topic");
 
-  await axios
-    .post("http://localhost:8080/api/admin/topic", formData, {
-      withCredentials: true,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
+  await multiInstance
+    .post(`${requests.fetchTopic}`, formData)
     .then((res) => {
       console.log("토픽 생성 응답:", res);
       setModalIsOpen(false);

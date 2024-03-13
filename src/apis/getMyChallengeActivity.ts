@@ -1,13 +1,9 @@
-import axios from "axios";
+import { acceptInstance } from "./axios/axios";
+import requests from "./axios/request";
 
 const getMyChallengeActivity = async () => {
-  const data = await axios
-    .get(`http://localhost:8080/api/challenges/my/activity`, {
-      withCredentials: true,
-      headers: {
-        Accept: "*/*",
-      },
-    })
+  const data = await acceptInstance
+    .get(`${requests.fetchChallengesActivity}`)
     .then((res) => {
       console.log(res.data.dataList);
       return res.data.dataList || [];

@@ -1,10 +1,9 @@
-import axios from "axios";
+import { instance } from "./axios/axios";
+import requests from "./axios/request";
 
 const getGithubTokenApi = async () => {
-  const data = await axios
-    .get(`http://localhost:8080/api/certification/verify/token`, {
-      withCredentials: true,
-    })
+  const data = await instance
+    .get(`${requests.fetchCertVerifyToken}`)
     .then((res) => {
       console.log("토큰 정보 요청 성공", res);
       return res.data.code;

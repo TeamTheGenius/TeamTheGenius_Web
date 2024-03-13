@@ -1,5 +1,6 @@
-import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
+import { acceptInstance } from "./axios/axios";
+import requests from "./axios/request";
 
 type getRepoVertifyApiType = {
   repo: string;
@@ -13,12 +14,8 @@ const getRepoVertifyApi = async ({
   selectedValue,
   setRepoState,
 }: getRepoVertifyApiType) => {
-  await axios
-    .get(`http://localhost:8080/api/certification/verify/repository`, {
-      withCredentials: true,
-      headers: {
-        Accept: "*/*",
-      },
+  await acceptInstance
+    .get(`${requests.fetchCertVerifyRepo}`, {
       params: { repo },
     })
     .then((res) => {

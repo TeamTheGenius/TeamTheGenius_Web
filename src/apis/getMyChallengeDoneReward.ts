@@ -1,4 +1,5 @@
 import axios from "axios";
+import requests from "./axios/request";
 
 interface Params {
   instanceId: number;
@@ -7,11 +8,7 @@ interface Params {
 
 const getMyChallengeDoneReward = async ({ item, instanceId }: Params) => {
   const data = await axios
-    .get(`http://localhost:8080/api/challenges/reward/${instanceId}`, {
-      withCredentials: true,
-      headers: {
-        Accept: "*/*",
-      },
+    .get(`${requests.fetchChallengesReward}/${instanceId}`, {
       params: {
         item: item,
       },

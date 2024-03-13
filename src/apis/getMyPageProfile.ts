@@ -1,13 +1,9 @@
-import axios from "axios";
+import { acceptInstance } from "./axios/axios";
+import requests from "./axios/request";
 
 const getMyPageProfile = async () => {
-  const data = await axios
-    .get(`http://localhost:8080/api/profile`, {
-      withCredentials: true,
-      headers: {
-        Accept: "*/*",
-      },
-    })
+  const data = await acceptInstance
+    .get(`${requests.fetchProfile}`)
     .then((res) => {
       console.log(res.data.data);
       return res.data.data || {};

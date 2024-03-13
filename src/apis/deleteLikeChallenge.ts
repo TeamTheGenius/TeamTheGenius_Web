@@ -1,4 +1,5 @@
 import axios from "axios";
+import requests from "./axios/request";
 
 interface Params {
   likesId: number;
@@ -6,9 +7,7 @@ interface Params {
 
 const deleteLikeChallenge = async ({ likesId }: Params) => {
   await axios
-    .delete(`http://localhost:8080/api/profile/likes/${likesId}`, {
-      withCredentials: true,
-    })
+    .delete(`${requests.fetchLikeChallenge}/${likesId}`)
     .then((res) => {
       console.log("삭제", res);
     })

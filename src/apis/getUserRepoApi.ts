@@ -1,10 +1,9 @@
-import axios from "axios";
+import { instance } from "./axios/axios";
+import requests from "./axios/request";
 
 const getUserRepoApi = async () => {
-  const data = await axios
-    .get(`http://localhost:8080/api/certification/repositories`, {
-      withCredentials: true,
-    })
+  const data = await instance
+    .get(`${requests.fetchCertRepo}`)
     .then((res) => {
       console.log("repo 리스트", res.data.dataList);
       return res.data.dataList || [];
