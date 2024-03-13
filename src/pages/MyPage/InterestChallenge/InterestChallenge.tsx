@@ -53,8 +53,13 @@ function InterestChallenge() {
 
   const onClickHeart = async (e: React.MouseEvent, likesId: number) => {
     e.stopPropagation();
-    await deleteLikeChallenge({ likesId: 7 });
-    refetch();
+    await deleteLikeChallenge({ likesId: likesId })
+      .then(() => {
+        refetch();
+      })
+      .catch((err) => {
+        throw err;
+      });
   };
 
   return (

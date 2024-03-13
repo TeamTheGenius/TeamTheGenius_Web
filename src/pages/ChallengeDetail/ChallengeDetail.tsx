@@ -24,9 +24,15 @@ interface Data {
   notice: string;
   certificationMethod: string;
   joinStatus: "NO" | "YES";
-  likesCount: number;
+  likesInfo: Likes;
   fileResponse: File;
   progress: "PREACTIVITY" | "ACTIVITY" | "DONE";
+}
+
+interface Likes {
+  likesId: number;
+  isLiked: boolean;
+  likesCount: number;
 }
 
 interface File {
@@ -34,8 +40,6 @@ interface File {
 }
 
 function ChallengeDetail() {
-  const [heartActive, setHeartActive] = useState<boolean>(false);
-
   const { id } = useParams();
 
   const { data, refetch } = useQuery<Data>({
@@ -99,9 +103,11 @@ function ChallengeDetail() {
           )}
           <Bottom>
             <Bottom.Heart
-              heartActive={heartActive}
-              setHeartActive={setHeartActive}
-              heartCount={data.likesCount}
+              refetch={refetch}
+              isHearted={data.likesInfo.isLiked}
+              likesId={data.likesInfo.likesId}
+              heartCount={data.likesInfo.likesCount}
+              instanceId={data.instanceId}
             />
             {(CHALLENGE_FINISHED && <Bottom.Button status="챌린지종료" />) ||
               (PARTICIPATION_YET && <Bottom.Button status="참가하기" />) ||
