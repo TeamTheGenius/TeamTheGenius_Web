@@ -1,5 +1,6 @@
 import { IDENTIFIER } from "@/constants/localStorageKey";
-import axios from "axios";
+import requests from "./axios/request";
+import { instance } from "./axios/axios";
 
 interface Params {
   instanceId: number;
@@ -10,13 +11,8 @@ const postLikeChallenge = async ({ instanceId }: Params) => {
     identifier: localStorage.getItem(IDENTIFIER),
     instanceId: instanceId,
   };
-  await axios
-    .post(`http://localhost:8080/api/profile/likes`, body, {
-      withCredentials: true,
-      headers: {
-        Accept: "*/*",
-      },
-    })
+  await instance
+    .post(`${requests.fetchLikeChallenge}`, body)
     .then((res) => {
       console.log("좋아요 등록 성공", res);
     })

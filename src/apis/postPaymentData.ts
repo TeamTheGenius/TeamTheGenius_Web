@@ -1,4 +1,5 @@
-import axios from "axios";
+import { instance } from "./axios/axios";
+import requests from "./axios/request";
 
 type postPaymentDataType = {
   amount: number;
@@ -22,10 +23,8 @@ const postPaymentData = async ({
     userEmail: userEmail,
   };
 
-  await axios
-    .post("http://localhost:8080/api/payment/toss", body, {
-      withCredentials: true,
-    })
+  await instance
+    .post(`${requests.fetchPaymentToss}`, body)
     .then((res) => {
       console.log("res", res.data.data);
       const payData = res.data.data;

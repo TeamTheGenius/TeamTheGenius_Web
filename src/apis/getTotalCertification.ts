@@ -1,4 +1,5 @@
-import axios from "axios";
+import { acceptInstance } from "./axios/axios";
+import requests from "./axios/request";
 
 interface Params {
   instanceId: number;
@@ -6,12 +7,8 @@ interface Params {
 }
 
 const getTotalCertification = async ({ instanceId, userId }: Params) => {
-  const data = await axios
-    .get(`http://localhost:8080/api/certification/total/${instanceId}`, {
-      withCredentials: true,
-      headers: {
-        Accept: "*/*",
-      },
+  const data = await acceptInstance
+    .get(`${requests.fetchCertTotal}/${instanceId}`, {
       params: {
         userId,
       },

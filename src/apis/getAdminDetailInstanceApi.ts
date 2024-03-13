@@ -1,7 +1,8 @@
-import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
 import getAdminInstanceListApi from "./getAdminInstanceListApi";
 import { instanceDeteilType, instanceListDataType } from "@/types/adminType";
+import { instance } from "./axios/axios";
+import requests from "./axios/request";
 
 type AdminDetailInstanceApiType = {
   instanceId?: number;
@@ -14,10 +15,8 @@ const getAdminDetailInstanceApi = async ({
   setInstanceDetail,
   setInstanceList,
 }: AdminDetailInstanceApiType) => {
-  await axios
-    .get(`http://localhost:8080/api/admin/instance/${instanceId}`, {
-      withCredentials: true,
-    })
+  await instance
+    .get(`${requests.fetchInstance}/${instanceId}`)
     .then((res) => {
       const data = res.data.data;
       getAdminInstanceListApi({ setInstanceList });

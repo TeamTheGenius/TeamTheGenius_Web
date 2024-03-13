@@ -1,6 +1,8 @@
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import getAdminTopicListApi from "./getAdminTopicListApi";
 import { adminTopicEditApiType } from "@/types/adminType";
+import { multiInstance } from "./axios/axios";
+import requests from "./axios/request";
 
 const patchAdminTopicEditApi = async ({
   topicId,
@@ -31,13 +33,8 @@ const patchAdminTopicEditApi = async ({
   }
   formData.append("type", "topic");
 
-  await axios
-    .patch(`http://localhost:8080/api/admin/topic/${topicId}`, formData, {
-      withCredentials: true,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
+  await multiInstance
+    .patch(`${requests.fetchTopic}/${topicId}`, formData)
     .then((res: AxiosResponse<any, any>) => {
       console.log("수정응답:", res);
       setTopicEditModalIsOpen(false);

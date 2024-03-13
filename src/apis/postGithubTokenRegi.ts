@@ -1,5 +1,6 @@
-import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
+import { instance } from "./axios/axios";
+import requests from "./axios/request";
 
 type postGithubTokenRegiType = {
   githubToken: string;
@@ -19,10 +20,8 @@ const postGithubTokenRegi = async ({
     githubToken: githubToken,
   };
 
-  await axios
-    .post("http://localhost:8080/api/certification/register/token", body, {
-      withCredentials: true,
-    })
+  await instance
+    .post(`${requests.fetchCertRegisterToken}`, body)
     .then((res) => {
       console.log("등록성공", res);
       setTokenBoolean(true);

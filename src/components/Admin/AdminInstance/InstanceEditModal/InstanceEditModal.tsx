@@ -28,6 +28,7 @@ type InstanceEditData = {
   title: string;
   description: string;
   pointPerPerson: number;
+  certificationMethod: string;
   tags: string;
   notice: string;
   startedAt: string;
@@ -65,6 +66,7 @@ const InstanceEditModal = ({
       topicIdId: values.topicId,
       instanceTitle: values.title,
       instanceDesc: values.description,
+      instanceCertificationMethod: values.certificationMethod,
       instanceNotice: values.notice,
       instancePoint: values.pointPerPerson,
       instanceStartAt: startedAt,
@@ -78,7 +80,6 @@ const InstanceEditModal = ({
     patchAdminInstanceEditApi(instanceData);
   };
   const file = instanceDetail?.fileResponse;
-
   useEffect(() => {
     const getAdminDetailInstance = async () => {
       await getAdminDetailInstanceApi({
@@ -127,7 +128,7 @@ const FormDesc = () => {
       <Form.Item label="유의사항" name="notice">
         <Input.TextArea allowClear showCount />
       </Form.Item>
-      <Form.Item label="인증 방법" name="certMethod">
+      <Form.Item label="인증 방법" name="certificationMethod">
         <Input.TextArea allowClear showCount />
       </Form.Item>
     </>

@@ -1,6 +1,7 @@
 import { topicDeteilType } from "@/types/adminType";
-import axios from "axios";
 import { SetStateAction } from "react";
+import requests from "./axios/request";
+import { instance } from "./axios/axios";
 
 type adminDetailTopicApiType = {
   topicId?: number;
@@ -11,10 +12,8 @@ const getAdminDetailTopicApi = async ({
   topicId,
   setTopicDetail,
 }: adminDetailTopicApiType) => {
-  await axios
-    .get(`http://localhost:8080/api/admin/topic/${topicId}`, {
-      withCredentials: true,
-    })
+  await instance
+    .get(`${requests.fetchTopic}/${topicId}`)
     .then((res) => {
       if (setTopicDetail) {
         setTopicDetail(res.data.data);

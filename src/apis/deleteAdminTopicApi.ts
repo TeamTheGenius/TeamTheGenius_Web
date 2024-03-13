@@ -1,6 +1,7 @@
-import axios from "axios";
 import getAdminTopicListApi from "./getAdminTopicListApi";
 import { adminTopicDataType } from "@/types/adminType";
+import { instance } from "./axios/axios";
+import requests from "./axios/request";
 
 type topicDeleteType = {
   topicId: number;
@@ -13,10 +14,8 @@ const deleteAdminTopicApi = async ({
   setAdminList,
   pageNumber,
 }: topicDeleteType) => {
-  await axios
-    .delete(`http://localhost:8080/api/admin/topic/${topicId}`, {
-      withCredentials: true,
-    })
+  await instance
+    .delete(`${requests.fetchTopic}/${topicId}`)
     .then((res) => {
       console.log("삭제", res);
       getAdminTopicListApi({ setAdminList, pageNumber: pageNumber - 1 });

@@ -1,5 +1,6 @@
 import { adminTopicDataType } from "@/types/adminType";
-import axios from "axios";
+import { instance } from "./axios/axios";
+import requests from "./axios/request";
 
 type adminTopicListApiType = {
   setAdminList: React.Dispatch<React.SetStateAction<adminTopicDataType[]>>;
@@ -12,10 +13,8 @@ const getAdminTopicListApi = async ({
   pageNumber,
   setTotalNumber,
 }: adminTopicListApiType) => {
-  await axios
-    .get(`http://localhost:8080/api/admin/topic?page=${pageNumber}&size=5`, {
-      withCredentials: true,
-    })
+  await instance
+    .get(`${requests.fetchTopic}?page=${pageNumber}&size=5`)
     .then((res) => {
       const list = res.data.data;
       console.log("res", res);

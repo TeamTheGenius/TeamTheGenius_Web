@@ -1,7 +1,9 @@
-import axios from "axios";
 import { PATH } from "@/constants/path";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { IDENTIFIER } from "@/constants/localStorageKey";
+import requests from "./axios/request";
+import axios from "axios";
+import { instance, noCookieinstance } from "./axios/axios";
 type SignUpApiParams = {
   identifier: string;
   nickname: string;
@@ -23,8 +25,8 @@ const signUpApi = async ({
     information: information,
     interest: interest,
   };
-  await axios
-    .post(`http://localhost:8080/api/auth/signup`, body)
+  await noCookieinstance
+    .post(`${requests.fetchAuthSignup}`, body)
     .then((res) => {
       console.log("res", res);
       window.localStorage.setItem(IDENTIFIER, res.data.data.identifier);

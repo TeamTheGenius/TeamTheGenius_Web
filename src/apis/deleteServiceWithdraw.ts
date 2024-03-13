@@ -1,4 +1,5 @@
-import axios from "axios";
+import { jsonInstance } from "./axios/axios";
+import requests from "./axios/request";
 
 interface Params {
   reason: string;
@@ -6,17 +7,12 @@ interface Params {
 
 const deleteServiceWithdraw = async ({ reason }: Params) => {
   const config = {
-    withCredentials: true,
-    headers: {
-      Accept: "*/*",
-      "Content-Type": "application/json",
-    },
     data: reason,
   };
 
   return new Promise<void>((resolve, reject) => {
-    axios
-      .delete("http://localhost:8080/api/profile", config)
+    jsonInstance
+      .delete(`${requests.fetchprofile}`, config)
       .then((res) => {
         console.log("탈퇴 성공", res);
         resolve();

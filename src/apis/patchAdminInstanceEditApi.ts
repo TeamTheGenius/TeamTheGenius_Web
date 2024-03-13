@@ -1,7 +1,8 @@
-import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
 import getAdminInstanceListApi from "./getAdminInstanceListApi";
 import { instanceListDataType } from "@/types/adminType";
+import requests from "./axios/request";
+import { multiInstance } from "./axios/axios";
 
 type editInstacneType = {
   topicIdId: number;
@@ -9,6 +10,7 @@ type editInstacneType = {
   instanceDesc: string;
   instanceNotice: string;
   instancePoint: number;
+  instanceCertificationMethod: string;
   instanceStartAt: string;
   instanceTitle: string;
   instanceCompletedAt: string;
@@ -24,6 +26,7 @@ const patchAdminInstanceEditApi = async ({
   instanceDesc,
   instanceNotice,
   instancePoint,
+  instanceCertificationMethod,
   instanceStartAt,
   instanceCompletedAt,
   instanceImg,
@@ -38,6 +41,7 @@ const patchAdminInstanceEditApi = async ({
     pointPerPerson: instancePoint,
     startedAt: instanceStartAt,
     completedAt: instanceCompletedAt,
+    certificationMethod: instanceCertificationMethod,
   };
   const formData = new FormData();
   formData.append(
@@ -48,14 +52,10 @@ const patchAdminInstanceEditApi = async ({
     formData.append("files", instanceImg);
   }
   formData.append("type", "instance");
-  await axios
-    .patch(`http://localhost:8080/api/admin/instance/${instanceId}`, formData, {
-      withCredentials: true,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
+  await multiInstance
+    .patch(`${requests.fetchInstance}/${instanceId}`, formData)
     .then((res) => {
+      console.log("수정 성공", res);
       setinstanceEditModalIsOpen(false);
       getAdminInstanceListApi({ setInstanceList });
     })

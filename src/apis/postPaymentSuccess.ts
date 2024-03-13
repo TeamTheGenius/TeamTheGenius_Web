@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { instance } from "./axios/axios";
 
 type postPaymentSuccessType = {
   orderId?: string | null;
@@ -20,12 +20,11 @@ const postPaymentSuccess = async ({
     paymentKey: paymentKey,
   };
 
-  await axios
+  await instance
     .post("http://localhost:8080/api/payment/toss/success", body, {
       headers: {
         Authorization: encryptedSecretKey,
       },
-      withCredentials: true,
     })
     .then((res) => {
       const resData = res.data.data;

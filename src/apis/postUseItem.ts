@@ -1,4 +1,5 @@
-import axios from "axios";
+import requests from "./axios/request";
+import { instance } from "./axios/axios";
 
 interface Params {
   instanceId: number;
@@ -6,12 +7,8 @@ interface Params {
 }
 
 const postUseItem = async ({ instanceId, itemId }: Params) => {
-  return axios
-    .post(`http://localhost:8080/api/items/use/${itemId}`, " ", {
-      withCredentials: true,
-      headers: {
-        Accept: "*/*",
-      },
+  return instance
+    .post(`${requests.fetchItemUse}/${itemId}`, " ", {
       params: {
         instanceId,
       },
@@ -21,7 +18,7 @@ const postUseItem = async ({ instanceId, itemId }: Params) => {
     })
     .catch((err) => {
       console.log("아이템 사용 실패", err);
-      throw err; // 호출자에서 잡을 수 있도록 에러를 다시 던집니다.
+      throw err;
     });
 };
 

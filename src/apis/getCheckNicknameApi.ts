@@ -1,3 +1,5 @@
+import requests from "./axios/request";
+
 import axios from "axios";
 type nickNameCheckApiType = {
   value: string;
@@ -5,7 +7,7 @@ type nickNameCheckApiType = {
   setsignUpBoolean: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const getCheckNicknameApi = ({
+export const getCheckNicknameApi = async ({
   value,
   setNickCheck,
   setsignUpBoolean,
@@ -19,14 +21,15 @@ export const getCheckNicknameApi = ({
     setsignUpBoolean(false);
     return;
   }
-  axios
-    .get(`/api/auth/signup/check-nickname`, { params })
+  await axios
+    .get(`/api${requests.fetchCheckNickname}`, { params })
     .then((res) => {
+      console.log("닉네임 체크 성공", res);
       setsignUpBoolean(true);
       setNickCheck("사용 가능한 닉네임입니다.");
     })
     .catch((err) => {
-      console.log(err);
+      console.log("닉네임 체크 실패", err);
       setsignUpBoolean(false);
       setNickCheck("이미 존재하는 닉네임입니다.");
     });

@@ -1,7 +1,8 @@
-import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
 import getAdminInstanceListApi from "./getAdminInstanceListApi";
 import { instanceListDataType } from "@/types/adminType";
+import { multiInstance } from "./axios/axios";
+import requests from "./axios/request";
 
 type instanceCreateApiType = {
   instanceTitle: string;
@@ -43,7 +44,7 @@ const postAdminInstanceApi = async ({
     startedAt: instanceRangeStart,
     completedAt: instanceRangeEnd,
   };
-  console.log("instanceImg", instanceImg);
+
   const formData = new FormData();
   formData.append(
     "data",
@@ -54,13 +55,8 @@ const postAdminInstanceApi = async ({
   }
   formData.append("type", "instance");
 
-  await axios
-    .post("http://localhost:8080/api/admin/instance", formData, {
-      withCredentials: true,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
+  await multiInstance
+    .post(`${requests.fetchInstance}`, formData)
     .then((res) => {
       console.log("응답:", res);
       getAdminInstanceListApi({ setInstanceList });

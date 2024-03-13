@@ -1,4 +1,5 @@
-import axios from "axios";
+import { acceptInstance } from "./axios/axios";
+import requests from "./axios/request";
 
 type getPullRequestVerifyApiType = {
   repo: string;
@@ -9,12 +10,8 @@ const getPullRequestVerifyApi = async ({
   setPrBoolean,
 }: getPullRequestVerifyApiType) => {
   console.log("repo", repo);
-  await axios
-    .get(`http://localhost:8080/api/certification/verify/pull-request`, {
-      withCredentials: true,
-      headers: {
-        Accept: "*/*",
-      },
+  await acceptInstance
+    .get(`${requests.fetchCertPullReq}`, {
       params: { repo },
     })
     .then((res) => {
@@ -23,6 +20,7 @@ const getPullRequestVerifyApi = async ({
     })
     .catch((err) => {
       console.log("PR 인증 오류", err);
+      alert(err.request.response);
       setPrBoolean(false);
     });
 };

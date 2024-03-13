@@ -1,4 +1,5 @@
-import axios from "axios";
+import { acceptInstance } from "./axios/axios";
+import requests from "./axios/request";
 
 interface Params {
   pageParams: number;
@@ -6,15 +7,11 @@ interface Params {
 }
 
 const getPopularChallenge = async ({ pageParams, size }: Params) => {
-  const data = await axios
-    .get("http://localhost:8080/api/challenges/popular", {
-      withCredentials: true,
+  const data = await acceptInstance
+    .get(`${requests.fetchChallengesPopular}`, {
       params: {
         page: pageParams,
         size: size,
-      },
-      headers: {
-        Accept: "*/*",
       },
     })
     .then((res) => {

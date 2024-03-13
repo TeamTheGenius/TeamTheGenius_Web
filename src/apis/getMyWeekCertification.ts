@@ -1,17 +1,13 @@
-import axios from "axios";
+import { acceptInstance } from "./axios/axios";
+import requests from "./axios/request";
 
 interface Params {
   instanceId: number;
 }
 
 const getMyWeekCertification = async ({ instanceId }: Params) => {
-  const data = await axios
-    .get(`http://localhost:8080/api/certification/week/${instanceId}`, {
-      withCredentials: true,
-      headers: {
-        Accept: "*/*",
-      },
-    })
+  const data = await acceptInstance
+    .get(`${requests.fetchCertWeek}/${instanceId}`)
     .then((res) => {
       console.log(res.data);
       return res.data.data || {};

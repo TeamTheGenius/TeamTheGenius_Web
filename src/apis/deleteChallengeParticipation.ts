@@ -1,4 +1,5 @@
-import axios from "axios";
+import requests from "./axios/request";
+import { acceptInstance } from "./axios/axios";
 
 interface Params {
   instanceId: number;
@@ -8,13 +9,8 @@ const deleteChallengeParticipation = ({
   instanceId,
 }: Params): Promise<void> => {
   return new Promise<void>((resolve, reject) => {
-    axios
-      .delete(`http://localhost:8080/api/challenges/${instanceId}`, {
-        withCredentials: true,
-        headers: {
-          Accept: "*/*",
-        },
-      })
+    acceptInstance
+      .delete(`${requests.fetchChallenges}/${instanceId}`)
       .then((res) => {
         console.log("참여 취소 성공", res);
         resolve();

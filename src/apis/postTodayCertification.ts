@@ -1,4 +1,5 @@
-import axios from "axios";
+import { instance } from "./axios/axios";
+import requests from "./axios/request";
 
 interface Params {
   instanceId: number;
@@ -10,10 +11,8 @@ const postTodayCertification = async ({ instanceId, targetDate }: Params) => {
     instanceId,
     targetDate,
   };
-  await axios
-    .post("http://localhost:8080/api/certification/today", body, {
-      withCredentials: true,
-    })
+  await instance
+    .post(`${requests.fetchCertToday}`, body)
     .then((res) => {
       console.log("인증 갱신 성공", res);
     })

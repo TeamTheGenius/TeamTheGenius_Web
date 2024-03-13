@@ -1,5 +1,6 @@
 import { instanceListDataType } from "@/types/adminType";
-import axios from "axios";
+import { instance } from "./axios/axios";
+import requests from "./axios/request";
 
 type adminInstanceListApiType = {
   setInstanceList: React.Dispatch<React.SetStateAction<instanceListDataType[]>>;
@@ -12,10 +13,8 @@ const getAdminInstanceListApi = async ({
   setTotalNumber,
   pageNumber,
 }: adminInstanceListApiType) => {
-  await axios
-    .get(`http://localhost:8080/api/admin/instance?page=${pageNumber}&size=5`, {
-      withCredentials: true,
-    })
+  await instance
+    .get(`${requests.fetchInstance}?page=${pageNumber}&size=5`)
     .then((res) => {
       const listData = res.data.data;
       console.log("인스턴스 리스트", listData);

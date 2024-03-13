@@ -1,8 +1,8 @@
 import { IDENTIFIER } from "@/constants/localStorageKey";
 import { PATH } from "@/constants/path";
-
-import axios from "axios";
 import { NavigateFunction } from "react-router-dom";
+import { instance } from "./axios/axios";
+import requests from "./axios/request";
 
 interface Params {
   navigate: NavigateFunction;
@@ -15,8 +15,8 @@ const postJWTApi = async ({ navigate }: Params) => {
   const body = {
     identifier: identifier,
   };
-  const data = await axios
-    .post("http://localhost:8080/api/auth", body, { withCredentials: true })
+  const data = await instance
+    .post(`${requests.fetchAuth}`, body)
     .then((res) => {
       console.log("로그인 요청", res);
       navigate(PATH.HOME);

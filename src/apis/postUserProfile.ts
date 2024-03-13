@@ -1,4 +1,5 @@
-import axios from "axios";
+import { acceptInstance } from "./axios/axios";
+import requests from "./axios/request";
 
 interface Params {
   userId: number;
@@ -8,13 +9,8 @@ const postUserProfile = async ({ userId }: Params) => {
   const body = {
     userId,
   };
-  const data = await axios
-    .post(`http://localhost:8080/api/profile`, body, {
-      withCredentials: true,
-      headers: {
-        Accept: "*/*",
-      },
-    })
+  const data = await acceptInstance
+    .post(`${requests.fetchProfile}`, body)
     .then((res) => {
       return res.data.data || {};
     })

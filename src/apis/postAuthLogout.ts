@@ -1,14 +1,10 @@
-import axios from "axios";
+import { acceptInstance } from "./axios/axios";
+import requests from "./axios/request";
 
 const postAuthLogout = (): Promise<void> => {
   return new Promise<void>((resolve, reject) => {
-    axios
-      .post(`http://localhost:8080/api/logout`, " ", {
-        withCredentials: true,
-        headers: {
-          Accept: "*/*",
-        },
-      })
+    acceptInstance
+      .post(`${requests.fetchLogout}`, " ")
       .then((res) => {
         console.log("로그아웃 성공", res);
         resolve();
