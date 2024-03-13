@@ -23,11 +23,19 @@ interface Data {
   certificateStatus: "패스 완료" | "인증 갱신" | "인증하기";
   numOfPassItem: number;
   canUsePassItem: boolean;
+  itemId: number;
   fileResponse: File;
 }
 
 interface File {
   encodedFile: string;
+}
+
+interface PassItemModal {
+  e: React.MouseEvent;
+  instanceId: number;
+  numOfPassItem: number;
+  itemId: number;
 }
 
 const MyChallengeProgress = () => {
@@ -42,11 +50,12 @@ const MyChallengeProgress = () => {
     return;
   }
 
-  const onClickPassItem = (
-    e: React.MouseEvent,
-    instanceId: number,
-    numOfPassItem: number
-  ) => {
+  const onClickPassItem = ({
+    e,
+    instanceId,
+    numOfPassItem,
+    itemId,
+  }: PassItemModal) => {
     e.stopPropagation();
     setModal(
       <CertificationPassModal
@@ -55,6 +64,7 @@ const MyChallengeProgress = () => {
         refetch={refetch}
         setModal={setModal}
         numOfPassItem={numOfPassItem}
+        itemId={itemId}
       />
     );
     openModal();
@@ -65,12 +75,16 @@ const MyChallengeProgress = () => {
     instanceId: number
   ) => {
     e.stopPropagation();
-    const today = getToday();
     await postTodayCertification({
       instanceId: instanceId,
-      targetDate: today,
-    });
-    refetch();
+      targetDate: getToday(),
+    })
+      .then(() => {
+        refetch();
+      })
+      .catch((err) => {
+        throw err;
+      });
   };
 
   return (
@@ -121,11 +135,12 @@ const MyChallengeProgress = () => {
                       <MyChallengePassItem
                         passCount={item.numOfPassItem}
                         onClick={(e: React.MouseEvent) =>
-                          onClickPassItem(
-                            e,
-                            item.instanceId,
-                            item.numOfPassItem
-                          )
+                          onClickPassItem({
+                            e: e,
+                            instanceId: item.instanceId,
+                            numOfPassItem: item.numOfPassItem,
+                            itemId: item.itemId,
+                          })
                         }
                       />
                     )}

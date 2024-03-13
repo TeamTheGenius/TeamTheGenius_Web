@@ -26,6 +26,7 @@ interface Data {
   numOfPointItem: number;
   rewardedPoints: number;
   achievementRate: number;
+  itemId: number;
   fileResponse: File;
 }
 
@@ -50,7 +51,7 @@ const MyChallengeComplete = () => {
     instanceId: number
   ) => {
     e.stopPropagation();
-    await getMyChallengeDoneReward({ item: false, instanceId });
+    await getMyChallengeDoneReward({ instanceId });
     setModal(<GetRewardModal closeModal={closeModal} />);
     openModal();
     refetch();
@@ -58,7 +59,8 @@ const MyChallengeComplete = () => {
   const onClickGetRewardTwiceButton = (
     e: React.MouseEvent,
     instanceId: number,
-    numOfPointItem: number
+    numOfPointItem: number,
+    itemId: number
   ) => {
     e.stopPropagation();
     setModal(
@@ -67,6 +69,7 @@ const MyChallengeComplete = () => {
         instanceId={instanceId}
         closeModal={closeModal}
         refetch={refetch}
+        itemId={itemId}
       />
     );
     openModal();
@@ -135,7 +138,8 @@ const MyChallengeComplete = () => {
                         onClickGetRewardTwiceButton(
                           e,
                           item.instanceId,
-                          item.numOfPointItem
+                          item.numOfPointItem,
+                          item.itemId
                         )
                       }
                     />

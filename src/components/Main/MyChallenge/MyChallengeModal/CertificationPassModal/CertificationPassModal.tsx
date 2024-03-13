@@ -1,8 +1,7 @@
-import postPassCertification from "@/apis/postPassCertification";
 import Button from "@/components/Common/Button";
 import { Modal } from "@/components/Common/Modal/Modal";
-import { getToday } from "@/utils/getToday";
 import HasNoItemModal from "../HasNoItemModal/HasNoItemModal";
+import postUseItem from "@/apis/postUseItem";
 
 interface PassItemModalProps {
   closeModal: () => void;
@@ -10,6 +9,7 @@ interface PassItemModalProps {
   refetch: () => void;
   setModal: React.Dispatch<React.SetStateAction<React.ReactNode>>;
   numOfPassItem: number;
+  itemId: number;
 }
 
 function CertificationPassModal({
@@ -18,13 +18,14 @@ function CertificationPassModal({
   refetch,
   setModal,
   numOfPassItem,
+  itemId,
 }: PassItemModalProps) {
   const onClickNotUse = () => {
     closeModal();
   };
 
   const onClickUsePassItem = async () => {
-    postPassCertification({ instanceId: instanceId, targetDate: getToday() })
+    postUseItem({ instanceId: instanceId, itemId: itemId })
       .then(() => {
         closeModal();
         refetch();
