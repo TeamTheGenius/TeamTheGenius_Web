@@ -19,8 +19,8 @@ function CurrentAchivementRate({
         <img src={checkIcon} alt="레드 체크 모양 아이콘" />
         <p className="text-[1.4rem] font-medium">현재까지 달성률</p>
       </div>
-      <div className="flex justify-center items-center ">
-        <div className="relative mt-[2.3rem] w-full max-w-[39.3rem] h-[2.2rem] bg-[#DEDEDE] rounded-[1rem] border border-[#CCC]">
+      <div className="flex justify-center items-center px-[6rem] _sm:px-[3.4rem] ">
+        <div className="relative mt-[2.3rem] w-full _sm:max-w-[26rem] max-w-[39.3rem] h-[2.2rem] bg-[#DEDEDE] rounded-[1rem] border border-[#CCC]">
           <div className="absolute left-[85%] bottom-0 translate-y-1/2 w-[0.3rem] h-[1.7rem] bg-_coral-70 z-10" />
           <div className="absolute left-[85%] -translate-x-1/2 bottom-0 translate-y-10 w-0 h-0 border-b-[#FDEDE1] border-b-[1.5rem] border-l-[1.3rem] border-r-[1.3rem] border-l-transparent border-r-transparent" />
           <div
