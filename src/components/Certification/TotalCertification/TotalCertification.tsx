@@ -31,43 +31,26 @@ type DayOfWeek =
 function TotalCertification({ data }: Data) {
   const lastAttempt = data.certifications[data.certifications.length - 1]
     ? data.certifications[data.certifications.length - 1].certificationAttempt
-    : 1;
+    : 0;
 
   const onClickSuccessCertification = (prLink: string) => {
     window.open(prLink);
   };
-  const DayOfWeek = {
-    MONDAY: 1,
-    TUESDAY: 2,
-    WEDNESDAY: 3,
-    THURSDAY: 4,
-    FRIDAY: 5,
-    SATURDAY: 6,
-    SUNDAY: 7,
-  };
 
-  const emptyCount = DayOfWeek[data.certifications[0].dayOfWeek] - 1;
   return (
     <>
       {data.certifications.map((item, index) => {
-        const TODAY_NOT_YET =
-          getIsToday({ date: item.certificatedAt }) &&
-          item.certificateStatus === "NOT_YET";
+        const isToday = getIsToday({ date: item.certificatedAt });
+        const TODAY_NOT_YET = isToday && item.certificateStatus === "NOT_YET";
         const NOT_TODAY_NOT_YET =
-          !getIsToday({ date: item.certificatedAt }) &&
-          item.certificateStatus === "NOT_YET";
+          !isToday && item.certificateStatus === "NOT_YET";
         const TODAY_CERTIFICATED =
-          getIsToday({ date: item.certificatedAt }) &&
-          item.certificateStatus === "CERTIFICATED";
+          isToday && item.certificateStatus === "CERTIFICATED";
         const NOT_TODAY_CERTIFICATED =
-          !getIsToday({ date: item.certificatedAt }) &&
-          item.certificateStatus === "CERTIFICATED";
-        const TODAY_PASSED =
-          getIsToday({ date: item.certificatedAt }) &&
-          item.certificateStatus === "PASSED";
+          !isToday && item.certificateStatus === "CERTIFICATED";
+        const TODAY_PASSED = isToday && item.certificateStatus === "PASSED";
         const NOT_TODAY_PASSED =
-          !getIsToday({ date: item.certificatedAt }) &&
-          item.certificateStatus === "PASSED";
+          !isToday && item.certificateStatus === "PASSED";
 
         if (TODAY_NOT_YET)
           return (
@@ -183,18 +166,18 @@ function TotalCertification({ data }: Data) {
           );
       })}
 
-      {[
-        ...Array(data.totalAttempts - data.certifications.length - emptyCount),
-      ].map((_, index) => (
-        <div className="pl-[0.4rem] pr-[0.4rem]">
-          <CertificationResult>
-            <CertificationResult.InActiveOrdinal
-              content={lastAttempt + 1 + index}
-            />
-            <CertificationResult.EmptyWrapper />
-          </CertificationResult>
-        </div>
-      ))}
+      {[...Array(data.totalAttempts - data.certifications.length)].map(
+        (_, index) => (
+          <div className="pl-[0.4rem] pr-[0.4rem]">
+            <CertificationResult>
+              <CertificationResult.InActiveOrdinal
+                content={lastAttempt + 1 + index}
+              />
+              <CertificationResult.EmptyWrapper />
+            </CertificationResult>
+          </div>
+        )
+      )}
     </>
   );
 }
