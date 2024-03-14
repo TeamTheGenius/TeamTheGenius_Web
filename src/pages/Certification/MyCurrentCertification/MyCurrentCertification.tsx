@@ -5,6 +5,7 @@ import MyAllCertificationLinkButton from "@/components/Certification/MyCurrentCe
 import MyCertificationSummary from "@/components/Certification/MyCurrentCertification/MyCertificationSummary/MyCertificationSummary";
 import MyRepository from "@/components/Certification/MyCurrentCertification/MyRepository/MyRepository";
 import MyThisWeekCertification from "@/components/Certification/MyCurrentCertification/MyWeekCertification/MyThisWeekCertification";
+import PRTemplate from "@/components/Certification/MyCurrentCertification/PRTemplate/PRTemplate";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 
@@ -89,12 +90,15 @@ function MyCurrentCertification() {
       <div className="mt-[2.4rem]">
         <MyAllCertificationLinkButton userId={myWeekCertificationData.userId} />
       </div>
-      <div className="mt-[1rem] max-w-[45.6rem]">
+      <div className="mt-[2rem] max-w-[45.2rem]">
+        <PRTemplate />
+      </div>
+      <div className="mt-[1.5rem] max-w-[45.6rem]">
         <MyRepository
           repository={repository || "설정된 레포지토리가 없습니다"}
         />
       </div>
-      <div className=" mt-[1.4rem] ">
+      <div className=" mt-[1.5rem] ">
         <CurrentAchivementRate
           successPercent={successPercent}
           totalAttempt={totalAttempt}
