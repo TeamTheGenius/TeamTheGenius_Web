@@ -149,6 +149,7 @@ function TotalCertification({ data }: Data) {
                       date: item.certificatedAt,
                     })}
                   />
+                  <CertificationResult.PassIcon />
                 </CertificationResult.SuccessWrapper>
               </CertificationResult>
             </div>
@@ -160,6 +161,7 @@ function TotalCertification({ data }: Data) {
                 <CertificationResult.InActiveOrdinal
                   content={item.certificationAttempt}
                 />
+                <CertificationResult.PassIcon />
                 <CertificationResult.SuccessWrapper />
               </CertificationResult>
             </div>

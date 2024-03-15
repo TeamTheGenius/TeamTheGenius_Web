@@ -128,6 +128,16 @@ function FailIcon() {
   );
 }
 
+function PassIcon() {
+  return (
+    <div className="_sm:mt-[-0.35rem] flex justify-center items-center">
+      <p className="text-[1.7rem] _sm:text-[1.5rem] font-medium text-white">
+        P
+      </p>
+    </div>
+  );
+}
+
 function ReportCheckIcon() {
   return (
     <div className="flex justify-center items-center">
@@ -166,6 +176,7 @@ export const CertificationResult = Object.assign(Main, {
   FailDate: FailDate,
   SuccessIcon: SuccessIcon,
   FailIcon: FailIcon,
+  PassIcon: PassIcon,
   ReportCheckIcon: ReportCheckIcon,
   ReportNotCheckIcon: ReportNotCheckIcon,
 });
