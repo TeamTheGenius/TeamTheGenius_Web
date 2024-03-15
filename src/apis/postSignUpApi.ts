@@ -2,13 +2,13 @@ import { PATH } from "@/constants/path";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { IDENTIFIER } from "@/constants/localStorageKey";
 import requests from "./axios/request";
-import axios from "axios";
-import { instance, noCookieinstance } from "./axios/axios";
+import { multiInstance } from "./axios/axios";
 type SignUpApiParams = {
   identifier: string;
   nickname: string;
   information: string;
   interest: CheckboxValueType[];
+  files: string;
   navigate: (path: string) => void;
 };
 
@@ -17,16 +17,27 @@ const signUpApi = async ({
   nickname,
   information,
   interest,
+  files,
   navigate,
 }: SignUpApiParams) => {
-  const body = {
+  const data = {
     identifier: identifier,
     nickname: nickname,
     information: information,
     interest: interest,
   };
-  await noCookieinstance
-    .post(`${requests.fetchAuthSignup}`, body)
+
+  const formData = new FormData();
+  formData.append(
+    "data",
+    new Blob([JSON.stringify(data)], { type: "application/json" })
+  );
+
+  const imageFile = await fetch(files).then((res) => res.blob());
+  formData.append("files", imageFile, `basic-profile.jpg`);
+
+  await multiInstance
+    .post(`${requests.fetchAuthSignup}`, formData)
     .then((res) => {
       console.log("res", res);
       window.localStorage.setItem(IDENTIFIER, res.data.data.identifier);

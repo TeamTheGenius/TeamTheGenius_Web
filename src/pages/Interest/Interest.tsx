@@ -1,13 +1,17 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
-
 import LoginMobCard from "@/components/Common/LoginMobCard";
 import Button from "@/components/Common/Button";
 import InterestCheck from "@/components/Interest/InterestCheck/InterestCheck";
 import InterestHeader from "@/components/Interest/InterestHeader/InterestHeader";
 import signUpApi from "@/apis/postSignUpApi";
 import { interestsData } from "@/data/InterestData";
+import basicOrangeProfileImage from "@/assets/image/basic-profile-image-orange.png";
+import basicGrayProfileImage from "@/assets/image/basic-profile-image-gray.png";
+import basicPinkProfileImage from "@/assets/image/basic-profile-image-pink.png";
+import basicBlueProfileImage from "@/assets/image/basic-profile-image-blue.png";
+import basicGreenProfileImage from "@/assets/image/basic-profile-image-green.png";
 
 type Interest = {
   id: number;
@@ -24,12 +28,27 @@ const Interest = () => {
 
   const InterestValue: Interest[] = interestsData;
 
+  const getRandomProfileImage = () => {
+    const imagePaths = [
+      basicOrangeProfileImage,
+      basicGrayProfileImage,
+      basicPinkProfileImage,
+      basicBlueProfileImage,
+      basicGreenProfileImage,
+    ];
+
+    const randomIndex = Math.floor(Math.random() * imagePaths.length);
+    return imagePaths[randomIndex];
+  };
+
   const handleSignUp = async () => {
+    console.log(btoa(basicOrangeProfileImage));
     await signUpApi({
       identifier: locationState.gitNickName,
       nickname: locationState.nickName,
       information: locationState.myInfo,
       interest: checkedValues,
+      files: getRandomProfileImage(),
       navigate,
     });
   };

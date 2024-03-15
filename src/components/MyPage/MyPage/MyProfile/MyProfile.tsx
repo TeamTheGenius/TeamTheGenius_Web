@@ -24,7 +24,7 @@ function MyProfile() {
             <Profile.Image
               imgSrc={makeBase64IncodedImage({
                 uri: data.fileResponse.encodedFile,
-                format: "jpg",
+                format: "png",
               })}
               alt="프로필 이미지"
               width="w-[10.2rem]"
@@ -66,7 +66,7 @@ function MyProfile() {
         </Profile>
       </div>
       <div className="w-full max-w-[44.5rem] _sm:max-w-[27.8rem] mt-[2.9rem] mx-auto">
-        <MyPoint point={data.point || 0} />
+        <MyPoint point={data.point} />
       </div>
     </>
   );
