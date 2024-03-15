@@ -12,7 +12,7 @@ const deleteServiceWithdraw = async ({ reason }: Params) => {
 
   return new Promise<void>((resolve, reject) => {
     jsonInstance
-      .delete(`${requests.fetchprofile}`, config)
+      .delete(`${requests.fetchProfile}`, config)
       .then((res) => {
         console.log("탈퇴 성공", res);
         resolve();
