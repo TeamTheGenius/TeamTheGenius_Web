@@ -38,16 +38,31 @@ type DayOfWeek =
   | "SATURDAY"
   | "SUNDAY";
 
+interface CertificationModal {
+  prLinks: string[];
+  certificationAttempt: number;
+  certificatedAt: string;
+}
+
 function ThisWeekCertification({ data }: Data) {
   const [clickPossible, setClickPossible] = useState<boolean>(true);
   const { openModal, closeModal, isModalOpened } = useModal();
   const [modal, setModal] = useState(<></>);
 
-  const onClickSuccessCertification = (prLinks: string[]) => {
-    if (clickPossible) {
-      setModal(<CertificationPRLinkModal prLinks={prLinks} />);
-      openModal();
-    }
+  const onClickSuccessCertification = ({
+    prLinks,
+    certificatedAt,
+    certificationAttempt,
+  }: CertificationModal) => {
+    if (!clickPossible) return;
+    setModal(
+      <CertificationPRLinkModal
+        prLinks={prLinks}
+        certificatedAt={certificatedAt}
+        certificationAttempt={certificationAttempt}
+      />
+    );
+    openModal();
   };
 
   const DayOfWeek = {
@@ -155,7 +170,13 @@ function ThisWeekCertification({ data }: Data) {
                       content={DayOfWeekIndex[emptyCount + 1 + index]}
                     />
                     <CertificationResult.SuccessWrapper
-                      onClick={() => onClickSuccessCertification(item.prLinks)}
+                      onClick={() =>
+                        onClickSuccessCertification({
+                          prLinks: item.prLinks,
+                          certificatedAt: item.certificatedAt,
+                          certificationAttempt: item.certificationAttempt,
+                        })
+                      }
                     >
                       <CertificationResult.SuccessDate
                         content={getSlashDate({
@@ -175,7 +196,13 @@ function ThisWeekCertification({ data }: Data) {
                       content={DayOfWeekIndex[emptyCount + 1 + index]}
                     />
                     <CertificationResult.SuccessWrapper
-                      onClick={() => onClickSuccessCertification(item.prLinks)}
+                      onClick={() =>
+                        onClickSuccessCertification({
+                          prLinks: item.prLinks,
+                          certificatedAt: item.certificatedAt,
+                          certificationAttempt: item.certificationAttempt,
+                        })
+                      }
                     >
                       <CertificationResult.SuccessDate
                         content={getSlashDate({

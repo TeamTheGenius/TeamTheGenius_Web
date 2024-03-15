@@ -1,6 +1,11 @@
 import { CertificationResult } from "@/components/Common/CertificationResult/CertificationResult";
+import useModal from "@/hooks/useModal";
 import { getIsToday } from "@/utils/getIsToday";
 import { getSlashDate } from "@/utils/getSlashDate";
+import { useState } from "react";
+import CertificationPRLinkModal from "../CertificationModal/CertificationPRLinkModal/CertificationPRLinkModal";
+import { createPortal } from "react-dom";
+import { Modal, ModalLayer } from "@/components/Common/Modal/Modal";
 
 interface Data {
   data: {
@@ -28,17 +33,47 @@ type DayOfWeek =
   | "SATURDAY"
   | "SUNDAY";
 
+interface CertificationModal {
+  prLinks: string[];
+  certificationAttempt: number;
+  certificatedAt: string;
+}
+
 function TotalCertification({ data }: Data) {
+  const { openModal, closeModal, isModalOpened } = useModal();
+  const [modal, setModal] = useState(<></>);
+
   const lastAttempt = data.certifications[data.certifications.length - 1]
     ? data.certifications[data.certifications.length - 1].certificationAttempt
     : 0;
 
-  const onClickSuccessCertification = (prLink: string) => {
-    window.open(prLink);
+  const onClickSuccessCertification = ({
+    prLinks,
+    certificatedAt,
+    certificationAttempt,
+  }: CertificationModal) => {
+    setModal(
+      <CertificationPRLinkModal
+        prLinks={prLinks}
+        certificatedAt={certificatedAt}
+        certificationAttempt={certificationAttempt}
+      />
+    );
+    openModal();
   };
 
   return (
     <>
+      {isModalOpened &&
+        createPortal(
+          <ModalLayer onClick={closeModal}>
+            <Modal.ModalContentBox width="w-[46.2rem]" height="h-[39.5rem]">
+              {modal}
+            </Modal.ModalContentBox>
+          </ModalLayer>,
+          document.body
+        )}
+
       {data.certifications.map((item, index) => {
         const isToday = getIsToday({ date: item.certificatedAt });
         const TODAY_NOT_YET = isToday && item.certificateStatus === "NOT_YET";
@@ -95,7 +130,13 @@ function TotalCertification({ data }: Data) {
                   content={item.certificationAttempt}
                 />
                 <CertificationResult.SuccessWrapper
-                  onClick={() => onClickSuccessCertification(item.prLinks[0])}
+                  onClick={() =>
+                    onClickSuccessCertification({
+                      prLinks: item.prLinks,
+                      certificationAttempt: item.certificationAttempt,
+                      certificatedAt: item.certificatedAt,
+                    })
+                  }
                 >
                   <CertificationResult.SuccessDate
                     content={getSlashDate({
@@ -115,7 +156,13 @@ function TotalCertification({ data }: Data) {
                   content={item.certificationAttempt}
                 />
                 <CertificationResult.SuccessWrapper
-                  onClick={() => onClickSuccessCertification(item.prLinks[0])}
+                  onClick={() =>
+                    onClickSuccessCertification({
+                      prLinks: item.prLinks,
+                      certificationAttempt: item.certificationAttempt,
+                      certificatedAt: item.certificatedAt,
+                    })
+                  }
                 >
                   <CertificationResult.SuccessDate
                     content={getSlashDate({
