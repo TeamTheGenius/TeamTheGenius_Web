@@ -10,6 +10,7 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 
 interface myCurrentCertificationData {
+  prTemplate: string;
   repository: string;
   successPercent: number;
   totalAttempt: number;
@@ -83,6 +84,7 @@ function MyCurrentCertification() {
     successCount,
     failureCount,
     remainCount,
+    prTemplate,
   } = myCurrentCertificationData;
 
   return (
@@ -91,7 +93,7 @@ function MyCurrentCertification() {
         <MyAllCertificationLinkButton userId={myWeekCertificationData.userId} />
       </div>
       <div className="mt-[2rem] max-w-[45.2rem]">
-        <PRTemplate />
+        <PRTemplate prTemplate={prTemplate} />
       </div>
       <div className="mt-[1.5rem] max-w-[45.6rem]">
         <MyRepository

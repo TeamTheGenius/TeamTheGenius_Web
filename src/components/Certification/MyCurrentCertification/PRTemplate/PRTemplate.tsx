@@ -2,7 +2,11 @@ import { useRef } from "react";
 import checkIcon from "@/assets/icon/red-check-icon.svg";
 import copyIcon from "@/assets/icon/copy-icon.svg";
 
-function PRTemplate() {
+interface Props {
+  prTemplate: string;
+}
+
+function PRTemplate({ prTemplate }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const handleCopy = () => {
     if (inputRef.current) {
@@ -27,7 +31,7 @@ function PRTemplate() {
         <input
           ref={inputRef}
           type="text"
-          value="GitGet-bf6f75a4-a1e9-4c0b-112eeeeeeeeeeeeeeeeeeeeeeee"
+          value={prTemplate}
           readOnly
           className="focus:outline-none px-[0.6rem] rounded-l-[0.6rem] text-[1.3rem] font-medium text-[#5C5C5C] w-full"
         />
