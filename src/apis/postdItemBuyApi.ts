@@ -1,10 +1,9 @@
-import { QueryClient } from "react-query";
 import { instance } from "./axios/axios";
 import requests from "./axios/request";
 
 type postdItemBuyApiType = {
   itemId?: number;
-  queryClient: QueryClient;
+  queryClient: any;
 };
 const postdItemBuyApi = async ({
   itemId,
@@ -15,13 +14,14 @@ const postdItemBuyApi = async ({
   };
 
   await instance
-    .post(`${requests.fetchItemOrder}`, body)
+    .post(`${requests.fetchItemOrder}/${itemId}`)
     .then((res) => {
       console.log("구매성공", res);
       queryClient.invalidateQueries(["itemAllList"]);
     })
     .catch((err) => {
-      console.log("구매실패", err);
+      console.log("구매실패", err.response.data.message);
+      alert(err.response.data.message);
     });
 };
 

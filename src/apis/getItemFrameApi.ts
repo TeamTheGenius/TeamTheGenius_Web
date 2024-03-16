@@ -5,8 +5,8 @@ const getItemFrameApi = async () => {
   const data = await instance
     .get(`${requests.fetchItem}?category=profile-frame`)
     .then((res) => {
-      console.log(res.data.data);
-      return res.data.data || {};
+      console.log("resFrame", res.data.dataList);
+      return res.data.dataList || {};
     })
     .catch((err) => {
       console.log("err", err);

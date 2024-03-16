@@ -1,44 +1,49 @@
 import MyPoint from "@/components/MyPage/MyPage/MyPoint/MyPoint";
 import ShopHeader from "@/components/Shop/ShopHeader/ShopHeader";
 import ShopFrame from "@/components/Shop/ShopFrameList/ShopFrame/ShopFrame";
-import ShopItem from "@/components/Shop/ShopItem/ShopItem";
+import ShopItem from "@/components/Shop/ShopPassItem/ShopItem";
 import MobShopFrameSlice from "@/components/Shop/ShopFrameList/MobShopFrameSlice/MobShopFrameSlice";
 import "@/pages/Shop/swiperCustomStyle.css";
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
-import { shopListType } from "@/types/shopType";
+import { shopFrameListType, shopPassListData } from "@/types/shopType";
 import getItemFrameApi from "@/apis/getItemFrameApi";
 import getItemPassApi from "@/apis/getItemPassApi";
 import postdItemBuyApi from "@/apis/postdItemBuyApi";
 import getItemAllApi from "@/apis/getItemAllApi";
-// import { passData } from "@/data/shopItemData";
-
+import frameImg1 from "@/assets/image/frame_0.svg";
+import frameImg2 from "@/assets/image/frame_1.svg";
+import frameImg3 from "@/assets/image/frame_1.svg";
+import passImg1 from "@/assets/image/pass_0.svg";
+import passImg2 from "@/assets/image/pass_1.svg";
+import postItemEquipApi from "@/apis/postItemEquipApi";
+import postItemUnEquipApi from "@/apis/postItemUnEquipApi";
+import ShopPassItem from "@/components/Shop/ShopItem/ShopItem";
 const Shop = () => {
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
-
-  const { data: frameData } = useQuery<shopListType[]>({
+  const [frameDataState, setframeDataState] = useState<shopFrameListType[]>();
+  const [passDataState, setPassDataState] = useState<shopPassListData[]>();
+  const { data: frameData } = useQuery<shopFrameListType[]>({
     queryKey: ["itemFrameList"],
     queryFn: () => getItemFrameApi(),
   });
-  const { data: passData } = useQuery<shopListType[]>({
+  const { data: passData } = useQuery<shopFrameListType[]>({
     queryKey: ["itemPassList"],
     queryFn: () => getItemPassApi(),
   });
-  const { data: allData } = useQuery<shopListType[]>({
+  const { data: allData } = useQuery<shopFrameListType[]>({
     queryKey: ["itemAllList"],
     queryFn: () => getItemAllApi(),
   });
   const queryClient = useQueryClient();
 
-  if (!frameData) {
-    return;
-  }
-  if (!passData) {
-    return;
-  }
-
-  const mountFrameHandle = () => {
-    alert("장착기능");
+  const mountFrameHandle = (itemId: number | undefined) => {
+    postItemUnEquipApi({
+      itemId: itemId,
+    });
+    postItemEquipApi({
+      itemId: itemId,
+    });
   };
   const buyItem = (itemId: number | undefined) => {
     alert("아이템 사기");
@@ -47,8 +52,31 @@ const Shop = () => {
       queryClient: queryClient,
     });
   };
+  const isMobile = viewportWidth <= 393;
 
   useEffect(() => {
+    const updatedFrameData = frameData?.map((item) => ({
+      ...item,
+      imgSrc:
+        item.itemId === 1
+          ? frameImg1
+          : item.itemId === 4
+          ? frameImg2
+          : item.itemId === 5
+          ? frameImg3
+          : "기본 이미지 경로",
+    }));
+    const updatedpassData = passData?.map((item) => ({
+      ...item,
+      imgSrc:
+        item.itemId === 2
+          ? passImg1
+          : item.itemId === 3
+          ? passImg2
+          : "기본 이미지 경로",
+    }));
+    setPassDataState(updatedpassData);
+    setframeDataState(updatedFrameData);
     const handleResize = () => {
       setViewportWidth(window.innerWidth);
     };
@@ -58,9 +86,11 @@ const Shop = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [frameData, passData]);
 
-  const isMobile = viewportWidth <= 393;
+  if (!frameData || !passData || !allData) {
+    return null;
+  }
 
   return (
     <>
@@ -74,6 +104,7 @@ const Shop = () => {
             <div className="w-full max-w-[44.5rem] _sm:max-w-[35rem] mt-[2.1rem] mb-[4rem]">
               <MobShopFrameSlice
                 frameData={frameData}
+                frameDataState={frameDataState}
                 buyItem={buyItem}
                 mountFrameHandle={mountFrameHandle}
               />
@@ -82,13 +113,18 @@ const Shop = () => {
             <div className="w-full max-w-[44.5rem] _sm:max-w-[27.8rem] mt-[2.1rem] mb-[4rem]">
               <ShopFrame
                 frameData={frameData}
+                frameDataState={frameDataState}
                 buyItem={buyItem}
                 mountFrameHandle={mountFrameHandle}
               />
             </div>
           )}
           <div className="w-full max-w-[44.5rem] _sm:max-w-[38rem] mt-[2.1rem] mb-[4rem]">
-            <ShopItem itemData={passData} buyItem={buyItem} />
+            <ShopPassItem
+              itemData={passData}
+              buyItem={buyItem}
+              passDataState={passDataState}
+            />
           </div>
         </div>
       </div>

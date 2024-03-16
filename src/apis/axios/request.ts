@@ -35,6 +35,7 @@ const requests = {
   fetchPaymentTossFail: `/payment/toss/fail`,
   fetchItem: `/items`,
   fetchItemUse: `/items/use`,
+  fetchItemUnUse: `/items/unuse`,
   fetchItemOrder: `/items/order`,
 };
 
