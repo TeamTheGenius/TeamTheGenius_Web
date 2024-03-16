@@ -1,6 +1,11 @@
 import { CertificationResult } from "@/components/Common/CertificationResult/CertificationResult";
+import useModal from "@/hooks/useModal";
 import { getIsToday } from "@/utils/getIsToday";
 import { getSlashDate } from "@/utils/getSlashDate";
+import { useState } from "react";
+import CertificationPRLinkModal from "../CertificationModal/CertificationPRLinkModal/CertificationPRLinkModal";
+import { createPortal } from "react-dom";
+import { Modal, ModalLayer } from "@/components/Common/Modal/Modal";
 
 interface Data {
   data: {
@@ -28,17 +33,47 @@ type DayOfWeek =
   | "SATURDAY"
   | "SUNDAY";
 
+interface CertificationModal {
+  prLinks: string[];
+  certificationAttempt: number;
+  certificatedAt: string;
+}
+
 function TotalCertification({ data }: Data) {
+  const { openModal, closeModal, isModalOpened } = useModal();
+  const [modal, setModal] = useState(<></>);
+
   const lastAttempt = data.certifications[data.certifications.length - 1]
     ? data.certifications[data.certifications.length - 1].certificationAttempt
     : 0;
 
-  const onClickSuccessCertification = (prLink: string) => {
-    window.open(prLink);
+  const onClickSuccessCertification = ({
+    prLinks,
+    certificatedAt,
+    certificationAttempt,
+  }: CertificationModal) => {
+    setModal(
+      <CertificationPRLinkModal
+        prLinks={prLinks}
+        certificatedAt={certificatedAt}
+        certificationAttempt={certificationAttempt}
+      />
+    );
+    openModal();
   };
 
   return (
     <>
+      {isModalOpened &&
+        createPortal(
+          <ModalLayer onClick={closeModal}>
+            <Modal.ModalContentBox width="w-[46.2rem]" height="h-[39.5rem]">
+              {modal}
+            </Modal.ModalContentBox>
+          </ModalLayer>,
+          document.body
+        )}
+
       {data.certifications.map((item, index) => {
         const isToday = getIsToday({ date: item.certificatedAt });
         const TODAY_NOT_YET = isToday && item.certificateStatus === "NOT_YET";
@@ -54,10 +89,7 @@ function TotalCertification({ data }: Data) {
 
         if (TODAY_NOT_YET)
           return (
-            <div
-              key={`today_not_yet_${index}`}
-              className="pl-[0.4rem] pr-[0.4rem]"
-            >
+            <div key={`today_not_yet_${index}`} className="mx-auto">
               <CertificationResult>
                 <CertificationResult.ActiveOrdinal
                   content={item.certificationAttempt}
@@ -74,10 +106,7 @@ function TotalCertification({ data }: Data) {
           );
         else if (NOT_TODAY_NOT_YET)
           return (
-            <div
-              key={`not_today_not_yet_${index}`}
-              className="pl-[0.4rem] pr-[0.4rem]"
-            >
+            <div key={`not_today_not_yet_${index}`} className="mx-auto">
               <CertificationResult>
                 <CertificationResult.InActiveOrdinal
                   content={item.certificationAttempt}
@@ -95,16 +124,19 @@ function TotalCertification({ data }: Data) {
           );
         else if (TODAY_CERTIFICATED)
           return (
-            <div
-              key={`today_certificated_${index}`}
-              className="pl-[0.4rem] pr-[0.4rem]"
-            >
+            <div key={`today_certificated_${index}`} className="mx-auto">
               <CertificationResult>
                 <CertificationResult.ActiveOrdinal
                   content={item.certificationAttempt}
                 />
                 <CertificationResult.SuccessWrapper
-                  onClick={() => onClickSuccessCertification(item.prLinks[0])}
+                  onClick={() =>
+                    onClickSuccessCertification({
+                      prLinks: item.prLinks,
+                      certificationAttempt: item.certificationAttempt,
+                      certificatedAt: item.certificatedAt,
+                    })
+                  }
                 >
                   <CertificationResult.SuccessDate
                     content={getSlashDate({
@@ -118,13 +150,19 @@ function TotalCertification({ data }: Data) {
           );
         else if (NOT_TODAY_CERTIFICATED)
           return (
-            <div className="pl-[0.4rem] pr-[0.4rem]">
+            <div className="mx-auto">
               <CertificationResult>
                 <CertificationResult.InActiveOrdinal
                   content={item.certificationAttempt}
                 />
                 <CertificationResult.SuccessWrapper
-                  onClick={() => onClickSuccessCertification(item.prLinks[0])}
+                  onClick={() =>
+                    onClickSuccessCertification({
+                      prLinks: item.prLinks,
+                      certificationAttempt: item.certificationAttempt,
+                      certificatedAt: item.certificatedAt,
+                    })
+                  }
                 >
                   <CertificationResult.SuccessDate
                     content={getSlashDate({
@@ -138,7 +176,7 @@ function TotalCertification({ data }: Data) {
           );
         else if (TODAY_PASSED)
           return (
-            <div className="pl-[0.4rem] pr-[0.4rem]">
+            <div className="mx-auto">
               <CertificationResult>
                 <CertificationResult.ActiveOrdinal
                   content={item.certificationAttempt}
@@ -149,17 +187,19 @@ function TotalCertification({ data }: Data) {
                       date: item.certificatedAt,
                     })}
                   />
+                  <CertificationResult.PassIcon />
                 </CertificationResult.SuccessWrapper>
               </CertificationResult>
             </div>
           );
         else if (NOT_TODAY_PASSED)
           return (
-            <div className="pl-[0.4rem] pr-[0.4rem]">
+            <div className="mx-auto">
               <CertificationResult>
                 <CertificationResult.InActiveOrdinal
                   content={item.certificationAttempt}
                 />
+                <CertificationResult.PassIcon />
                 <CertificationResult.SuccessWrapper />
               </CertificationResult>
             </div>
@@ -168,7 +208,7 @@ function TotalCertification({ data }: Data) {
 
       {[...Array(data.totalAttempts - data.certifications.length)].map(
         (_, index) => (
-          <div className="pl-[0.4rem] pr-[0.4rem]">
+          <div className="mx-auto">
             <CertificationResult>
               <CertificationResult.InActiveOrdinal
                 content={lastAttempt + 1 + index}

@@ -88,7 +88,7 @@ function ReportWrapper({ children }: WrapperProps) {
 
 function SuccessDate({ content }: DateProps) {
   return (
-    <p className="text-[1rem] font-medium text-[#7D7D72] pt-[0.4rem] flex justify-center items-center">
+    <p className="text-[1rem] font-medium text-[#7D7D72] pt-[0.3rem] flex justify-center items-center">
       {content}
     </p>
   );
@@ -96,7 +96,7 @@ function SuccessDate({ content }: DateProps) {
 
 function FailDate({ content }: DateProps) {
   return (
-    <p className="text-[1rem] font-medium text-[#7E6868] pt-[0.4rem] flex justify-center items-center">
+    <p className="text-[1rem] font-medium text-[#7E6868] pt-[0.3rem] flex justify-center items-center">
       {content}
     </p>
   );
@@ -104,12 +104,12 @@ function FailDate({ content }: DateProps) {
 
 function SuccessIcon() {
   return (
-    <div className="mt-[0.1rem] _sm:mt-[-0.5rem] _sm:ml-[0.1rem] flex justify-center items-center">
+    <div className="mt-[0.2rem] _sm:mt-[-0.3rem] _sm:ml-[0.1rem] flex justify-center items-center">
       <img
         src={linkIcon}
         alt="링크 연결 아이콘"
         width={2.5}
-        className="_sm:w-[2.5rem] w-[2.5rem]"
+        className="_sm:w-[2.1rem] w-[2.5rem]"
       />
     </div>
   );
@@ -117,13 +117,23 @@ function SuccessIcon() {
 
 function FailIcon() {
   return (
-    <div className="mt-[0.5rem] _sm:mt-[0.05rem]  flex justify-center items-center">
+    <div className="mt-[0.8rem] _sm:mt-[0.3rem]  flex justify-center items-center">
       <img
         src={failIcon}
         alt="링크 연결 아이콘"
         width={1.3}
-        className="_sm:w-[1.2rem] w-[1.3rem]"
+        className="_sm:w-[1rem] w-[1.3rem]"
       />
+    </div>
+  );
+}
+
+function PassIcon() {
+  return (
+    <div className="mt-[0.2rem] _sm:mt-[-0.25rem] flex justify-center items-center">
+      <p className="text-[1.7rem] _sm:text-[1.5rem] font-medium text-white">
+        P
+      </p>
     </div>
   );
 }
@@ -166,6 +176,7 @@ export const CertificationResult = Object.assign(Main, {
   FailDate: FailDate,
   SuccessIcon: SuccessIcon,
   FailIcon: FailIcon,
+  PassIcon: PassIcon,
   ReportCheckIcon: ReportCheckIcon,
   ReportNotCheckIcon: ReportNotCheckIcon,
 });
