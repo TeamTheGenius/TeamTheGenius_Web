@@ -1,27 +1,28 @@
+import { shopFrameListType, shopPassListDataType } from "@/types/shopType";
 import { instance } from "./axios/axios";
 import requests from "./axios/request";
 
 type postdItemBuyApiType = {
-  itemId?: number;
+  item?: shopFrameListType | shopPassListDataType;
   queryClient: any;
+  completeModal: any;
 };
 const postdItemBuyApi = async ({
-  itemId,
+  item,
   queryClient,
+  completeModal,
 }: postdItemBuyApiType) => {
-  const body = {
-    itemId: itemId,
-  };
-
+  const itemId = item?.itemId;
   await instance
     .post(`${requests.fetchItemOrder}/${itemId}`)
     .then((res) => {
-      console.log("구매성공", res);
-      queryClient.invalidateQueries(["itemAllList"]);
+      completeModal();
+      queryClient.invalidateQueries(["itemPassList"]);
+      queryClient.invalidateQueries(["itemFrameList"]);
+      queryClient.invalidateQueries(["myPageProfile"]);
     })
     .catch((err) => {
-      console.log("구매실패", err.response.data.message);
-      alert(err.response.data.message);
+      throw err;
     });
 };
 

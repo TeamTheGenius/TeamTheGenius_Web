@@ -7,13 +7,14 @@ function ShopFrameItem({ item, buyItem, mountFrameHandle }: shopFrameType) {
   return (
     <div>
       <ShopFrameImg
-        itemId={item.itemId}
+        item={item}
         imgSrc={item.imgSrc}
         buyItem={buyItem}
         equip={item.equipStatus}
       />
       <ShopFrameName name={item.name} />
       <ShopFrameButton
+        itemId={item.itemId}
         mountFrameHandle={mountFrameHandle}
         equip={item.equipStatus}
         cost={item.cost}

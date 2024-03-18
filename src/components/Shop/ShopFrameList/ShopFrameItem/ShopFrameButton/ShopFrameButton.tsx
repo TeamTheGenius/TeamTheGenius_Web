@@ -3,24 +3,28 @@ function ShopFrameButton({
   equip,
   mountFrameHandle,
   cost,
+  itemId,
 }: {
   equip?: string;
-  mountFrameHandle?: () => void;
+  mountFrameHandle: (itemId: number | undefined) => void;
   cost?: number;
+  itemId: number;
 }) {
   return (
-    <div>
-      {equip === "장착중" && (
+    <div className="flex justify-center items-center">
+      {equip === "장착 중" && (
         <button className="bg-white border-2 border-[#ff4356] rounded-[1rem] cursor-default">
           <span className="mx-[0.8rem] my-[0.4rem] font-bold text-[#ff4356] text-[1.2rem]">
             장착중
           </span>
         </button>
       )}
-      {equip === "장착" && (
+      {equip === "장착 가능" && (
         <button
           className="bg-[#ff4356] border-2 border-[#ff4356] rounded-[1rem]"
-          onClick={mountFrameHandle}
+          onClick={() => {
+            mountFrameHandle(itemId);
+          }}
         >
           <span className="mx-[0.8rem] my-[0.4rem] font-bold text-white text-[1.2rem]">
             장착

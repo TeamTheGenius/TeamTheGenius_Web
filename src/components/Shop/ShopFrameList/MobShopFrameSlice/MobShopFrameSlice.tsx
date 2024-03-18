@@ -8,6 +8,7 @@ import ShopFrameItem from "../ShopFrameItem/ShopFrameItem";
 
 const MobShopFrameSlice = ({
   frameData,
+  frameDataState,
   buyItem,
   mountFrameHandle,
 }: shopFrameSliceType) => {
@@ -15,7 +16,7 @@ const MobShopFrameSlice = ({
     <>
       <SubHeader content="프로필 프레임" />
       <Swiper slidesPerView={4} centeredSlides={false} className="mySwiper">
-        {frameData?.map((item: shopFrameListType) => (
+        {frameDataState?.map((item: shopFrameListType) => (
           <SwiperSlide key={item.itemId}>
             <div className="w-full flex flex-col items-center max-w-[9.9rem] mb-[1rem]">
               <ShopFrameItem

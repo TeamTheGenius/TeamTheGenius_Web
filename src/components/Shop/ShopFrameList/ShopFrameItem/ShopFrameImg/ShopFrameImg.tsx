@@ -1,11 +1,13 @@
+import { shopFrameListType } from "@/types/shopType";
+
 type ShopFrameImgProps = {
-  buyItem: (itemId: number | undefined) => void;
+  buyItem: (item: shopFrameListType | undefined) => void;
   imgSrc?: string;
-  itemId?: number;
+  item?: shopFrameListType;
   equip?: string;
 };
 
-function ShopFrameImg({ buyItem, imgSrc, itemId, equip }: ShopFrameImgProps) {
+function ShopFrameImg({ buyItem, imgSrc, item, equip }: ShopFrameImgProps) {
   return (
     <button
       className={`flex justify-center w-full h-[9.9rem] rounded-[0.5rem] mb-[1.1rem] border-[0.1rem] ${
@@ -18,7 +20,7 @@ function ShopFrameImg({ buyItem, imgSrc, itemId, equip }: ShopFrameImgProps) {
           : ""
       }`}
       onClick={() => {
-        buyItem(itemId);
+        buyItem(item);
       }}
     >
       <img src={imgSrc} alt={"프레임"} className="w-11/12 h-11/12" />

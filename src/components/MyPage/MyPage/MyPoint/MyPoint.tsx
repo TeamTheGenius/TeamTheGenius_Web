@@ -7,7 +7,7 @@ import debounce from "lodash/debounce";
 import { PATH } from "@/constants/path";
 
 interface Props {
-  point: number;
+  point?: number;
 }
 
 function MyPoint({ point }: Props) {
