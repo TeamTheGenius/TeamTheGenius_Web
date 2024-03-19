@@ -5,7 +5,7 @@ import { ChangeEvent, useState } from "react";
 import postGithubTokenRegi from "@/apis/postGithubTokenRegi";
 import GitTokenCheckIcon from "../GitPullReqConnect/GitTokenCheckIcon/GitTokenCheckIcon";
 import Label from "../GitPullReqConnect/Label/Label";
-import { useQueryClient } from "react-query";
+import { QueryClient, useQueryClient } from "react-query";
 const GithubTokenInput = ({
   label,
   id,
@@ -19,7 +19,7 @@ const GithubTokenInput = ({
 }: GithubTokenInputType) => {
   const [tokenState, setTokenState] = useState("");
   const [tokenBoolean, setTokenBoolean] = useState(false);
-  const queryClient: any = useQueryClient();
+  const queryClient: QueryClient = useQueryClient();
   const gitTokenCheck = () => {
     postGithubTokenRegi({
       queryClient: queryClient,

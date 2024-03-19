@@ -1,3 +1,4 @@
+import { QueryClient } from "react-query";
 import { multiInstance } from "./axios/axios";
 import requests from "./axios/request";
 
@@ -5,7 +6,7 @@ type postUserInfoEditType = {
   nickName?: string;
   myInfo?: string;
   files?: any;
-  queryClient: any;
+  queryClient: QueryClient;
   setInfoShow: React.Dispatch<React.SetStateAction<number>>;
   setNickCheck: React.Dispatch<React.SetStateAction<string>>;
   setNickName: React.Dispatch<React.SetStateAction<string>>;

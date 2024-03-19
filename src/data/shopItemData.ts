@@ -1,4 +1,4 @@
-export const itemData: any = [
+export const passData: any = [
   {
     id: 1,
     imgSrc: "shopItem1",

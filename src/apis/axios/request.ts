@@ -33,7 +33,10 @@ const requests = {
   fetchCheckNickname: `/signup/check-nickname`,
   fetchPaymentToss: `/payment/toss`,
   fetchPaymentTossFail: `/payment/toss/fail`,
+  fetchItem: `/items`,
   fetchItemUse: `/items/use`,
+  fetchItemUnUse: `/items/unuse`,
+  fetchItemOrder: `/items/order`,
 };
 
 export default requests;
