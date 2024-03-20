@@ -81,7 +81,7 @@ const Shop = () => {
       imgSrc:
         item.itemId === 1
           ? frameImg1
-          : item.itemId === 4
+          : item.itemId === 2
           ? frameImg2
           : item.itemId === 5
           ? frameImg3

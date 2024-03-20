@@ -35,6 +35,7 @@ export const PATH = {
   MY_PAGE_USERINFO_DIT: "/main/my-page/userinfoedit",
 
   MY_PAGE_GITHUB_TOKEN: "/main/my-page/token",
+  MY_PAGE_RECEIPT: "/main/my-page/receipt",
   MY_PAGE_WITHDRAW: "/main/my-page/service-withdraw",
 
   CERTIFICATION: "/certification",
