@@ -1,5 +1,6 @@
 import postJWTApi from "@/apis/postJWTApi";
-import { IDENTIFIER } from "@/constants/localStorageKey";
+import { FRAMEID, IDENTIFIER } from "@/constants/localStorageKey";
+import { PATH } from "@/constants/path";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -13,10 +14,25 @@ const Auth = () => {
 
   const auth = async () => {
     if (identifier) {
-      postJWTApi({ navigate: navigate });
+      postJWTApi()
+        .then((res) => {
+          localStorage.setItem(FRAMEID, res.frameId);
+          navigate(PATH.HOME);
+        })
+        .catch(() => {
+          window.localStorage.removeItem(IDENTIFIER);
+          navigate(PATH.LOGIN);
+        });
     } else if (gitName) {
       localStorage.setItem(IDENTIFIER, gitName);
-      postJWTApi({ navigate: navigate });
+      postJWTApi()
+        .then((res) => {
+          localStorage.setItem(FRAMEID, res.frameId);
+          navigate(PATH.HOME);
+        })
+        .catch(() => {
+          navigate(PATH.LOGIN);
+        });
     }
   };
 

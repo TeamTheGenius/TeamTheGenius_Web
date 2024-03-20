@@ -38,6 +38,7 @@ interface UserData {
   fileResponse: {
     encodedFile: "none" | string;
   };
+  frameId: number;
 }
 
 function OthersAllCurrentCertification() {
@@ -82,6 +83,7 @@ function OthersAllCurrentCertification() {
             alt="프로필 이미지"
             nickName={userProfile.nickname}
             githubId={userProfile.identifier}
+            frameId={userProfile.frameId}
           />
           <div className="mt-[9.2rem] _sm:mt-[4.8rem]">
             <div className="flex justify-center items-center w-full">
