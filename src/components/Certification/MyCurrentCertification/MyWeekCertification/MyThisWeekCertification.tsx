@@ -35,7 +35,7 @@ function MyThisWeekCertification({ data }: Data) {
         <p className="text-[1.4rem] font-medium">이번 주 인증 모아보기</p>
       </div>
       <div className=" mt-[2.3rem] pb-[5rem]">
-        <ThisWeekCertification data={data} />
+        <ThisWeekCertification paddingLeft="pl-[2.5rem] " data={data} />
       </div>
     </>
   );

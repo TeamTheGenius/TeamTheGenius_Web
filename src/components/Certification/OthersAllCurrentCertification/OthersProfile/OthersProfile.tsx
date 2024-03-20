@@ -11,6 +11,7 @@ function OthersProfile({ imgSrc, alt, nickName, githubId }: Props) {
     <Profile>
       <Profile.FlexCol>
         <div className="mb-[1rem]">
+          <Profile.ImageFrame frame="성탄절" frameStyle="인증전체현황_성탄절" />
           <Profile.Image imgSrc={imgSrc} alt={alt} width="w-[13rem]" />
         </div>
         <div className="mb-[0.4rem]">

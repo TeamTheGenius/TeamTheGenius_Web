@@ -18,9 +18,13 @@ function MyProfile() {
   }
   return (
     <>
-      <div className="flex justify-between gap-[1rem] w-full min-h-[12.5rem] _sm:min-h-[10.2rem]">
+      <div className="mt-[1.8rem] flex justify-between gap-[1.7rem] w-full min-h-[12.5rem] _sm:min-h-[10.2rem]">
         <div className="max-w-[10.2rem] w-full">
           <Profile>
+            <Profile.ImageFrame
+              frame="어둠의힘"
+              frameStyle="마이페이지_어둠의힘"
+            />
             <Profile.Image
               imgSrc={makeBase64IncodedImage({
                 uri: data.fileResponse.encodedFile,
