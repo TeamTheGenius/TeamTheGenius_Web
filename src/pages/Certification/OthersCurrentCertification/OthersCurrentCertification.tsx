@@ -96,11 +96,11 @@ function OthersCurrentCertification() {
             </div>
             <ThisWeekCertification data={certifications[index]} />
           </div>
+          {index != othersAllCertificationData.length - 1 && <Line />}
           <div
             ref={ref}
             style={{ height: "10px", background: "transparent" }}
           />
-          {index != othersAllCertificationData.length - 1 && <Line />}
         </div>
       ))}
     </div>
