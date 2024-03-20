@@ -14,7 +14,7 @@ async function postItemEquipApi({
     .then((res) => {
       console.log("아이템 장착 성공", res);
       localStorage.setItem(FRAMEID, res.data.data.itemId);
-      queryClient.invalidateQueries(["itemAllList"]);
+      queryClient.invalidateQueries(["itemFrameList"]);
     })
     .catch((err) => {
       console.log("아이템 장착 실패", err);

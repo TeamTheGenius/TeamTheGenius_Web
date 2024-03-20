@@ -1,18 +1,18 @@
 import Button from "@/components/Common/Button";
 import pointBigIcon from "@/assets/icon/point-big-icon.svg";
 import postdItemBuyApi from "@/apis/postdItemBuyApi";
-import { shopFrameListType, shopPassListDataType } from "@/types/shopType";
+import { shopFrameListType, shopTicketListType } from "@/types/shopType";
 import { cls } from "@/utils/mergeTailwind";
-import ShopPassCount from "../../ShopPassItem/ShopPassItem/ShopPassCount/ShopPassCount";
-import ShopCompletedModal from "../ShopCompletedModal/ShopCompletedModal";
+import ShopCompletedModal from "@/components/Shop/ShopModal/ShopCompletedModal/ShopCompletedModal";
+import ShopTicketCount from "@/components/Shop/ShopTicketList/ShopTicketItem/ShopTicketCount/ShopTicketCount";
 
-interface ShopBuyModalType {
+type ShopBuyModalType = {
   closeModal: () => void;
   setModal: React.Dispatch<React.SetStateAction<React.ReactNode>>;
-  item?: shopFrameListType | shopPassListDataType;
+  item?: shopFrameListType | shopTicketListType;
   queryClient: any;
   mountFrameHandle: (itemId: number | undefined) => void;
-}
+};
 
 function ShopBuyModal({
   item,
@@ -21,11 +21,15 @@ function ShopBuyModal({
   closeModal,
   mountFrameHandle,
 }: ShopBuyModalType) {
+  const isValidCategory = ["CERTIFICATION_PASSER", "POINT_MULTIPLIER"].includes(
+    item?.itemCategory || ""
+  );
   const completeModal = () => {
     setModal(
       <ShopCompletedModal
         mountFrameHandle={mountFrameHandle}
         item={item}
+        isValidCategory={isValidCategory}
         queryClient={queryClient}
         closeModal={closeModal}
       />
@@ -52,6 +56,7 @@ function ShopBuyModal({
         );
       });
   };
+
   const onClickModalBox = (e: React.MouseEvent) => {
     e.stopPropagation();
   };
@@ -60,14 +65,12 @@ function ShopBuyModal({
       onClick={onClickModalBox}
       className={cls(
         `relative overflow-scroll scrollbar-hide bg-white z-[9999] mx-[2.2rem] rounded-[2rem] p-[1.7rem] flex justify-center items-center w-[35.5rem]`,
-        item?.itemCategory === "CERTIFICATION_PASSER"
-          ? "h-[46.1rem]"
-          : "h-[36rem]"
+        isValidCategory ? "h-[46.1rem]" : "h-[36rem]"
       )}
     >
-      {item?.itemCategory === "CERTIFICATION_PASSER" && (
+      {isValidCategory && (
         <div className="absolute right-[1.1rem] top-[1.3rem]">
-          <ShopPassCount item={item} />
+          <ShopTicketCount item={item} />
         </div>
       )}
       <div className="flex flex-col justify-center relative items-center">
@@ -89,11 +92,10 @@ function ShopBuyModal({
             {item?.cost}P
           </span>
         </div>
-        {item?.itemCategory === "CERTIFICATION_PASSER" && (
+        {isValidCategory && (
           <div className="flex w-full max-w-[22.3rem] mb-[5.8rem]">
             <span className="block font-normal text-[#000000] text-[1.4rem]">
-              아이템 사용 시, 챌린지 성공 보상을 2배로 획득할 수 있는
-              아이템입니다. ※데이터 연동 X
+              {item?.details}
             </span>
           </div>
         )}

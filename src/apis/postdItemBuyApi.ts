@@ -1,9 +1,9 @@
-import { shopFrameListType, shopPassListDataType } from "@/types/shopType";
+import { shopFrameListType, shopTicketListType } from "@/types/shopType";
 import { instance } from "./axios/axios";
 import requests from "./axios/request";
 
 type postdItemBuyApiType = {
-  item?: shopFrameListType | shopPassListDataType;
+  item?: shopFrameListType | shopTicketListType;
   queryClient: any;
   completeModal: any;
 };
@@ -18,6 +18,7 @@ const postdItemBuyApi = async ({
     .then((res) => {
       completeModal();
       queryClient.invalidateQueries(["itemPassList"]);
+      queryClient.invalidateQueries(["itemPointList"]);
       queryClient.invalidateQueries(["itemFrameList"]);
       queryClient.invalidateQueries(["myPageProfile"]);
     })

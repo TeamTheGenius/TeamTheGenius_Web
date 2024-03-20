@@ -1,22 +1,21 @@
 import SubHeader from "@/components/Shop/SubHeader/SubHeader";
-import { shopPassListDataType } from "@/types/shopType";
 import React from "react";
-import ShopPassItem from "./ShopPassItem/ShopPassItem";
+import ShopTicketItem from "./ShopTicketItem/ShopTicketItem";
+import { shopTicketListType } from "@/types/shopType";
 type shopItemType = {
-  itemData: shopPassListDataType[];
   buyItem: any;
-  passDataState?: shopPassListDataType[];
+  ticketDataState?: shopTicketListType[];
 };
-const ShopPass = ({ itemData, buyItem, passDataState }: shopItemType) => {
+const ShopTicketList = ({ buyItem, ticketDataState }: shopItemType) => {
   return (
     <>
       <SubHeader content="아이템" />
       <div className="flex flex-wrap w-full">
         <ul className="w-full grid grid-cols-2 gap-[2.5rem] _sm:gap-[1.6rem]">
-          {passDataState?.map((item: shopPassListDataType) => {
+          {ticketDataState?.map((item: shopTicketListType) => {
             return (
               <React.Fragment key={item.itemId}>
-                <ShopPassItem item={item} buyItem={buyItem} />
+                <ShopTicketItem item={item} buyItem={buyItem} />
               </React.Fragment>
             );
           })}
@@ -26,4 +25,4 @@ const ShopPass = ({ itemData, buyItem, passDataState }: shopItemType) => {
   );
 };
 
-export default ShopPass;
+export default ShopTicketList;

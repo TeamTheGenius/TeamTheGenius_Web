@@ -1,9 +1,9 @@
-import { shopFrameListType, shopPassListDataType } from "@/types/shopType";
+import { shopFrameListType, shopTicketListType } from "@/types/shopType";
 
-function ShopPassCount({
+function ShopTicketCount({
   item,
 }: {
-  item?: shopPassListDataType | shopFrameListType;
+  item?: shopTicketListType | shopFrameListType;
 }) {
   return (
     <span className="ml-auto text-[1.4rem] _sm:text-[1.2rem] font-medium text-[#777777] mb-[1.8rem] _sm:mb-[1.5rem]">
@@ -12,4 +12,4 @@ function ShopPassCount({
   );
 }
 
-export default ShopPassCount;
+export default ShopTicketCount;

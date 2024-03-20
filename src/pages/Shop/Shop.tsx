@@ -1,63 +1,75 @@
 import MyPoint from "@/components/MyPage/MyPage/MyPoint/MyPoint";
 import ShopHeader from "@/components/Shop/ShopHeader/ShopHeader";
-import ShopFrame from "@/components/Shop/ShopFrameList/ShopFrame/ShopFrame";
 import MobShopFrameSlice from "@/components/Shop/ShopFrameList/MobShopFrameSlice/MobShopFrameSlice";
 import "@/pages/Shop/swiperCustomStyle.css";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
-import { shopFrameListType, shopPassListDataType } from "@/types/shopType";
+import { shopFrameListType, shopTicketListType } from "@/types/shopType";
 import getItemFrameApi from "@/apis/getItemFrameApi";
 import getItemPassApi from "@/apis/getItemPassApi";
-import getItemAllApi from "@/apis/getItemAllApi";
 import christmasFrame from "@/assets/icon/profile-frame-christmas.svg";
 import powerOfDarkFrame from "@/assets/icon/profile-frame-power-of-dark.svg";
 import pointTwiceItem from "@/assets/image/pass_0.svg";
 import passItem from "@/assets/image/pass_1.svg";
 import postItemEquipApi from "@/apis/postItemEquipApi";
 import postItemUnEquipApi from "@/apis/postItemUnEquipApi";
-import ShopPass from "@/components/Shop/ShopPassItem/ShopPass";
+
 import useModal from "@/hooks/useModal";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import ShopBuyModal from "@/components/Shop/ShopModal/ShopBuyModal/ShopBuyModal";
 import { Data } from "@/types/myProfileData";
 import getMyPageProfile from "@/apis/getMyPageProfile";
+import getItemPointApi from "@/apis/getItemPointApi";
+import ShopFrameList from "@/components/Shop/ShopFrameList/ShopFrameList";
+import ShopTicketList from "@/components/Shop/ShopTicketList/ShopTicketList";
 
 const Shop = () => {
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
   const [frameDataState, setframeDataState] = useState<shopFrameListType[]>();
-  const [passDataState, setPassDataState] = useState<shopPassListDataType[]>();
+  const [ticketDataState, setTicketDataState] =
+    useState<shopTicketListType[]>();
   const [modal, setModal] = useState<React.ReactNode>();
   const { openModal, closeModal, isModalOpened } = useModal();
   const { data: profilePoint } = useQuery<Data>({
     queryKey: ["myPageProfile"],
     queryFn: () => getMyPageProfile(),
   });
-  // shop frame 리스트
+
   const { data: frameData } = useQuery<shopFrameListType[]>({
     queryKey: ["itemFrameList"],
     queryFn: () => getItemFrameApi(),
   });
-  // shop pass 리스트
-  const { data: passData } = useQuery<shopPassListDataType[]>({
+
+  const { data: passData } = useQuery<shopTicketListType[]>({
     queryKey: ["itemPassList"],
     queryFn: () => getItemPassApi(),
   });
-  // shop 모든 리스트
-  const { data: allData } = useQuery<shopFrameListType[]>({
-    queryKey: ["itemAllList"],
-    queryFn: () => getItemAllApi(),
+
+  const { data: pointData } = useQuery<shopTicketListType[]>({
+    queryKey: ["itemPointList"],
+    queryFn: () => getItemPointApi(),
   });
+
   const queryClient = useQueryClient();
 
+  const combinedData = useMemo(() => {
+    if (passData && pointData) {
+      return [...passData, ...pointData];
+    }
+    return [];
+  }, [passData, pointData]);
+
   const mountFrameHandle = async (itemId: number | undefined) => {
-    await postItemUnEquipApi({
-      queryClient: queryClient,
-    });
+    await postItemUnEquipApi({});
     await postItemEquipApi({
       itemId: itemId,
       queryClient: queryClient,
     });
   };
+  const unMountFrameHandle = async (itemId: number | undefined) => {
+    await postItemUnEquipApi({ queryClient: queryClient });
+  };
+
   const buyItem = (item: shopFrameListType | undefined) => {
     setModal(
       <ShopBuyModal
@@ -83,7 +95,7 @@ const Shop = () => {
           ? powerOfDarkFrame
           : "기본 이미지 경로",
     }));
-    const updatedpassData = passData?.map((item) => ({
+    const updatedcombinedData = combinedData?.map((item) => ({
       ...item,
       imgSrc:
         item.itemId === 3
@@ -92,7 +104,7 @@ const Shop = () => {
           ? pointTwiceItem
           : "기본 이미지 경로",
     }));
-    setPassDataState(updatedpassData);
+    setTicketDataState(updatedcombinedData);
     setframeDataState(updatedFrameData);
     const handleResize = () => {
       setViewportWidth(window.innerWidth);
@@ -103,9 +115,9 @@ const Shop = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [frameData, passData]);
+  }, [frameData, combinedData]);
 
-  if (!frameData || !passData || !allData) {
+  if (!frameData || !combinedData) {
     return null;
   }
 
@@ -127,23 +139,24 @@ const Shop = () => {
                 frameDataState={frameDataState}
                 buyItem={buyItem}
                 mountFrameHandle={mountFrameHandle}
+                unMountFrameHandle={unMountFrameHandle}
               />
             </div>
           ) : (
             <div className="w-full max-w-[44.5rem] _sm:max-w-[27.8rem] mt-[2.1rem] mb-[4rem]">
-              <ShopFrame
+              <ShopFrameList
                 frameData={frameData}
                 frameDataState={frameDataState}
                 buyItem={buyItem}
                 mountFrameHandle={mountFrameHandle}
+                unMountFrameHandle={unMountFrameHandle}
               />
             </div>
           )}
           <div className="w-full max-w-[44.5rem] _sm:max-w-[38rem] mt-[2.1rem] mb-[4rem]">
-            <ShopPass
-              itemData={passData}
+            <ShopTicketList
               buyItem={buyItem}
-              passDataState={passDataState}
+              ticketDataState={ticketDataState}
             />
           </div>
         </div>

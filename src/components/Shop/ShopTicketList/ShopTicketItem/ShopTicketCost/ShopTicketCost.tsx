@@ -1,7 +1,7 @@
 import pointBigIcon from "@/assets/icon/point-big-icon.svg";
-import { shopPassListDataType } from "@/types/shopType";
+import { shopTicketListType } from "@/types/shopType";
 
-function ShopPassCost({ item }: { item: shopPassListDataType }) {
+function ShopTicketCost({ item }: { item: shopTicketListType }) {
   return (
     <div className="flex justify-center items-center">
       <img
@@ -16,4 +16,4 @@ function ShopPassCost({ item }: { item: shopPassListDataType }) {
   );
 }
 
-export default ShopPassCost;
+export default ShopTicketCost;
