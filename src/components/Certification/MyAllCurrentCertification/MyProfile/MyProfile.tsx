@@ -1,4 +1,5 @@
 import { Profile } from "@/components/Common/Profile/Profile";
+import { FRAMEID } from "@/constants/localStorageKey";
 
 interface Props {
   imgSrc: string;
@@ -7,11 +8,22 @@ interface Props {
   githubId: string;
 }
 function MyProfile({ imgSrc, alt, nickName, githubId }: Props) {
+  const frameId = localStorage.getItem(FRAMEID);
+  const frame: { [key: string]: "성탄절" | "어둠의힘" } = {
+    1: "성탄절",
+    2: "어둠의힘",
+  };
+
   return (
     <Profile>
       <Profile.FlexCol>
         <div className="mb-[1rem]">
-          <Profile.ImageFrame frame="성탄절" frameStyle="인증전체현황_성탄절" />
+          {frameId && (
+            <Profile.ImageFrame
+              frame={frame[frameId]}
+              frameStyle={`인증전체현황_${frame[frameId]}`}
+            />
+          )}
           <Profile.Image imgSrc={imgSrc} alt={alt} width="w-[13rem]" />
         </div>
         <div className="mb-[0.4rem]">

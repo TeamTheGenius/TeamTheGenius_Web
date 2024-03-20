@@ -14,6 +14,7 @@ interface Data {
   userId: number;
   nickname: string;
   certifications: CertificationData[];
+  frameId: number;
   profile: {
     encodedFile: string;
   };
@@ -88,6 +89,7 @@ function OthersCurrentCertification() {
                 })}
                 alt="프로필 이미지"
                 nickName={item.nickname}
+                frameId={item.frameId}
               />
               <OthersAllCertificationLinkButton
                 userId={item.userId}
