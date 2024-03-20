@@ -9,11 +9,10 @@ import { shopFrameListType, shopPassListDataType } from "@/types/shopType";
 import getItemFrameApi from "@/apis/getItemFrameApi";
 import getItemPassApi from "@/apis/getItemPassApi";
 import getItemAllApi from "@/apis/getItemAllApi";
-import frameImg1 from "@/assets/image/frame_0.svg";
-import frameImg2 from "@/assets/image/frame_1.svg";
-import frameImg3 from "@/assets/image/frame_1.svg";
-import passImg1 from "@/assets/image/pass_0.svg";
-import passImg2 from "@/assets/image/pass_1.svg";
+import christmasFrame from "@/assets/icon/profile-frame-christmas.svg";
+import powerOfDarkFrame from "@/assets/icon/profile-frame-power-of-dark.svg";
+import pointTwiceItem from "@/assets/image/pass_0.svg";
+import passItem from "@/assets/image/pass_1.svg";
 import postItemEquipApi from "@/apis/postItemEquipApi";
 import postItemUnEquipApi from "@/apis/postItemUnEquipApi";
 import ShopPass from "@/components/Shop/ShopPassItem/ShopPass";
@@ -50,12 +49,11 @@ const Shop = () => {
   });
   const queryClient = useQueryClient();
 
-  const mountFrameHandle = (itemId: number | undefined) => {
-    postItemUnEquipApi({
-      itemId: itemId,
+  const mountFrameHandle = async (itemId: number | undefined) => {
+    await postItemUnEquipApi({
       queryClient: queryClient,
     });
-    postItemEquipApi({
+    await postItemEquipApi({
       itemId: itemId,
       queryClient: queryClient,
     });
@@ -80,20 +78,18 @@ const Shop = () => {
       ...item,
       imgSrc:
         item.itemId === 1
-          ? frameImg1
-          : item.itemId === 4
-          ? frameImg2
-          : item.itemId === 5
-          ? frameImg3
+          ? christmasFrame
+          : item.itemId === 2
+          ? powerOfDarkFrame
           : "기본 이미지 경로",
     }));
     const updatedpassData = passData?.map((item) => ({
       ...item,
       imgSrc:
-        item.itemId === 2
-          ? passImg1
-          : item.itemId === 3
-          ? passImg2
+        item.itemId === 3
+          ? passItem
+          : item.itemId === 4
+          ? pointTwiceItem
           : "기본 이미지 경로",
     }));
     setPassDataState(updatedpassData);
