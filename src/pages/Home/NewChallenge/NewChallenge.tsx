@@ -19,7 +19,7 @@ const NewChallenge = () => {
   const [ref, inView] = useInView();
   const [challenges, setChallenges] = useState<Data[]>([]);
 
-  const { fetchNextPage, hasNextPage, data } = useInfiniteQuery({
+  const { fetchNextPage, hasNextPage } = useInfiniteQuery({
     queryKey: ["getLastestChallenges"],
     queryFn: ({ pageParam = 0 }) =>
       getLatestChallenge({ pageParams: pageParam, size: 20 }),
@@ -32,7 +32,7 @@ const NewChallenge = () => {
     },
     cacheTime: 0,
   });
-  console.log(data);
+
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();

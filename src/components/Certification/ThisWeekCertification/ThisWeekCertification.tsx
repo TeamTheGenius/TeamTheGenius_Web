@@ -7,12 +7,14 @@ import useModal from "@/hooks/useModal";
 import { createPortal } from "react-dom";
 import { Modal, ModalLayer } from "@/components/Common/Modal/Modal";
 import CertificationPRLinkModal from "../CertificationModal/CertificationPRLinkModal/CertificationPRLinkModal";
+import { cls } from "@/utils/mergeTailwind";
 
-interface Data {
+interface Props {
   data: {
     userId: number;
     certifications: CertificationData[];
   };
+  paddingLeft?: string;
 }
 
 interface CertificationData {
@@ -44,7 +46,7 @@ interface CertificationModal {
   certificatedAt: string;
 }
 
-function ThisWeekCertification({ data }: Data) {
+function ThisWeekCertification({ data, paddingLeft }: Props) {
   const [clickPossible, setClickPossible] = useState<boolean>(true);
   const { openModal, closeModal, isModalOpened } = useModal();
   const [modal, setModal] = useState(<></>);
@@ -101,7 +103,12 @@ function ThisWeekCertification({ data }: Data) {
         )}
 
       <HorizontalScroll setClickPossible={setClickPossible}>
-        <div className="pl-[2.5rem] _sm:pl-[0.4rem] max-w-[5rem] _sm:max-w-[4rem] flex gap-[1.2rem] _sm:gap-[0.2rem] pb-[0.6rem]">
+        <div
+          className={cls(
+            "_sm:pl-[0.4rem] max-w-[5rem] _sm:max-w-[4rem] flex gap-[1.2rem] _sm:gap-[0.2rem] pb-[0.6rem]",
+            paddingLeft ? paddingLeft : ""
+          )}
+        >
           {[...Array(emptyCount)].map((_, index) => (
             <div key={index} className="pl-[0.4rem] pr-[0.4rem]">
               <CertificationResult>

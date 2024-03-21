@@ -1,3 +1,7 @@
+import christmasFrame from "@/assets/icon/profile-frame-christmas.svg";
+import powerOfDarkFrame from "@/assets/icon/profile-frame-power-of-dark.svg";
+import { cls } from "@/utils/mergeTailwind";
+
 interface ProfileProps {
   children: React.ReactNode;
 }
@@ -24,6 +28,56 @@ interface NickNameProps {
 
 interface IntroduceProps {
   content: string;
+}
+
+interface ImageFrameProps {
+  frame: "성탄절" | "어둠의힘";
+  frameStyle:
+    | "마이페이지_성탄절"
+    | "마이페이지_어둠의힘"
+    | "인증전체현황_성탄절"
+    | "인증전체현황_어둠의힘"
+    | "참가자주간인증현황_성탄절"
+    | "참가자주간인증현황_어둠의힘";
+}
+
+function ImageFrame({ frame, frameStyle }: ImageFrameProps) {
+  const frameImage = {
+    성탄절: christmasFrame,
+    어둠의힘: powerOfDarkFrame,
+  };
+
+  const FrameWidth = {
+    마이페이지_성탄절: "w-[11.9rem]",
+    마이페이지_어둠의힘: "w-[11.9rem]",
+    인증전체현황_성탄절: "w-[14.9rem]",
+    인증전체현황_어둠의힘: "w-[14.9rem]",
+    참가자주간인증현황_성탄절: "w-[5.6rem]",
+    참가자주간인증현황_어둠의힘: "w-[5.6rem]",
+  };
+
+  const framePosition = {
+    마이페이지_성탄절: "-top-[0.8rem] right-[0.8rem]",
+    마이페이지_어둠의힘: "-top-[0.8rem] right-[0.85rem]",
+    인증전체현황_성탄절: "-top-[0.95rem] right-[0.95rem]",
+    인증전체현황_어둠의힘: "-top-[0.8rem] right-[0.95rem]",
+    참가자주간인증현황_성탄절: "-top-[2.8rem] right-[0.36rem]",
+    참가자주간인증현황_어둠의힘: "-top-[2.8rem] right-[0.4rem]",
+  };
+
+  return (
+    <div className={cls("z-10 absolute", FrameWidth[frameStyle])}>
+      <img
+        src={frameImage[frame]}
+        alt="프레임 이미지"
+        className={cls(
+          "absolute rounded-full object-cover",
+          framePosition[frameStyle]
+        )}
+        width={"100%"}
+      />
+    </div>
+  );
 }
 
 function Image({ width, imgSrc, alt }: ImageProps) {
@@ -80,4 +134,5 @@ export const Profile = Object.assign(ProfileMain, {
   GithubId: GithubId,
   NickName: NickName,
   Introduce: Introduce,
+  ImageFrame: ImageFrame,
 });

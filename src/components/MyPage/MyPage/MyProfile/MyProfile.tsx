@@ -6,6 +6,7 @@ import getMyPageProfile from "@/apis/getMyPageProfile";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
 import { Data } from "@/types/myProfileData";
+import { FRAMEID } from "@/constants/localStorageKey";
 
 function MyProfile() {
   const { data } = useQuery<Data>({
@@ -16,11 +17,24 @@ function MyProfile() {
   if (!data) {
     return;
   }
+
+  const frameId = localStorage.getItem(FRAMEID);
+  const frame: { [key: string]: "성탄절" | "어둠의힘" } = {
+    1: "성탄절",
+    2: "어둠의힘",
+  };
+
   return (
     <>
-      <div className="flex justify-between gap-[1rem] w-full min-h-[12.5rem] _sm:min-h-[10.2rem]">
+      <div className="mt-[1.8rem] flex justify-between gap-[1.7rem] w-full min-h-[12.5rem] _sm:min-h-[10.2rem]">
         <div className="max-w-[10.2rem] w-full">
           <Profile>
+            {frameId && (
+              <Profile.ImageFrame
+                frame={frame[frameId]}
+                frameStyle={`마이페이지_${frame[frameId]}`}
+              />
+            )}
             <Profile.Image
               imgSrc={makeBase64IncodedImage({
                 uri: data.fileResponse.encodedFile,

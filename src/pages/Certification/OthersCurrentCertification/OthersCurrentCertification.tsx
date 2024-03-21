@@ -14,6 +14,7 @@ interface Data {
   userId: number;
   nickname: string;
   certifications: CertificationData[];
+  frameId: number;
   profile: {
     encodedFile: string;
   };
@@ -88,6 +89,7 @@ function OthersCurrentCertification() {
                 })}
                 alt="프로필 이미지"
                 nickName={item.nickname}
+                frameId={item.frameId}
               />
               <OthersAllCertificationLinkButton
                 userId={item.userId}
@@ -96,11 +98,11 @@ function OthersCurrentCertification() {
             </div>
             <ThisWeekCertification data={certifications[index]} />
           </div>
+          {index != othersAllCertificationData.length - 1 && <Line />}
           <div
             ref={ref}
             style={{ height: "10px", background: "transparent" }}
           />
-          {index != othersAllCertificationData.length - 1 && <Line />}
         </div>
       ))}
     </div>
