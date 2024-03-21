@@ -15,7 +15,7 @@ const postJWTApi = async () => {
       return res.data.data;
     })
     .catch((err) => {
-      console.log("err", err);
+      throw err;
     });
   return data;
 };

@@ -11,12 +11,10 @@ const deleteChallengeParticipation = ({
   return new Promise<void>((resolve, reject) => {
     acceptInstance
       .delete(`${requests.fetchChallenges}/${instanceId}`)
-      .then((res) => {
-        console.log("참여 취소 성공", res);
+      .then(() => {
         resolve();
       })
       .catch((err) => {
-        console.log("참여취소 실패", err);
         reject(err);
       });
   });

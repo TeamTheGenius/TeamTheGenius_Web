@@ -35,7 +35,7 @@ const postPaymentSuccess = async ({
       }
     })
     .catch((err) => {
-      console.log("err", err);
+      throw err;
     });
 };
 

@@ -5,11 +5,10 @@ const getMyChallengeDone = async () => {
   const data = await acceptInstance
     .get(`${requests.fetchChallengesDone}`)
     .then((res) => {
-      console.log(res.data.dataList);
       return res.data.dataList || [];
     })
     .catch((err) => {
-      console.log("err", err);
+      throw err;
     });
   return data || [];
 };

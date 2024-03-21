@@ -101,8 +101,6 @@ const InstanceListComponent = ({
                             setInstanceList: setInstanceList,
                             pageNumber: pageNumber,
                           });
-                        } else {
-                          console.log("삭제가 취소되었습니다.");
                         }
                       }}
                       content="삭제"

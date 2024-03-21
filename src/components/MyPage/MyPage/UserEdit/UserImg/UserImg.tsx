@@ -17,7 +17,6 @@ function UserInfo({
 }) {
   const [imgPreview, setimgPreview] = useState("");
   const normFile = (e: any) => {
-    console.log("Upload event:", e);
     setImageUrl(e);
     getBase64(e.file.originFileObj as any, (url) => {
       setimgPreview(url);

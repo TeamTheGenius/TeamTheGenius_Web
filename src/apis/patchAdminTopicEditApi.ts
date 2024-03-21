@@ -36,13 +36,12 @@ const patchAdminTopicEditApi = async ({
   await multiInstance
     .patch(`${requests.fetchTopic}/${topicId}`, formData)
     .then((res: AxiosResponse<any, any>) => {
-      console.log("수정응답:", res);
       setTopicEditModalIsOpen(false);
       getAdminTopicListApi({ setAdminList, pageNumber: pageNumber - 1 });
     })
     .catch((err) => {
       alert("생성 실패");
-      console.log("err", err);
+      throw err;
     });
 };
 

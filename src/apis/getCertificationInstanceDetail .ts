@@ -9,11 +9,10 @@ const getCertificationInstanceDetail = async ({ instanceId }: Params) => {
   const data = await acceptInstance
     .get(`${requests.fetchCert}/${instanceId}`)
     .then((res) => {
-      console.log(res.data.data);
       return res.data.data || {};
     })
     .catch((err) => {
-      console.log("err", err);
+      throw err;
     });
   return data || {};
 };

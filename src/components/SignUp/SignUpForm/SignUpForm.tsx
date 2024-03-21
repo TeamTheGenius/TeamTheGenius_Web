@@ -36,9 +36,7 @@ const SignUpForm = () => {
       myInfo: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
-    },
+    onSubmit: (values) => {},
   });
   const handleNickNameChange = (e: any) => {
     formik.handleChange(e);

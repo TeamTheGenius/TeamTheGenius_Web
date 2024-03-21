@@ -39,14 +39,12 @@ const signUpApi = async ({
   await multiInstance
     .post(`${requests.fetchAuthSignup}`, formData)
     .then((res) => {
-      console.log("res", res);
       window.localStorage.setItem(IDENTIFIER, res.data.data.identifier);
-      console.log(window.localStorage.getItem(IDENTIFIER));
       navigate(PATH.AUTH);
     })
     .catch((err) => {
       alert("오류가 발생했습니다.");
-      console.log(err);
+      throw err;
     });
 };
 

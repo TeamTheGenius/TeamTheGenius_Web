@@ -41,11 +41,8 @@ function ShopBuyModal({
       queryClient: queryClient,
       completeModal: completeModal,
     })
-      .then((res) => {
-        console.log("redfdfdfs", res);
-      })
+      .then(() => {})
       .catch((err) => {
-        console.log("err.response.data.message", err);
         setModal(
           <ShopCompletedModal
             mountFrameHandle={mountFrameHandle}
@@ -54,6 +51,7 @@ function ShopBuyModal({
             closeModal={closeModal}
           />
         );
+        throw err;
       });
   };
 

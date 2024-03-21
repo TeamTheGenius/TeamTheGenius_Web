@@ -13,11 +13,9 @@ const postLikeChallenge = async ({ instanceId }: Params) => {
   };
   await instance
     .post(`${requests.fetchLikeChallenge}`, body)
-    .then((res) => {
-      console.log("좋아요 등록 성공", res);
-    })
+    .then(() => {})
     .catch((err) => {
-      console.log("좋아요 등록 에러", err);
+      throw err;
     });
 };
 

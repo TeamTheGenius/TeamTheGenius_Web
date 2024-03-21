@@ -17,14 +17,13 @@ const postInterestEditApi = async ({
   };
   await instance
     .post(`${requests.fetchProfileInterest}`, body)
-    .then((res) => {
-      console.log("관심사 수정 성공", res);
+    .then(() => {
       setEditApiBoolean(true);
       openModal();
     })
     .catch((err) => {
-      console.log("관심사 수정 실패", err);
       setEditApiBoolean(false);
+      throw err;
     });
 };
 

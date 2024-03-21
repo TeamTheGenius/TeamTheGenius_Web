@@ -18,7 +18,6 @@ const InterestCheck = ({
   checkedValues,
 }: InterestCheckType) => {
   const onChange = (check: CheckboxValueType[]) => {
-    console.log("선택된 값:", check);
     setCheckedValues(check);
   };
 

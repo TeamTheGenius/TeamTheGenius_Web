@@ -17,14 +17,13 @@ const getAdminTopicListApi = async ({
     .get(`${requests.fetchTopic}?page=${pageNumber}&size=5`)
     .then((res) => {
       const list = res.data.data;
-      console.log("res", res);
       setAdminList(list.content);
       if (setTotalNumber) {
         setTotalNumber(list.totalElements);
       }
     })
     .catch((err) => {
-      console.log("err", err);
+      throw err;
     });
 };
 

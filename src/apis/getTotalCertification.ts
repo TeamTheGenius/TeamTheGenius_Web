@@ -14,11 +14,10 @@ const getTotalCertification = async ({ instanceId, userId }: Params) => {
       },
     })
     .then((res) => {
-      console.log(res.data);
       return res.data.data || {};
     })
     .catch((err) => {
-      console.log("err", err);
+      throw err;
     });
   return data || {};
 };

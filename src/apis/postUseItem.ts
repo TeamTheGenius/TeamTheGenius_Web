@@ -13,11 +13,8 @@ const postUseItem = async ({ instanceId, itemId }: Params) => {
         instanceId,
       },
     })
-    .then((res) => {
-      console.log("아이템 사용 성공", res);
-    })
+    .then(() => {})
     .catch((err) => {
-      console.log("아이템 사용 실패", err);
       throw err;
     });
 };

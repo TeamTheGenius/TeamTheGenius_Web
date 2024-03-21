@@ -9,11 +9,10 @@ const getMyChallengeDoneReward = async ({ instanceId }: Params) => {
   const data = await axios
     .get(`${requests.fetchChallengesReward}/${instanceId}`)
     .then((res) => {
-      console.log(res.data.data);
       return res.data.data || {};
     })
     .catch((err) => {
-      console.log("err", err);
+      throw err;
     });
   return data || {};
 };

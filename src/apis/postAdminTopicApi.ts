@@ -44,14 +44,13 @@ const postAdminTopicApi = async ({
 
   await multiInstance
     .post(`${requests.fetchTopic}`, formData)
-    .then((res) => {
-      console.log("토픽 생성 응답:", res);
+    .then(() => {
       setModalIsOpen(false);
       getAdminTopicListApi({ setAdminList });
     })
     .catch((err) => {
       alert("생성 실패");
-      console.log("err", err);
+      throw err;
     });
 };
 

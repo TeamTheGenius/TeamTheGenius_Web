@@ -49,7 +49,6 @@ const TopicCreateModal = ({
   };
 
   const topicSubmit = (values: FormDataType) => {
-    console.log("v", values);
     const tagString = values.tags.join();
     postAdminTopicApi({
       setAdminList: setAdminList,
@@ -155,7 +154,6 @@ const FormDesc = () => {
 };
 const FormImg = () => {
   const normFile = (e: any) => {
-    console.log("Upload event:", e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -168,9 +166,6 @@ const FormImg = () => {
       return false;
     },
     onChange(info) {
-      if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList);
-      }
       if (info.file.status === "done") {
         message.success(`${info.file.name} file uploaded successfully`);
       } else if (info.file.status === "error") {

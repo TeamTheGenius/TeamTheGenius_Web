@@ -17,14 +17,13 @@ const getAdminInstanceListApi = async ({
     .get(`${requests.fetchInstance}?page=${pageNumber}&size=5`)
     .then((res) => {
       const listData = res.data.data;
-      console.log("인스턴스 리스트", listData);
       setInstanceList(listData.content);
       if (setTotalNumber) {
         setTotalNumber(listData.totalElements);
       }
     })
     .catch((err) => {
-      console.log("err", err);
+      throw err;
     });
 };
 

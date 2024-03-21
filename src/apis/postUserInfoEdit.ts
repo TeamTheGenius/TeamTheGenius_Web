@@ -39,8 +39,7 @@ const postUserInfoEdit = async ({
 
   await multiInstance
     .post(`${requests.fetchProfileInfo}`, formData)
-    .then((res) => {
-      console.log("응답:", res);
+    .then(() => {
       setNickCheck("");
       setNickName("");
       setInfoShow(0);
@@ -48,7 +47,7 @@ const postUserInfoEdit = async ({
     })
     .catch((err) => {
       alert("생성 실패");
-      console.log("err", err);
+      throw err;
     });
 };
 

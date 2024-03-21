@@ -23,16 +23,15 @@ const postGithubTokenRegi = async ({
 
   await instance
     .post(`${requests.fetchCertRegisterToken}`, body)
-    .then((res) => {
-      console.log("등록성공", res);
+    .then(() => {
       setTokenBoolean(true);
       setGithubBoolean(true);
       queryClient.invalidateQueries(["myPageProfile"]);
     })
     .catch((err) => {
-      console.log("등록실패", err);
       setTokenBoolean(false);
       setTokenState(err.response.data.message);
+      throw err;
     });
 };
 

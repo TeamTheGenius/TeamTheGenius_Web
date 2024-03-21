@@ -5,11 +5,10 @@ const getMyPageProfile = async () => {
   const data = await acceptInstance
     .get(`${requests.fetchProfile}`)
     .then((res) => {
-      console.log(res.data.data);
       return res.data.data || {};
     })
     .catch((err) => {
-      console.log("err", err);
+      throw err;
     });
   return data || {};
 };
