@@ -1,12 +1,12 @@
-import axios from "axios";
 import requests from "./axios/request";
+import { acceptInstance } from "./axios/axios";
 
 interface Params {
   instanceId: number;
 }
 
 const getMyChallengeDoneReward = async ({ instanceId }: Params) => {
-  const data = await axios
+  const data = await acceptInstance
     .get(`${requests.fetchChallengesReward}/${instanceId}`)
     .then((res) => {
       return res.data.data || {};
