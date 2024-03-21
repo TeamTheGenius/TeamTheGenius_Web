@@ -46,6 +46,7 @@ import PreActivitySearch from "./pages/Home/Search/PreActivitySearch/PreActivity
 import ActivitySearch from "./pages/Home/Search/ActivitySearch/ActivitySearch";
 import DoneSearch from "./pages/Home/Search/DoneSearch/DoneSearch";
 import Shop from "./pages/Shop/Shop";
+import Receipt from "./pages/MyPage/Receipt/Receipt";
 
 function App() {
   const queryClient = new QueryClient();
@@ -104,6 +105,7 @@ function App() {
           <Route path={PATH.MY_PAGE_INTEREST_EDIT} element={<InterestEdit />} />
           <Route path={PATH.MY_PAGE_USERINFO_DIT} element={<UserInfoEdit />} />
           <Route path={PATH.MY_PAGE_GITHUB_TOKEN} element={<GithubTokken />} />
+          <Route path={PATH.MY_PAGE_RECEIPT} element={<Receipt />} />
           <Route path={PATH.MY_PAGE_WITHDRAW} element={<ServiceWithdraw />} />
 
           <Route path={PATH.CERTIFICATION} element={<Certification />}>

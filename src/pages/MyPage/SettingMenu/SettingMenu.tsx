@@ -34,6 +34,7 @@ function SettingMenu() {
             content="Github Tokken 등록"
             path={PATH.MY_PAGE_GITHUB_TOKEN}
           />
+          <LinkButton content="결제 내역" path={PATH.MY_PAGE_RECEIPT} />
         </div>
       </div>
 
