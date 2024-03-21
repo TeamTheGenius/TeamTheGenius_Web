@@ -35,7 +35,7 @@ const InterestEdit = () => {
   return (
     <>
       <MobCard>
-        <Header content="관심 목록" />
+        <Header content="관심사 수정" />
         <div className="w-full px-[15.3rem] py-[15.2rem] _sm:px-[2rem] _sm:py-[15.2rem] _md:px-[2rem] _md:py-[11.2rem]">
           <div className="mb-[22rem]">
             <InterestHeader />

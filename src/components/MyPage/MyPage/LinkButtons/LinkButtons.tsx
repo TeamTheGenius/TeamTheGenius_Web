@@ -9,7 +9,7 @@ function LinkButtons() {
         className="flex gap-[1.9rem] items-center"
       >
         <div className="w-[2rem] h-[2rem] bg-[#C6C6C6]" />
-        <p className="text-[1.5rem] font-medium ">관심 목록</p>
+        <p className="text-[1.5rem] font-medium ">좋아요 목록</p>
       </Link>
       <Link
         to={PATH.MY_PAGE_INTEREST_EDIT}
