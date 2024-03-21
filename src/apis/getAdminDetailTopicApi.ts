@@ -18,10 +18,9 @@ const getAdminDetailTopicApi = async ({
       if (setTopicDetail) {
         setTopicDetail(res.data.data);
       }
-      console.log("상세요청", res);
     })
     .catch((err) => {
-      console.log("err", err);
+      throw err;
     });
 };
 

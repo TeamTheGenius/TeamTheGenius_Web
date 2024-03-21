@@ -18,14 +18,13 @@ const getRepoVertifyApi = async ({
     .get(`${requests.fetchCertVerifyRepo}`, {
       params: { repo },
     })
-    .then((res) => {
-      console.log("레포유효성 성공", res);
+    .then(() => {
       setRepoState(selectedValue);
       setRepoBoolean(true);
     })
     .catch((err) => {
-      console.log("레포유효성 에러", err);
       setRepoBoolean(false);
+      throw err;
     });
 
   //

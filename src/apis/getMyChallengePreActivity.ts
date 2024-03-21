@@ -5,11 +5,10 @@ const getMyChallengePreActivity = async () => {
   const data = await acceptInstance
     .get(`${requests.fetchChallengesPreActivity}`)
     .then((res) => {
-      console.log(res.data.dataList);
       return res.data.dataList || [];
     })
     .catch((err) => {
-      console.log("err", err);
+      throw err;
     });
   return data || [];
 };

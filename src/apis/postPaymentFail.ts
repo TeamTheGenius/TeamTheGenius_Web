@@ -13,11 +13,9 @@ const postPaymentFail = async ({ orderId, message }: postPaymentFailType) => {
   };
   await instance
     .post(`${requests.fetchPaymentTossFail}`, body)
-    .then((res) => {
-      console.log("failRes", res);
-    })
+    .then(() => {})
     .catch((err) => {
-      console.log("failErr", err);
+      throw err;
     });
 };
 

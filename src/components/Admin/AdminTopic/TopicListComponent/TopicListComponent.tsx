@@ -106,8 +106,6 @@ const TopicListComponent = ({
                             setAdminList: setAdminList,
                             pageNumber: pageNumber,
                           });
-                        } else {
-                          console.log("삭제가 취소되었습니다.");
                         }
                       }}
                       content="삭제"

@@ -15,7 +15,6 @@ const getLikeChallenges = async ({ pageParams, size }: Params) => {
       },
     })
     .then((res) => {
-      console.log(res.data.data.content);
       const { content } = res.data.data;
       const { last } = res.data.data;
       const { pageNumber } = res.data.data.pageable;

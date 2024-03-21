@@ -54,14 +54,13 @@ const patchAdminInstanceEditApi = async ({
   formData.append("type", "instance");
   await multiInstance
     .patch(`${requests.fetchInstance}/${instanceId}`, formData)
-    .then((res) => {
-      console.log("수정 성공", res);
+    .then(() => {
       setinstanceEditModalIsOpen(false);
       getAdminInstanceListApi({ setInstanceList });
     })
     .catch((err) => {
       alert("수정 실패");
-      console.log("err", err);
+      throw err;
     });
 };
 

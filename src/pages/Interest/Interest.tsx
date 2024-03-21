@@ -42,7 +42,6 @@ const Interest = () => {
   };
 
   const handleSignUp = async () => {
-    console.log(btoa(basicOrangeProfileImage));
     await signUpApi({
       identifier: locationState.gitNickName,
       nickname: locationState.nickName,

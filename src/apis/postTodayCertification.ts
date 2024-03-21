@@ -13,11 +13,9 @@ const postTodayCertification = async ({ instanceId, targetDate }: Params) => {
   };
   await instance
     .post(`${requests.fetchCertToday}`, body)
-    .then((res) => {
-      console.log("인증 갱신 성공", res);
-    })
+    .then(() => {})
     .catch((err) => {
-      console.log("인증 실패", err);
+      throw err;
     });
 };
 

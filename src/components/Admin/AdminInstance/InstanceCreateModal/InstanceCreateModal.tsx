@@ -61,7 +61,7 @@ const InstanceCreateModal = ({
     const formmatEndDate = moment(values.ranger[1].$d).format(
       "YYYY-MM-DDT23:59:59"
     );
-    
+
     let instanceData = {
       setModalIsOpen: setModalIsOpen,
       setInstanceList: setInstanceList,
@@ -80,7 +80,6 @@ const InstanceCreateModal = ({
     if (values.fileResponse) {
       instanceData.instanceImg = values.fileResponse[0]?.originFileObj;
     }
-    console.log("instancesdsd", instanceData);
     postAdminInstanceApi(instanceData);
   };
 
@@ -177,7 +176,6 @@ const FormImg = ({ file }: fileType) => {
   const imageData = `data:image/png;base64,${file?.encodedFile}`;
 
   const normFile = (e: any) => {
-    console.log("Upload event:", e);
     if (Array.isArray(e)) {
       return e;
     }

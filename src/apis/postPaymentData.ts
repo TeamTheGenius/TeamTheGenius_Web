@@ -26,7 +26,6 @@ const postPaymentData = async ({
   await instance
     .post(`${requests.fetchPaymentToss}`, body)
     .then((res) => {
-      console.log("res", res.data.data);
       const payData = res.data.data;
       const paymentWidget = paymentWidgetRef.current;
       paymentWidget?.requestPayment({
@@ -37,7 +36,7 @@ const postPaymentData = async ({
       });
     })
     .catch((err) => {
-      console.log("err", err);
+      throw err;
     });
 };
 

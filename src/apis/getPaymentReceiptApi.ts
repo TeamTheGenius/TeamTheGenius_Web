@@ -5,7 +5,6 @@ const getPaymentReceiptApi = async () => {
   const data = await instance
     .get(`${requests.fetchPaymentReceipt}`)
     .then((res: any) => {
-      console.log("sds", res.data.data);
       return res.data.data.content || {};
     });
   return data || {};

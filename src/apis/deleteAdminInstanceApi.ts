@@ -16,12 +16,11 @@ const deleteAdminInstanceApi = async ({
 }: topicDeleteType) => {
   await instance
     .delete(`${requests.fetchInstance}/${instanceId}`)
-    .then((res) => {
-      console.log("삭제", res);
+    .then(() => {
       getAdminInstanceListApi({ setInstanceList, pageNumber: pageNumber - 1 });
     })
     .catch((err) => {
-      console.log("삭제 실패", err);
+      throw err;
     });
 };
 

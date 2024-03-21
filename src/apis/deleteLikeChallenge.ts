@@ -1,18 +1,16 @@
-import axios from "axios";
 import requests from "./axios/request";
+import { acceptInstance } from "./axios/axios";
 
 interface Params {
   likesId: number;
 }
 
 const deleteLikeChallenge = async ({ likesId }: Params) => {
-  await axios
+  await acceptInstance
     .delete(`${requests.fetchLikeChallenge}/${likesId}`)
-    .then((res) => {
-      console.log("삭제", res);
-    })
+    .then(() => {})
     .catch((err) => {
-      console.log("삭제 실패", err);
+      throw err;
     });
 };
 

@@ -57,14 +57,13 @@ const postAdminInstanceApi = async ({
 
   await multiInstance
     .post(`${requests.fetchInstance}`, formData)
-    .then((res) => {
-      console.log("응답:", res);
+    .then(() => {
       getAdminInstanceListApi({ setInstanceList });
       setModalIsOpen(false);
     })
     .catch((err) => {
       alert("생성 실패");
-      console.log("err", err);
+      throw err;
     });
 };
 

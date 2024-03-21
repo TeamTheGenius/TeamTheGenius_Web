@@ -53,7 +53,6 @@ const GitPullReqConnect = () => {
     queryFn: getUserRepoApi,
     enabled: githubTokenOk === "OK",
   });
-  console.log("githubTokenOk", githubTokenOk);
   return (
     <>
       <MobCard>

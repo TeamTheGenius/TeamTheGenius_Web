@@ -12,12 +12,11 @@ async function postItemEquipApi({
   await instance
     .post(`${requests.fetchItemUse}/${itemId}`)
     .then((res) => {
-      console.log("아이템 장착 성공", res);
       localStorage.setItem(FRAMEID, res.data.data.itemId);
       queryClient.invalidateQueries(["itemFrameList"]);
     })
     .catch((err) => {
-      console.log("아이템 장착 실패", err);
+      throw err;
     });
 }
 export default postItemEquipApi;

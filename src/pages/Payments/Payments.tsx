@@ -26,11 +26,6 @@ const Payments = () => {
     PaymentWidgetInstance["renderPaymentMethods"]
   > | null>(null);
 
-  console.log(
-    "`${window.location.origin}/payments/success`",
-    `${window.location.origin}/payments/success`
-  );
-
   const paymentApi = () => {
     postPaymentData({
       paymentWidgetRef: paymentWidgetRef,

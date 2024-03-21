@@ -24,7 +24,6 @@ const getSearchedChallengeItem = async ({
   keyword,
   progress,
 }: Params) => {
-  console.log(progress);
   const body = {
     keyword: keyword,
     progress: progress,
@@ -37,7 +36,6 @@ const getSearchedChallengeItem = async ({
       },
     })
     .then((res) => {
-      console.log(res.data.data.content);
       const transformedContent = res.data.data.content.map((item: Data) => ({
         ...item,
         title: item.keyword,

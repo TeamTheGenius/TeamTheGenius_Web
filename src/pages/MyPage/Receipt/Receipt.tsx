@@ -23,8 +23,6 @@ const Receipt = () => {
     queryFn: () => getPaymentReceiptApi(),
   });
 
-  console.log("data", data);
-
   const monthlyOrders: MonthlyOrders =
     data?.reduce<MonthlyOrders>((acc, order) => {
       const month = order.orderLocalDate.slice(0, 7);

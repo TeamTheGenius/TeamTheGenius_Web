@@ -18,12 +18,11 @@ const postChallengeRepoRegiApi = async ({
     .post(`${requests.fetchChallenges}/${instanceId}`, " ", {
       params: { repo: repo },
     })
-    .then((res) => {
-      console.log("챌린지 참여 성공", res);
+    .then(() => {
       navigate(PATH.HOME);
     })
     .catch((err) => {
-      console.log("챌린지 참여 에러", err);
+      throw err;
     });
 };
 

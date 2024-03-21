@@ -23,14 +23,13 @@ export const getCheckNicknameApi = async ({
   }
   await axios
     .get(`/api${requests.fetchCheckNickname}`, { params })
-    .then((res) => {
-      console.log("닉네임 체크 성공", res);
+    .then(() => {
       setsignUpBoolean(true);
       setNickCheck("사용 가능한 닉네임입니다.");
     })
     .catch((err) => {
-      console.log("닉네임 체크 실패", err);
       setsignUpBoolean(false);
       setNickCheck("이미 존재하는 닉네임입니다.");
+      throw err;
     });
 };
