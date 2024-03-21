@@ -43,9 +43,13 @@ function TotalCertification({ data }: Data) {
   const { openModal, closeModal, isModalOpened } = useModal();
   const [modal, setModal] = useState(<></>);
 
-  const lastAttempt = data.certifications[data.certifications.length - 1]
+  const LAST_ATTEMPT = data.certifications[data.certifications.length - 1]
     ? data.certifications[data.certifications.length - 1].certificationAttempt
     : 0;
+  const EMPTY_CERTIFICATION_COUNT =
+    data.totalAttempts - data.certifications.length < 0
+      ? 0
+      : data.totalAttempts - data.certifications.length;
 
   const onClickSuccessCertification = ({
     prLinks,
@@ -206,18 +210,16 @@ function TotalCertification({ data }: Data) {
           );
       })}
 
-      {[...Array(data.totalAttempts - data.certifications.length)].map(
-        (_, index) => (
-          <div className="mx-auto">
-            <CertificationResult>
-              <CertificationResult.InActiveOrdinal
-                content={lastAttempt + 1 + index}
-              />
-              <CertificationResult.EmptyWrapper />
-            </CertificationResult>
-          </div>
-        )
-      )}
+      {[...Array(EMPTY_CERTIFICATION_COUNT)].map((_, index) => (
+        <div className="mx-auto">
+          <CertificationResult>
+            <CertificationResult.InActiveOrdinal
+              content={LAST_ATTEMPT + 1 + index}
+            />
+            <CertificationResult.EmptyWrapper />
+          </CertificationResult>
+        </div>
+      ))}
     </>
   );
 }
