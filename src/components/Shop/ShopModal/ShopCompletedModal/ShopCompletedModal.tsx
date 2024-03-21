@@ -1,16 +1,17 @@
-import { shopFrameListType, shopPassListDataType } from "@/types/shopType";
+import { shopFrameListType, shopTicketListType } from "@/types/shopType";
 import { Modal } from "@/components/Common/Modal/Modal";
 import ShopCompleteNonePoint from "./ShopCompleteNonePoint/ShopCompleteNonePoint";
-import ShopCompletePass from "./ShopCompletePass/ShopCompletePass";
 import ShopCompleteFrame from "./ShopCompleteFrame/ShopCompleteFrame";
 import ShopCompleteEquip from "./ShopCompleteEquip/ShopCompleteEquip";
+import ShopCompleteTicket from "./ShopCompleteTicket/ShopCompleteTicket";
 
 type ShopCompletedModalType = {
   err?: string;
   closeModal: () => void;
-  item?: shopFrameListType | shopPassListDataType;
+  item?: shopFrameListType | shopTicketListType;
   queryClient: any;
   mountFrameHandle: (itemId: number | undefined) => void;
+  isValidCategory?: boolean;
 };
 
 function ShopCompletedModal({
@@ -18,6 +19,7 @@ function ShopCompletedModal({
   item,
   err,
   mountFrameHandle,
+  isValidCategory,
 }: ShopCompletedModalType) {
   return (
     <Modal.ModalContentBox width="w-[35.5rem]" height="h-[32.3rem]">
@@ -35,8 +37,8 @@ function ShopCompletedModal({
         {err === "프로필 프레임은 재구매가 불가능 합니다." && (
           <ShopCompleteEquip closeModal={closeModal} />
         )}
-        {item?.itemCategory === "CERTIFICATION_PASSER" && (
-          <ShopCompletePass
+        {isValidCategory && (
+          <ShopCompleteTicket
             closeModal={closeModal}
             item={item}
             mountFrameHandle={mountFrameHandle}

@@ -11,6 +11,7 @@ const MobShopFrameSlice = ({
   frameDataState,
   buyItem,
   mountFrameHandle,
+  unMountFrameHandle,
 }: shopFrameSliceType) => {
   return (
     <>
@@ -23,6 +24,7 @@ const MobShopFrameSlice = ({
                 item={item}
                 buyItem={buyItem}
                 mountFrameHandle={mountFrameHandle}
+                unMountFrameHandle={unMountFrameHandle}
               />
             </div>
           </SwiperSlide>

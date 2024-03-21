@@ -1,13 +1,14 @@
-import SubHeader from "../../SubHeader/SubHeader";
 import React from "react";
 import { shopFrameSliceType, shopFrameListType } from "@/types/shopType";
-import ShopFrameItem from "../ShopFrameItem/ShopFrameItem";
+import ShopFrameItem from "./ShopFrameItem/ShopFrameItem";
+import SubHeader from "../SubHeader/SubHeader";
 
-const ShopFrame = ({
+const ShopFrameList = ({
   frameData,
   buyItem,
   mountFrameHandle,
   frameDataState,
+  unMountFrameHandle,
 }: shopFrameSliceType) => {
   return (
     <>
@@ -22,6 +23,7 @@ const ShopFrame = ({
                     item={item}
                     buyItem={buyItem}
                     mountFrameHandle={mountFrameHandle}
+                    unMountFrameHandle={unMountFrameHandle}
                   />
                 </li>
               </React.Fragment>
@@ -33,4 +35,4 @@ const ShopFrame = ({
   );
 };
 
-export default ShopFrame;
+export default ShopFrameList;

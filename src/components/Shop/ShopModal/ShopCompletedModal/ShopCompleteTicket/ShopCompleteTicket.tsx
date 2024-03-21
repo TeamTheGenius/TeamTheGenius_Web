@@ -2,19 +2,14 @@ import Button from "@/components/Common/Button";
 import { shopFrameListType } from "@/types/shopType";
 import { breakLine } from "@/utils/breakLine";
 
-type ShopCompletePassType = {
+type ShopCompleteTicketType = {
   closeModal: () => void;
   item?: shopFrameListType;
   mountFrameHandle: (itemId: number | undefined) => void;
 };
 
-function ShopCompletePass({
-  closeModal,
-  item,
-  mountFrameHandle,
-}: ShopCompletePassType) {
+function ShopCompleteTicket({ closeModal, item }: ShopCompleteTicketType) {
   const completeHandle = () => {
-    mountFrameHandle(item?.itemId);
     closeModal();
   };
   return (
@@ -36,4 +31,4 @@ function ShopCompletePass({
   );
 }
 
-export default ShopCompletePass;
+export default ShopCompleteTicket;
