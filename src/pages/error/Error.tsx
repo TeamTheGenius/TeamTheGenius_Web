@@ -2,14 +2,16 @@ import ErrorHeader from "@/components/Error/ErrorHeader/ErrorHeader";
 import Button from "@/components/Common/Button";
 import MobCard from "@/components/Common/MobCard";
 import "@/pages/Error/errorStyle.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 export type ErrorHeaderType = {
   errNum?: number;
   errorTxt?: string;
 };
-
-const Error = ({ errNum, errorTxt }: ErrorHeaderType) => {
+const Error = () => {
+  const location = useLocation();
   const navigate = useNavigate();
+
+  const { errNum, errorTxt }: ErrorHeaderType = location.state || {};
 
   const back = () => {
     navigate(-1);
