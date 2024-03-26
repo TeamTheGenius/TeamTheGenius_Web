@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 
 type MyChallengeLinkWrapType = {
-  instanceId: number;
+  instanceId: string;
   children: ReactNode;
 };
 

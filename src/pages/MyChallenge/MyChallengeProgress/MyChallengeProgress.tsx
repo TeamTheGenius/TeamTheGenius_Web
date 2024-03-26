@@ -14,6 +14,7 @@ import { useState } from "react";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import { getToday } from "@/utils/getToday";
 import CertificationPassModal from "@/components/Main/MyChallenge/MyChallengeModal/CertificationPassModal/CertificationPassModal";
+import { encrypt } from "@/hooks/useCrypto";
 
 interface Data {
   instanceId: number;
@@ -95,9 +96,10 @@ const MyChallengeProgress = () => {
 
       <MyChallengeWrap>
         {data.map((item, index) => {
+          const encrpytInstanceId = encrypt(item.instanceId);
           return (
             <li key={index} className=" mb-[1.3rem] list-none">
-              <MyChallengeLinkWrap instanceId={item.instanceId}>
+              <MyChallengeLinkWrap instanceId={encrpytInstanceId}>
                 <div className="min-w-[16.4rem] w-[16.4rem]">
                   <ChallengeItem>
                     <ChallengeItem.Image

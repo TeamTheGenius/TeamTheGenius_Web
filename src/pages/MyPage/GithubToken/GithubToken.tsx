@@ -5,7 +5,7 @@ import "@/pages/MyPage/GithubToken/githubTokenStyle.css";
 import Button from "@/components/Common/Button";
 import { useNavigate } from "react-router-dom";
 import MobCard from "@/components/Common/MobCard";
-const GithubTokken = () => {
+const GithubToken = () => {
   const [githubBoolean, setGithubBoolean] = useState(false);
   const [nickName, setNickName] = useState("");
 
@@ -48,4 +48,4 @@ const GithubTokken = () => {
   );
 };
 
-export default GithubTokken;
+export default GithubToken;

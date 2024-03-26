@@ -10,6 +10,7 @@ import getInstanceDetail from "@/apis/getInstanceDetail";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
 import ParticipationCancelButton from "@/components/ChallengeDetail/ParticipationCancelButton/ParticipationCancelButton";
+import { decrypt } from "@/hooks/useCrypto";
 
 interface Data {
   instanceId: number;
@@ -40,16 +41,16 @@ interface File {
 
 function ChallengeDetail() {
   const { id } = useParams();
-
+  const decryptId = decrypt(id);
   const { data, refetch } = useQuery<Data>({
-    queryKey: ["instanceDetail", { id }],
+    queryKey: ["instanceDetail", { decryptId }],
     queryFn: () =>
-      id
-        ? getInstanceDetail({ instanceId: parseInt(id) })
+      decryptId
+        ? getInstanceDetail({ instanceId: parseInt(decryptId) })
         : Promise.resolve(null),
   });
 
-  if (!id) return;
+  if (!decryptId) return;
   if (!data) return;
 
   const PARTICIPATION_YET =
@@ -95,7 +96,7 @@ function ChallengeDetail() {
         <div className="max-w-[54.6rem] w-full z-10 fixed bottom-0">
           {PARTICIPATION_COMPLETE && (
             <ParticipationCancelButton
-              instanceId={parseInt(id)}
+              instanceId={parseInt(decryptId)}
               refetch={refetch}
               title={data.title}
             />
@@ -106,7 +107,7 @@ function ChallengeDetail() {
               isHearted={data.likesInfo.isLiked}
               likesId={data.likesInfo.likesId}
               heartCount={data.likesInfo.likesCount}
-              instanceId={data.instanceId}
+              instanceId={decryptId}
             />
             {(CHALLENGE_FINISHED && <Bottom.Button status="챌린지종료" />) ||
               (PARTICIPATION_YET && <Bottom.Button status="참가하기" />) ||

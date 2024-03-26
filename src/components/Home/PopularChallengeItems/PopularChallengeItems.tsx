@@ -8,6 +8,7 @@ import getPopularChallenge from "@/apis/getPopularChallenge";
 import { useState } from "react";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
+import { encrypt } from "@/hooks/useCrypto";
 
 interface Post {
   instanceId: number;
@@ -30,7 +31,8 @@ function PopularChallengeItems() {
 
   const onClick = (id: number, clickPossible: boolean) => {
     if (clickPossible) {
-      navigate(`${PATH.CHALLENGE_DETAIL}/${id}`);
+      const encryptId = encrypt(id);
+      navigate(`${PATH.CHALLENGE_DETAIL}/${encryptId}`);
     }
   };
 

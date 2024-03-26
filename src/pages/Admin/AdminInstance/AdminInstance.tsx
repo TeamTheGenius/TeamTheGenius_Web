@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import getAdminInstanceListApi from "@/apis/getAdminInstanceListApi";
 import { instanceListDataType, topicDeteilType } from "@/types/adminType";
+import { decrypt } from "@/hooks/useCrypto";
 
 const AdminInstance = () => {
   const [instanceModalIsOpen, setInstanceModalIsOpen] =
@@ -26,9 +27,11 @@ const AdminInstance = () => {
     });
   };
   const topicId = location.state.topicId;
+  const decryptTopicId = decrypt(topicId);
+
   useEffect(() => {
     getAdminDetailTopicApi({
-      topicId: topicId,
+      topicId: decryptTopicId,
       setTopicDetail: setTopicDetail,
     });
     getAdminInstanceListApi({
@@ -66,7 +69,7 @@ const AdminInstance = () => {
           setModalIsOpen={setInstanceModalIsOpen}
           ModalIsOpen={instanceModalIsOpen}
           topicDetail={topicDetail}
-          topicId={topicId}
+          topicId={decryptTopicId}
         />
       )}
     </>

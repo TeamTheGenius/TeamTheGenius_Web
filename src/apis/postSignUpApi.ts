@@ -3,6 +3,7 @@ import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { IDENTIFIER } from "@/constants/localStorageKey";
 import requests from "./axios/request";
 import { multiInstance } from "./axios/axios";
+import { encrypt } from "@/hooks/useCrypto";
 type SignUpApiParams = {
   identifier: string;
   nickname: string;
@@ -39,7 +40,8 @@ const signUpApi = async ({
   await multiInstance
     .post(`${requests.fetchAuthSignup}`, formData)
     .then((res) => {
-      window.localStorage.setItem(IDENTIFIER, res.data.data.identifier);
+      const identifier = res.data.data.identifier;
+      localStorage.setItem(IDENTIFIER, encrypt(identifier));
       navigate(PATH.AUTH);
     })
     .catch((err) => {
