@@ -5,10 +5,13 @@ import CreateBtn from "@/components/Admin/CreateBtn/CreateBtn";
 import Title from "@/components/Admin/Title/Title";
 import { Pagination } from "antd";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import getAdminInstanceListApi from "@/apis/getAdminInstanceListApi";
 import { instanceListDataType, topicDeteilType } from "@/types/adminType";
 import { decrypt } from "@/hooks/useCrypto";
+import postJWTApi from "@/apis/postJWTApi";
+import { PATH } from "@/constants/path";
+
 
 const AdminInstance = () => {
   const [instanceModalIsOpen, setInstanceModalIsOpen] =
@@ -18,6 +21,7 @@ const AdminInstance = () => {
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [totalNumber, setTotalNumber] = useState<number>(0);
   const location = useLocation();
+  const navigate = useNavigate();
   const handlePageChange = (page: number) => {
     setPageNumber(page);
     getAdminInstanceListApi({
@@ -26,10 +30,23 @@ const AdminInstance = () => {
       setTotalNumber,
     });
   };
+
   const topicId = location.state.topicId;
   const decryptTopicId = decrypt(topicId);
 
+
   useEffect(() => {
+    postJWTApi()
+      .then((res) => {
+        if (res.role !== "ADMIN") {
+          navigate(PATH.ERROR, {
+            state: { errNum: 403, errorTxt: "접근 권한이 없습니다." },
+          });
+        }
+      })
+      .catch(() => {
+        navigate(PATH.LOGIN);
+      });
     getAdminDetailTopicApi({
       topicId: decryptTopicId,
       setTopicDetail: setTopicDetail,

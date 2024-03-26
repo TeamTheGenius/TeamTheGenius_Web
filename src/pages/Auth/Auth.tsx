@@ -22,7 +22,12 @@ const Auth = () => {
           if (res.frameId) {
             localStorage.setItem(FRAMEID, encrypt(res.frameId));
           }
-          navigate(PATH.HOME);
+          localStorage.setItem(FRAMEID, res.frameId);
+          if (res.role === "ADMIN") {
+            navigate(PATH.ADMIN);
+          } else {
+            navigate(PATH.HOME);
+          }
         })
         .catch(() => {
           window.localStorage.removeItem(IDENTIFIER);
@@ -35,10 +40,15 @@ const Auth = () => {
           if (res.frameId) {
             localStorage.setItem(FRAMEID, encrypt(res.frameId));
           }
-          navigate(PATH.LOGIN);
+          localStorage.setItem(FRAMEID, res.frameId);
+          if (res.role === "ADMIN") {
+            navigate(PATH.ADMIN);
+          } else {
+            navigate(PATH.HOME);
+          }
         })
         .catch(() => {
-          navigate(PATH.HOME);
+          navigate(PATH.ERROR);
         });
     }
   };
