@@ -17,7 +17,11 @@ const Auth = () => {
       postJWTApi()
         .then((res) => {
           localStorage.setItem(FRAMEID, res.frameId);
-          navigate(PATH.HOME);
+          if (res.role === "ADMIN") {
+            navigate(PATH.ADMIN);
+          } else {
+            navigate(PATH.HOME);
+          }
         })
         .catch(() => {
           window.localStorage.removeItem(IDENTIFIER);
@@ -28,7 +32,11 @@ const Auth = () => {
       postJWTApi()
         .then((res) => {
           localStorage.setItem(FRAMEID, res.frameId);
-          navigate(PATH.HOME);
+          if (res.role === "ADMIN") {
+            navigate(PATH.ADMIN);
+          } else {
+            navigate(PATH.HOME);
+          }
         })
         .catch(() => {
           navigate(PATH.LOGIN);

@@ -10,8 +10,9 @@ import {
   topicDeteilType,
   topicListType,
 } from "@/types/adminType";
-import Loading from "@/components/common/Loading/Loading";
+
 import TopicTitle from "./TopicTitle/TopicTitle";
+import Loading from "@/components/Common/Loading/Loading";
 
 type adminProps = {
   pageNumber: number;

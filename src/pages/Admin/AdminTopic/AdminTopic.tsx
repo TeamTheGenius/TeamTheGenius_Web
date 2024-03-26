@@ -6,12 +6,17 @@ import { useEffect, useState } from "react";
 import { Pagination } from "antd";
 import getAdminTopicListApi from "@/apis/getAdminTopicListApi";
 import { adminTopicDataType } from "@/types/adminType";
+import postJWTApi from "@/apis/postJWTApi";
+import { useNavigate } from "react-router-dom";
+import { PATH } from "@/constants/path";
 
 const AdminTopic = () => {
   const [topicModalIsOpen, setTopicModalIsOpen] = useState<boolean>(false);
   const [adminList, setAdminList] = useState<adminTopicDataType[]>([]);
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [totalNumber, setTotalNumber] = useState<number>(0);
+  const navigate = useNavigate();
+
   const handlePageChange = (page: number) => {
     setPageNumber(page);
     getAdminTopicListApi({
@@ -20,7 +25,19 @@ const AdminTopic = () => {
       setTotalNumber,
     });
   };
+
   useEffect(() => {
+    postJWTApi()
+      .then((res) => {
+        if (res.role !== "ADMIN") {
+          navigate(PATH.ERROR, {
+            state: { errNum: 403, errorTxt: "접근 권한이 없습니다." },
+          });
+        }
+      })
+      .catch(() => {
+        navigate(PATH.LOGIN);
+      });
     getAdminTopicListApi({
       setAdminList,
       pageNumber,

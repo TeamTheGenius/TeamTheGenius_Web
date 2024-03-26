@@ -1,5 +1,6 @@
 import postAdminTopicApi from "@/apis/postAdminTopicApi";
-import Loading from "@/components/common/Loading/Loading";
+import Loading from "@/components/Common/Loading/Loading";
+
 import { adminTopicDataType } from "@/types/adminType";
 import { adminmodalCard } from "@/utils/modalCard";
 import { UploadOutlined } from "@ant-design/icons";
