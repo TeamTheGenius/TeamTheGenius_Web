@@ -46,8 +46,8 @@ const GithubTokenInput = ({
       <div className="flex items-end justify-center pt-[2.5rem]">
         <div className="w-8/12 _md:w-full _sm:w-full relative pr-[1.1rem]">
           {githubTokenOk === "OK" ? (
-            <span className="githubtoken-placeholder focus:border-black w-full text-[1.3rem] outline-none relative">
-              깃허브 토큰이 등록되어있습니다.
+            <span className="githubtoken-placeholder focus:border-black w-full text-[1.3rem] outline-none relative text-[#4C7CF6]">
+              등록 완료 되었습니다.
             </span>
           ) : (
             <input
