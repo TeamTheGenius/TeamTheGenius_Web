@@ -13,6 +13,7 @@ import BottomButton from "@/components/Common/BottomButton/BottomButton";
 import postChallengeRepoRegiApi from "@/apis/postChallengeRepoRegiApi";
 import getGithubTokenApi from "@/apis/getGithubTokenApi";
 import { useQuery } from "react-query";
+import { decrypt } from "@/hooks/useCrypto";
 
 const GitPullReqConnect = () => {
   const [githubBoolean, setGithubBoolean] = useState(false);
@@ -24,6 +25,7 @@ const GitPullReqConnect = () => {
   const navigate = useNavigate();
   const param = useParams();
   const paramNumber = param.id;
+  const decryptNumber = decrypt(paramNumber);
   const handleNickNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNickName(e.target.value);
   };
@@ -35,7 +37,7 @@ const GitPullReqConnect = () => {
   const challengeRegiHandle = () => {
     postChallengeRepoRegiApi({
       navigate: navigate,
-      instanceId: paramNumber,
+      instanceId: decryptNumber,
       repo: repoState,
     });
   };

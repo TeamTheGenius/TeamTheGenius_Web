@@ -10,9 +10,9 @@ import {
   topicDeteilType,
   topicListType,
 } from "@/types/adminType";
-
-import TopicTitle from "./TopicTitle/TopicTitle";
 import Loading from "@/components/Common/Loading/Loading";
+import TopicTitle from "./TopicTitle/TopicTitle";
+import { encrypt } from "@/hooks/useCrypto";
 
 type adminProps = {
   pageNumber: number;
@@ -55,9 +55,11 @@ const TopicListComponent = ({
             {adminList?.map((item: adminTopicDataType) => {
               const imageData = `data:image/png;base64,${item.fileResponse.encodedFile}`;
               const InstanceLink = (i: number) => {
-                navigate(`${PATH.ADMIN_INSTANCE}/${i}`, {
+                const cryptoNumber = encrypt(i);
+                const topicCryptoId = encrypt(item.topicId);
+                navigate(`${PATH.ADMIN_INSTANCE}/${cryptoNumber}`, {
                   state: {
-                    topicId: item.topicId,
+                    topicId: topicCryptoId,
                   },
                 });
               };

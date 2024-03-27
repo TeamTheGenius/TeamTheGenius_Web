@@ -1,6 +1,7 @@
 import { FRAMEID } from "@/constants/localStorageKey";
 import { instance } from "./axios/axios";
 import requests from "./axios/request";
+import { encrypt } from "@/hooks/useCrypto";
 
 async function postItemEquipApi({
   itemId,
@@ -12,7 +13,7 @@ async function postItemEquipApi({
   await instance
     .post(`${requests.fetchItemUse}/${itemId}`)
     .then((res) => {
-      localStorage.setItem(FRAMEID, res.data.data.itemId);
+      localStorage.setItem(FRAMEID, encrypt(res.data.data.itemId));
       queryClient.invalidateQueries(["itemFrameList"]);
     })
     .catch((err) => {

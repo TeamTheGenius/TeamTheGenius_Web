@@ -34,7 +34,7 @@ import SignUp from "./pages/SignUp/SignUp";
 import Payments from "./pages/Payments/Payments";
 import { Fail } from "./pages/Payments/Fail/Fail";
 import Success from "./pages/Payments/Success/Success";
-import GithubTokken from "./pages/MyPage/GithubToken/GithubToken";
+import GithubToken from "./pages/MyPage/GithubToken/GithubToken";
 import GitPullReqConnect from "./pages/ChallengeDetail/GitPullReqConnect/GitPullReqConnect";
 import ServiceWithdraw from "./pages/MyPage/ServiceWithdraw/ServiceWithdraw";
 import Report from "./pages/Certification/Report/Report";
@@ -104,7 +104,7 @@ function App() {
           <Route path={PATH.MY_PAGE_SETTING_MENU} element={<SettingMenu />} />
           <Route path={PATH.MY_PAGE_INTEREST_EDIT} element={<InterestEdit />} />
           <Route path={PATH.MY_PAGE_USERINFO_DIT} element={<UserInfoEdit />} />
-          <Route path={PATH.MY_PAGE_GITHUB_TOKEN} element={<GithubTokken />} />
+          <Route path={PATH.MY_PAGE_GITHUB_TOKEN} element={<GithubToken />} />
           <Route path={PATH.MY_PAGE_RECEIPT} element={<Receipt />} />
           <Route path={PATH.MY_PAGE_WITHDRAW} element={<ServiceWithdraw />} />
 

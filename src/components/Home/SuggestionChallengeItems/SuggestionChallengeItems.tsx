@@ -8,6 +8,7 @@ import getRecommendedChallenge from "@/apis/getRecommendedChallenge";
 import { useState } from "react";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
+import { encrypt } from "@/hooks/useCrypto";
 
 interface Post {
   instanceId: number;
@@ -33,7 +34,8 @@ function SuggestionChallengeItems() {
 
   const onClick = (id: number, clickPossible: boolean) => {
     if (clickPossible) {
-      navigate(`${PATH.CHALLENGE_DETAIL}/${id}`);
+      const encryptId = encrypt(id);
+      navigate(`${PATH.CHALLENGE_DETAIL}/${encryptId}`);
     }
   };
 

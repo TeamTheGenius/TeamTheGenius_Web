@@ -7,6 +7,7 @@ import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
 import { Data } from "@/types/myProfileData";
 import { FRAMEID } from "@/constants/localStorageKey";
+import { decrypt } from "@/hooks/useCrypto";
 
 function MyProfile() {
   const { data } = useQuery<Data>({
@@ -18,7 +19,8 @@ function MyProfile() {
     return;
   }
 
-  const frameId = localStorage.getItem(FRAMEID);
+  const frameGet = localStorage.getItem(FRAMEID);
+  const frameId = decrypt(frameGet);
   const frame: { [key: string]: "성탄절" | "어둠의힘" } = {
     1: "성탄절",
     2: "어둠의힘",

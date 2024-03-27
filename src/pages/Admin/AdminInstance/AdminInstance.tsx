@@ -8,8 +8,10 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import getAdminInstanceListApi from "@/apis/getAdminInstanceListApi";
 import { instanceListDataType, topicDeteilType } from "@/types/adminType";
+import { decrypt } from "@/hooks/useCrypto";
 import postJWTApi from "@/apis/postJWTApi";
 import { PATH } from "@/constants/path";
+
 
 const AdminInstance = () => {
   const [instanceModalIsOpen, setInstanceModalIsOpen] =
@@ -30,6 +32,8 @@ const AdminInstance = () => {
   };
 
   const topicId = location.state.topicId;
+  const decryptTopicId = decrypt(topicId);
+
 
   useEffect(() => {
     postJWTApi()
@@ -44,7 +48,7 @@ const AdminInstance = () => {
         navigate(PATH.LOGIN);
       });
     getAdminDetailTopicApi({
-      topicId: topicId,
+      topicId: decryptTopicId,
       setTopicDetail: setTopicDetail,
     });
     getAdminInstanceListApi({
@@ -82,7 +86,7 @@ const AdminInstance = () => {
           setModalIsOpen={setInstanceModalIsOpen}
           ModalIsOpen={instanceModalIsOpen}
           topicDetail={topicDetail}
-          topicId={topicId}
+          topicId={decryptTopicId}
         />
       )}
     </>

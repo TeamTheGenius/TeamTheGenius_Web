@@ -6,6 +6,7 @@ import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import getMyChallengePreActivity from "@/apis/getMyChallengePreActivity";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
+import { encrypt } from "@/hooks/useCrypto";
 
 interface Data {
   instanceId: number;
@@ -34,9 +35,10 @@ const MyChallengeStart = () => {
     <>
       <MyChallengeWrap>
         {data.map((item, index) => {
+          const encrpytInstanceId = encrypt(item.instanceId);
           return (
             <li key={index} className="mb-[1.3rem] list-none">
-              <MyChallengeLinkWrap key={index} instanceId={item.instanceId}>
+              <MyChallengeLinkWrap key={index} instanceId={encrpytInstanceId}>
                 <div className="min-w-[16.4rem] w-[16.4rem] h-[12.6rem]">
                   <ChallengeItem>
                     <ChallengeItem.Image

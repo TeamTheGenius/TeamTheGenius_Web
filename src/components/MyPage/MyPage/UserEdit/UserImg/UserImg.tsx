@@ -5,6 +5,8 @@ import userImage from "@/assets/icon/image-edit.svg";
 import { Data } from "@/types/myProfileData";
 import { useState } from "react";
 import React from "react";
+import { FRAMEID } from "@/constants/localStorageKey";
+import { decrypt } from "@/hooks/useCrypto";
 
 function UserInfo({
   data,
@@ -16,6 +18,12 @@ function UserInfo({
   imageUrl: string;
 }) {
   const [imgPreview, setimgPreview] = useState("");
+  const frameGet = localStorage.getItem(FRAMEID);
+  const frameId = decrypt(frameGet);
+  const frame: { [key: string]: "성탄절" | "어둠의힘" } = {
+    1: "성탄절",
+    2: "어둠의힘",
+  };
   const normFile = (e: any) => {
     setImageUrl(e);
     getBase64(e.file.originFileObj as any, (url) => {
@@ -58,6 +66,12 @@ function UserInfo({
         >
           {imageUrl ? (
             <Profile>
+              {frameId && (
+                <Profile.ImageFrame
+                  frame={frame[frameId]}
+                  frameStyle={`마이페이지_${frame[frameId]}`}
+                />
+              )}
               <Profile.Image
                 imgSrc={imgPreview}
                 alt="프로필 이미지"
@@ -66,11 +80,17 @@ function UserInfo({
               <img
                 src={userImage}
                 alt="이미지 수정 아이콘"
-                className="absolute right-0 bottom-0"
+                className="absolute right-0 bottom-0 z-50"
               />
             </Profile>
           ) : (
             <Profile>
+              {frameId && (
+                <Profile.ImageFrame
+                  frame={frame[frameId]}
+                  frameStyle={`마이페이지_${frame[frameId]}`}
+                />
+              )}
               <Profile.Image
                 imgSrc={makeBase64IncodedImage({
                   uri: data?.fileResponse.encodedFile,
@@ -82,7 +102,7 @@ function UserInfo({
               <img
                 src={userImage}
                 alt="이미지 수정 아이콘"
-                className="absolute right-0 bottom-0"
+                className="absolute right-0 bottom-0 z-50"
               />
             </Profile>
           )}

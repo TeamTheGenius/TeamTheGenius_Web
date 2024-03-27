@@ -28,6 +28,7 @@ function BottomHeart({
   instanceId,
 }: HeartProps) {
   const onClick = () => {
+    console.log("instanceId", instanceId);
     if (isHearted) {
       deleteLikeChallenge({ likesId: likesId })
         .then(() => {

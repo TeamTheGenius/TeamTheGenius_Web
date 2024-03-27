@@ -60,18 +60,14 @@ const GithubTokenInput = ({
               onChange={inputChange}
             />
           )}
-          {tokenBoolean === false ? (
+          {tokenBoolean !== false ? (
             <>
               <div className="text-[#ff4356] font-[1.2rem] absolute right-[1rem]">
                 {tokenState}
               </div>
             </>
           ) : (
-            <>
-              <div className="text-[#4C7CF6] font-[1.2rem] absolute right-[1rem]">
-                등록 완료 되었습니다
-              </div>
-            </>
+            <></>
           )}
         </div>
         {githubTokenOk === "OK" ? (
