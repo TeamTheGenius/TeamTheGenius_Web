@@ -6,7 +6,7 @@ import BottomButton from "@/components/Common/BottomButton/BottomButton";
 import { Data } from "@/types/myProfileData";
 import { useQuery, useQueryClient } from "react-query";
 import getMyPageProfile from "@/apis/getMyPageProfile";
-import InfoPreview from "@/components/MyPage/MyPage/UserEdit/InfoPreview/InfoPreview";
+import UserPreview from "@/components/MyPage/MyPage/UserEdit/UserPreview/UserPreview";
 import InfoInput from "@/components/MyPage/MyPage/UserEdit/InfoInput/InfoInput";
 import postUserInfoEdit from "@/apis/postUserInfoEdit";
 import formikUtil from "@/utils/useEditFormik";
@@ -19,6 +19,7 @@ const UserInfoEdit = () => {
   const [nickCheck, setNickCheck] = useState("");
   const [nickName, setNickName] = useState("");
   const [infoShow, setInfoShow] = useState(0);
+  const [nickNameShow, setNickNameShow] = useState(0);
   const [imageUrl, setImageUrl] = useState("");
 
   const { data } = useQuery<Data>({
@@ -55,6 +56,7 @@ const UserInfoEdit = () => {
         nickName: finalNickName,
         files: imageUrl,
         setInfoShow: setInfoShow,
+        setNickNameShow: setNickNameShow,
       });
     }
     if (!signUpBoolean && finalNickName !== data?.nickname) {
@@ -80,34 +82,44 @@ const UserInfoEdit = () => {
             className="w-full flex justify-center"
           >
             <ul className="w-5/6 _sm:w-11/12 _md:w-11/12">
-              <NickNameInput
-                label="닉네임"
-                required="required"
-                margin="mb-[5rem]"
-                id="nickName"
-                name="nickName"
-                placeholder="2 ~ 15자 입력 가능합니다."
-                maxLength={15}
-                signUpBoolean={signUpBoolean}
-                setsignUpBoolean={setsignUpBoolean}
-                value={nickName}
-                nickCheck={nickCheck}
-                setNickCheck={setNickCheck}
-                setValue={setNickName}
-                onChange={handleNickNameChange}
-                onBlur={formik.handleBlur}
-                error={
-                  formik.touched.nickName && formik.errors.nickName
-                    ? formik.errors.nickName
-                    : null
-                }
-              />
+              {nickNameShow === 0 ? (
+                <UserPreview
+                  label="닉네임"
+                  id="nickName"
+                  value={data?.nickname}
+                  setShow={setNickNameShow}
+                />
+              ) : (
+                <NickNameInput
+                  label="닉네임"
+                  required="required"
+                  margin="mb-[5rem]"
+                  id="nickName"
+                  name="nickName"
+                  placeholder="2 ~ 15자 입력 가능합니다."
+                  maxLength={15}
+                  signUpBoolean={signUpBoolean}
+                  setsignUpBoolean={setsignUpBoolean}
+                  value={nickName}
+                  nickCheck={nickCheck}
+                  setNickCheck={setNickCheck}
+                  setValue={setNickName}
+                  onChange={handleNickNameChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.nickName && formik.errors.nickName
+                      ? formik.errors.nickName
+                      : null
+                  }
+                />
+              )}
+
               {infoShow === 0 ? (
-                <InfoPreview
+                <UserPreview
                   label="한 줄 소개"
                   id="myInfoPreveiw"
                   value={data?.information}
-                  setInfoShow={setInfoShow}
+                  setShow={setInfoShow}
                 />
               ) : (
                 <InfoInput

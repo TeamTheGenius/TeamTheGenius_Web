@@ -8,6 +8,7 @@ type postUserInfoEditType = {
   files?: any;
   queryClient: QueryClient;
   setInfoShow: React.Dispatch<React.SetStateAction<number>>;
+  setNickNameShow: React.Dispatch<React.SetStateAction<number>>;
   setNickCheck: React.Dispatch<React.SetStateAction<string>>;
   setNickName: React.Dispatch<React.SetStateAction<string>>;
 };
@@ -18,6 +19,7 @@ const postUserInfoEdit = async ({
   files,
   queryClient,
   setInfoShow,
+  setNickNameShow,
   setNickCheck,
   setNickName,
 }: postUserInfoEditType) => {
@@ -43,6 +45,7 @@ const postUserInfoEdit = async ({
       setNickCheck("");
       setNickName("");
       setInfoShow(0);
+      setNickNameShow(0);
       queryClient.invalidateQueries(["myPageProfile"]);
     })
     .catch((err) => {

@@ -4,17 +4,17 @@ type SignUpInputProps = {
   label: string;
   id: string;
   value?: string;
-  setInfoShow: React.Dispatch<React.SetStateAction<number>>;
+  setShow: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const InfoPreview: React.FC<SignUpInputProps> = ({
+const UserPreview: React.FC<SignUpInputProps> = ({
   label,
   id,
   value,
-  setInfoShow,
+  setShow,
 }) => {
   const infoChangeHandle = () => {
-    setInfoShow(1);
+    setShow(1);
   };
   return (
     <li className={`flex flex-col`}>
@@ -36,4 +36,4 @@ const InfoPreview: React.FC<SignUpInputProps> = ({
   );
 };
 
-export default InfoPreview;
+export default UserPreview;
