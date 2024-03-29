@@ -4,7 +4,7 @@ import Line from "@/components/Common/Line/Line";
 import MobCard from "@/components/Common/MobCard";
 import LinkButton from "@/components/MyPage/SettingMenu/LinkButton/LinkButton";
 import Title from "@/components/MyPage/SettingMenu/Title/Title";
-import { IDENTIFIER } from "@/constants/localStorageKey";
+import { FRAMEID, IDENTIFIER } from "@/constants/localStorageKey";
 import { PATH } from "@/constants/path";
 import { useNavigate } from "react-router-dom";
 
@@ -14,6 +14,7 @@ function SettingMenu() {
     await postAuthLogout()
       .then(() => {
         localStorage.removeItem(IDENTIFIER);
+        localStorage.removeItem(FRAMEID);
         navigate(PATH.LOGIN);
       })
       .catch((err) => {

@@ -23,6 +23,9 @@ const getRecommendChallenge = async ({ pageParams, size }: Params) => {
       const { last } = res.data.data;
       const { pageNumber } = res.data.data.pageable;
       return { posts: content, isLast: last, page: pageNumber } || {};
+    })
+    .catch((err) => {
+      throw err;
     });
   return data || {};
 };

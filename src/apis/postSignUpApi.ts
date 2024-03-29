@@ -10,7 +10,6 @@ type SignUpApiParams = {
   information: string;
   interest: CheckboxValueType[];
   files: string;
-  navigate: (path: string) => void;
 };
 
 const signUpApi = async ({
@@ -19,7 +18,6 @@ const signUpApi = async ({
   information,
   interest,
   files,
-  navigate,
 }: SignUpApiParams) => {
   const data = {
     identifier: identifier,
@@ -42,7 +40,6 @@ const signUpApi = async ({
     .then((res) => {
       const identifier = res.data.data.identifier;
       localStorage.setItem(IDENTIFIER, encrypt(identifier));
-      navigate(PATH.AUTH);
     })
     .catch((err) => {
       alert("오류가 발생했습니다.");

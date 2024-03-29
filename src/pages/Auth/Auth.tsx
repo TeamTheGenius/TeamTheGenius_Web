@@ -1,7 +1,7 @@
 import postJWTApi from "@/apis/postJWTApi";
 import { FRAMEID, IDENTIFIER } from "@/constants/localStorageKey";
 import { PATH } from "@/constants/path";
-import { decrypt, encrypt } from "@/hooks/useCrypto";
+import { encrypt } from "@/hooks/useCrypto";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -11,18 +11,15 @@ const Auth = () => {
   const { search } = location;
   const params = new URLSearchParams(search);
   const gitName = params.get("identifier");
-  const identifierGet = localStorage.getItem(IDENTIFIER);
-  const identifier = decrypt(identifierGet);
+  const identifier = localStorage.getItem(IDENTIFIER);
 
   const auth = async () => {
     if (identifier) {
-      localStorage.setItem(IDENTIFIER, encrypt(identifier));
       postJWTApi()
         .then((res) => {
           if (res.frameId) {
             localStorage.setItem(FRAMEID, encrypt(res.frameId));
           }
-          localStorage.setItem(FRAMEID, res.frameId);
           if (res.role === "ADMIN") {
             navigate(PATH.ADMIN);
           } else {
@@ -40,7 +37,6 @@ const Auth = () => {
           if (res.frameId) {
             localStorage.setItem(FRAMEID, encrypt(res.frameId));
           }
-          localStorage.setItem(FRAMEID, res.frameId);
           if (res.role === "ADMIN") {
             navigate(PATH.ADMIN);
           } else {

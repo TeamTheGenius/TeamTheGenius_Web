@@ -10,16 +10,12 @@ const deleteServiceWithdraw = async ({ reason }: Params) => {
     data: reason,
   };
 
-  return new Promise<void>((resolve, reject) => {
-    jsonInstance
-      .delete(`${requests.fetchProfile}`, config)
-      .then(() => {
-        resolve();
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
+  jsonInstance
+    .delete(`${requests.fetchProfile}`, config)
+    .then(() => {})
+    .catch((err) => {
+      throw err;
+    });
 };
 
 export default deleteServiceWithdraw;

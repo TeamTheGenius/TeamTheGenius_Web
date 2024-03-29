@@ -12,6 +12,7 @@ import basicGrayProfileImage from "@/assets/image/basic-profile-image-gray.png";
 import basicPinkProfileImage from "@/assets/image/basic-profile-image-pink.png";
 import basicBlueProfileImage from "@/assets/image/basic-profile-image-blue.png";
 import basicGreenProfileImage from "@/assets/image/basic-profile-image-green.png";
+import { PATH } from "@/constants/path";
 
 type Interest = {
   id: number;
@@ -48,7 +49,8 @@ const Interest = () => {
       information: locationState.myInfo,
       interest: checkedValues,
       files: getRandomProfileImage(),
-      navigate,
+    }).then(() => {
+      navigate(PATH.AUTH);
     });
   };
 
