@@ -2,10 +2,12 @@ import ChallengeInformation from "@/components/Certification/Certification/Chall
 import Tabs from "@/components/Certification/Certification/Tabs/Tabs";
 import DynamicBackIcon from "@/components/Common/DynamicBackIcon/DynamicBackIcon";
 import MobCard from "@/components/Common/MobCard";
+import { decrypt } from "@/hooks/useCrypto";
 import { Outlet, useParams } from "react-router-dom";
 
 function Certification() {
   const { id } = useParams();
+  const decryptedInstanceId = decrypt(id);
 
   if (!id) {
     return;
@@ -18,7 +20,7 @@ function Certification() {
       <div className="flex flex-col items-center">
         <div className="max-w-[54.6rem] w-full flex flex-col">
           <ChallengeInformation />
-          <Tabs id={parseInt(id)} />
+          <Tabs id={decryptedInstanceId} />
           <Outlet />
         </div>
       </div>

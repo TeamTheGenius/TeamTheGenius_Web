@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import getCertificationInstanceDetail from "@/apis/getCertificationInstanceDetail ";
 import { useQuery } from "react-query";
+import { decrypt } from "@/hooks/useCrypto";
 
 interface Data {
   instanceId: number;
@@ -28,12 +29,15 @@ interface File {
 
 function ChallengeInformation() {
   const { id } = useParams();
+  const decryptedInstanceId = decrypt(id);
 
   const { data } = useQuery<Data>({
-    queryKey: ["certificationInstanceDetail", { id }],
+    queryKey: ["certificationInstanceDetail", { decryptedInstanceId }],
     queryFn: () =>
-      id
-        ? getCertificationInstanceDetail({ instanceId: parseInt(id) })
+      decryptedInstanceId
+        ? getCertificationInstanceDetail({
+            instanceId: parseInt(decryptedInstanceId),
+          })
         : Promise.resolve(null),
   });
 

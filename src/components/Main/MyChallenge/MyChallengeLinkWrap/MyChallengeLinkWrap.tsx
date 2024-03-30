@@ -1,9 +1,10 @@
 import { PATH } from "@/constants/path";
+import { encrypt } from "@/hooks/useCrypto";
 import { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 
 type MyChallengeLinkWrapType = {
-  instanceId: string;
+  instanceId: number;
   children: ReactNode;
 };
 
@@ -11,9 +12,10 @@ const MyChallengeLinkWrap = ({
   instanceId,
   children,
 }: MyChallengeLinkWrapType) => {
+  const encryptedInstanceId = encrypt(instanceId);
   const navigate = useNavigate();
   const onClick = () => {
-    navigate(`${PATH.CERTIFICATION}/${instanceId}/my-week`);
+    navigate(`${PATH.CERTIFICATION}/${encryptedInstanceId}/my-week`);
   };
   return (
     <div

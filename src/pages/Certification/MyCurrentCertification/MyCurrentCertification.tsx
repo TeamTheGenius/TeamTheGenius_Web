@@ -6,6 +6,7 @@ import MyCertificationSummary from "@/components/Certification/MyCurrentCertific
 import MyRepository from "@/components/Certification/MyCurrentCertification/MyRepository/MyRepository";
 import MyThisWeekCertification from "@/components/Certification/MyCurrentCertification/MyWeekCertification/MyThisWeekCertification";
 import PRTemplate from "@/components/Certification/MyCurrentCertification/PRTemplate/PRTemplate";
+import { decrypt } from "@/hooks/useCrypto";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 
@@ -47,22 +48,25 @@ type DayOfWeek =
 
 function MyCurrentCertification() {
   const { id } = useParams();
+  const decryptedInstanceId = decrypt(id);
 
   const { data: myCurrentCertificationData } =
     useQuery<myCurrentCertificationData>({
-      queryKey: ["myCurrentCertification", { id }],
+      queryKey: ["myCurrentCertification", { decryptedInstanceId }],
       queryFn: () =>
-        id
-          ? getCertificationInformation({ instanceId: parseInt(id) })
+        decryptedInstanceId
+          ? getCertificationInformation({
+              instanceId: parseInt(decryptedInstanceId),
+            })
           : Promise.resolve(null),
     });
 
   const { data: myWeekCertificationData } = useQuery<myWeekCertificationData>({
-    queryKey: ["myWeekCertification", { id }],
+    queryKey: ["myWeekCertification", { decryptedInstanceId }],
     queryFn: () =>
-      id
+      decryptedInstanceId
         ? getMyWeekCertification({
-            instanceId: parseInt(id),
+            instanceId: parseInt(decryptedInstanceId),
           })
         : Promise.resolve(null),
   });

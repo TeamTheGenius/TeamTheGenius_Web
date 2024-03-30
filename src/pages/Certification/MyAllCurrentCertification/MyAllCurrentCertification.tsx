@@ -7,6 +7,7 @@ import getTotalCertification from "@/apis/getTotalCertification";
 import TotalCertification from "@/components/Certification/TotalCertification/TotalCertification";
 import postUserProfile from "@/apis/postUserProfile";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
+import { decrypt } from "@/hooks/useCrypto";
 
 interface Data {
   totalAttempts: number;
@@ -42,24 +43,30 @@ type DayOfWeek =
 
 function MyAllCurrentCertification() {
   const { id } = useParams();
+  const decryptedInstanceId = decrypt(id);
   const { userId } = useParams();
+  const decryptedUserId = decrypt(userId);
 
   const { data: certifications } = useQuery<Data>({
-    queryKey: ["totalCertification", { id }, { userId }],
+    queryKey: [
+      "totalCertification",
+      { decryptedInstanceId },
+      { decryptedUserId },
+    ],
     queryFn: () =>
-      id && userId
+      decryptedInstanceId && decryptedUserId
         ? getTotalCertification({
-            instanceId: parseInt(id),
-            userId: parseInt(userId),
+            instanceId: parseInt(decryptedInstanceId),
+            userId: parseInt(decryptedUserId),
           })
         : Promise.resolve(null),
   });
 
   const { data: userProfile } = useQuery<UserData>({
-    queryKey: ["userProfile", { userId }],
+    queryKey: ["userProfile", { decryptedUserId }],
     queryFn: () =>
-      userId
-        ? postUserProfile({ userId: parseInt(userId) })
+      decryptedUserId
+        ? postUserProfile({ userId: parseInt(decryptedUserId) })
         : Promise.resolve(null),
   });
 

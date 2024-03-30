@@ -110,7 +110,10 @@ function ThisWeekCertification({ data, paddingLeft }: Props) {
           )}
         >
           {[...Array(emptyCount)].map((_, index) => (
-            <div key={index} className="pl-[0.4rem] pr-[0.4rem]">
+            <div
+              key={`previous_empty_certification_${index}`}
+              className="pl-[0.4rem] pr-[0.4rem]"
+            >
               <CertificationResult>
                 <CertificationResult.InActiveOrdinal
                   content={DayOfWeekIndex[index + 1]}
@@ -136,7 +139,10 @@ function ThisWeekCertification({ data, paddingLeft }: Props) {
 
             if (TODAY_NOT_YET)
               return (
-                <div className="pl-[0.4rem] pr-[0.4rem]">
+                <div
+                  key={`today_not_yet_${index}`}
+                  className="pl-[0.4rem] pr-[0.4rem]"
+                >
                   <CertificationResult>
                     <CertificationResult.ActiveOrdinal
                       content={DayOfWeekIndex[emptyCount + 1 + index]}
@@ -153,7 +159,10 @@ function ThisWeekCertification({ data, paddingLeft }: Props) {
               );
             else if (NOT_TODAY_NOT_YET)
               return (
-                <div className="pl-[0.4rem] pr-[0.4rem]">
+                <div
+                  key={`not_today_not_yet_${index}`}
+                  className="pl-[0.4rem] pr-[0.4rem]"
+                >
                   <CertificationResult>
                     <CertificationResult.InActiveOrdinal
                       content={DayOfWeekIndex[emptyCount + 1 + index]}
@@ -171,7 +180,10 @@ function ThisWeekCertification({ data, paddingLeft }: Props) {
               );
             else if (TODAY_CERTIFICATED)
               return (
-                <div className="pl-[0.4rem] pr-[0.4rem]">
+                <div
+                  key={`today_certificated_${index}`}
+                  className="pl-[0.4rem] pr-[0.4rem]"
+                >
                   <CertificationResult>
                     <CertificationResult.ActiveOrdinal
                       content={DayOfWeekIndex[emptyCount + 1 + index]}
@@ -197,7 +209,10 @@ function ThisWeekCertification({ data, paddingLeft }: Props) {
               );
             else if (NOT_TODAY_CERTIFICATED)
               return (
-                <div className="pl-[0.4rem] pr-[0.4rem]">
+                <div
+                  key={`not_today_certificated_${index}`}
+                  className="pl-[0.4rem] pr-[0.4rem]"
+                >
                   <CertificationResult>
                     <CertificationResult.InActiveOrdinal
                       content={DayOfWeekIndex[emptyCount + 1 + index]}
@@ -223,7 +238,10 @@ function ThisWeekCertification({ data, paddingLeft }: Props) {
               );
             else if (TODAY_PASSED)
               return (
-                <div className="pl-[0.4rem] pr-[0.4rem]">
+                <div
+                  key={`today_passed_${index}`}
+                  className="pl-[0.4rem] pr-[0.4rem]"
+                >
                   <CertificationResult>
                     <CertificationResult.ActiveOrdinal
                       content={DayOfWeekIndex[emptyCount + 1 + index]}
@@ -241,7 +259,10 @@ function ThisWeekCertification({ data, paddingLeft }: Props) {
               );
             else if (NOT_TODAY_PASSED)
               return (
-                <div className="pl-[0.4rem] pr-[0.4rem]">
+                <div
+                  key={`not_today_passed_${index}`}
+                  className="pl-[0.4rem] pr-[0.4rem]"
+                >
                   <CertificationResult>
                     <CertificationResult.InActiveOrdinal
                       content={DayOfWeekIndex[emptyCount + 1 + index]}
@@ -255,7 +276,10 @@ function ThisWeekCertification({ data, paddingLeft }: Props) {
           {7 - data.certifications.length - emptyCount >= 0 &&
             [...Array(7 - data.certifications.length - emptyCount)].map(
               (_, index) => (
-                <div className="pl-[0.4rem] pr-[0.4rem]">
+                <div
+                  key={`empty_certification_${index}`}
+                  className="pl-[0.4rem] pr-[0.4rem]"
+                >
                   <CertificationResult>
                     <CertificationResult.InActiveOrdinal
                       content={

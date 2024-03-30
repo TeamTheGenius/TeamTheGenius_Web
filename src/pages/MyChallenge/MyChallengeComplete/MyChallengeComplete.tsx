@@ -7,7 +7,6 @@ import GetRewardModal from "@/components/Main/MyChallenge/MyChallengeModal/GetRe
 import GetRewardTwiceModal from "@/components/Main/MyChallenge/MyChallengeModal/GetRewardTwiceModal/GetRewardTwiceModal";
 import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyChallengeTitle";
 import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyChallengeWrap";
-import { encrypt } from "@/hooks/useCrypto";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
 import { useOutletContext } from "react-router-dom";
@@ -79,10 +78,9 @@ const MyChallengeComplete = () => {
     <>
       <MyChallengeWrap>
         {data.map((item, index) => {
-          const encrpytInstanceId = encrypt(item.instanceId);
           return (
             <li key={index} className="mb-[1.3rem] list-none">
-              <MyChallengeLinkWrap key={index} instanceId={encrpytInstanceId}>
+              <MyChallengeLinkWrap key={index} instanceId={item.instanceId}>
                 <div className="min-w-[16.4rem] w-[16.4rem]">
                   <ChallengeItem>
                     <ChallengeItem.Image
