@@ -11,6 +11,7 @@ type SignUpApiParams = {
   interest: CheckboxValueType[];
   files: string;
   navigate: (path: string) => void;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const signUpApi = async ({
@@ -20,6 +21,7 @@ const signUpApi = async ({
   interest,
   files,
   navigate,
+  setIsLoading,
 }: SignUpApiParams) => {
   const data = {
     identifier: identifier,
@@ -41,6 +43,7 @@ const signUpApi = async ({
     .post(`${requests.fetchAuthSignup}`, formData)
     .then((res) => {
       const identifier = res.data.data.identifier;
+      setIsLoading(false);
       localStorage.setItem(IDENTIFIER, encrypt(identifier));
       navigate(PATH.AUTH);
     })

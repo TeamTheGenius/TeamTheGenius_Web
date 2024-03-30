@@ -13,14 +13,16 @@ import basicPinkProfileImage from "@/assets/image/basic-profile-image-pink.png";
 import basicBlueProfileImage from "@/assets/image/basic-profile-image-blue.png";
 import basicGreenProfileImage from "@/assets/image/basic-profile-image-green.png";
 
+import Loading from "@/components/Common/Loading/Loading";
+
 type Interest = {
   id: number;
   name: string;
 };
 
 const Interest = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [checkedValues, setCheckedValues] = useState<CheckboxValueType[]>([]);
-
   const location = useLocation();
   const locationState = location.state;
 
@@ -42,16 +44,20 @@ const Interest = () => {
   };
 
   const handleSignUp = async () => {
+    setIsLoading(true);
     await signUpApi({
       identifier: locationState.gitNickName,
       nickname: locationState.nickName,
       information: locationState.myInfo,
       interest: checkedValues,
       files: getRandomProfileImage(),
+      setIsLoading: setIsLoading,
       navigate,
     });
   };
-
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <>
       <LoginMobCard>

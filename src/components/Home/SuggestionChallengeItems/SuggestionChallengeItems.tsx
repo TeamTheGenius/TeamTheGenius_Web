@@ -9,6 +9,7 @@ import { useState } from "react";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
 import { encrypt } from "@/hooks/useCrypto";
+import Loading from "@/components/Common/Loading/Loading";
 
 interface Post {
   instanceId: number;
@@ -27,7 +28,7 @@ interface Data {
 function SuggestionChallengeItems() {
   const [clickPossible, setClickPossible] = useState<boolean>(true);
   const navigate = useNavigate();
-  const { data } = useQuery<Data>({
+  const { data, isLoading } = useQuery<Data>({
     queryKey: ["recommendedChallenges"],
     queryFn: () => getRecommendedChallenge({ pageParams: 0, size: 7 }),
   });
@@ -38,14 +39,15 @@ function SuggestionChallengeItems() {
       navigate(`${PATH.CHALLENGE_DETAIL}/${encryptId}`);
     }
   };
-
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <div>
       <div className="flex gap-[2.851rem] _sm:justify-between items-center pr-[2.2rem] mb-[1.5rem]">
         <Title content="추천 챌린지" />
         <MoreButton path={PATH.SUGGESTION_CHALLENGE} />
       </div>
-
       <HorizontalScroll setClickPossible={setClickPossible}>
         <div className="max-w-[18.8rem] flex gap-[2.2rem]">
           {Array.isArray(data?.posts) &&

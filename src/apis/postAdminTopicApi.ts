@@ -11,6 +11,7 @@ type topicCreateApiType = {
   topicPoint: string;
   topicFile: any;
   setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setAdminList: React.Dispatch<React.SetStateAction<adminTopicDataType[]>>;
 };
 
@@ -21,6 +22,7 @@ const postAdminTopicApi = async ({
   topicTags,
   topicPoint,
   topicFile,
+  setIsLoading,
   setModalIsOpen,
   setAdminList,
 }: topicCreateApiType) => {
@@ -45,6 +47,7 @@ const postAdminTopicApi = async ({
   await multiInstance
     .post(`${requests.fetchTopic}`, formData)
     .then(() => {
+      setIsLoading(false);
       setModalIsOpen(false);
       getAdminTopicListApi({ setAdminList });
     })

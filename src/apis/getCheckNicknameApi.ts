@@ -5,12 +5,14 @@ type nickNameCheckApiType = {
   value: string;
   setNickCheck: React.Dispatch<React.SetStateAction<string>>;
   setsignUpBoolean: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const getCheckNicknameApi = async ({
   value,
   setNickCheck,
   setsignUpBoolean,
+  setIsLoading,
 }: nickNameCheckApiType) => {
   const specialChars = /[!@#$%^&*(),.?":{}|<>]/;
   const params = {
@@ -24,6 +26,7 @@ export const getCheckNicknameApi = async ({
   await axios
     .get(`/api${requests.fetchCheckNickname}`, { params })
     .then(() => {
+      setIsLoading(false);
       setsignUpBoolean(true);
       setNickCheck("사용 가능한 닉네임입니다.");
     })

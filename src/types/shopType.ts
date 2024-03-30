@@ -25,6 +25,7 @@ export type ticketListType = {
   count: number;
 };
 export type shopFrameSliceType = {
+  frameLoading: boolean;
   frameDataState: shopFrameListType[] | undefined;
   frameData: shopFrameListType[] | undefined;
   buyItem: (itemId: shopFrameListType | undefined) => void;

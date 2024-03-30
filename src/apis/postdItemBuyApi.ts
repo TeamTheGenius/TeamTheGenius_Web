@@ -6,17 +6,20 @@ type postdItemBuyApiType = {
   item?: shopFrameListType | shopTicketListType;
   queryClient: any;
   completeModal: any;
+  setLoadingState: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const postdItemBuyApi = async ({
   item,
   queryClient,
   completeModal,
+  setLoadingState,
 }: postdItemBuyApiType) => {
   const itemId = item?.itemId;
   await instance
     .post(`${requests.fetchItemOrder}/${itemId}`)
     .then((res) => {
       completeModal();
+      setLoadingState(false);
       queryClient.invalidateQueries(["itemPassList"]);
       queryClient.invalidateQueries(["itemPointList"]);
       queryClient.invalidateQueries(["itemFrameList"]);

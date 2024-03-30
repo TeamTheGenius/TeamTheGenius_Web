@@ -10,7 +10,9 @@ import { useParams } from "react-router-dom";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import getCertificationInstanceDetail from "@/apis/getCertificationInstanceDetail ";
 import { useQuery } from "react-query";
+import Loading from "@/components/Common/Loading/Loading";
 import { decrypt } from "@/hooks/useCrypto";
+
 
 interface Data {
   instanceId: number;
@@ -31,7 +33,7 @@ function ChallengeInformation() {
   const { id } = useParams();
   const decryptedInstanceId = decrypt(id);
 
-  const { data } = useQuery<Data>({
+  const { data, isLoading } = useQuery<Data>({
     queryKey: ["certificationInstanceDetail", { decryptedInstanceId }],
     queryFn: () =>
       decryptedInstanceId
@@ -44,7 +46,9 @@ function ChallengeInformation() {
   if (!data) {
     return;
   }
-
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <>
       <div className="relative">

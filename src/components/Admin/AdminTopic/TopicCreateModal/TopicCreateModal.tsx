@@ -12,7 +12,7 @@ import {
   UploadProps,
   message,
 } from "antd";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Modal from "react-modal";
 
 type TopicModalType = {
@@ -43,14 +43,16 @@ const TopicCreateModal = ({
   setModalIsOpen,
   setAdminList,
 }: TopicModalType) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const TopicModalClose = () => {
     setModalIsOpen(false);
   };
 
   const topicSubmit = (values: FormDataType) => {
+    setIsLoading(true);
     const tagString = values.tags.join();
     postAdminTopicApi({
+      setIsLoading: setIsLoading,
       setAdminList: setAdminList,
       setModalIsOpen: setModalIsOpen,
       topicTitle: values.title,
@@ -61,9 +63,7 @@ const TopicCreateModal = ({
       topicPoint: values.pointPerPerson,
     });
   };
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
+
   return (
     <div>
       <Modal

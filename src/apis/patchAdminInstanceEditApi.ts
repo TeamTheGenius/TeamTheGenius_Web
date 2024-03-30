@@ -16,6 +16,7 @@ type editInstacneType = {
   instanceCompletedAt: string;
   instanceImg?: any;
   setinstanceEditModalIsOpen: Dispatch<SetStateAction<boolean>>;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
   setInstanceList: Dispatch<SetStateAction<instanceListDataType[]>>;
 };
 
@@ -30,6 +31,7 @@ const patchAdminInstanceEditApi = async ({
   instanceStartAt,
   instanceCompletedAt,
   instanceImg,
+  setIsLoading,
   setinstanceEditModalIsOpen,
   setInstanceList,
 }: editInstacneType) => {
@@ -55,6 +57,7 @@ const patchAdminInstanceEditApi = async ({
   await multiInstance
     .patch(`${requests.fetchInstance}/${instanceId}`, formData)
     .then(() => {
+      setIsLoading(false);
       setinstanceEditModalIsOpen(false);
       getAdminInstanceListApi({ setInstanceList });
     })

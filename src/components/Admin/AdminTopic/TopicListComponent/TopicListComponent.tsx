@@ -1,5 +1,5 @@
 import Button from "@/components/Common/Button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PATH } from "@/constants/path";
 import TopicEditModal from "../TopicEditModal/TopicEditModal";
@@ -25,7 +25,7 @@ const TopicListComponent = ({
   setAdminList,
   pageNumber,
 }: adminProps) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [TopicEditModalIsOpen, setTopicEditModalIsOpen] =
     useState<boolean>(false);
   const [topicEditModalData, setTopicEditModalData] = useState<topicListType>();
@@ -34,7 +34,9 @@ const TopicListComponent = ({
   const navigate = useNavigate();
 
   const topicModalData = (data: topicListType) => {
+    setIsLoading(true);
     getAdminDetailTopicApi({
+      setIsLoading: setIsLoading,
       topicId: data.topicId,
       setTopicDetail: setTopicDetail,
     });
@@ -42,9 +44,7 @@ const TopicListComponent = ({
     setTopicEditModalIsOpen(true);
     setTopicDetailNumber(data.topicId);
   };
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
+
   return (
     <>
       <ul className="flex flex-col gap-10 rounded-xl">
@@ -104,7 +104,9 @@ const TopicListComponent = ({
                       textSize="text-_h3"
                       handleClick={() => {
                         if (window.confirm("정말로 삭제하시겠습니까?")) {
+                          setIsLoading(true);
                           deleteAdminTopicApi({
+                            setIsLoading: setIsLoading,
                             topicId: item.topicId,
                             setAdminList: setAdminList,
                             pageNumber: pageNumber,
@@ -120,7 +122,9 @@ const TopicListComponent = ({
                       textColor="text-_neutral-10"
                       height="h-[3.5rem]"
                       textSize="text-_h3"
-                      handleClick={() => {}}
+                      handleClick={() => {
+                        alert("업데이트 예정입니다.");
+                      }}
                       content="종료"
                     />
                   </div>

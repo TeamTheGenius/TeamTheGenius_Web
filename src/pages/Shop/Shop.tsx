@@ -24,6 +24,7 @@ import ShopFrameList from "@/components/Shop/ShopFrameList/ShopFrameList";
 import ShopTicketList from "@/components/Shop/ShopTicketList/ShopTicketList";
 
 const Shop = () => {
+  const [loadingState, setLoadingState] = useState(false);
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
   const [frameDataState, setframeDataState] = useState<shopFrameListType[]>();
   const [ticketDataState, setTicketDataState] =
@@ -35,17 +36,23 @@ const Shop = () => {
     queryFn: () => getMyPageProfile(),
   });
 
-  const { data: frameData } = useQuery<shopFrameListType[]>({
+  const { data: frameData, isLoading: frameLoading } = useQuery<
+    shopFrameListType[]
+  >({
     queryKey: ["itemFrameList"],
     queryFn: () => getItemFrameApi(),
   });
 
-  const { data: passData } = useQuery<shopTicketListType[]>({
+  const { data: passData, isLoading: passLoading } = useQuery<
+    shopTicketListType[]
+  >({
     queryKey: ["itemPassList"],
     queryFn: () => getItemPassApi(),
   });
 
-  const { data: pointData } = useQuery<shopTicketListType[]>({
+  const { data: pointData, isLoading: pointLoading } = useQuery<
+    shopTicketListType[]
+  >({
     queryKey: ["itemPointList"],
     queryFn: () => getItemPointApi(),
   });
@@ -60,19 +67,27 @@ const Shop = () => {
   }, [passData, pointData]);
 
   const mountFrameHandle = async (itemId: number | undefined) => {
+    setLoadingState(true);
     await postItemUnEquipApi({});
     await postItemEquipApi({
+      setLoadingState: setLoadingState,
       itemId: itemId,
       queryClient: queryClient,
     });
   };
   const unMountFrameHandle = async (itemId: number | undefined) => {
-    await postItemUnEquipApi({ queryClient: queryClient });
+    setLoadingState(true);
+    await postItemUnEquipApi({
+      queryClient: queryClient,
+      setLoadingState: setLoadingState,
+    });
   };
 
   const buyItem = (item: shopFrameListType | undefined) => {
     setModal(
       <ShopBuyModal
+        loadingState={loadingState}
+        setLoadingState={setLoadingState}
         mountFrameHandle={mountFrameHandle}
         closeModal={closeModal}
         setModal={setModal}
@@ -130,7 +145,7 @@ const Shop = () => {
       <div className="px-[2.2rem] pt-[6.7rem] w-full _sm:px-[1.5rem] _sm:pt-[6rem]">
         <div className="flex flex-col w-full justify-center items-center">
           <div className="w-full max-w-[44.5rem] _sm:max-w-[27.8rem] mt-[2.9rem]">
-            <MyPoint point={profilePoint?.point} />
+            <MyPoint point={profilePoint?.point} pointLoading={pointLoading} />
           </div>
           {isMobile ? (
             <div className="w-full max-w-[44.5rem] _sm:max-w-[35rem] mt-[2.1rem] mb-[4rem]">
@@ -140,6 +155,7 @@ const Shop = () => {
                 buyItem={buyItem}
                 mountFrameHandle={mountFrameHandle}
                 unMountFrameHandle={unMountFrameHandle}
+                frameLoading={frameLoading}
               />
             </div>
           ) : (
@@ -150,6 +166,7 @@ const Shop = () => {
                 buyItem={buyItem}
                 mountFrameHandle={mountFrameHandle}
                 unMountFrameHandle={unMountFrameHandle}
+                frameLoading={frameLoading}
               />
             </div>
           )}
@@ -157,6 +174,7 @@ const Shop = () => {
             <ShopTicketList
               buyItem={buyItem}
               ticketDataState={ticketDataState}
+              passLoading={passLoading}
             />
           </div>
         </div>

@@ -14,6 +14,9 @@ import { useState } from "react";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import { getToday } from "@/utils/getToday";
 import CertificationPassModal from "@/components/Main/MyChallenge/MyChallengeModal/CertificationPassModal/CertificationPassModal";
+import { encrypt } from "@/hooks/useCrypto";
+import Loading from "@/components/Common/Loading/Loading";
+
 
 interface Data {
   instanceId: number;
@@ -41,11 +44,14 @@ interface PassItemModal {
 const MyChallengeProgress = () => {
   const { isModalOpened, openModal, closeModal } = useModal();
   const [modal, setModal] = useState<React.ReactNode>();
-  const { data, refetch } = useQuery<Data[]>({
+  const { data, refetch, isLoading } = useQuery<Data[]>({
     queryKey: ["myChallengeActivity"],
     queryFn: () => getMyChallengeActivity(),
   });
 
+  if (isLoading) {
+    return <Loading />;
+  }
   if (!data) {
     return;
   }

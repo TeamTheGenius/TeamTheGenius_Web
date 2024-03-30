@@ -11,7 +11,7 @@ import { instanceListDataType, topicDeteilType } from "@/types/adminType";
 import { decrypt } from "@/hooks/useCrypto";
 import postJWTApi from "@/apis/postJWTApi";
 import { PATH } from "@/constants/path";
-
+import Loading from "@/components/Common/Loading/Loading";
 
 const AdminInstance = () => {
   const [instanceModalIsOpen, setInstanceModalIsOpen] =
@@ -20,11 +20,14 @@ const AdminInstance = () => {
   const [topicDetail, setTopicDetail] = useState<topicDeteilType>();
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [totalNumber, setTotalNumber] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const handlePageChange = (page: number) => {
     setPageNumber(page);
+    setIsLoading(true);
     getAdminInstanceListApi({
+      setIsLoading,
       setInstanceList,
       pageNumber: page - 1,
       setTotalNumber,
@@ -33,7 +36,6 @@ const AdminInstance = () => {
 
   const topicId = location.state.topicId;
   const decryptTopicId = decrypt(topicId);
-
 
   useEffect(() => {
     postJWTApi()
@@ -65,12 +67,16 @@ const AdminInstance = () => {
         <div className="w-3/4">
           <Title title={"인스턴스 페이지"} />
           <CreateBtn setModal={setInstanceModalIsOpen} />
-          <InstanceListComponent
-            pageNumber={pageNumber}
-            setInstanceList={setInstanceList}
-            instanceList={instanceList}
-            topicDetail={topicDetail}
-          />
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <InstanceListComponent
+              pageNumber={pageNumber}
+              setInstanceList={setInstanceList}
+              instanceList={instanceList}
+              topicDetail={topicDetail}
+            />
+          )}
         </div>
         <Pagination
           current={pageNumber}

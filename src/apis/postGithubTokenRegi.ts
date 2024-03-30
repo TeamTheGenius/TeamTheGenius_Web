@@ -8,6 +8,7 @@ type postGithubTokenRegiType = {
   setTokenState: Dispatch<SetStateAction<string>>;
   setTokenBoolean: Dispatch<SetStateAction<boolean>>;
   setGithubBoolean: Dispatch<SetStateAction<boolean>>;
+  setLoadingState: Dispatch<SetStateAction<boolean>>;
   queryClient: QueryClient;
 };
 const postGithubTokenRegi = async ({
@@ -16,6 +17,7 @@ const postGithubTokenRegi = async ({
   setTokenBoolean,
   setGithubBoolean,
   queryClient,
+  setLoadingState,
 }: postGithubTokenRegiType) => {
   const body = {
     githubToken: githubToken,
@@ -24,11 +26,13 @@ const postGithubTokenRegi = async ({
   await instance
     .post(`${requests.fetchCertRegisterToken}`, body)
     .then(() => {
+      setLoadingState(false);
       setTokenBoolean(true);
       setGithubBoolean(true);
       queryClient.invalidateQueries(["myPageProfile"]);
     })
     .catch((err) => {
+      setLoadingState(false);
       setTokenBoolean(false);
       setTokenState(err.response.data.message);
       throw err;

@@ -9,5 +9,5 @@ export type GithubTokenInputType = {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   githubBoolean: boolean;
   setGithubBoolean: Dispatch<SetStateAction<boolean>>;
-  githubTokenOk?: string
+  githubTokenOk?: string;
 };

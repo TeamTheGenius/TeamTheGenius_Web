@@ -11,6 +11,7 @@ import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
 import ParticipationCancelButton from "@/components/ChallengeDetail/ParticipationCancelButton/ParticipationCancelButton";
 import { decrypt } from "@/hooks/useCrypto";
+import Loading from "@/components/Common/Loading/Loading";
 
 interface Data {
   instanceId: number;
@@ -42,7 +43,7 @@ interface File {
 function ChallengeDetail() {
   const { id } = useParams();
   const decryptId = decrypt(id);
-  const { data, refetch } = useQuery<Data>({
+  const { data, refetch, isLoading } = useQuery<Data>({
     queryKey: ["instanceDetail", { decryptId }],
     queryFn: () =>
       decryptId
@@ -52,7 +53,9 @@ function ChallengeDetail() {
 
   if (!decryptId) return;
   if (!data) return;
-
+  if (isLoading) {
+    return <Loading />;
+  }
   const PARTICIPATION_YET =
     data.joinStatus === "NO" && data.progress === "PREACTIVITY";
   const PARTICIPATION_COMPLETE =
@@ -67,7 +70,6 @@ function ChallengeDetail() {
       <div className="max-w-[77.3rem] w-full z-10 fixed ml-[1.9rem] top-[1.3rem]">
         <DynamicBackIcon />
       </div>
-
       <div className="pb-[13rem] flex flex-col items-center">
         <div className="max-w-[54.6rem] w-full flex flex-col gap-[2.3rem]">
           <Image
