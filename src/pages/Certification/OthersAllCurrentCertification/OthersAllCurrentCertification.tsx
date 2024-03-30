@@ -4,6 +4,7 @@ import OthersProfile from "@/components/Certification/OthersAllCurrentCertificat
 import TotalCertification from "@/components/Certification/TotalCertification/TotalCertification";
 import Header from "@/components/Common/Header/Header";
 import MobCard from "@/components/Common/MobCard";
+import { decrypt } from "@/hooks/useCrypto";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -44,23 +45,29 @@ interface UserData {
 function OthersAllCurrentCertification() {
   const { id } = useParams();
   const { userId } = useParams();
+  const decryptedInstanceId = decrypt(id);
+  const decryptedUserId = decrypt(userId);
 
   const { data: certifications } = useQuery<Data>({
-    queryKey: ["totalCertification", { id }, { userId }],
+    queryKey: [
+      "totalCertification",
+      { decryptedInstanceId },
+      { decryptedUserId },
+    ],
     queryFn: () =>
-      id && userId
+      decryptedInstanceId && decryptedUserId
         ? getTotalCertification({
-            instanceId: parseInt(id),
-            userId: parseInt(userId),
+            instanceId: parseInt(decryptedInstanceId),
+            userId: parseInt(decryptedUserId),
           })
         : Promise.resolve(null),
   });
 
   const { data: userProfile } = useQuery<UserData>({
-    queryKey: ["userProfile", { userId }],
+    queryKey: ["userProfile", { decryptedUserId }],
     queryFn: () =>
-      userId
-        ? postUserProfile({ userId: parseInt(userId) })
+      decryptedUserId
+        ? postUserProfile({ userId: parseInt(decryptedUserId) })
         : Promise.resolve(null),
   });
 
