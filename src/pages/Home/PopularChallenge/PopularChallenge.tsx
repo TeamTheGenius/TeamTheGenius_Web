@@ -4,6 +4,7 @@ import HomeLayout from "@/layout/HomeLayout/HomeLayout";
 import getPopularChallenge from "@/apis/getPopularChallenge";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "react-query";
+import Loading from "@/components/Common/Loading/Loading";
 
 interface Data {
   instanceId: number;
@@ -19,7 +20,7 @@ const PopularChallenge = () => {
   const [ref, inView] = useInView();
   const [challenges, setChallenges] = useState<Data[]>([]);
 
-  const { fetchNextPage, hasNextPage } = useInfiniteQuery({
+  const { fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
     queryKey: ["getPopularChallenges"],
     queryFn: ({ pageParam = 0 }) =>
       getPopularChallenge({ pageParams: pageParam, size: 20 }),
@@ -43,10 +44,17 @@ const PopularChallenge = () => {
 
   return (
     <HomeLayout>
-      <div className="mx-[2.2rem] mt-[1rem]">
-        <VerticalChallengeItems data={challenges} />
-        <div ref={ref} style={{ height: "10px", background: "transparent" }} />
-      </div>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div className="mx-[2.2rem] mt-[1rem]">
+          <VerticalChallengeItems data={challenges} />
+          <div
+            ref={ref}
+            style={{ height: "10px", background: "transparent" }}
+          />
+        </div>
+      )}
     </HomeLayout>
   );
 };

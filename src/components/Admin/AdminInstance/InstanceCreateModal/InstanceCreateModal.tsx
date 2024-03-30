@@ -5,7 +5,7 @@ import "@/components/Admin/AdminInstance/InstanceCreateModal/antdCheck.module.cs
 import Modal from "react-modal";
 import postAdminInstanceApi from "@/apis/postAdminInstanceApi";
 import moment from "moment";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import {
   fileType,
   instanceListDataType,
@@ -54,6 +54,7 @@ const InstanceCreateModal = ({
   };
 
   const instanceSumbit = (values: instanceCreateData) => {
+    setIsLoading(true);
     const formmatStartDate = moment(values.ranger[0].$d).format(
       "YYYY-MM-DDT00:00:00"
     );
@@ -63,6 +64,7 @@ const InstanceCreateModal = ({
     );
 
     let instanceData = {
+      setIsLoading: setIsLoading,
       setModalIsOpen: setModalIsOpen,
       setInstanceList: setInstanceList,
       instanceTitle: values.title,
@@ -89,9 +91,6 @@ const InstanceCreateModal = ({
   const tags = topicDetail?.tags;
   const file = topicDetail?.fileResponse;
   const point = topicDetail?.pointPerPerson;
-  useEffect(() => {
-    setIsLoading(true);
-  }, []);
 
   return (
     <div>
@@ -103,7 +102,7 @@ const InstanceCreateModal = ({
         ariaHideApp={false}
         style={instancePostCard}
       >
-        {!isLoading ? (
+        {isLoading ? (
           <Loading />
         ) : (
           <Form

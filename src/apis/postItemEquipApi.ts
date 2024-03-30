@@ -6,13 +6,16 @@ import { encrypt } from "@/hooks/useCrypto";
 async function postItemEquipApi({
   itemId,
   queryClient,
+  setLoadingState,
 }: {
+  setLoadingState: React.Dispatch<React.SetStateAction<boolean>>;
   itemId?: number;
   queryClient: any;
 }) {
   await instance
     .post(`${requests.fetchItemUse}/${itemId}`)
     .then((res) => {
+      setLoadingState(false);
       localStorage.setItem(FRAMEID, encrypt(res.data.data.itemId));
       queryClient.invalidateQueries(["itemFrameList"]);
     })

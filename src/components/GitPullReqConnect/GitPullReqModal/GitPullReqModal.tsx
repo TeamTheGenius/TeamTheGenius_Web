@@ -1,28 +1,25 @@
 import Button from "@/components/Common/Button";
-import Loading from "@/components/Common/Loading/Loading";
 import { Modal } from "@/components/Common/Modal/Modal";
 
-function ShopCompleteEquip({
+function GitPullReqModal({
   closeModal,
-  loadingState,
+  errState,
 }: {
   closeModal: () => void;
-  loadingState: boolean;
+  errState: string;
 }) {
   const completeHandle = () => {
     closeModal();
   };
   return (
     <>
-      {loadingState ? (
-        <Loading />
-      ) : (
-        <>
+      <Modal.ModalContentBox width="w-[35.5rem]" height="h-[32.3rem]">
+        <div className="flex flex-col justify-center relative items-center">
           <div className="mb-[7.4rem]">
-            <Modal.ModalContent content="이미 소지하고 있는 아이템입니다!" />
+            <Modal.ModalContent content={errState} />
           </div>
           <Button
-            content="돌아가기"
+            content="닫기"
             width="w-[16.4rem]"
             height="h-[5rem]"
             backgroundColor="bg-white border-2 border-[#ff4356]"
@@ -31,10 +28,10 @@ function ShopCompleteEquip({
             textColor="text-[#ff4356]"
             handleClick={completeHandle}
           />
-        </>
-      )}
+        </div>
+      </Modal.ModalContentBox>
     </>
   );
 }
 
-export default ShopCompleteEquip;
+export default GitPullReqModal;

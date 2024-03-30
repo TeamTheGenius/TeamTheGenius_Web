@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import nickname_X from "@/assets/icon/nickname_X.svg";
 import { getCheckNicknameApi } from "@/apis/getCheckNicknameApi";
+import Loading from "../Loading/Loading";
 type SignUpInputProps = {
   label: string;
   id: string;
@@ -46,8 +47,15 @@ const NickNameInput: React.FC<SignUpInputProps> = ({
   signUpBoolean,
   setsignUpBoolean,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const nickNameCheck = () => {
-    getCheckNicknameApi({ value, setNickCheck, setsignUpBoolean });
+    setIsLoading(true);
+    getCheckNicknameApi({
+      value,
+      setNickCheck,
+      setsignUpBoolean,
+      setIsLoading,
+    });
   };
   const resetValue = () => {
     setValue("");
@@ -59,6 +67,10 @@ const NickNameInput: React.FC<SignUpInputProps> = ({
     }
     onChange(event);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <li className={`flex flex-col ${margin}`}>

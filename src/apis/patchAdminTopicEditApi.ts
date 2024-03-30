@@ -15,6 +15,7 @@ const patchAdminTopicEditApi = async ({
   setTopicEditModalIsOpen,
   setAdminList,
   pageNumber,
+  setIsLoading,
 }: adminTopicEditApiType) => {
   const body = {
     title: topicTitle,
@@ -37,6 +38,7 @@ const patchAdminTopicEditApi = async ({
     .patch(`${requests.fetchTopic}/${topicId}`, formData)
     .then((res: AxiosResponse<any, any>) => {
       setTopicEditModalIsOpen(false);
+      setIsLoading(false);
       getAdminTopicListApi({ setAdminList, pageNumber: pageNumber - 1 });
     })
     .catch((err) => {

@@ -4,13 +4,13 @@ import { instance } from "./axios/axios";
 
 type postInterestEditApiType = {
   interestEditData: CheckboxValueType[];
-  openModal: () => void;
   setEditApiBoolean: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const postInterestEditApi = async ({
   interestEditData,
-  openModal,
   setEditApiBoolean,
+  setIsLoading,
 }: postInterestEditApiType) => {
   const body = {
     tags: interestEditData,
@@ -18,10 +18,11 @@ const postInterestEditApi = async ({
   await instance
     .post(`${requests.fetchProfileInterest}`, body)
     .then(() => {
+      setIsLoading(false);
       setEditApiBoolean(true);
-      openModal();
     })
     .catch((err) => {
+      setIsLoading(false);
       setEditApiBoolean(false);
       throw err;
     });

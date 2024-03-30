@@ -54,7 +54,9 @@ const TopicEditModal = ({
   };
   const topicSubmit = (values: topicSubmitType) => {
     const tagString = values.tags.join();
+    setIsLoading(true);
     let topicData = {
+      setIsLoading: setIsLoading,
       pageNumber: pageNumber,
       setAdminList: setAdminList,
       topicId: topicDetailId,

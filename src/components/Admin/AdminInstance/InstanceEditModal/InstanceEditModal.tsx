@@ -50,17 +50,19 @@ const InstanceEditModal = ({
   instanceNumber,
   setInstanceList,
 }: InstanceEditModalType) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const InstanceEditModalClose = () => {
     setinstanceEditModalIsOpen(false);
   };
 
   const instanceSumbit = (values: InstanceEditData) => {
+    setIsLoading(true);
     const startedAt = moment(values.ranger[0]._d).format("YYYY-MM-DDTHH:mm:ss");
     const completedAt = moment(values.completedAt).format(
       "YYYY-MM-DDTHH:mm:ss"
     );
     let instanceData = {
+      setIsLoading: setIsLoading,
       setInstanceList: setInstanceList,
       instanceId: instanceNumber,
       topicIdId: values.topicId,
@@ -83,11 +85,12 @@ const InstanceEditModal = ({
   useEffect(() => {
     const getAdminDetailInstance = async () => {
       await getAdminDetailInstanceApi({
+        setIsLoading: setIsLoading,
         instanceId: instanceNumber,
         setInstanceList: setInstanceList,
       });
-      setIsLoading(false);
     };
+    setIsLoading(true);
     getAdminDetailInstance();
   }, []);
   return (

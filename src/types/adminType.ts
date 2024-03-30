@@ -7,6 +7,7 @@ export type adminTopicEditApiType = {
   topicFile?: any;
   topicId?: number;
   setTopicEditModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setAdminList: React.Dispatch<React.SetStateAction<adminTopicDataType[]>>;
   pageNumber: number;
 };

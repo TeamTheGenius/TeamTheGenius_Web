@@ -4,10 +4,16 @@ import requests from "./axios/request";
 type getPullRequestVerifyApiType = {
   repo: string;
   setPrBoolean: React.Dispatch<React.SetStateAction<boolean>>;
+  setLoadingState: React.Dispatch<React.SetStateAction<boolean>>;
+  setErrState: React.Dispatch<React.SetStateAction<string>>;
+  openModal: () => void;
 };
 const getPullRequestVerifyApi = async ({
   repo,
   setPrBoolean,
+  setLoadingState,
+  openModal,
+  setErrState,
 }: getPullRequestVerifyApiType) => {
   await acceptInstance
     .get(`${requests.fetchCertPullReq}`, {
@@ -15,9 +21,12 @@ const getPullRequestVerifyApi = async ({
     })
     .then(() => {
       setPrBoolean(true);
+      setLoadingState(false);
     })
     .catch((err) => {
-      alert(err.request.response);
+      openModal();
+      setErrState(err.response.data.message);
+      setLoadingState(false);
       setPrBoolean(false);
     });
 };

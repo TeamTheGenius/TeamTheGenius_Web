@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import getCertificationInstanceDetail from "@/apis/getCertificationInstanceDetail ";
 import { useQuery } from "react-query";
+import Loading from "@/components/Common/Loading/Loading";
 
 interface Data {
   instanceId: number;
@@ -29,7 +30,7 @@ interface File {
 function ChallengeInformation() {
   const { id } = useParams();
 
-  const { data } = useQuery<Data>({
+  const { data, isLoading } = useQuery<Data>({
     queryKey: ["certificationInstanceDetail", { id }],
     queryFn: () =>
       id
@@ -40,7 +41,9 @@ function ChallengeInformation() {
   if (!data) {
     return;
   }
-
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <>
       <div className="relative">

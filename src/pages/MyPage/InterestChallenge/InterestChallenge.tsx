@@ -2,6 +2,7 @@ import deleteLikeChallenge from "@/apis/deleteLikeChallenge";
 import getLikeChallenges from "@/apis/getLikeChallenges";
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import Header from "@/components/Common/Header/Header";
+import Loading from "@/components/Common/Loading/Loading";
 import MobCard from "@/components/Common/MobCard";
 import { PATH } from "@/constants/path";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
@@ -25,7 +26,7 @@ function InterestChallenge() {
   const [challenges, setChallenges] = useState<Data[]>([]);
   const navigate = useNavigate();
 
-  const { fetchNextPage, hasNextPage, refetch } = useInfiniteQuery({
+  const { fetchNextPage, hasNextPage, refetch, isLoading } = useInfiniteQuery({
     queryKey: ["getLikeChallenges"],
     queryFn: ({ pageParam = 0 }) =>
       getLikeChallenges({ pageParams: pageParam, size: 20 }),
@@ -65,38 +66,42 @@ function InterestChallenge() {
   return (
     <MobCard>
       <Header content="좋아요 목록" />
-      <div className="px-[2.2rem] flex justify-center items-center">
-        <div className="pt-[9rem] _sm:pt-[7.6rem] w-full max-w-[51.5rem] _sm:max-w-[34.9rem] grid grid-cols-3 gap-x-[1rem] _sm:grid-cols-2">
-          {challenges.map((item, index) => (
-            <div className="pb-[1.8rem]" key={index}>
-              <ChallengeItem
-                onClick={() => onClickChallengeItem(item.instanceId)}
-              >
-                <ChallengeItem.Image
-                  imgSrc={makeBase64IncodedImage({
-                    uri: item.fileResponse.encodedFile,
-                    format: "jpg",
-                  })}
-                  alt={"챌린지 이미지"}
-                  direction="vertical"
-                  maxWidth="max-w-[16.5rem]"
-                  paddingBottom="pb-[72.7%]"
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <div className="px-[2.2rem] flex justify-center items-center">
+          <div className="pt-[9rem] _sm:pt-[7.6rem] w-full max-w-[51.5rem] _sm:max-w-[34.9rem] grid grid-cols-3 gap-x-[1rem] _sm:grid-cols-2">
+            {challenges.map((item, index) => (
+              <div className="pb-[1.8rem]" key={index}>
+                <ChallengeItem
+                  onClick={() => onClickChallengeItem(item.instanceId)}
                 >
-                  <ChallengeItem.Heart
-                    onClick={(e) => onClickHeart(e, item.likesId)}
-                  />
-                </ChallengeItem.Image>
-                <ChallengeItem.Title title={item.title} />
-                <ChallengeItem.Reward point={item.pointPerPerson} />
-              </ChallengeItem>
-            </div>
-          ))}
-          <div
-            ref={ref}
-            style={{ height: "10px", background: "transparent" }}
-          />
+                  <ChallengeItem.Image
+                    imgSrc={makeBase64IncodedImage({
+                      uri: item.fileResponse.encodedFile,
+                      format: "jpg",
+                    })}
+                    alt={"챌린지 이미지"}
+                    direction="vertical"
+                    maxWidth="max-w-[16.5rem]"
+                    paddingBottom="pb-[72.7%]"
+                  >
+                    <ChallengeItem.Heart
+                      onClick={(e) => onClickHeart(e, item.likesId)}
+                    />
+                  </ChallengeItem.Image>
+                  <ChallengeItem.Title title={item.title} />
+                  <ChallengeItem.Reward point={item.pointPerPerson} />
+                </ChallengeItem>
+              </div>
+            ))}
+            <div
+              ref={ref}
+              style={{ height: "10px", background: "transparent" }}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </MobCard>
   );
 }

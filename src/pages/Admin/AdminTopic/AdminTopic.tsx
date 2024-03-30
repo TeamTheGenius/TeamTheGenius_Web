@@ -9,17 +9,21 @@ import { adminTopicDataType } from "@/types/adminType";
 import postJWTApi from "@/apis/postJWTApi";
 import { useNavigate } from "react-router-dom";
 import { PATH } from "@/constants/path";
+import Loading from "@/components/Common/Loading/Loading";
 
 const AdminTopic = () => {
   const [topicModalIsOpen, setTopicModalIsOpen] = useState<boolean>(false);
   const [adminList, setAdminList] = useState<adminTopicDataType[]>([]);
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [totalNumber, setTotalNumber] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const handlePageChange = (page: number) => {
     setPageNumber(page);
+    setIsLoading(true);
     getAdminTopicListApi({
+      setIsLoading,
       setAdminList,
       pageNumber: page - 1,
       setTotalNumber,
@@ -38,7 +42,9 @@ const AdminTopic = () => {
       .catch(() => {
         navigate(PATH.LOGIN);
       });
+    setIsLoading(true);
     getAdminTopicListApi({
+      setIsLoading,
       setAdminList,
       pageNumber,
       setTotalNumber,
@@ -52,11 +58,15 @@ const AdminTopic = () => {
         <div className="w-3/4">
           <Title title="토픽 생성 페이지" />
           <CreateBtn setModal={setTopicModalIsOpen} />
-          <TopicListComponents
-            pageNumber={pageNumber}
-            setAdminList={setAdminList}
-            adminList={adminList}
-          />
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <TopicListComponents
+              pageNumber={pageNumber}
+              setAdminList={setAdminList}
+              adminList={adminList}
+            />
+          )}
         </div>
         <Pagination
           current={pageNumber}

@@ -14,13 +14,22 @@ import postChallengeRepoRegiApi from "@/apis/postChallengeRepoRegiApi";
 import getGithubTokenApi from "@/apis/getGithubTokenApi";
 import { useQuery } from "react-query";
 import { decrypt } from "@/hooks/useCrypto";
+import Loading from "@/components/Common/Loading/Loading";
+import { ModalLayer } from "@/components/Common/Modal/Modal";
+import useModal from "@/hooks/useModal";
+import GitPullReqModal from "@/components/GitPullReqConnect/GitPullReqModal/GitPullReqModal";
 
 const GitPullReqConnect = () => {
   const [githubBoolean, setGithubBoolean] = useState(false);
   const [repoBoolean, setRepoBoolean] = useState(false);
   const [prBoolean, setPrBoolean] = useState(false);
+  const [loadingState, setLoadingState] = useState(false);
   const [repoState, setRepoState] = useState("");
   const [nickName, setNickName] = useState("");
+  const [errState, setErrState] = useState("");
+  const [modal, setModal] = useState<React.ReactNode>();
+  const { openModal, closeModal, isModalOpened } = useModal();
+  const [repoOk, setRepoOk] = useState("ready");
 
   const navigate = useNavigate();
   const param = useParams();
@@ -35,11 +44,16 @@ const GitPullReqConnect = () => {
   };
 
   const challengeRegiHandle = () => {
+    setLoadingState(true);
     postChallengeRepoRegiApi({
+      openModal: openModal,
+      setErrState: setErrState,
+      setLoadingState: setLoadingState,
       navigate: navigate,
       instanceId: decryptNumber,
       repo: repoState,
     });
+    setModal(<GitPullReqModal closeModal={closeModal} errState={errState} />);
   };
   const challengeRegiFalseHandle = () => {
     alert("pull request 확인 후 참가하기가 가능합니다.");
@@ -55,8 +69,15 @@ const GitPullReqConnect = () => {
     queryFn: getUserRepoApi,
     enabled: githubTokenOk === "OK",
   });
+  console.log("repoList", repoList);
+  if (loadingState) {
+    return <Loading />;
+  }
   return (
     <>
+      {modal && isModalOpened && (
+        <ModalLayer onClick={closeModal}>{modal}</ModalLayer>
+      )}
       <MobCard>
         <Header content="Github 연결 설정" />
         <div className="pt-[8.5rem] px-[2.2rem] flex justify-center items-center flex-col">
@@ -90,6 +111,8 @@ const GitPullReqConnect = () => {
             <Repo
               label="2. Repository 선택"
               repo={repoList}
+              setRepoOk={setRepoOk}
+              repoOk={repoOk}
               id="repository"
               value={nickName}
               setRepoState={setRepoState}

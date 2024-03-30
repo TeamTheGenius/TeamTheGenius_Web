@@ -17,9 +17,11 @@ type instanceCreateApiType = {
   setModalIsOpen: Dispatch<SetStateAction<boolean>>;
   instanceImg?: any | undefined;
   setInstanceList: Dispatch<SetStateAction<instanceListDataType[]>>;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 const postAdminInstanceApi = async ({
+  setIsLoading,
   instanceTitle,
   instanceDesc,
   instanceNotice,
@@ -58,6 +60,7 @@ const postAdminInstanceApi = async ({
   await multiInstance
     .post(`${requests.fetchInstance}`, formData)
     .then(() => {
+      setIsLoading(false);
       getAdminInstanceListApi({ setInstanceList });
       setModalIsOpen(false);
     })

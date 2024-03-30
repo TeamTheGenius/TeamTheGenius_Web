@@ -5,7 +5,9 @@ import SignUpForm from "@/components/SignUp/SignUpForm/SignUpForm";
 const SignUp = () => {
   return (
     <LoginMobCard>
-      <div className="mb-[20rem]"><SignUpHeader /></div>
+      <div className="mb-[20rem]">
+        <SignUpHeader />
+      </div>
       <SignUpForm />
     </LoginMobCard>
   );

@@ -1,5 +1,5 @@
 import Button from "@/components/Common/Button";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import InstanceEditModal from "../InstanceEditModal/InstanceEditModal";
 import moment from "moment";
 import getAdminDetailInstanceApi from "@/apis/getAdminDetailInstanceApi";
@@ -32,7 +32,9 @@ const InstanceListComponent = ({
   const [instanceNumber, setInstanceNumber] = useState<number>(0);
 
   const instanceModalData = (data: instanceListDataType) => {
+    setIsLoading(true);
     getAdminDetailInstanceApi({
+      setIsLoading: setIsLoading,
       setInstanceList: setInstanceList,
       instanceId: data.instanceId,
       setInstanceDetail: setInstanceDetail,
@@ -44,13 +46,11 @@ const InstanceListComponent = ({
   const instanceFilterList = instanceList.filter(
     (item: instanceListDataType) => item.topicId === topicPropsId
   );
-  useEffect(() => {
-    setIsLoading(true);
-  });
+
   return (
     <>
       <ul className="flex flex-col gap-10 rounded-xl">
-        {!isLoading ? (
+        {isLoading ? (
           <div>
             <Loading />
           </div>
@@ -96,7 +96,9 @@ const InstanceListComponent = ({
                       textSize="text-_h3"
                       handleClick={() => {
                         if (window.confirm("정말로 삭제하시겠습니까?")) {
+                          setIsLoading(true);
                           deleteAdminInstanceApi({
+                            setIsLoading: setIsLoading,
                             instanceId: item.instanceId,
                             setInstanceList: setInstanceList,
                             pageNumber: pageNumber,
