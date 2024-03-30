@@ -16,7 +16,7 @@ const FallbackComponent = ({ error }: FallbackProps) => {
 
   return (
     <Error
-      errNum={error.reponse.status}
+      errNum={error.reponse?.data?.resultCode}
       errorTxt={error.response?.data?.message}
     />
   );
