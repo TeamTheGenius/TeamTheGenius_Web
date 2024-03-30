@@ -7,11 +7,14 @@ export type ErrorHeaderType = {
   errNum?: number;
   errorTxt?: string;
 };
-const Error = () => {
+const Error = ({ errNum, errorTxt }: ErrorHeaderType) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { errNum, errorTxt }: ErrorHeaderType = location.state || {};
+  const {
+    errNum: locationErrNum,
+    errorTxt: locationErrorTxt,
+  }: ErrorHeaderType = location.state || {};
 
   const back = () => {
     navigate(-1);
@@ -19,7 +22,10 @@ const Error = () => {
   return (
     <MobCard>
       <div className="relative w-full h-[100vh]">
-        <ErrorHeader errNum={errNum} errorTxt={errorTxt} />
+        <ErrorHeader
+          errNum={errNum || locationErrNum}
+          errorTxt={errorTxt || locationErrorTxt}
+        />
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 box-shodow">
           <div className="mx-[15.3rem] my-[1.9rem]">
             <Button

@@ -156,6 +156,12 @@ function App() {
             <Route path={PATH.ADMIN} element={<AdminTopic />} />
             <Route path={PATH.ADMIN_INSTANCE_ID} element={<AdminInstance />} />
           </Route>
+          <Route
+            path="/*"
+            element={
+              <Error errNum={404} errorTxt="페이지 정보를 찾을 수 없습니다." />
+            }
+          />
         </Routes>
       </Router>
       <ReactQueryDevtools initialIsOpen={true} />
