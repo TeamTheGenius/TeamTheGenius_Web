@@ -13,6 +13,8 @@ import formikUtil from "@/utils/useEditFormik";
 import UserInfo from "@/components/MyPage/MyPage/UserEdit/UserImg/UserImg";
 import UserName from "@/components/MyPage/MyPage/UserEdit/UserName/UserName";
 import NickNameInput from "@/components/Common/NickNameInput/NickNameInput";
+import { useNavigate } from "react-router-dom";
+import { PATH } from "@/constants/path";
 
 const UserInfoEdit = () => {
   const [signUpBoolean, setsignUpBoolean] = useState(true);
@@ -26,6 +28,8 @@ const UserInfoEdit = () => {
     queryKey: ["myPageProfile"],
     queryFn: () => getMyPageProfile(),
   });
+
+  const navigate = useNavigate();
 
   const { formik } = formikUtil();
 
@@ -49,6 +53,7 @@ const UserInfoEdit = () => {
     }
     if (signUpBoolean) {
       postUserInfoEdit({
+        navigate: navigate,
         setNickName: setNickName,
         setNickCheck: setNickCheck,
         queryClient: queryClient,
@@ -113,7 +118,6 @@ const UserInfoEdit = () => {
                   }
                 />
               )}
-
               {infoShow === 0 ? (
                 <UserPreview
                   label="한 줄 소개"

@@ -17,7 +17,7 @@ const UserPreview: React.FC<SignUpInputProps> = ({
     setShow(1);
   };
   return (
-    <li className={`flex flex-col`}>
+    <li className={`flex flex-col mb-[5rem]`}>
       <label htmlFor={id} className={`signUp-lable relative`}>
         {label}
       </label>

@@ -28,7 +28,6 @@ const InfoInput: React.FC<SignUpInputProps> = ({
   margin,
 }) => {
   const [inputCount, setInputCount] = useState(0);
-
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
     setInputCount(inputValue.length);
