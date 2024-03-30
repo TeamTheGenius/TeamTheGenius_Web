@@ -6,6 +6,9 @@ const getPaymentReceiptApi = async () => {
     .get(`${requests.fetchPaymentReceipt}`)
     .then((res: any) => {
       return res.data.data.content || {};
+    })
+    .catch((err) => {
+      throw err;
     });
   return data || {};
 };

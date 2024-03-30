@@ -47,6 +47,9 @@ const getSearchedChallengeItem = async ({
       return (
         { posts: transformedContent, isLast: last, page: pageNumber } || {}
       );
+    })
+    .catch((err) => {
+      throw err;
     });
   return data || {};
 };

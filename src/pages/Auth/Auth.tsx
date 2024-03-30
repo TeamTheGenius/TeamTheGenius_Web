@@ -28,7 +28,7 @@ const Auth = () => {
         })
         .catch(() => {
           window.localStorage.removeItem(IDENTIFIER);
-          navigate(PATH.ERROR);
+          navigate(PATH.LOGIN);
         });
     } else if (gitName) {
       localStorage.setItem(IDENTIFIER, encrypt(gitName));
@@ -44,7 +44,7 @@ const Auth = () => {
           }
         })
         .catch(() => {
-          navigate(PATH.ERROR);
+          navigate(PATH.LOGIN);
         });
     }
   };

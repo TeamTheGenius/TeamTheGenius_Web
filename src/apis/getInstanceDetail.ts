@@ -10,6 +10,9 @@ const getInstanceDetail = async ({ instanceId }: Params) => {
     .get(`${requests.fetchChallenges}/${instanceId}`)
     .then((res) => {
       return res.data.data || {};
+    })
+    .catch((err) => {
+      throw err;
     });
   return data || {};
 };

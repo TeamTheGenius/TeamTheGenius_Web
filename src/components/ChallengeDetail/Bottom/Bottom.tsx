@@ -3,6 +3,7 @@ import Heart from "../Heart/Heart";
 import { useNavigate } from "react-router-dom";
 import deleteLikeChallenge from "@/apis/deleteLikeChallenge";
 import postLikeChallenge from "@/apis/postLikeChallenge";
+import { useMutation } from "react-query";
 
 interface HeartProps {
   isHearted: boolean;
