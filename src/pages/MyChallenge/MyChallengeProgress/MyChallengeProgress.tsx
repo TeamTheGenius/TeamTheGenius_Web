@@ -17,6 +17,7 @@ import CertificationPassModal from "@/components/Main/MyChallenge/MyChallengeMod
 import { encrypt } from "@/hooks/useCrypto";
 import Loading from "@/components/Common/Loading/Loading";
 
+
 interface Data {
   instanceId: number;
   title: string;
@@ -100,10 +101,9 @@ const MyChallengeProgress = () => {
 
       <MyChallengeWrap>
         {data.map((item, index) => {
-          const encrpytInstanceId = encrypt(item.instanceId);
           return (
             <li key={index} className=" mb-[1.3rem] list-none">
-              <MyChallengeLinkWrap instanceId={encrpytInstanceId}>
+              <MyChallengeLinkWrap instanceId={item.instanceId}>
                 <div className="min-w-[16.4rem] w-[16.4rem]">
                   <ChallengeItem>
                     <ChallengeItem.Image

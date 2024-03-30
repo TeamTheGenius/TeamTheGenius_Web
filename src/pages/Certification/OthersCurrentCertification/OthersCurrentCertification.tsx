@@ -4,6 +4,7 @@ import OthersProfile from "@/components/Certification/OthersCurrentCertification
 import ThisWeekCertification from "@/components/Certification/ThisWeekCertification/ThisWeekCertification";
 import Line from "@/components/Common/Line/Line";
 import { othersAllCertificationData } from "@/data/othersCertificationResultData";
+import { decrypt } from "@/hooks/useCrypto";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
@@ -41,16 +42,17 @@ type DayOfWeek =
 
 function OthersCurrentCertification() {
   const { id } = useParams();
+  const decryptedInstanceId = decrypt(id);
   const [ref, inView] = useInView();
   const [certifications, setcertifications] = useState<Data[]>([]);
 
   const { fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ["getOthersWeekCertification", { id }],
+    queryKey: ["getOthersWeekCertification", { decryptedInstanceId }],
     queryFn: ({ pageParam = 0 }) =>
-      id
+      decryptedInstanceId
         ? getOthersWeekCertification({
             pageParams: pageParam,
-            instanceId: parseInt(id),
+            instanceId: parseInt(decryptedInstanceId),
             size: 20,
           })
         : Promise.resolve({ isLast: true, page: 0, posts: [] }),

@@ -9,6 +9,7 @@ import { useQuery } from "react-query";
 import { encrypt } from "@/hooks/useCrypto";
 import Loading from "@/components/Common/Loading/Loading";
 
+
 interface Data {
   instanceId: number;
   title: string;
@@ -39,10 +40,9 @@ const MyChallengeStart = () => {
     <>
       <MyChallengeWrap>
         {data.map((item, index) => {
-          const encrpytInstanceId = encrypt(item.instanceId);
           return (
             <li key={index} className="mb-[1.3rem] list-none">
-              <MyChallengeLinkWrap key={index} instanceId={encrpytInstanceId}>
+              <MyChallengeLinkWrap key={index} instanceId={item.instanceId}>
                 <div className="min-w-[16.4rem] w-[16.4rem] h-[12.6rem]">
                   <ChallengeItem>
                     <ChallengeItem.Image

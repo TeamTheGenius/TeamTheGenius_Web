@@ -11,8 +11,12 @@ function Tab({ content, path }: Props) {
   const onClickTab = (path: string) => {
     navigate(path, { replace: true });
   };
-  const url = useLocation().pathname;
-  const isActive = url === path;
+  const categoryOfUrl = useLocation().pathname.split("/");
+  const categoryOfPath = path.split("/");
+
+  const isActive =
+    categoryOfUrl[categoryOfUrl.length - 1] ===
+    categoryOfPath[categoryOfPath.length - 1];
 
   return (
     <button
