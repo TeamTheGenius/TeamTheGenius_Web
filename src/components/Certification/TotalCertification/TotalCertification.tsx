@@ -154,7 +154,7 @@ function TotalCertification({ data }: Data) {
           );
         else if (NOT_TODAY_CERTIFICATED)
           return (
-            <div className="mx-auto">
+            <div key={`not_today_certificated_${index}`} className="mx-auto">
               <CertificationResult>
                 <CertificationResult.InActiveOrdinal
                   content={item.certificationAttempt}
@@ -180,7 +180,7 @@ function TotalCertification({ data }: Data) {
           );
         else if (TODAY_PASSED)
           return (
-            <div className="mx-auto">
+            <div key={`today_passed_${index}`} className="mx-auto">
               <CertificationResult>
                 <CertificationResult.ActiveOrdinal
                   content={item.certificationAttempt}
@@ -198,7 +198,7 @@ function TotalCertification({ data }: Data) {
           );
         else if (NOT_TODAY_PASSED)
           return (
-            <div className="mx-auto">
+            <div key={`not_today_passed_${index}`} className="mx-auto">
               <CertificationResult>
                 <CertificationResult.InActiveOrdinal
                   content={item.certificationAttempt}
@@ -211,7 +211,7 @@ function TotalCertification({ data }: Data) {
       })}
 
       {[...Array(EMPTY_CERTIFICATION_COUNT)].map((_, index) => (
-        <div className="mx-auto">
+        <div key={`empty_certification_${index}`} className="mx-auto">
           <CertificationResult>
             <CertificationResult.InActiveOrdinal
               content={LAST_ATTEMPT + 1 + index}

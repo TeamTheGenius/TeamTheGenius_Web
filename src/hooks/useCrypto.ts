@@ -1,11 +1,10 @@
 import CryptoJS from "crypto-js";
 
-// const secretKey = process.env.REACT_APP_AES_SECRETKEY;
-const secretKey = "00000";
+const secretKey = import.meta.env.VITE_SECRET_KEY;
 
 //암호화
 export const encrypt = (item: any) => {
-  let text = item.toString();
+  const text = item.toString();
 
   const data = {
     id: text,
@@ -13,7 +12,7 @@ export const encrypt = (item: any) => {
 
   const encrypted = CryptoJS.AES.encrypt(JSON.stringify(data), secretKey);
 
-  let result = encrypted.toString();
+  const result = encrypted.toString();
 
   return encodeURIComponent(result);
 };
