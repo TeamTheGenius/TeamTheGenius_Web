@@ -1,6 +1,8 @@
 import { QueryClient } from "react-query";
 import { multiInstance } from "./axios/axios";
 import requests from "./axios/request";
+import { NavigateFunction } from "react-router-dom";
+import { PATH } from "@/constants/path";
 
 type postUserInfoEditType = {
   nickName?: string;
@@ -8,8 +10,10 @@ type postUserInfoEditType = {
   files?: any;
   queryClient: QueryClient;
   setInfoShow: React.Dispatch<React.SetStateAction<number>>;
+  setNickNameShow: React.Dispatch<React.SetStateAction<number>>;
   setNickCheck: React.Dispatch<React.SetStateAction<string>>;
   setNickName: React.Dispatch<React.SetStateAction<string>>;
+  navigate: NavigateFunction;
 };
 
 const postUserInfoEdit = async ({
@@ -18,8 +22,10 @@ const postUserInfoEdit = async ({
   files,
   queryClient,
   setInfoShow,
+  setNickNameShow,
   setNickCheck,
   setNickName,
+  navigate,
 }: postUserInfoEditType) => {
   const body = {
     nickname: nickName,
@@ -43,7 +49,9 @@ const postUserInfoEdit = async ({
       setNickCheck("");
       setNickName("");
       setInfoShow(0);
+      setNickNameShow(0);
       queryClient.invalidateQueries(["myPageProfile"]);
+      navigate(PATH.MY_PAGE);
     })
     .catch((err) => {
       alert("생성 실패");
