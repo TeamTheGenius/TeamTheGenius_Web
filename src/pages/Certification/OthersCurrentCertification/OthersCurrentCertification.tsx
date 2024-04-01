@@ -95,7 +95,7 @@ function OthersCurrentCertification() {
               />
               <OthersAllCertificationLinkButton
                 userId={item.userId}
-                instanceId={parseInt(id)}
+                instanceId={parseInt(decryptedInstanceId)}
               />
             </div>
             <ThisWeekCertification data={certifications[index]} />
