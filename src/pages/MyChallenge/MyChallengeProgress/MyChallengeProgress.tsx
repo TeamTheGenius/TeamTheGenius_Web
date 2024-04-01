@@ -14,9 +14,8 @@ import { useState } from "react";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import { getToday } from "@/utils/getToday";
 import CertificationPassModal from "@/components/Main/MyChallenge/MyChallengeModal/CertificationPassModal/CertificationPassModal";
-import { encrypt } from "@/hooks/useCrypto";
 import Loading from "@/components/Common/Loading/Loading";
-
+import CertificationFailModal from "@/components/Certification/CertificationModal/CertificationFailModal/CertificationFailModal";
 
 interface Data {
   instanceId: number;
@@ -85,8 +84,13 @@ const MyChallengeProgress = () => {
       instanceId: instanceId,
       targetDate: getToday(),
     })
-      .then(() => {
-        refetch();
+      .then((res) => {
+        if (res.certificateStatus === "NOT_YET") {
+          setModal(<CertificationFailModal closeModal={closeModal} />);
+          openModal();
+        } else {
+          refetch();
+        }
       })
       .catch((err) => {
         throw err;

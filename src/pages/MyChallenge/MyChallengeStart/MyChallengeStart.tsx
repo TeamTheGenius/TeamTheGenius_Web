@@ -6,9 +6,7 @@ import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import getMyChallengePreActivity from "@/apis/getMyChallengePreActivity";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
-import { encrypt } from "@/hooks/useCrypto";
 import Loading from "@/components/Common/Loading/Loading";
-
 
 interface Data {
   instanceId: number;
