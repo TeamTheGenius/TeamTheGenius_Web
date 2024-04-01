@@ -1,7 +1,6 @@
 import getMyChallengeDone from "@/apis/getMyChallengeDone";
 import getMyChallengeDoneReward from "@/apis/getMyChallengeDoneReward";
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
-import Loading from "@/components/Common/Loading/Loading";
 import MyChallengeLabel from "@/components/Main/MyChallenge/MyChallengeLabel/MyChallengeLabel";
 import MyChallengeLinkWrap from "@/components/Main/MyChallenge/MyChallengeLinkWrap/MyChallengeLinkWrap";
 import GetRewardModal from "@/components/Main/MyChallenge/MyChallengeModal/GetRewardModal/GetRewardModal";
@@ -38,14 +37,12 @@ interface File {
 const MyChallengeComplete = () => {
   const { setModal, closeModal, openModal } = useOutletContext<Props>();
 
-  const { data, refetch, isLoading } = useQuery<Data[]>({
+  const { data, refetch } = useQuery<Data[]>({
     queryKey: ["myChallengeDone"],
     queryFn: () => getMyChallengeDone(),
+    suspense: true,
   });
 
-  if (isLoading) {
-    return <Loading />;
-  }
   if (!data) {
     return;
   }

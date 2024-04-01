@@ -9,7 +9,6 @@ import { useState } from "react";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
 import { encrypt } from "@/hooks/useCrypto";
-import Loading from "@/components/Common/Loading/Loading";
 
 interface Post {
   instanceId: number;
@@ -37,13 +36,12 @@ function PopularChallengeItems() {
     }
   };
 
-  const { data, isLoading } = useQuery<Data>({
+  const { data } = useQuery<Data>({
     queryKey: ["popularChallenges"],
     queryFn: () => getPopularChallenge({ pageParams: 0, size: 7 }),
+    suspense: true,
   });
-  if (isLoading) {
-    return <Loading />;
-  }
+
   return (
     <div>
       <div className="flex gap-[2.851rem] _sm:justify-between items-center pr-[2.2rem] mb-[1.5rem]">

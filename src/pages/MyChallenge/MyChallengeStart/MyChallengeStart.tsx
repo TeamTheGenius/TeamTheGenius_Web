@@ -6,7 +6,6 @@ import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import getMyChallengePreActivity from "@/apis/getMyChallengePreActivity";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
-import Loading from "@/components/Common/Loading/Loading";
 
 interface Data {
   instanceId: number;
@@ -22,14 +21,12 @@ interface File {
 }
 
 const MyChallengeStart = () => {
-  const { data, isLoading } = useQuery<Data[]>({
+  const { data } = useQuery<Data[]>({
     queryKey: ["myChallengePreActivity"],
     queryFn: () => getMyChallengePreActivity(),
+    suspense: true,
   });
 
-  if (isLoading) {
-    return <Loading />;
-  }
   if (!data) {
     return;
   }
