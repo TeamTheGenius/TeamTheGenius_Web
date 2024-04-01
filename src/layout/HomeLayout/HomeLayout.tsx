@@ -17,7 +17,7 @@ function HomeLayout({ children }: Props) {
           <Tabs />
         </div>
       </div>
-      <div className="pt-[11.7rem] _sm:pt-[10.8rem]">{children}</div>
+      <div className="pt-[11.7rem] _sm:pt-[10.8rem] h-full">{children}</div>
     </>
   );
 }

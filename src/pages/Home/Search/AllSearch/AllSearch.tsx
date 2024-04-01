@@ -1,4 +1,5 @@
 import getSearchedChallengeItem from "@/apis/getSearchedChallengeItem";
+import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import VerticalChallengeItems from "@/components/Common/VerticalChallengeItems/VerticalChallengeItems";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
@@ -28,12 +29,12 @@ function AllSearch() {
   const [ref, inView] = useInView();
   const [challenges, setChallenges] = useState<Data[]>([]);
 
-  const { fetchNextPage, hasNextPage, refetch } = useInfiniteQuery({
+  const { fetchNextPage, hasNextPage, refetch, isLoading } = useInfiniteQuery({
     queryKey: ["getSearchedChallenge", "all"],
     queryFn: ({ pageParam = 0 }) =>
       getSearchedChallengeItem({
         pageParams: pageParam,
-        size: pageParam === 0 ? 20 : 10,
+        size: 20,
         keyword: searchQuery,
       }),
     getNextPageParam: (lastPage) => {
@@ -50,7 +51,7 @@ function AllSearch() {
     if (inView && hasNextPage) {
       fetchNextPage();
     }
-  }, [inView]);
+  }, [inView, hasNextPage, fetchNextPage]);
 
   useEffect(() => {
     if (searchEnter) {
@@ -60,6 +61,7 @@ function AllSearch() {
   }, [searchEnter]);
 
   if (!challenges) return null;
+  if (isLoading) return <LoadingBox />;
 
   return (
     <>

@@ -1,9 +1,10 @@
 import MyChallengeHeader from "@/components/Main/MyChallenge/MyChallengeHeader/MyChallengeHeader";
 import "@/pages/MyChallenge/MyChallengeStyle.css";
 import useModal from "@/hooks/useModal";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
+import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 
 const MyChallenge = () => {
   const { isModalOpened, openModal, closeModal } = useModal();
@@ -14,9 +15,12 @@ const MyChallenge = () => {
       {modal && isModalOpened && (
         <ModalLayer onClick={closeModal}>{modal}</ModalLayer>
       )}
-      <div className="w-full px-[2rem]">
+      <div className="w-full px-[2rem] h-full">
         <MyChallengeHeader />
-        <Outlet context={{ setModal, openModal, closeModal }} />
+
+        <Suspense fallback={<LoadingBox />}>
+          <Outlet context={{ setModal, openModal, closeModal }} />
+        </Suspense>
       </div>
     </>
   );
