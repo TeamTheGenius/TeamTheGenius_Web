@@ -14,7 +14,9 @@ import UserInfo from "@/components/MyPage/MyPage/UserEdit/UserImg/UserImg";
 import UserName from "@/components/MyPage/MyPage/UserEdit/UserName/UserName";
 import NickNameInput from "@/components/Common/NickNameInput/NickNameInput";
 import { useNavigate } from "react-router-dom";
-import { PATH } from "@/constants/path";
+import useModal from "@/hooks/useModal";
+import { ModalLayer } from "@/components/Common/Modal/Modal";
+import { EditModal } from "@/components/MyPage/EditModal/EditModal";
 
 const UserInfoEdit = () => {
   const [signUpBoolean, setsignUpBoolean] = useState(true);
@@ -23,7 +25,8 @@ const UserInfoEdit = () => {
   const [infoShow, setInfoShow] = useState(0);
   const [nickNameShow, setNickNameShow] = useState(0);
   const [imageUrl, setImageUrl] = useState("");
-
+  const { openModal, closeModal, isModalOpened } = useModal();
+  const [isLoading, setIsLoading] = useState(false);
   const { data } = useQuery<Data>({
     queryKey: ["myPageProfile"],
     queryFn: () => getMyPageProfile(),
@@ -40,7 +43,8 @@ const UserInfoEdit = () => {
     setNickName(e.target.value);
   };
 
-  const naviState = () => {
+  const editHandle = () => {
+    setIsLoading(true);
     const valueMyInfo = formik.values.myInfo;
 
     const finalNickName = nickName || data?.nickname;
@@ -62,15 +66,31 @@ const UserInfoEdit = () => {
         files: imageUrl,
         setInfoShow: setInfoShow,
         setNickNameShow: setNickNameShow,
+        setIsLoading: setIsLoading,
       });
     }
     if (!signUpBoolean && finalNickName !== data?.nickname) {
       alert("닉네임 중복확인을 해주세요.");
     }
+    if (isLoading) {
+      closeModal();
+    }
   };
 
   return (
     <>
+      {isModalOpened && (
+        <ModalLayer onClick={closeModal}>
+          <EditModal
+            isLoading={isLoading}
+            editHandle={editHandle}
+            editBoolean={true}
+            success="프로필을 수정하시겠습니까?"
+            fail="Error"
+            buttonText="확인하기"
+          />
+        </ModalLayer>
+      )}
       <MobCard>
         <Header content="회원 정보 수정" />
         <div className="w-full pt-[7.8rem] px-[2.2rem] flex flex-col justify-center items-center">
@@ -146,7 +166,7 @@ const UserInfoEdit = () => {
               )}
             </ul>
             <BottomButton
-              onClick={naviState}
+              onClick={openModal}
               content="수정완료"
               borderColor="border-black"
               btnMaxWidth="max-w-[46.7rem]"

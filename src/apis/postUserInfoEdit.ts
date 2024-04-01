@@ -13,6 +13,7 @@ type postUserInfoEditType = {
   setNickNameShow: React.Dispatch<React.SetStateAction<number>>;
   setNickCheck: React.Dispatch<React.SetStateAction<string>>;
   setNickName: React.Dispatch<React.SetStateAction<string>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   navigate: NavigateFunction;
 };
 
@@ -26,6 +27,7 @@ const postUserInfoEdit = async ({
   setNickCheck,
   setNickName,
   navigate,
+  setIsLoading,
 }: postUserInfoEditType) => {
   const body = {
     nickname: nickName,
@@ -50,6 +52,7 @@ const postUserInfoEdit = async ({
       setNickName("");
       setInfoShow(0);
       setNickNameShow(0);
+      setIsLoading(false);
       queryClient.invalidateQueries(["myPageProfile"]);
       navigate(PATH.MY_PAGE);
     })

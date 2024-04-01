@@ -39,6 +39,7 @@ function SuggestionChallengeItems() {
       navigate(`${PATH.CHALLENGE_DETAIL}/${encryptId}`);
     }
   };
+
   if (isLoading) {
     return <Loading />;
   }
