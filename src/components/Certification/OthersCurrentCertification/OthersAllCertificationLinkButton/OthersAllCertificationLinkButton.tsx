@@ -1,6 +1,6 @@
 import OthersAllCertificationLinkButtonIcon from "@/assets/icon/next-icon.svg";
 import { PATH } from "@/constants/path";
-import { decrypt, encrypt } from "@/hooks/useCrypto";
+import { encrypt } from "@/hooks/useCrypto";
 import { Link } from "react-router-dom";
 
 interface Props {
@@ -9,8 +9,7 @@ interface Props {
 }
 
 function OthersAllCertificationLinkButton({ instanceId, userId }: Props) {
-  const decryptedInstanceId = decrypt(instanceId);
-  const encryptedInstanceId = encrypt(decryptedInstanceId);
+  const encryptedInstanceId = encrypt(instanceId);
   const encryptedUserId = encrypt(userId);
   return (
     <Link

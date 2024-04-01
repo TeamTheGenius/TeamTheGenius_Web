@@ -1,5 +1,6 @@
 import { Profile } from "@/components/Common/Profile/Profile";
 import { FRAMEID } from "@/constants/localStorageKey";
+import { decrypt } from "@/hooks/useCrypto";
 
 interface Props {
   imgSrc: string;
@@ -9,6 +10,7 @@ interface Props {
 }
 function MyProfile({ imgSrc, alt, nickName, githubId }: Props) {
   const frameId = localStorage.getItem(FRAMEID);
+  const decryptedFrameId = decrypt(frameId);
   const frame: { [key: string]: "성탄절" | "어둠의힘" } = {
     1: "성탄절",
     2: "어둠의힘",
@@ -18,10 +20,10 @@ function MyProfile({ imgSrc, alt, nickName, githubId }: Props) {
     <Profile>
       <Profile.FlexCol>
         <div className="mb-[1rem]">
-          {frameId && (
+          {decryptedFrameId && (
             <Profile.ImageFrame
-              frame={frame[frameId]}
-              frameStyle={`인증전체현황_${frame[frameId]}`}
+              frame={frame[decryptedFrameId]}
+              frameStyle={`인증전체현황_${frame[decryptedFrameId]}`}
             />
           )}
           <Profile.Image imgSrc={imgSrc} alt={alt} width="w-[13rem]" />
