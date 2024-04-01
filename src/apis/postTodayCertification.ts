@@ -11,12 +11,15 @@ const postTodayCertification = async ({ instanceId, targetDate }: Params) => {
     instanceId,
     targetDate,
   };
-  await instance
+  const data = await instance
     .post(`${requests.fetchCertToday}`, body)
-    .then(() => {})
+    .then((res) => {
+      return res.data.data;
+    })
     .catch((err) => {
       throw err;
     });
+  return data || {};
 };
 
 export default postTodayCertification;
