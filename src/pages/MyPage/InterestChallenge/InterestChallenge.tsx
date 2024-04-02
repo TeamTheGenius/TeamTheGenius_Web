@@ -2,7 +2,7 @@ import deleteLikeChallenge from "@/apis/deleteLikeChallenge";
 import getLikeChallenges from "@/apis/getLikeChallenges";
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import Header from "@/components/Common/Header/Header";
-import Loading from "@/components/Common/Loading/Loading";
+import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import MobCard from "@/components/Common/MobCard";
 import { PATH } from "@/constants/path";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
@@ -67,7 +67,7 @@ function InterestChallenge() {
     <MobCard>
       <Header content="좋아요 목록" />
       {isLoading ? (
-        <Loading />
+        <LoadingBox />
       ) : (
         <div className="px-[2.2rem] flex justify-center items-center">
           <div className="pt-[9rem] _sm:pt-[7.6rem] w-full max-w-[51.5rem] _sm:max-w-[34.9rem] grid grid-cols-3 gap-x-[1rem] _sm:grid-cols-2">

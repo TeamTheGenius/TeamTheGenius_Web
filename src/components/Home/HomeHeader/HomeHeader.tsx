@@ -19,7 +19,7 @@ interface OutletProps {
 }
 
 interface Props {
-  setSearchEnter: React.Dispatch<React.SetStateAction<boolean>>;
+  setSearchEnter?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function HomeHeader({ setSearchEnter }: Props) {
@@ -52,7 +52,9 @@ function HomeHeader({ setSearchEnter }: Props) {
     ) {
       navigate(PATH.SEARCH_ALL);
     } else if (event.key === "Enter") {
-      setSearchEnter(true);
+      if (setSearchEnter) {
+        setSearchEnter(true);
+      }
     }
   };
 

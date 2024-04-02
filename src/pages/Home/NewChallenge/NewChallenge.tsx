@@ -4,7 +4,7 @@ import VerticalChallengeItems from "@/components/Common/VerticalChallengeItems/V
 import HomeLayout from "@/layout/HomeLayout/HomeLayout";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "react-query";
-import Loading from "@/components/Common/Loading/Loading";
+import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 
 interface Data {
   instanceId: number;
@@ -45,7 +45,7 @@ const NewChallenge = () => {
   return (
     <HomeLayout>
       {isLoading ? (
-        <Loading />
+        <LoadingBox />
       ) : (
         <div className="mx-[2.2rem] mt-[1rem]">
           <VerticalChallengeItems data={challenges} />

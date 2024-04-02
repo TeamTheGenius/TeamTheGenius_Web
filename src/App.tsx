@@ -29,7 +29,6 @@ import MyAllCurrentCertification from "./pages/Certification/MyAllCurrentCertifi
 import OthersAllCurrentCertification from "./pages/Certification/OthersAllCurrentCertification/OthersAllCurrentCertification";
 import InterestEdit from "./pages/MyPage/InterestEdit/InterestEdit";
 import UserInfoEdit from "./pages/MyPage/UserInfoEdit/UserInfoEdit";
-
 import SignUp from "./pages/SignUp/SignUp";
 import Payments from "./pages/Payments/Payments";
 import { Fail } from "./pages/Payments/Fail/Fail";
@@ -164,6 +163,7 @@ function App() {
           />
         </Routes>
       </Router>
+
       <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>
   );
