@@ -5,8 +5,8 @@ import Loading from "@/components/Common/Loading/Loading";
 import MobCard from "@/components/Common/MobCard";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import InterestHeader from "@/components/Interest/InterestHeader/InterestHeader";
+import { EditModal } from "@/components/MyPage/EditModal/EditModal";
 import InterestCheckEdit from "@/components/MyPage/InterestEdit/InterestCheckEdit/InterestCheckEdit";
-import { InterestEditModal } from "@/components/MyPage/InterestEdit/InterestEditModal/InterestEditModal";
 import { interestsData } from "@/data/InterestData";
 import useModal from "@/hooks/useModal";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
@@ -68,11 +68,18 @@ const InterestEdit = () => {
           </>
         )}
       </MobCard>
+
       {isModalOpened && (
         <ModalLayer onClick={closeModal}>
-          <InterestEditModal
-            closeModal={closeModal}
-            editApiBoolean={editApiBoolean}
+          <EditModal
+            isLoading={isLoading}
+            editBoolean={editApiBoolean}
+            success="관심사 수정에 성공했습니다"
+            fail="관심사 수정에 실패했습니다"
+            buttonText="확인하기"
+            editHandle={() => {
+              closeModal();
+            }}
           />
         </ModalLayer>
       )}
