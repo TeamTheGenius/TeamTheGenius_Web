@@ -39,8 +39,10 @@ const GitPullReqConnect = () => {
     setNickName(e.target.value);
   };
   const notionUrl = () => {
-    alert("노션 웹으로 이동하기");
-    // navigate("notionUrl");
+    window.open(
+      "https://sparkly-nut-a48.notion.site/Github-Token-PR-66de4fa6298b4ab286053c68ce3db61e?pvs=4",
+      "_blank"
+    );
   };
 
   const challengeRegiHandle = () => {
@@ -56,7 +58,13 @@ const GitPullReqConnect = () => {
     setModal(<GitPullReqModal closeModal={closeModal} errState={errState} />);
   };
   const challengeRegiFalseHandle = () => {
-    alert("pull request 확인 후 참가하기가 가능합니다.");
+    openModal();
+    setModal(
+      <GitPullReqModal
+        closeModal={closeModal}
+        errState={"3.pull request까지 진행 후 \n 참가하기가 가능합니다."}
+      />
+    );
   };
 
   const { data: githubTokenOk } = useQuery<string>({
@@ -69,7 +77,7 @@ const GitPullReqConnect = () => {
     queryFn: getUserRepoApi,
     enabled: githubTokenOk === "OK",
   });
-  console.log("repoList", repoList);
+
   if (loadingState) {
     return <Loading />;
   }

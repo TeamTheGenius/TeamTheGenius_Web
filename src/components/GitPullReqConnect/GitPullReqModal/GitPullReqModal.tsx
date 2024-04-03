@@ -16,7 +16,7 @@ function GitPullReqModal({
       <Modal.ModalContentBox width="w-[35.5rem]" height="h-[32.3rem]">
         <div className="flex flex-col justify-center relative items-center">
           <div className="mb-[7.4rem]">
-            <Modal.ModalContent content={errState} />
+            {errState && <Modal.ModalContent content={errState} />}
           </div>
           <Button
             content="닫기"

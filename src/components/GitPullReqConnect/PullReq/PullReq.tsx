@@ -2,7 +2,7 @@ import Button from "@/components/Common/Button";
 import getPullRequestVerifyApi from "@/apis/getPullRequestVerifyApi";
 import checkIcon from "@/assets/icon/check-icon.svg";
 import failIcon from "@/assets/icon/sign-icon.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import useModal from "@/hooks/useModal";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
@@ -27,20 +27,37 @@ function PullReq({
   const [modal, setModal] = useState<React.ReactNode>();
   const { openModal, closeModal, isModalOpened } = useModal();
 
-  const pullReqCheck = () => {
+  const pullReqCheck = async () => {
     setLoadingState(true);
-    getPullRequestVerifyApi({
+    await getPullRequestVerifyApi({
       openModal: openModal,
       setErrState: setErrState,
       repo: repoState,
       setPrBoolean: setPrBoolean,
       setLoadingState: setLoadingState,
+    }).catch((err) => {
+      setPrBoolean(false);
+      setLoadingState(false);
+      setErrState(err.response.data.message);
     });
-    setModal(<GitPullReqModal closeModal={closeModal} errState={errState} />);
+
+    openModal();
   };
+
   const pullReqFalse = () => {
-    alert("레포지토리 선택을 먼저 진행해주세요.");
+    openModal();
+    setModal(
+      <GitPullReqModal
+        closeModal={closeModal}
+        errState={"레포지토리 선택을 먼저 진행해주세요."}
+      />
+    );
   };
+  useEffect(() => {
+    if (errState) {
+      setModal(<GitPullReqModal closeModal={closeModal} errState={errState} />);
+    }
+  }, [errState]);
   return (
     <>
       {modal && isModalOpened && (

@@ -1,6 +1,6 @@
 import Line from "@/components/Common/Line/Line";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
-import Header from "@/components/MyPage/MyPage/Header/Header";
+import MainHeader from "@/components/Common/MainHeader/MainHeader";
 import LinkButtons from "@/components/MyPage/MyPage/LinkButtons/LinkButtons";
 import MyChallengeSummary from "@/components/MyPage/MyPage/MyChallengeSummary/MyChallengeSummary";
 import MyProfile from "@/components/MyPage/MyPage/MyProfile/MyProfile";
@@ -9,7 +9,9 @@ import { Suspense } from "react";
 function MyPage() {
   return (
     <>
-      <Header />
+      <div className="px-[2rem]">
+        <MainHeader headerText="마이 페이지" />
+      </div>
       <Suspense fallback={<LoadingBox />}>
         <div className="px-[2.2rem] pt-[6.7rem] w-full">
           <div className="flex flex-col w-full justify-center items-center">

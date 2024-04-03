@@ -22,6 +22,7 @@ import getMyPageProfile from "@/apis/getMyPageProfile";
 import getItemPointApi from "@/apis/getItemPointApi";
 import ShopFrameList from "@/components/Shop/ShopFrameList/ShopFrameList";
 import ShopTicketList from "@/components/Shop/ShopTicketList/ShopTicketList";
+import MainHeader from "@/components/Common/MainHeader/MainHeader";
 
 const Shop = () => {
   const [loadingState, setLoadingState] = useState(false);
@@ -141,7 +142,9 @@ const Shop = () => {
       {modal && isModalOpened && (
         <ModalLayer onClick={closeModal}>{modal}</ModalLayer>
       )}
-      <ShopHeader />
+      <div className="px-[2rem]">
+        <MainHeader headerText="포인트 상점" />
+      </div>
       <div className="px-[2.2rem] pt-[6.7rem] w-full _sm:px-[1.5rem] _sm:pt-[6rem]">
         <div className="flex flex-col w-full justify-center items-center">
           <div className="w-full max-w-[44.5rem] _sm:max-w-[27.8rem] mt-[2.9rem]">

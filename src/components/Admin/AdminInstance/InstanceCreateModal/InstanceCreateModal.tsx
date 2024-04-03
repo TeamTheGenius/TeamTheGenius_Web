@@ -220,10 +220,8 @@ const FormImg = ({ file }: fileType) => {
     </>
   );
 };
-
 const FormInterest = ({ tags }: { tags: string | undefined }) => {
   const tagArr = tags?.split(",");
-
   return (
     <>
       <Form.Item name="tags" label="관심사 선택" initialValue={tags}>
@@ -238,7 +236,6 @@ const FormInterest = ({ tags }: { tags: string | undefined }) => {
     </>
   );
 };
-
 const FormPoint = ({ point }: { point: number | undefined }) => {
   return (
     <>
@@ -255,7 +252,7 @@ const FormRangePicker = () => {
   };
   return (
     <>
-      <Form.Item name="ranger" label="RangePicker">
+      <Form.Item name="ranger" label="챌린지 기간">
         <RangePicker format="YYYY-MM-DD" disabledDate={disabledDate} />
       </Form.Item>
     </>
