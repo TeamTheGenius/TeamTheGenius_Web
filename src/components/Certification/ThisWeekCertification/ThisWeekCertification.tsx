@@ -253,6 +253,7 @@ function ThisWeekCertification({ data, paddingLeft }: Props) {
                           date: item.certificatedAt,
                         })}
                       />
+                      <CertificationResult.PassIcon />
                     </CertificationResult.SuccessWrapper>
                   </CertificationResult>
                 </div>

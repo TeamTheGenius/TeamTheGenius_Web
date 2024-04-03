@@ -49,11 +49,14 @@ const MyChallengeComplete = () => {
 
   const onClickGetRewardButton = async (
     e: React.MouseEvent,
-    instanceId: number
+    instanceId: number,
+    pointPerPerson: number
   ) => {
     e.stopPropagation();
     await getMyChallengeDoneReward({ instanceId });
-    setModal(<GetRewardModal closeModal={closeModal} />);
+    setModal(
+      <GetRewardModal closeModal={closeModal} pointPerPerson={pointPerPerson} />
+    );
     openModal();
     refetch();
   };
@@ -128,7 +131,11 @@ const MyChallengeComplete = () => {
                     <MyChallengeLabel
                       labelText="보상 수령"
                       onClick={(e: React.MouseEvent) =>
-                        onClickGetRewardButton(e, item.instanceId)
+                        onClickGetRewardButton(
+                          e,
+                          item.instanceId,
+                          item.pointPerPerson
+                        )
                       }
                     />
                   )}
