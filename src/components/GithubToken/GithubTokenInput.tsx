@@ -24,6 +24,7 @@ const GithubTokenInput = ({
   const { data: githubTokenInputOk } = useQuery<string>({
     queryKey: ["getGithubToken"],
     queryFn: getGithubTokenApi,
+    useErrorBoundary: false,
   });
   const queryClient: QueryClient = useQueryClient();
   const gitTokenCheck = () => {

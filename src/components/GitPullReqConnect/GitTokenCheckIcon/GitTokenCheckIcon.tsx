@@ -8,7 +8,6 @@ const GitTokenCheckIcon = ({
   githubTokenInputOk,
   repoOk,
 }: GitTokenCheckIconType) => {
-  console.log("repoOk", repoOk);
   return (
     <div>
       {githubTokenInputOk && (
