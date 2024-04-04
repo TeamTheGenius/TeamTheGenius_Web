@@ -142,9 +142,7 @@ const Shop = () => {
       {modal && isModalOpened && (
         <ModalLayer onClick={closeModal}>{modal}</ModalLayer>
       )}
-      <div className="px-[2rem]">
-        <MainHeader headerText="포인트 상점" />
-      </div>
+      <MainHeader headerText="포인트 상점" />
       <div className="px-[2.2rem] pt-[6.7rem] w-full _sm:px-[1.5rem] _sm:pt-[6rem]">
         <div className="flex flex-col w-full justify-center items-center">
           <div className="w-full max-w-[44.5rem] _sm:max-w-[27.8rem] mt-[2.9rem]">

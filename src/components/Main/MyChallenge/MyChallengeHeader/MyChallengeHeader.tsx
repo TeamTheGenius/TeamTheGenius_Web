@@ -31,7 +31,7 @@ const MyChallengeHeader = () => {
     <>
       <header className="relative w-full h-[11.7rem]">
         <MainHeader headerText="마이 챌린지" />
-        <div className="w-full flex justify-center left-0 bottom-0 absolute">
+        <div className="w-full flex justify-center left-0 bottom-0 absolute px-[2rem]">
           <ul className="flex justify-between items-end myChallenge-wrap">
             {tabs.map((tab, i) => {
               const tabActive = activeIndex === i;

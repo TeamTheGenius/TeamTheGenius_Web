@@ -15,7 +15,7 @@ const MyChallenge = () => {
       {modal && isModalOpened && (
         <ModalLayer onClick={closeModal}>{modal}</ModalLayer>
       )}
-      <div className="w-full px-[2rem] h-full">
+      <div className="w-full h-full">
         <MyChallengeHeader />
         <Suspense fallback={<LoadingBox />}>
           <Outlet context={{ setModal, openModal, closeModal }} />
