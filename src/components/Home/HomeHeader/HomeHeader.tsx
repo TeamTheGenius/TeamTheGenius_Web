@@ -62,12 +62,18 @@ function HomeHeader({ setSearchEnter }: Props) {
     setSearchQuery(event.target.value);
   };
 
+  const onClickLogo = () => {
+    navigate(PATH.HOME);
+  };
+
   return (
     <div className="px-[2.2rem] h-[4.7rem] _sm:h-[3.8rem] flex items-center">
       <img
+        onClick={onClickLogo}
         src={logo}
-        className="w-[14rem] mr-[0.7rem] _sm:w-[3.7rem] _sm:shrink-0 h-full flex justify-center items-center font-extralight text-[1.2rem] leading-_normal text-black"
-      ></img>
+        className="cursor-pointer w-[14rem] mr-[0.7rem] _sm:w-[3.7rem] _sm:shrink-0 h-full flex justify-center items-center font-extralight text-[1.2rem] leading-_normal text-black"
+      />
+
       <div className="flex items-center bg-[#EEE] w-full max-w-[54.2rem] h-full rounded-[0.5rem] px-[1.2rem]">
         <img src={searchIcon} alt="검색 아이콘" />
         <input
@@ -80,7 +86,7 @@ function HomeHeader({ setSearchEnter }: Props) {
         />
       </div>
       <div className="w-[11.6rem] _sm:w-[3rem] _sm:shrink-0 ml-[1.2rem] h-full flex justify-center items-center font-extralight text-[1.2rem] leading-_normal text-black">
-        <img src={alram} alt="알람" className="ml-auto w-[3.8rem]" />
+        {/* <img src={alram} alt="알람" className="ml-auto w-[3.8rem]" /> */}
       </div>
     </div>
   );

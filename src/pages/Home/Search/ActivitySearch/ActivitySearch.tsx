@@ -1,6 +1,7 @@
 import getSearchedChallengeItem from "@/apis/getSearchedChallengeItem";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import VerticalChallengeItems from "@/components/Common/VerticalChallengeItems/VerticalChallengeItems";
+import { QUERY_KEY } from "@/constants/queryKey";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "react-query";
@@ -30,7 +31,7 @@ function ActivitySearch() {
   const [challenges, setChallenges] = useState<Data[]>([]);
 
   const { fetchNextPage, hasNextPage, refetch, isLoading } = useInfiniteQuery({
-    queryKey: ["getSearchedChallenge", "activity"],
+    queryKey: [QUERY_KEY.INFINITE_SEARCHED_ACTIVITY_CHALLENGES],
     queryFn: ({ pageParam = 0 }) =>
       getSearchedChallengeItem({
         pageParams: pageParam,

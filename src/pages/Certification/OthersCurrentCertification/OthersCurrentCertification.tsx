@@ -11,6 +11,7 @@ import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import basicProfileImage from "@/assets/image/basic-profile-image-gray.png";
+import { QUERY_KEY } from "@/constants/queryKey";
 
 interface Data {
   userId: number;
@@ -48,7 +49,10 @@ function OthersCurrentCertification() {
   const [certifications, setcertifications] = useState<Data[]>([]);
 
   const { fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: ["getOthersWeekCertification", { decryptedInstanceId }],
+    queryKey: [
+      QUERY_KEY.INFINITE_OTHERS_WEEK_CERTIFICATIONS_OF_INSTANCE,
+      { decryptedInstanceId },
+    ],
     queryFn: ({ pageParam = 0 }) =>
       decryptedInstanceId
         ? getOthersWeekCertification({

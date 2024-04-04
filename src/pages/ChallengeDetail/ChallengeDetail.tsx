@@ -12,6 +12,7 @@ import { useQuery } from "react-query";
 import ParticipationCancelButton from "@/components/ChallengeDetail/ParticipationCancelButton/ParticipationCancelButton";
 import { decrypt } from "@/hooks/useCrypto";
 import Loading from "@/components/Common/Loading/Loading";
+import { QUERY_KEY } from "@/constants/queryKey";
 
 interface Data {
   instanceId: number;
@@ -44,7 +45,7 @@ function ChallengeDetail() {
   const { id } = useParams();
   const decryptId = decrypt(id);
   const { data, refetch, isLoading } = useQuery<Data>({
-    queryKey: ["instanceDetail", { decryptId }],
+    queryKey: [QUERY_KEY.CHALLENGE_INSTANCE_DETAIL, { decryptId }],
     queryFn: () =>
       decryptId
         ? getInstanceDetail({ instanceId: parseInt(decryptId) })

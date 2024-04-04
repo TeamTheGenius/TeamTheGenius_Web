@@ -9,6 +9,7 @@ import postUserProfile from "@/apis/postUserProfile";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { decrypt } from "@/hooks/useCrypto";
 import basicProfileImage from "@/assets/image/basic-profile-image-gray.png";
+import { QUERY_KEY } from "@/constants/queryKey";
 
 interface Data {
   totalAttempts: number;
@@ -50,7 +51,7 @@ function MyAllCurrentCertification() {
 
   const { data: certifications } = useQuery<Data>({
     queryKey: [
-      "totalCertification",
+      QUERY_KEY.ALL_CERTIFICATIONS_OF_INSTANCE,
       { decryptedInstanceId },
       { decryptedUserId },
     ],
@@ -64,7 +65,7 @@ function MyAllCurrentCertification() {
   });
 
   const { data: userProfile } = useQuery<UserData>({
-    queryKey: ["userProfile", { decryptedUserId }],
+    queryKey: [QUERY_KEY.CERTIFICATION_USER_PROFILE, { decryptedUserId }],
     queryFn: () =>
       decryptedUserId
         ? postUserProfile({ userId: parseInt(decryptedUserId) })

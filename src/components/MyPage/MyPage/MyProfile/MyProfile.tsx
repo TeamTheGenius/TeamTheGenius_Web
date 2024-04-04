@@ -9,10 +9,11 @@ import { Data } from "@/types/myProfileData";
 import { FRAMEID } from "@/constants/localStorageKey";
 import { decrypt } from "@/hooks/useCrypto";
 import basicProfileImage from "@/assets/image/basic-profile-image-gray.png";
+import { QUERY_KEY } from "@/constants/queryKey";
 
 function MyProfile() {
   const { data } = useQuery<Data>({
-    queryKey: ["myPageProfile"],
+    queryKey: [QUERY_KEY.MY_PROFILE],
     queryFn: () => getMyPageProfile(),
     suspense: true,
   });

@@ -7,6 +7,7 @@ import "@/components/Interest/InterestCheck/antdCheckbox.css";
 import Interest from "@/pages/Interest/Interest";
 import { useQuery } from "react-query";
 import getInterestTags from "@/apis/getInterestTags";
+import { QUERY_KEY } from "@/constants/queryKey";
 
 type InterestCheckType = {
   InterestValue: Interest[];
@@ -20,7 +21,7 @@ const InterestCheckEdit = ({
   setCheckedValues,
 }: InterestCheckType) => {
   const { data } = useQuery<string[]>({
-    queryKey: ["interestTags"],
+    queryKey: [QUERY_KEY.MY_INTEREST_TAGS],
     queryFn: () => getInterestTags(),
     onSuccess: (data) => {
       setCheckedValues(data);

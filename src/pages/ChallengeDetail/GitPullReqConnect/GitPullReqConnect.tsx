@@ -18,6 +18,7 @@ import Loading from "@/components/Common/Loading/Loading";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import useModal from "@/hooks/useModal";
 import GitPullReqModal from "@/components/GitPullReqConnect/GitPullReqModal/GitPullReqModal";
+import { QUERY_KEY } from "@/constants/queryKey";
 
 const GitPullReqConnect = () => {
   const [githubBoolean, setGithubBoolean] = useState(false);
@@ -68,13 +69,13 @@ const GitPullReqConnect = () => {
   };
 
   const { data: githubTokenOk } = useQuery<string>({
-    queryKey: ["getGithubToken"],
+    queryKey: [QUERY_KEY.GITHUB_TOKEN],
     queryFn: getGithubTokenApi,
     useErrorBoundary: false,
   });
 
   const { data: repoList } = useQuery<string[]>({
-    queryKey: ["getUserRepo"],
+    queryKey: [QUERY_KEY.GITHUB_REPOSITORIES],
     queryFn: getUserRepoApi,
     enabled: githubTokenOk === "OK",
   });

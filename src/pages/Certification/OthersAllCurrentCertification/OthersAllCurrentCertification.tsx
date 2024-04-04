@@ -9,6 +9,7 @@ import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import basicProfileImage from "@/assets/image/basic-profile-image-gray.png";
+import { QUERY_KEY } from "@/constants/queryKey";
 
 interface Data {
   totalAttempts: number;
@@ -51,7 +52,7 @@ function OthersAllCurrentCertification() {
 
   const { data: certifications } = useQuery<Data>({
     queryKey: [
-      "totalCertification",
+      QUERY_KEY.ALL_CERTIFICATIONS_OF_INSTANCE,
       { decryptedInstanceId },
       { decryptedUserId },
     ],
@@ -65,7 +66,7 @@ function OthersAllCurrentCertification() {
   });
 
   const { data: userProfile } = useQuery<UserData>({
-    queryKey: ["userProfile", { decryptedUserId }],
+    queryKey: [QUERY_KEY.CERTIFICATION_USER_PROFILE, { decryptedUserId }],
     queryFn: () =>
       decryptedUserId
         ? postUserProfile({ userId: parseInt(decryptedUserId) })

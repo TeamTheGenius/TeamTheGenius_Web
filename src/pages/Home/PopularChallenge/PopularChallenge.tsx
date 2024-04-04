@@ -5,6 +5,7 @@ import getPopularChallenge from "@/apis/getPopularChallenge";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "react-query";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
+import { QUERY_KEY } from "@/constants/queryKey";
 
 interface Data {
   instanceId: number;
@@ -21,9 +22,9 @@ const PopularChallenge = () => {
   const [challenges, setChallenges] = useState<Data[]>([]);
 
   const { fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
-    queryKey: ["getPopularChallenges"],
+    queryKey: [QUERY_KEY.INFINITE_POPULAR_CHALLENGES],
     queryFn: ({ pageParam = 0 }) =>
-      getPopularChallenge({ pageParams: pageParam, size: 20 }),
+      getPopularChallenge({ pageParams: pageParam, size: 10 }),
     getNextPageParam: (lastPage) => {
       return lastPage.isLast ? undefined : lastPage.page + 1;
     },

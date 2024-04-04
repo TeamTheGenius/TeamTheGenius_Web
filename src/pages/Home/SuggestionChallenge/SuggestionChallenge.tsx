@@ -5,6 +5,7 @@ import { useInView } from "react-intersection-observer";
 import getRecommendedChallenge from "@/apis/getRecommendedChallenge";
 import { useInfiniteQuery } from "react-query";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
+import { QUERY_KEY } from "@/constants/queryKey";
 
 interface Data {
   instanceId: number;
@@ -21,7 +22,7 @@ const SuggestionChallenge = () => {
   const [challenges, setChallenges] = useState<Data[]>([]);
 
   const { fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
-    queryKey: ["getRecommendedChallenges"],
+    queryKey: [QUERY_KEY.INFINITE_RECOMMENDED_CHALLENGES],
     queryFn: ({ pageParam = 0 }) =>
       getRecommendedChallenge({ pageParams: pageParam, size: 20 }),
     getNextPageParam: (lastPage) => {

@@ -5,6 +5,7 @@ import HomeLayout from "@/layout/HomeLayout/HomeLayout";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "react-query";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
+import { QUERY_KEY } from "@/constants/queryKey";
 
 interface Data {
   instanceId: number;
@@ -21,7 +22,7 @@ const NewChallenge = () => {
   const [challenges, setChallenges] = useState<Data[]>([]);
 
   const { fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
-    queryKey: ["getLastestChallenges"],
+    queryKey: [QUERY_KEY.INFINITE_LASTEST_CHALLENGES],
     queryFn: ({ pageParam = 0 }) =>
       getLatestChallenge({ pageParams: pageParam, size: 20 }),
     getNextPageParam: (lastPage) => {
