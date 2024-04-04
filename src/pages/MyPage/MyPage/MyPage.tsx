@@ -9,9 +9,7 @@ import { Suspense } from "react";
 function MyPage() {
   return (
     <>
-      <div className="px-[2rem]">
-        <MainHeader headerText="마이 페이지" />
-      </div>
+      <MainHeader headerText="마이 페이지" />
       <Suspense fallback={<LoadingBox />}>
         <div className="px-[2.2rem] pt-[6.7rem] w-full">
           <div className="flex flex-col w-full justify-center items-center">

@@ -26,20 +26,25 @@ function MainHeader({ headerText }: Props) {
   }, 300);
 
   return (
-    <div className="pt-[2rem] h-[4.7rem] _sm:h-[3.8rem] w-full flex items-center">
-      <Link
-        to={PATH.HOME}
-        className="w-1/3 h-[4.2rem] flex justify-center items-center font-extralight text-[1.2rem] leading-_normal text-black"
-      >
-        <img src={logo} className="_sm:shrink-0 h-full mr-auto"></img>
-      </Link>
-      <div className="w-1/3 text-center">
-        <span className="text-[1.8rem] font-bold text-black self-center">
-          {headerText}
-        </span>
-      </div>
-      <div className="w-1/3 _sm:shrink-0 h-full flex justify-center items-center font-extralight text-[1.2rem] leading-_normal text-black">
-        <img src={alram} alt="알람" className="ml-auto w-[3.8rem]" />
+    <div className="max-w-[77.3rem] w-full z-10 bg-white fixed top-0 h-[6rem] _sm:h-[6rem]">
+      <div className="w-full h-full py-[1.1rem] px-[2rem] flex justify-between items-center">
+        <div className="flex justify-center items-center h-[4.2rem] ">
+          <Link
+            to={PATH.HOME}
+            className=" font-extralight text-[1.2rem] leading-_normal text-black"
+          >
+            <img src={logo} className="_sm:shrink-0 h-full mr-auto"></img>
+          </Link>
+        </div>
+        <div className="absolute left-1/2 -translate-x-1/2">
+          <span className="text-[1.8rem] font-bold text-black self-center">
+            {headerText}
+          </span>
+        </div>
+        <div className="_sm:shrink-0 h-full flex justify-center items-center font-extralight text-[1.2rem] leading-_normal text-black">
+          {/* <img src={alram} alt="알람" className="ml-auto w-[3.8rem]" /> */}
+          <div className="dummy w-[3.8rem]"></div>
+        </div>
       </div>
     </div>
   );
