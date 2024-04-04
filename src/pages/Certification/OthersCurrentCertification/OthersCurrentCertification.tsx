@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteQuery } from "react-query";
 import { useParams } from "react-router-dom";
+import basicProfileImage from "@/assets/image/basic-profile-image-gray.png";
 
 interface Data {
   userId: number;
@@ -84,15 +85,25 @@ function OthersCurrentCertification() {
         >
           <div>
             <div className="flex justify-between mb-[2.3rem] _sm:mb-[1.7rem]">
-              <OthersProfile
-                imgSrc={makeBase64IncodedImage({
-                  uri: item.profile.encodedFile,
-                  format: "jpg",
-                })}
-                alt="프로필 이미지"
-                nickName={item.nickname}
-                frameId={item.frameId}
-              />
+              {item.profile.encodedFile === "none" ? (
+                <OthersProfile
+                  imgSrc={basicProfileImage}
+                  alt="프로필 이미지"
+                  nickName={item.nickname}
+                  frameId={item.frameId}
+                />
+              ) : (
+                <OthersProfile
+                  imgSrc={makeBase64IncodedImage({
+                    uri: item.profile.encodedFile,
+                    format: "jpg",
+                  })}
+                  alt="프로필 이미지"
+                  nickName={item.nickname}
+                  frameId={item.frameId}
+                />
+              )}
+
               <OthersAllCertificationLinkButton
                 userId={item.userId}
                 instanceId={parseInt(decryptedInstanceId)}

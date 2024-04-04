@@ -8,6 +8,7 @@ import { decrypt } from "@/hooks/useCrypto";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
+import basicProfileImage from "@/assets/image/basic-profile-image-gray.png";
 
 interface Data {
   totalAttempts: number;
@@ -82,16 +83,26 @@ function OthersAllCurrentCertification() {
           <ReportButton />
         </div> */}
         <div className="mt-[3.4rem] _sm:mt-[1.8rem]">
-          <OthersProfile
-            imgSrc={makeBase64IncodedImage({
-              uri: userProfile.fileResponse.encodedFile,
-              format: "jpg",
-            })}
-            alt="프로필 이미지"
-            nickName={userProfile.nickname}
-            githubId={userProfile.identifier}
-            frameId={userProfile.frameId}
-          />
+          {userProfile.fileResponse.encodedFile === "none" ? (
+            <OthersProfile
+              imgSrc={basicProfileImage}
+              alt="프로필 이미지"
+              nickName={userProfile.nickname}
+              githubId={userProfile.identifier}
+              frameId={userProfile.frameId}
+            />
+          ) : (
+            <OthersProfile
+              imgSrc={makeBase64IncodedImage({
+                uri: userProfile.fileResponse.encodedFile,
+                format: "jpg",
+              })}
+              alt="프로필 이미지"
+              nickName={userProfile.nickname}
+              githubId={userProfile.identifier}
+              frameId={userProfile.frameId}
+            />
+          )}
           <div className="mt-[9.2rem] _sm:mt-[4.8rem]">
             <div className="flex justify-center items-center w-full">
               <div className="w-full max-w-[54rem] grid grid-cols-7 _sm:grid-cols-5 _md:grid-cols-6 gap-x-[2rem] gap-y-[5rem] ">
