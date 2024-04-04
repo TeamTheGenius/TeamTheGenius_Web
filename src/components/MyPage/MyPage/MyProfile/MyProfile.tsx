@@ -8,6 +8,7 @@ import { useQuery } from "react-query";
 import { Data } from "@/types/myProfileData";
 import { FRAMEID } from "@/constants/localStorageKey";
 import { decrypt } from "@/hooks/useCrypto";
+import basicProfileImage from "@/assets/image/basic-profile-image-gray.png";
 
 function MyProfile() {
   const { data } = useQuery<Data>({
@@ -38,14 +39,22 @@ function MyProfile() {
                 frameStyle={`마이페이지_${frame[frameId]}`}
               />
             )}
-            <Profile.Image
-              imgSrc={makeBase64IncodedImage({
-                uri: data.fileResponse.encodedFile,
-                format: "png",
-              })}
-              alt="프로필 이미지"
-              width="w-[10.2rem]"
-            />
+            {data.fileResponse.encodedFile === "none" ? (
+              <Profile.Image
+                imgSrc={basicProfileImage}
+                alt="프로필 이미지"
+                width="w-[10.2rem]"
+              />
+            ) : (
+              <Profile.Image
+                imgSrc={makeBase64IncodedImage({
+                  uri: data.fileResponse.encodedFile,
+                  format: "png",
+                })}
+                alt="프로필 이미지"
+                width="w-[10.2rem]"
+              />
+            )}
           </Profile>
         </div>
         <div className="w-full max-w-[34.4rem]">
