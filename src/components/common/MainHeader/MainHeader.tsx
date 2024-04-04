@@ -26,7 +26,7 @@ function MainHeader({ headerText }: Props) {
   }, 300);
 
   return (
-    <div className="max-w-[77.3rem] w-full z-10 bg-white fixed top-0 h-[6rem] _sm:h-[6rem]">
+    <div className="max-w-[77.3rem] w-full z-50 bg-white fixed top-0 h-[6rem] _sm:h-[6rem]">
       <div className="w-full h-full py-[1.1rem] px-[2rem] flex justify-between items-center">
         <div className="flex justify-center items-center h-[4.2rem] ">
           <Link
