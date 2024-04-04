@@ -12,7 +12,7 @@ import { PATH } from "@/constants/path";
 import deskTopLogo from "@/assets/icon/desktop-logo.svg";
 import mobileLogo from "@/assets/icon/mobile-logo.svg";
 import debounce from "lodash/debounce";
-
+import alram from "@/assets/icon/alarm.svg";
 interface OutletProps {
   searchQuery: string;
   setSearchQuery: Dispatch<SetStateAction<string>>;
@@ -79,11 +79,9 @@ function HomeHeader({ setSearchEnter }: Props) {
           onKeyDown={onClickKeyPress}
         />
       </div>
-      {/*
-      <div className="w-[11.6rem] _sm:w-[6.8rem] _sm:shrink-0 h-full flex justify-center items-center font-extralight text-[1.2rem] leading-_normal text-black">
-        알림
+      <div className="w-[11.6rem] _sm:w-[3rem] _sm:shrink-0 ml-[1.2rem] h-full flex justify-center items-center font-extralight text-[1.2rem] leading-_normal text-black">
+        <img src={alram} alt="알람" className="ml-auto w-[3.8rem]" />
       </div>
-         */}
     </div>
   );
 }

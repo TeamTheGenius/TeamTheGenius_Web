@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { PATH } from "@/constants/path";
+import MainHeader from "@/components/Common/MainHeader/MainHeader";
 
 const MyChallengeHeader = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
@@ -28,10 +29,8 @@ const MyChallengeHeader = () => {
   }, [location]);
   return (
     <>
-      <header className="relative h-[11.7rem]">
-        <h2 className="pt-[2.2rem] _sm:pt-[2rem] text-[1.8rem] font-bold text-black">
-          마이챌린지
-        </h2>
+      <header className="relative w-full h-[11.7rem]">
+        <MainHeader headerText="마이 챌린지" />
         <div className="w-full flex justify-center left-0 bottom-0 absolute">
           <ul className="flex justify-between items-end myChallenge-wrap">
             {tabs.map((tab, i) => {

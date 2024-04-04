@@ -17,7 +17,6 @@ const MyChallenge = () => {
       )}
       <div className="w-full px-[2rem] h-full">
         <MyChallengeHeader />
-
         <Suspense fallback={<LoadingBox />}>
           <Outlet context={{ setModal, openModal, closeModal }} />
         </Suspense>

@@ -24,10 +24,7 @@ const getPullRequestVerifyApi = async ({
       setLoadingState(false);
     })
     .catch((err) => {
-      openModal();
-      setErrState(err.response.data.message);
-      setLoadingState(false);
-      setPrBoolean(false);
+      throw err;
     });
 };
 
