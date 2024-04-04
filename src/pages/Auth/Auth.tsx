@@ -19,6 +19,8 @@ const Auth = () => {
         .then((res) => {
           if (res.frameId) {
             localStorage.setItem(FRAMEID, encrypt(res.frameId));
+          } else {
+            localStorage.setItem(FRAMEID, "");
           }
           if (res.role === "ADMIN") {
             navigate(PATH.ADMIN);
@@ -36,6 +38,8 @@ const Auth = () => {
         .then((res) => {
           if (res.frameId) {
             localStorage.setItem(FRAMEID, encrypt(res.frameId));
+          } else {
+            localStorage.setItem(FRAMEID, "");
           }
           if (res.role === "ADMIN") {
             navigate(PATH.ADMIN);

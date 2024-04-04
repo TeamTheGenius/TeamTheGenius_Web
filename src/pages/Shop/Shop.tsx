@@ -1,5 +1,4 @@
 import MyPoint from "@/components/MyPage/MyPage/MyPoint/MyPoint";
-import ShopHeader from "@/components/Shop/ShopHeader/ShopHeader";
 import MobShopFrameSlice from "@/components/Shop/ShopFrameList/MobShopFrameSlice/MobShopFrameSlice";
 import "@/pages/Shop/swiperCustomStyle.css";
 import { useEffect, useMemo, useState } from "react";
@@ -23,6 +22,7 @@ import getItemPointApi from "@/apis/getItemPointApi";
 import ShopFrameList from "@/components/Shop/ShopFrameList/ShopFrameList";
 import ShopTicketList from "@/components/Shop/ShopTicketList/ShopTicketList";
 import MainHeader from "@/components/Common/MainHeader/MainHeader";
+import { QUERY_KEY } from "@/constants/queryKey";
 
 const Shop = () => {
   const [loadingState, setLoadingState] = useState(false);
@@ -33,28 +33,28 @@ const Shop = () => {
   const [modal, setModal] = useState<React.ReactNode>();
   const { openModal, closeModal, isModalOpened } = useModal();
   const { data: profilePoint } = useQuery<Data>({
-    queryKey: ["myPageProfile"],
+    queryKey: [QUERY_KEY.MY_PROFILE],
     queryFn: () => getMyPageProfile(),
   });
 
   const { data: frameData, isLoading: frameLoading } = useQuery<
     shopFrameListType[]
   >({
-    queryKey: ["itemFrameList"],
+    queryKey: [QUERY_KEY.SHOP_FRAME_ITEMS],
     queryFn: () => getItemFrameApi(),
   });
 
   const { data: passData, isLoading: passLoading } = useQuery<
     shopTicketListType[]
   >({
-    queryKey: ["itemPassList"],
+    queryKey: [QUERY_KEY.SHOP_PASS_ITEM],
     queryFn: () => getItemPassApi(),
   });
 
   const { data: pointData, isLoading: pointLoading } = useQuery<
     shopTicketListType[]
   >({
-    queryKey: ["itemPointList"],
+    queryKey: [QUERY_KEY.SHOP_POINT_TWICE_ITEM],
     queryFn: () => getItemPointApi(),
   });
 

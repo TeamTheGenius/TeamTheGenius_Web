@@ -9,6 +9,7 @@ import { useState } from "react";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
 import { encrypt } from "@/hooks/useCrypto";
+import { QUERY_KEY } from "@/constants/queryKey";
 
 interface Post {
   instanceId: number;
@@ -28,7 +29,7 @@ function SuggestionChallengeItems() {
   const [clickPossible, setClickPossible] = useState<boolean>(true);
   const navigate = useNavigate();
   const { data } = useQuery<Data>({
-    queryKey: ["recommendedChallenges"],
+    queryKey: [QUERY_KEY.RECOMMENDED_CHALLENGES],
     queryFn: () => getRecommendedChallenge({ pageParams: 0, size: 7 }),
     suspense: true,
   });

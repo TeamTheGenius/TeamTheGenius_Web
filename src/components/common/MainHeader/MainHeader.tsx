@@ -26,12 +26,12 @@ function MainHeader({ headerText }: Props) {
   }, 300);
 
   return (
-    <div className="max-w-[77.3rem] w-full z-50 bg-white fixed top-0 h-[6rem] _sm:h-[6rem]">
-      <div className="w-full h-full py-[1.1rem] px-[2rem] flex justify-between items-center">
+    <div className="my-[1.1rem] max-w-[77.3rem] w-full z-50 bg-white fixed top-0 h-[4.7rem] _sm:h-[3.8rem]">
+      <div className="w-full h-full py-[1.1rem] px-[2.2rem] flex justify-between items-center">
         <div className="flex justify-center items-center h-[4.2rem] ">
           <Link
             to={PATH.HOME}
-            className=" font-extralight text-[1.2rem] leading-_normal text-black"
+            className="cursor-pointer font-extralight text-[1.2rem] leading-_normal text-black"
           >
             <img src={logo} className="_sm:shrink-0 h-full mr-auto"></img>
           </Link>

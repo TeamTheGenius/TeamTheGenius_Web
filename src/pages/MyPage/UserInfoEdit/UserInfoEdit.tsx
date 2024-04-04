@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import useModal from "@/hooks/useModal";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import { EditModal } from "@/components/MyPage/EditModal/EditModal";
+import { QUERY_KEY } from "@/constants/queryKey";
 
 const UserInfoEdit = () => {
   const [signUpBoolean, setsignUpBoolean] = useState(true);
@@ -28,7 +29,7 @@ const UserInfoEdit = () => {
   const { openModal, closeModal, isModalOpened } = useModal();
   const [isLoading, setIsLoading] = useState(false);
   const { data } = useQuery<Data>({
-    queryKey: ["myPageProfile"],
+    queryKey: [QUERY_KEY.MY_PROFILE],
     queryFn: () => getMyPageProfile(),
   });
 

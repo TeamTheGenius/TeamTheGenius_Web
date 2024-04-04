@@ -2,6 +2,7 @@ import getPaymentReceiptApi from "@/apis/getPaymentReceiptApi";
 import Header from "@/components/Common/Header/Header";
 import Loading from "@/components/Common/Loading/Loading";
 import MobCard from "@/components/Common/MobCard";
+import { QUERY_KEY } from "@/constants/queryKey";
 import useNumberFormat from "@/hooks/useNumberFormat";
 import { useQuery } from "react-query";
 
@@ -20,7 +21,7 @@ type MonthlyOrders = {
 
 const Receipt = () => {
   const { data, isLoading } = useQuery<receiptType[]>({
-    queryKey: ["certificationInstanceDetail"],
+    queryKey: [QUERY_KEY.MY_PAYMENT_RECEIPT],
     queryFn: () => getPaymentReceiptApi(),
   });
 

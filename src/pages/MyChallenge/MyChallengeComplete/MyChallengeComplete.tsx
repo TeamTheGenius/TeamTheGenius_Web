@@ -7,6 +7,7 @@ import GetRewardModal from "@/components/Main/MyChallenge/MyChallengeModal/GetRe
 import GetRewardTwiceModal from "@/components/Main/MyChallenge/MyChallengeModal/GetRewardTwiceModal/GetRewardTwiceModal";
 import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyChallengeTitle";
 import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyChallengeWrap";
+import { QUERY_KEY } from "@/constants/queryKey";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
 import { useOutletContext } from "react-router-dom";
@@ -38,7 +39,7 @@ const MyChallengeComplete = () => {
   const { setModal, closeModal, openModal } = useOutletContext<Props>();
 
   const { data, refetch } = useQuery<Data[]>({
-    queryKey: ["myChallengeDone"],
+    queryKey: [QUERY_KEY.MY_DONE_CHALLENGES],
     queryFn: () => getMyChallengeDone(),
     suspense: true,
   });

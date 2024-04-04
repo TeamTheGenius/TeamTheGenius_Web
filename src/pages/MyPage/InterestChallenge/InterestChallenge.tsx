@@ -5,6 +5,8 @@ import Header from "@/components/Common/Header/Header";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import MobCard from "@/components/Common/MobCard";
 import { PATH } from "@/constants/path";
+import { QUERY_KEY } from "@/constants/queryKey";
+import { encrypt } from "@/hooks/useCrypto";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
@@ -27,7 +29,7 @@ function InterestChallenge() {
   const navigate = useNavigate();
 
   const { fetchNextPage, hasNextPage, refetch, isLoading } = useInfiniteQuery({
-    queryKey: ["getLikeChallenges"],
+    queryKey: [QUERY_KEY.INFINITE_MY_LIKED_CHALLENGES],
     queryFn: ({ pageParam = 0 }) =>
       getLikeChallenges({ pageParams: pageParam, size: 20 }),
     getNextPageParam: (lastPage) => {
@@ -49,7 +51,7 @@ function InterestChallenge() {
   if (!challenges) return null;
 
   const onClickChallengeItem = (instanceId: number) => {
-    navigate(`${PATH.CHALLENGE_DETAIL}/${instanceId}`);
+    navigate(`${PATH.CHALLENGE_DETAIL}/${encrypt(instanceId)}`);
   };
 
   const onClickHeart = async (e: React.MouseEvent, likesId: number) => {

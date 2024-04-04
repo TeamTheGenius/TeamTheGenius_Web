@@ -1,5 +1,6 @@
 import getMyPageChallengesStatus from "@/apis/getMyPageChallengesStatus";
 import { PATH } from "@/constants/path";
+import { QUERY_KEY } from "@/constants/queryKey";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 
@@ -12,7 +13,7 @@ interface Data {
 
 function MyChallengeSummary() {
   const { data } = useQuery<Data>({
-    queryKey: ["myPageChallengeStatus"],
+    queryKey: [QUERY_KEY.MY_ALL_CHALLENGES_STATUS],
     queryFn: () => getMyPageChallengesStatus(),
     suspense: true,
   });

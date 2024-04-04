@@ -9,6 +9,7 @@ import { useState } from "react";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
 import { encrypt } from "@/hooks/useCrypto";
+import { QUERY_KEY } from "@/constants/queryKey";
 
 interface Post {
   instanceId: number;
@@ -37,7 +38,7 @@ function PopularChallengeItems() {
   };
 
   const { data } = useQuery<Data>({
-    queryKey: ["popularChallenges"],
+    queryKey: [QUERY_KEY.POPULAR_CHALLENGES],
     queryFn: () => getPopularChallenge({ pageParams: 0, size: 7 }),
     suspense: true,
   });
