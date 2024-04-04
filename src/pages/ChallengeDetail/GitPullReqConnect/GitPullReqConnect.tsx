@@ -70,6 +70,7 @@ const GitPullReqConnect = () => {
   const { data: githubTokenOk } = useQuery<string>({
     queryKey: ["getGithubToken"],
     queryFn: getGithubTokenApi,
+    useErrorBoundary: false,
   });
 
   const { data: repoList } = useQuery<string[]>({
@@ -77,7 +78,6 @@ const GitPullReqConnect = () => {
     queryFn: getUserRepoApi,
     enabled: githubTokenOk === "OK",
   });
-
   if (loadingState) {
     return <Loading />;
   }
