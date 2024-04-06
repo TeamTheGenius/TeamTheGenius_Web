@@ -5,6 +5,8 @@ type SignUpInputProps = {
   id: string;
   value?: string;
   setShow: React.Dispatch<React.SetStateAction<number>>;
+  setNickName?: React.Dispatch<React.SetStateAction<string>>;
+  setMyInfo?: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const UserPreview: React.FC<SignUpInputProps> = ({
@@ -12,8 +14,16 @@ const UserPreview: React.FC<SignUpInputProps> = ({
   id,
   value,
   setShow,
+  setNickName,
+  setMyInfo,
 }) => {
   const infoChangeHandle = () => {
+    if (value && setNickName) {
+      setNickName(value);
+    }
+    if (value && setMyInfo) {
+      setMyInfo(value);
+    }
     setShow(1);
   };
   return (
