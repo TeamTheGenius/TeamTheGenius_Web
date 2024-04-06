@@ -1,7 +1,11 @@
+import deleteServiceWithdraw from "@/apis/deleteServiceWithdraw";
 import getMyPageProfile from "@/apis/getMyPageProfile";
 import postUserProfile from "@/apis/postUserProfile";
+import { FRAMEID, IDENTIFIER } from "@/constants/localStorageKey";
+import { PATH } from "@/constants/path";
 import { QUERY_KEY } from "@/constants/queryKey";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
 
 export interface MyProfileData {
   identifier: string;
@@ -43,4 +47,19 @@ export const useGetUserProfile = (decryptedUserId: string) => {
   });
 
   return { data };
+};
+
+export const useDeleteUser = () => {
+  const navigate = useNavigate();
+  const { mutate } = useMutation(
+    (reason: string) => deleteServiceWithdraw({ reason: reason }),
+    {
+      onSuccess: () => {
+        localStorage.removeItem(IDENTIFIER);
+        localStorage.removeItem(FRAMEID);
+        navigate(PATH.LOGIN);
+      },
+    }
+  );
+  return { mutate };
 };
