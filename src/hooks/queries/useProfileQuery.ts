@@ -1,9 +1,11 @@
 import deleteServiceWithdraw from "@/apis/deleteServiceWithdraw";
+import getInterestTags from "@/apis/getInterestTags";
 import getMyPageProfile from "@/apis/getMyPageProfile";
 import postUserProfile from "@/apis/postUserProfile";
 import { FRAMEID, IDENTIFIER } from "@/constants/localStorageKey";
 import { PATH } from "@/constants/path";
 import { QUERY_KEY } from "@/constants/queryKey";
+import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 
@@ -62,4 +64,18 @@ export const useDeleteUser = () => {
     }
   );
   return { mutate };
+};
+
+interface Params {
+  onSuccess: (check: CheckboxValueType[]) => void;
+}
+
+export const useGetMyProfileInterestTag = ({ onSuccess }: Params) => {
+  const { data } = useQuery<string[]>({
+    queryKey: [QUERY_KEY.MY_INTEREST_TAGS],
+    queryFn: () => getInterestTags(),
+    onSuccess: (data) => onSuccess(data),
+  });
+
+  return { data };
 };
