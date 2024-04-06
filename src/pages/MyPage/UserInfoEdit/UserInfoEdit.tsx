@@ -3,9 +3,7 @@ import { Form } from "antd";
 import { useState } from "react";
 import MobCard from "@/components/Common/MobCard";
 import BottomButton from "@/components/Common/BottomButton/BottomButton";
-import { Data } from "@/types/myProfileData";
-import { useQuery, useQueryClient } from "react-query";
-import getMyPageProfile from "@/apis/getMyPageProfile";
+import { useQueryClient } from "react-query";
 import UserPreview from "@/components/MyPage/MyPage/UserEdit/UserPreview/UserPreview";
 import InfoInput from "@/components/MyPage/MyPage/UserEdit/InfoInput/InfoInput";
 import postUserInfoEdit from "@/apis/postUserInfoEdit";
@@ -17,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import useModal from "@/hooks/useModal";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import { EditModal } from "@/components/MyPage/EditModal/EditModal";
-import { QUERY_KEY } from "@/constants/queryKey";
+import { useGetMyProfile } from "@/hooks/queries/useProfileQuery";
 
 const UserInfoEdit = () => {
   const [signUpBoolean, setsignUpBoolean] = useState(true);
@@ -28,12 +26,9 @@ const UserInfoEdit = () => {
   const [imageUrl, setImageUrl] = useState("");
   const { openModal, closeModal, isModalOpened } = useModal();
   const [isLoading, setIsLoading] = useState(false);
-  const { data } = useQuery<Data>({
-    queryKey: [QUERY_KEY.MY_PROFILE],
-    queryFn: () => getMyPageProfile(),
-  });
-
   const navigate = useNavigate();
+
+  const { data } = useGetMyProfile();
 
   const { formik } = formikUtil();
 

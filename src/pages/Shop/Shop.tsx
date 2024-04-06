@@ -16,13 +16,12 @@ import postItemUnEquipApi from "@/apis/postItemUnEquipApi";
 import useModal from "@/hooks/useModal";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import ShopBuyModal from "@/components/Shop/ShopModal/ShopBuyModal/ShopBuyModal";
-import { Data } from "@/types/myProfileData";
-import getMyPageProfile from "@/apis/getMyPageProfile";
 import getItemPointApi from "@/apis/getItemPointApi";
 import ShopFrameList from "@/components/Shop/ShopFrameList/ShopFrameList";
 import ShopTicketList from "@/components/Shop/ShopTicketList/ShopTicketList";
 import MainHeader from "@/components/Common/MainHeader/MainHeader";
 import { QUERY_KEY } from "@/constants/queryKey";
+import { useGetMyProfile } from "@/hooks/queries/useProfileQuery";
 
 const Shop = () => {
   const [loadingState, setLoadingState] = useState(false);
@@ -32,10 +31,7 @@ const Shop = () => {
     useState<shopTicketListType[]>();
   const [modal, setModal] = useState<React.ReactNode>();
   const { openModal, closeModal, isModalOpened } = useModal();
-  const { data: profilePoint } = useQuery<Data>({
-    queryKey: [QUERY_KEY.MY_PROFILE],
-    queryFn: () => getMyPageProfile(),
-  });
+  const { data: profilePoint } = useGetMyProfile();
 
   const { data: frameData, isLoading: frameLoading } = useQuery<
     shopFrameListType[]
