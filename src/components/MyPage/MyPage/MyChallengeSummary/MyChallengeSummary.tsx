@@ -1,26 +1,9 @@
-import getMyPageChallengesStatus from "@/apis/getMyPageChallengesStatus";
 import { PATH } from "@/constants/path";
-import { QUERY_KEY } from "@/constants/queryKey";
-import { useQuery } from "react-query";
+import { useGetMyAllChallengesStatistics } from "@/hooks/queries/useProfileQuery";
 import { Link } from "react-router-dom";
 
-interface Data {
-  fail: number;
-  success: number;
-  processing: number;
-  beforeStart: number;
-}
-
 function MyChallengeSummary() {
-  const { data } = useQuery<Data>({
-    queryKey: [QUERY_KEY.MY_ALL_CHALLENGES_STATUS],
-    queryFn: () => getMyPageChallengesStatus(),
-    suspense: true,
-  });
-
-  if (!data) {
-    return;
-  }
+  const { data } = useGetMyAllChallengesStatistics();
 
   return (
     <>
@@ -36,7 +19,7 @@ function MyChallengeSummary() {
                 시작 전
               </p>
               <p className="text-[2.2rem] _sm:text-[2rem] font-medium">
-                {data.beforeStart}
+                {data?.beforeStart}
               </p>
             </div>
           </Link>
@@ -49,7 +32,7 @@ function MyChallengeSummary() {
                 진행 중
               </p>
               <p className="text-[2.2rem] _sm:text-[2rem] font-medium">
-                {data.processing}
+                {data?.processing}
               </p>
             </div>
           </Link>
@@ -62,7 +45,7 @@ function MyChallengeSummary() {
                 완료/실패
               </p>
               <p className="text-[2.2rem] _sm:text-[2rem] font-medium">
-                {data.success}/{data.fail}
+                {data?.success}/{data?.fail}
               </p>
             </div>
           </Link>

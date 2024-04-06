@@ -61,7 +61,7 @@ const InstanceEditModal = ({
     const completedAt = moment(values.completedAt).format(
       "YYYY-MM-DDTHH:mm:ss"
     );
-    let instanceData = {
+    const instanceData = {
       setIsLoading: setIsLoading,
       setInstanceList: setInstanceList,
       instanceId: instanceNumber,

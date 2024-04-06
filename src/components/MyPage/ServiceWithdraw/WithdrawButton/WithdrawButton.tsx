@@ -1,8 +1,5 @@
-import deleteServiceWithdraw from "@/apis/deleteServiceWithdraw";
 import Button from "@/components/Common/Button";
-import { IDENTIFIER } from "@/constants/localStorageKey";
-import { PATH } from "@/constants/path";
-import { useNavigate } from "react-router-dom";
+import { useDeleteUser } from "@/hooks/queries/useProfileQuery";
 
 type Reason =
   | "앱 사용이 불편해요"
@@ -16,18 +13,11 @@ interface Props {
 }
 
 function WithdrawButton({ selectedReason, otherReason }: Props) {
-  const navigate = useNavigate();
+  const { mutate } = useDeleteUser();
 
   const onClick = async () => {
     const reason = selectedReason == "기타" ? otherReason : selectedReason;
-    await deleteServiceWithdraw({ reason: reason })
-      .then(() => {
-        navigate(PATH.LOGIN);
-        localStorage.removeItem(IDENTIFIER);
-      })
-      .then((err) => {
-        throw err;
-      });
+    mutate(reason);
   };
 
   return (

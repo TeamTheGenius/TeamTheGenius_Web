@@ -17,7 +17,7 @@ const postdItemBuyApi = async ({
   const itemId = item?.itemId;
   await instance
     .post(`${requests.fetchItemOrder}/${itemId}`)
-    .then((res) => {
+    .then(() => {
       completeModal();
       setLoadingState(false);
       queryClient.invalidateQueries(["itemPassList"]);

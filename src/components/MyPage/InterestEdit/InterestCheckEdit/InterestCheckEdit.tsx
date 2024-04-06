@@ -5,9 +5,8 @@ import InterestBtn from "@/components/Interest/InterestButton/InterestBtn";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import "@/components/Interest/InterestCheck/antdCheckbox.css";
 import Interest from "@/pages/Interest/Interest";
-import { useQuery } from "react-query";
-import getInterestTags from "@/apis/getInterestTags";
-import { QUERY_KEY } from "@/constants/queryKey";
+
+import { useGetMyProfileInterestTag } from "@/hooks/queries/useProfileQuery";
 
 type InterestCheckType = {
   InterestValue: Interest[];
@@ -20,14 +19,7 @@ const InterestCheckEdit = ({
   checkedValues,
   setCheckedValues,
 }: InterestCheckType) => {
-  const { data } = useQuery<string[]>({
-    queryKey: [QUERY_KEY.MY_INTEREST_TAGS],
-    queryFn: () => getInterestTags(),
-    onSuccess: (data) => {
-      setCheckedValues(data);
-    },
-  });
-
+  useGetMyProfileInterestTag({ onSuccess: setCheckedValues });
   const onChange = (check: CheckboxValueType[]) => {
     setCheckedValues(check);
   };
