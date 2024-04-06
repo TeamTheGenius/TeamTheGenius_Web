@@ -1,5 +1,6 @@
 import deleteServiceWithdraw from "@/apis/deleteServiceWithdraw";
 import getInterestTags from "@/apis/getInterestTags";
+import getMyPageChallengesStatus from "@/apis/getMyPageChallengesStatus";
 import getMyPageProfile from "@/apis/getMyPageProfile";
 import postInterestEditApi from "@/apis/postInterestEditApi";
 import postUserInfoEdit from "@/apis/postUserInfoEdit";
@@ -136,4 +137,20 @@ export const usePostMyProfile = ({
     }
   );
   return { mutate };
+};
+
+interface MyAllChallengesStatisticsData {
+  fail: number;
+  success: number;
+  processing: number;
+  beforeStart: number;
+}
+
+export const useGetMyAllChallengesStatistics = () => {
+  const { data } = useQuery<MyAllChallengesStatisticsData>({
+    queryKey: [QUERY_KEY.MY_ALL_CHALLENGES_STATUS],
+    queryFn: () => getMyPageChallengesStatus(),
+    suspense: true,
+  });
+  return { data };
 };
