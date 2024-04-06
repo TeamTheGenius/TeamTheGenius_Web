@@ -8,23 +8,17 @@ import postUserProfile from "@/apis/postUserProfile";
 import { FRAMEID, IDENTIFIER } from "@/constants/localStorageKey";
 import { PATH } from "@/constants/path";
 import { QUERY_KEY } from "@/constants/queryKey";
+import {
+  MyAllChallengesStatisticsDataType,
+  MyProfileDataType,
+  UserDataType,
+} from "@/types/profileType";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 
-export interface MyProfileData {
-  identifier: string;
-  nickname: string;
-  information: string;
-  point: number;
-  progressBar: number;
-  fileResponse: {
-    encodedFile: string;
-  };
-}
-
 export const useGetMyProfile = () => {
-  const { data } = useQuery<MyProfileData>({
+  const { data } = useQuery<MyProfileDataType>({
     queryKey: [QUERY_KEY.MY_PROFILE],
     queryFn: () => getMyPageProfile(),
     suspense: true,
@@ -33,17 +27,8 @@ export const useGetMyProfile = () => {
   return { data };
 };
 
-export interface UserData {
-  identifier: string;
-  nickname: string;
-  fileResponse: {
-    encodedFile: "none" | string;
-  };
-  frameId: number;
-}
-
 export const useGetUserProfile = (decryptedUserId: string) => {
-  const { data } = useQuery<UserData>({
+  const { data } = useQuery<UserDataType>({
     queryKey: [QUERY_KEY.CERTIFICATION_USER_PROFILE, { decryptedUserId }],
     queryFn: () =>
       decryptedUserId
@@ -139,15 +124,8 @@ export const usePostMyProfile = ({
   return { mutate };
 };
 
-interface MyAllChallengesStatisticsData {
-  fail: number;
-  success: number;
-  processing: number;
-  beforeStart: number;
-}
-
 export const useGetMyAllChallengesStatistics = () => {
-  const { data } = useQuery<MyAllChallengesStatisticsData>({
+  const { data } = useQuery<MyAllChallengesStatisticsDataType>({
     queryKey: [QUERY_KEY.MY_ALL_CHALLENGES_STATUS],
     queryFn: () => getMyPageChallengesStatus(),
     suspense: true,
