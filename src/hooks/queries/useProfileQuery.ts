@@ -2,12 +2,13 @@ import deleteServiceWithdraw from "@/apis/deleteServiceWithdraw";
 import getInterestTags from "@/apis/getInterestTags";
 import getMyPageProfile from "@/apis/getMyPageProfile";
 import postInterestEditApi from "@/apis/postInterestEditApi";
+import postUserInfoEdit from "@/apis/postUserInfoEdit";
 import postUserProfile from "@/apis/postUserProfile";
 import { FRAMEID, IDENTIFIER } from "@/constants/localStorageKey";
 import { PATH } from "@/constants/path";
 import { QUERY_KEY } from "@/constants/queryKey";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 
 export interface MyProfileData {
@@ -101,5 +102,38 @@ export const usePostMyProfileInterestTag = ({
     }
   );
 
+  return { mutate };
+};
+
+interface usePostMyProfileParams {
+  onSuccess: () => void;
+  onError: () => void;
+}
+
+interface usePostMyProfileMutationParams {
+  myInfo: string;
+  nickName: string;
+  files: string;
+}
+
+export const usePostMyProfile = ({
+  onSuccess,
+  onError,
+}: usePostMyProfileParams) => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const { mutate } = useMutation(
+    ({ myInfo, nickName, files }: usePostMyProfileMutationParams) =>
+      postUserInfoEdit({ myInfo, nickName, files }),
+    {
+      onSuccess: () => {
+        onSuccess();
+        queryClient.invalidateQueries(QUERY_KEY.MY_PROFILE);
+        navigate(PATH.MY_PAGE);
+      },
+      onError: onError,
+    }
+  );
   return { mutate };
 };
