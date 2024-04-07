@@ -6,53 +6,18 @@ import Information from "@/components/ChallengeDetail/Information/Information";
 import Line from "@/components/ChallengeDetail/Line/Line";
 import MobCard from "@/components/Common/MobCard";
 import DynamicBackIcon from "@/components/Common/DynamicBackIcon/DynamicBackIcon";
-import getInstanceDetail from "@/apis/getInstanceDetail";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
-import { useQuery } from "react-query";
 import ParticipationCancelButton from "@/components/ChallengeDetail/ParticipationCancelButton/ParticipationCancelButton";
 import { decrypt } from "@/hooks/useCrypto";
 import Loading from "@/components/Common/Loading/Loading";
-import { QUERY_KEY } from "@/constants/queryKey";
-
-interface Data {
-  instanceId: number;
-  title: string;
-  remainDays: number;
-  startedDate: string;
-  completedDate: string;
-  participantCount: number;
-  pointPerPerson: number;
-  description: string;
-  notice: string;
-  certificationMethod: string;
-  joinStatus: "NO" | "YES";
-  likesInfo: Likes;
-  fileResponse: File;
-  progress: "PREACTIVITY" | "ACTIVITY" | "DONE";
-}
-
-interface Likes {
-  likesId: number;
-  isLiked: boolean;
-  likesCount: number;
-}
-
-interface File {
-  encodedFile: string;
-}
+import { useGetChallengeDetail } from "@/hooks/queries/useInstanceDetailQuery";
 
 function ChallengeDetail() {
   const { id } = useParams();
   const decryptId = decrypt(id);
-  const { data, refetch, isLoading } = useQuery<Data>({
-    queryKey: [QUERY_KEY.CHALLENGE_INSTANCE_DETAIL, { decryptId }],
-    queryFn: () =>
-      decryptId
-        ? getInstanceDetail({ instanceId: parseInt(decryptId) })
-        : Promise.resolve(null),
-  });
 
-  if (!decryptId) return;
+  const { data, isLoading } = useGetChallengeDetail(decryptId);
+
   if (!data) return;
   if (isLoading) {
     return <Loading />;
@@ -100,13 +65,11 @@ function ChallengeDetail() {
           {PARTICIPATION_COMPLETE && (
             <ParticipationCancelButton
               instanceId={parseInt(decryptId)}
-              refetch={refetch}
               title={data.title}
             />
           )}
           <Bottom>
             <Bottom.Heart
-              refetch={refetch}
               isHearted={data.likesInfo.isLiked}
               likesId={data.likesInfo.likesId}
               heartCount={data.likesInfo.likesCount}

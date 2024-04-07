@@ -10,7 +10,6 @@ interface HeartProps {
   isHearted: boolean;
   likesId: number;
   heartCount: number;
-  refetch: () => void;
   instanceId: number;
 }
 
