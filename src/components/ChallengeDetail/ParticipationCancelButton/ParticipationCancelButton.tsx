@@ -6,11 +6,10 @@ import ParticipationCancelAskModal from "../ChallengeDetailModal/ParticipationCa
 
 interface Props {
   instanceId: number;
-  refetch: () => void;
   title: string;
 }
 
-function ParticipationCancelButton({ instanceId, refetch, title }: Props) {
+function ParticipationCancelButton({ instanceId, title }: Props) {
   const { isModalOpened, openModal, closeModal } = useModal();
 
   const onClickParticipationCancelButton = async () => {
@@ -23,7 +22,6 @@ function ParticipationCancelButton({ instanceId, refetch, title }: Props) {
         createPortal(
           <ModalLayer onClick={closeModal}>
             <ParticipationCancelAskModal
-              refetch={refetch}
               closeModal={closeModal}
               instanceId={instanceId}
               title={title}

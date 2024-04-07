@@ -1,4 +1,3 @@
-import postInterestEditApi from "@/apis/postInterestEditApi";
 import BottomButton from "@/components/Common/BottomButton/BottomButton";
 import Header from "@/components/Common/Header/Header";
 import Loading from "@/components/Common/Loading/Loading";
@@ -8,6 +7,7 @@ import InterestHeader from "@/components/Interest/InterestHeader/InterestHeader"
 import { EditModal } from "@/components/MyPage/EditModal/EditModal";
 import InterestCheckEdit from "@/components/MyPage/InterestEdit/InterestCheckEdit/InterestCheckEdit";
 import { interestsData } from "@/data/InterestData";
+import { usePostMyProfileInterestTag } from "@/hooks/queries/useProfileQuery";
 import useModal from "@/hooks/useModal";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { useState } from "react";
@@ -24,14 +24,22 @@ const InterestEdit = () => {
   const { isModalOpened, openModal, closeModal } = useModal();
 
   const InterestValue: Interest[] = interestsData;
+  const onSuccessPostMyProfileInterestTag = () => {
+    setIsLoading(false);
+    setEditApiBoolean(true);
+  };
+  const onErrorPostMyProfileInterestTag = () => {
+    setIsLoading(false);
+    setEditApiBoolean(false);
+  };
+  const { mutate } = usePostMyProfileInterestTag({
+    onSuccess: onSuccessPostMyProfileInterestTag,
+    onError: onErrorPostMyProfileInterestTag,
+  });
 
   const handleInterestEdit = async () => {
     setIsLoading(true);
-    postInterestEditApi({
-      setIsLoading: setIsLoading,
-      interestEditData: checkedValues,
-      setEditApiBoolean: setEditApiBoolean,
-    });
+    mutate(checkedValues);
     openModal();
   };
 

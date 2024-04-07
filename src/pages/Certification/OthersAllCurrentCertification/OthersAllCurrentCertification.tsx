@@ -1,5 +1,4 @@
 import getTotalCertification from "@/apis/getTotalCertification";
-import postUserProfile from "@/apis/postUserProfile";
 import OthersProfile from "@/components/Certification/OthersAllCurrentCertification/OthersProfile/OthersProfile";
 import TotalCertification from "@/components/Certification/TotalCertification/TotalCertification";
 import Header from "@/components/Common/Header/Header";
@@ -9,6 +8,8 @@ import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import basicProfileImage from "@/assets/image/basic-profile-image-gray.png";
+import { QUERY_KEY } from "@/constants/queryKey";
+import { useGetUserProfile } from "@/hooks/queries/useProfileQuery";
 
 interface Data {
   totalAttempts: number;
@@ -34,15 +35,6 @@ type DayOfWeek =
   | "SATURDAY"
   | "SUNDAY";
 
-interface UserData {
-  identifier: string;
-  nickname: string;
-  fileResponse: {
-    encodedFile: "none" | string;
-  };
-  frameId: number;
-}
-
 function OthersAllCurrentCertification() {
   const { id } = useParams();
   const { userId } = useParams();
@@ -51,7 +43,7 @@ function OthersAllCurrentCertification() {
 
   const { data: certifications } = useQuery<Data>({
     queryKey: [
-      "totalCertification",
+      QUERY_KEY.ALL_CERTIFICATIONS_OF_INSTANCE,
       { decryptedInstanceId },
       { decryptedUserId },
     ],
@@ -64,13 +56,7 @@ function OthersAllCurrentCertification() {
         : Promise.resolve(null),
   });
 
-  const { data: userProfile } = useQuery<UserData>({
-    queryKey: ["userProfile", { decryptedUserId }],
-    queryFn: () =>
-      decryptedUserId
-        ? postUserProfile({ userId: parseInt(decryptedUserId) })
-        : Promise.resolve(null),
-  });
+  const { data: userProfile } = useGetUserProfile(decryptedUserId);
 
   if (!certifications) return null;
   if (!userProfile) return null;

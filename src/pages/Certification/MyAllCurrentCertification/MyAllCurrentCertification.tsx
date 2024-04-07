@@ -5,10 +5,11 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import getTotalCertification from "@/apis/getTotalCertification";
 import TotalCertification from "@/components/Certification/TotalCertification/TotalCertification";
-import postUserProfile from "@/apis/postUserProfile";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { decrypt } from "@/hooks/useCrypto";
 import basicProfileImage from "@/assets/image/basic-profile-image-gray.png";
+import { QUERY_KEY } from "@/constants/queryKey";
+import { useGetUserProfile } from "@/hooks/queries/useProfileQuery";
 
 interface Data {
   totalAttempts: number;
@@ -23,14 +24,6 @@ interface CertificationData {
   certificateStatus: "NOT_YET" | "CERTIFICATED" | "PASSED";
   prCount: number;
   prLinks: string[];
-}
-
-interface UserData {
-  identifier: string;
-  nickname: string;
-  fileResponse: {
-    encodedFile: "none" | string;
-  };
 }
 
 type DayOfWeek =
@@ -50,7 +43,7 @@ function MyAllCurrentCertification() {
 
   const { data: certifications } = useQuery<Data>({
     queryKey: [
-      "totalCertification",
+      QUERY_KEY.ALL_CERTIFICATIONS_OF_INSTANCE,
       { decryptedInstanceId },
       { decryptedUserId },
     ],
@@ -63,13 +56,7 @@ function MyAllCurrentCertification() {
         : Promise.resolve(null),
   });
 
-  const { data: userProfile } = useQuery<UserData>({
-    queryKey: ["userProfile", { decryptedUserId }],
-    queryFn: () =>
-      decryptedUserId
-        ? postUserProfile({ userId: parseInt(decryptedUserId) })
-        : Promise.resolve(null),
-  });
+  const { data: userProfile } = useGetUserProfile(decryptedUserId);
 
   if (!certifications) return null;
   if (!userProfile) return null;

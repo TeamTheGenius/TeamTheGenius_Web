@@ -6,6 +6,7 @@ import MyCertificationSummary from "@/components/Certification/MyCurrentCertific
 import MyRepository from "@/components/Certification/MyCurrentCertification/MyRepository/MyRepository";
 import MyThisWeekCertification from "@/components/Certification/MyCurrentCertification/MyWeekCertification/MyThisWeekCertification";
 import PRTemplate from "@/components/Certification/MyCurrentCertification/PRTemplate/PRTemplate";
+import { QUERY_KEY } from "@/constants/queryKey";
 import { decrypt } from "@/hooks/useCrypto";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -52,7 +53,10 @@ function MyCurrentCertification() {
 
   const { data: myCurrentCertificationData } =
     useQuery<myCurrentCertificationData>({
-      queryKey: ["myCurrentCertification", { decryptedInstanceId }],
+      queryKey: [
+        QUERY_KEY.MY_CERTIFICATIONS_STATUS_OF_INSTANCE,
+        { decryptedInstanceId },
+      ],
       queryFn: () =>
         decryptedInstanceId
           ? getCertificationInformation({
@@ -62,7 +66,10 @@ function MyCurrentCertification() {
     });
 
   const { data: myWeekCertificationData } = useQuery<myWeekCertificationData>({
-    queryKey: ["myWeekCertification", { decryptedInstanceId }],
+    queryKey: [
+      QUERY_KEY.MY_WEEK_CERTIFICATIONS_OF_INSTANCE,
+      { decryptedInstanceId },
+    ],
     queryFn: () =>
       decryptedInstanceId
         ? getMyWeekCertification({

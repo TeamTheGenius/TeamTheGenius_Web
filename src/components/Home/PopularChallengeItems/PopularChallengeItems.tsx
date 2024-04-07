@@ -4,25 +4,10 @@ import { PATH } from "@/constants/path";
 import HorizontalScroll from "../HorizontalScroll/HorizontalScroll";
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import { useNavigate } from "react-router-dom";
-import getPopularChallenge from "@/apis/getPopularChallenge";
 import { useState } from "react";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
-import { useQuery } from "react-query";
 import { encrypt } from "@/hooks/useCrypto";
-
-interface Post {
-  instanceId: number;
-  title: string;
-  participantCnt: number;
-  pointPerPerson: number;
-  fileResponse: {
-    encodedFile: string;
-  };
-}
-
-interface Data {
-  posts: Post[];
-}
+import { useGetPopularInstance } from "@/hooks/queries/useHomeInstanceQuery";
 
 function PopularChallengeItems() {
   const [clickPossible, setClickPossible] = useState<boolean>(true);
@@ -36,11 +21,7 @@ function PopularChallengeItems() {
     }
   };
 
-  const { data } = useQuery<Data>({
-    queryKey: ["popularChallenges"],
-    queryFn: () => getPopularChallenge({ pageParams: 0, size: 7 }),
-    suspense: true,
-  });
+  const { data } = useGetPopularInstance();
 
   return (
     <div>

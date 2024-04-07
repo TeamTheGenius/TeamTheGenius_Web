@@ -1,44 +1,27 @@
-import deleteLikeChallenge from "@/apis/deleteLikeChallenge";
-import getLikeChallenges from "@/apis/getLikeChallenges";
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import Header from "@/components/Common/Header/Header";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import MobCard from "@/components/Common/MobCard";
 import { PATH } from "@/constants/path";
+import {
+  useDeleteLikesChallenge,
+  useGetInfiniteLikedChallenges,
+} from "@/hooks/queries/useLikeQuery";
+import { encrypt } from "@/hooks/useCrypto";
+import { LikedChallengeDataType } from "@/types/likeType";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
-import { useInfiniteQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
-
-interface Data {
-  instanceId: number;
-  title: string;
-  pointPerPerson: number;
-  fileResponse: {
-    encodedFile: string;
-  };
-  likesId: number;
-}
 
 function InterestChallenge() {
   const [ref, inView] = useInView();
-  const [challenges, setChallenges] = useState<Data[]>([]);
+  const [challenges, setChallenges] = useState<LikedChallengeDataType[]>([]);
   const navigate = useNavigate();
 
-  const { fetchNextPage, hasNextPage, refetch, isLoading } = useInfiniteQuery({
-    queryKey: ["getLikeChallenges"],
-    queryFn: ({ pageParam = 0 }) =>
-      getLikeChallenges({ pageParams: pageParam, size: 20 }),
-    getNextPageParam: (lastPage) => {
-      return lastPage.isLast ? undefined : lastPage.page + 1;
-    },
-    onSuccess: (res) => {
-      const newChallenges = res.pages.map((page) => page.posts).flat();
-      setChallenges(newChallenges);
-    },
-    cacheTime: 0,
-  });
+  const { mutate: deleteLikesChallenges } = useDeleteLikesChallenge();
+  const { fetchNextPage, hasNextPage, isLoading } =
+    useGetInfiniteLikedChallenges({ setChallenges: setChallenges });
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -49,18 +32,12 @@ function InterestChallenge() {
   if (!challenges) return null;
 
   const onClickChallengeItem = (instanceId: number) => {
-    navigate(`${PATH.CHALLENGE_DETAIL}/${instanceId}`);
+    navigate(`${PATH.CHALLENGE_DETAIL}/${encrypt(instanceId)}`);
   };
 
   const onClickHeart = async (e: React.MouseEvent, likesId: number) => {
     e.stopPropagation();
-    await deleteLikeChallenge({ likesId: likesId })
-      .then(() => {
-        refetch();
-      })
-      .catch((err) => {
-        throw err;
-      });
+    deleteLikesChallenges(likesId);
   };
 
   return (

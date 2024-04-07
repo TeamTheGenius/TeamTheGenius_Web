@@ -1,6 +1,6 @@
-import { Data } from "@/types/myProfileData";
+import { MyProfileDataType } from "@/types/profileType";
 
-function UserName({ data }: { data?: Data }) {
+function UserName({ data }: { data?: MyProfileDataType }) {
   return (
     <div className="flex flex-col items-center mb-[4rem]">
       <span className="text-[1.8rem] font-medium">{data?.identifier}</span>

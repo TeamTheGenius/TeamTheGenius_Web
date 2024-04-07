@@ -1,4 +1,3 @@
-import { AxiosResponse } from "axios";
 import getAdminTopicListApi from "./getAdminTopicListApi";
 import { adminTopicEditApiType } from "@/types/adminType";
 import { multiInstance } from "./axios/axios";
@@ -36,7 +35,7 @@ const patchAdminTopicEditApi = async ({
 
   await multiInstance
     .patch(`${requests.fetchTopic}/${topicId}`, formData)
-    .then((res: AxiosResponse<any, any>) => {
+    .then(() => {
       setTopicEditModalIsOpen(false);
       setIsLoading(false);
       getAdminTopicListApi({ setAdminList, pageNumber: pageNumber - 1 });

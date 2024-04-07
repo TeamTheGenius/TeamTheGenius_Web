@@ -8,6 +8,7 @@ import Label from "../GitPullReqConnect/Label/Label";
 import { QueryClient, useQuery, useQueryClient } from "react-query";
 import LoadingBox from "../Common/Loading/LoadingBox/LoadingBox";
 import getGithubTokenApi from "@/apis/getGithubTokenApi";
+import { QUERY_KEY } from "@/constants/queryKey";
 const GithubTokenInput = ({
   label,
   id,
@@ -22,7 +23,7 @@ const GithubTokenInput = ({
   const [loadingState, setLoadingState] = useState(false);
   const [tokenBoolean, setTokenBoolean] = useState(false);
   const { data: githubTokenInputOk } = useQuery<string>({
-    queryKey: ["getGithubToken"],
+    queryKey: [QUERY_KEY.GITHUB_TOKEN],
     queryFn: getGithubTokenApi,
     useErrorBoundary: false,
   });
