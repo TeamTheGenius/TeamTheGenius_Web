@@ -1,7 +1,7 @@
 import getMyChallengeDoneReward from "@/apis/getMyChallengeDoneReward";
-import postUseItem from "@/apis/postUseItem";
 import Button from "@/components/Common/Button";
 import { Modal } from "@/components/Common/Modal/Modal";
+import { usePostPointTwiceItemUse } from "@/hooks/queries/useItemQuery";
 
 interface TwiceRewardModalProps {
   closeModal: () => void;
@@ -18,17 +18,17 @@ function GetRewardTwiceModal({
   refetch,
   itemId,
 }: TwiceRewardModalProps) {
-  if (!instanceId) return null;
-  const onClickUse = async () => {
-    await postUseItem({ itemId, instanceId })
-      .then(() => {
-        closeModal();
-        refetch();
-      })
-      .catch((err) => {
-        throw err;
-      });
+  const onSuccessPostItemUse = () => {
+    closeModal();
   };
+  const { mutate: pointTwiceItemUse } = usePostPointTwiceItemUse({
+    onSuccess: onSuccessPostItemUse,
+  });
+
+  const onClickUse = async () => {
+    pointTwiceItemUse({ instanceId, itemId });
+  };
+
   const onClickNotUse = async () => {
     await getMyChallengeDoneReward({ instanceId })
       .then(() => {
