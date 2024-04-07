@@ -1,13 +1,15 @@
 import getCertificationInstanceDetail from "@/apis/getCertificationInstanceDetail ";
 import getMyWeekCertification from "@/apis/getMyWeekCertification";
+import getOthersWeekCertification from "@/apis/getOthersWeekCertification";
 import postTodayCertification from "@/apis/postTodayCertification";
 import { QUERY_KEY } from "@/constants/queryKey";
 import {
+  AllWeekCertificationDataType,
   CertificationDataType,
   CertificationInstnaceDetailDataType,
   myWeekCertificationDataType,
 } from "@/types/certificationType";
-import { useMutation, useQuery } from "react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "react-query";
 
 interface PostTodayCertificationMutateType {
   instanceId: number;
@@ -68,4 +70,38 @@ export const useGetMyCertificationWeek = ({
       }),
   });
   return { data };
+};
+
+interface GetAllCertificationWeekType {
+  setcertifications: React.Dispatch<
+    React.SetStateAction<AllWeekCertificationDataType[]>
+  >;
+  decryptedInstanceId: number;
+}
+
+export const useGetAllCertificationWeek = ({
+  decryptedInstanceId,
+  setcertifications,
+}: GetAllCertificationWeekType) => {
+  const { fetchNextPage, hasNextPage } = useInfiniteQuery({
+    queryKey: [
+      QUERY_KEY.INFINITE_OTHERS_WEEK_CERTIFICATIONS_OF_INSTANCE,
+      { decryptedInstanceId },
+    ],
+    queryFn: ({ pageParam = 0 }) =>
+      getOthersWeekCertification({
+        pageParams: pageParam,
+        instanceId: decryptedInstanceId,
+        size: 20,
+      }),
+    getNextPageParam: (lastPage) => {
+      return !lastPage.isLast ? lastPage.page + 1 : undefined;
+    },
+    onSuccess: (res) => {
+      const certifications = res.pages.map((page) => page.posts).flat();
+      setcertifications(certifications);
+    },
+    cacheTime: 0,
+  });
+  return { fetchNextPage, hasNextPage };
 };

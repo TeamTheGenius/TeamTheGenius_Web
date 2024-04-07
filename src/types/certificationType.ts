@@ -36,3 +36,13 @@ export interface myWeekCertificationDataType {
   userId: number;
   certifications: CertificationDataType[];
 }
+
+export interface AllWeekCertificationDataType {
+  userId: number;
+  nickname: string;
+  certifications: CertificationDataType[];
+  frameId: number;
+  profile: {
+    encodedFile: string;
+  };
+}
