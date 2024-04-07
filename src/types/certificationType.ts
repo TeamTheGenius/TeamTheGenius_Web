@@ -16,3 +16,18 @@ type DayOfWeek =
   | "FRIDAY"
   | "SATURDAY"
   | "SUNDAY";
+
+export interface CertificationInstnaceDetailDataType {
+  instanceId: number;
+  title: string;
+  participantCount: number;
+  pointPerPerson: number;
+  certificationMethod: string;
+  startDate: string;
+  completedDate: string;
+  fileResponse: File;
+}
+
+interface File {
+  encodedFile: string;
+}

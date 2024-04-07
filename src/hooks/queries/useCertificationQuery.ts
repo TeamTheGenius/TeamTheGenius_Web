@@ -1,6 +1,11 @@
+import getCertificationInstanceDetail from "@/apis/getCertificationInstanceDetail ";
 import postTodayCertification from "@/apis/postTodayCertification";
-import { CertificationDataType } from "@/types/certificationType";
-import { useMutation } from "react-query";
+import { QUERY_KEY } from "@/constants/queryKey";
+import {
+  CertificationDataType,
+  CertificationInstnaceDetailDataType,
+} from "@/types/certificationType";
+import { useMutation, useQuery } from "react-query";
 
 interface PostTodayCertificationMutateType {
   instanceId: number;
@@ -23,4 +28,23 @@ export const usePostTodayCertification = ({
     }
   );
   return { mutate };
+};
+
+interface GetCertificationInstanceDetailType {
+  decryptedInstanceId: number;
+}
+export const useGetCertificationInstanceDetail = ({
+  decryptedInstanceId,
+}: GetCertificationInstanceDetailType) => {
+  const { data, isLoading } = useQuery<CertificationInstnaceDetailDataType>({
+    queryKey: [
+      QUERY_KEY.CERTIFICATION_INSTANCE_DETAIL,
+      { decryptedInstanceId },
+    ],
+    queryFn: () =>
+      getCertificationInstanceDetail({
+        instanceId: decryptedInstanceId,
+      }),
+  });
+  return { data, isLoading };
 };
