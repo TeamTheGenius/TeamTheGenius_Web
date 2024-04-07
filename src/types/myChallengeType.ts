@@ -23,3 +23,15 @@ export interface MyChallengeDoneDataType {
   itemId: number;
   fileResponse: File;
 }
+
+export interface MyChallengeActivityDataType {
+  instanceId: number;
+  title: string;
+  pointPerPerson: number;
+  repository: string;
+  certificateStatus: "패스 완료" | "인증 갱신" | "인증하기";
+  numOfPassItem: number;
+  canUsePassItem: boolean;
+  itemId: number;
+  fileResponse: File;
+}

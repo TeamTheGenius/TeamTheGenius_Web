@@ -1,7 +1,9 @@
+import getMyChallengeActivity from "@/apis/getMyChallengeActivity";
 import getMyChallengeDone from "@/apis/getMyChallengeDone";
 import getMyChallengePreActivity from "@/apis/getMyChallengePreActivity";
 import { QUERY_KEY } from "@/constants/queryKey";
 import {
+  MyChallengeActivityDataType,
   MyChallengeDoneDataType,
   MyChallengePreActivityDataType,
 } from "@/types/myChallengeType";
@@ -25,4 +27,11 @@ export const useGetMyDoneChallenges = () => {
   return { data };
 };
 
-export const useGetMyActivityChallenges = () => {};
+export const useGetMyActivityChallenges = () => {
+  const { data } = useQuery<MyChallengeActivityDataType[]>({
+    queryKey: [QUERY_KEY.MY_ACTIVITY_CHALLENGES],
+    queryFn: () => getMyChallengeActivity(),
+    suspense: true,
+  });
+  return { data };
+};

@@ -4,9 +4,8 @@ import MyChallengeLinkWrap from "@/components/Main/MyChallenge/MyChallengeLinkWr
 import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyChallengeTitle";
 import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyChallengeWrap";
 import successStamp from "@/assets/icon/success-stamp.svg";
-import getMyChallengeActivity from "@/apis/getMyChallengeActivity";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
-import { useQuery, useQueryClient } from "react-query";
+import { useQueryClient } from "react-query";
 import MyChallengePassItem from "@/components/Main/MyChallenge/MyChallengePass/MyChallengePassItem";
 import useModal from "@/hooks/useModal";
 import { useState } from "react";
@@ -17,22 +16,7 @@ import CertificationFailModal from "@/components/Certification/CertificationModa
 import { QUERY_KEY } from "@/constants/queryKey";
 import { usePostTodayCertification } from "@/hooks/queries/useCertificationQuery";
 import { CertificationDataType } from "@/types/certificationType";
-
-interface Data {
-  instanceId: number;
-  title: string;
-  pointPerPerson: number;
-  repository: string;
-  certificateStatus: "패스 완료" | "인증 갱신" | "인증하기";
-  numOfPassItem: number;
-  canUsePassItem: boolean;
-  itemId: number;
-  fileResponse: File;
-}
-
-interface File {
-  encodedFile: string;
-}
+import { useGetMyActivityChallenges } from "@/hooks/queries/useMyChallengeQuery";
 
 interface PassItemModal {
   e: React.MouseEvent;
@@ -45,11 +29,8 @@ const MyChallengeProgress = () => {
   const { isModalOpened, openModal, closeModal } = useModal();
   const queryClient = useQueryClient();
   const [modal, setModal] = useState<React.ReactNode>();
-  const { data } = useQuery<Data[]>({
-    queryKey: [QUERY_KEY.MY_ACTIVITY_CHALLENGES],
-    queryFn: () => getMyChallengeActivity(),
-    suspense: true,
-  });
+
+  const { data } = useGetMyActivityChallenges();
   const onSuccessPostTodayCertification = (res: CertificationDataType) => {
     if (res.certificateStatus === "NOT_YET") {
       setModal(<CertificationFailModal closeModal={closeModal} />);
