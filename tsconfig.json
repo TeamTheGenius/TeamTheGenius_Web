@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": "src",
+    "forceConsistentCasingInFileNames": false,
     "paths": {
       "@/*": ["*"],
       "@pages/*": ["pages/*"],

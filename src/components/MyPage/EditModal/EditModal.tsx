@@ -8,11 +8,11 @@ interface ModalProps {
   fail: string;
   buttonText: string;
   isLoading: boolean;
-  editHandle: () => void;
+  modalHandle: () => void;
 }
 
 export function EditModal({
-  editHandle,
+  modalHandle,
   editBoolean,
   success,
   fail,
@@ -40,7 +40,7 @@ export function EditModal({
               fontWeight="font-[500]"
               textColor="text-_coral-70"
               handleClick={() => {
-                editHandle();
+                modalHandle();
               }}
             />
           </>
