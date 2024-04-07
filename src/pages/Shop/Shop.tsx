@@ -10,9 +10,7 @@ import christmasFrame from "@/assets/icon/profile-frame-christmas.svg";
 import powerOfDarkFrame from "@/assets/icon/profile-frame-power-of-dark.svg";
 import pointTwiceItem from "@/assets/image/pass_0.svg";
 import passItem from "@/assets/image/pass_1.svg";
-import postItemEquipApi from "@/apis/postItemEquipApi";
 import postItemUnEquipApi from "@/apis/postItemUnEquipApi";
-
 import useModal from "@/hooks/useModal";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import ShopBuyModal from "@/components/Shop/ShopModal/ShopBuyModal/ShopBuyModal";
@@ -22,6 +20,7 @@ import ShopTicketList from "@/components/Shop/ShopTicketList/ShopTicketList";
 import MainHeader from "@/components/Common/MainHeader/MainHeader";
 import { QUERY_KEY } from "@/constants/queryKey";
 import { useGetMyProfile } from "@/hooks/queries/useProfileQuery";
+import { usePostFrameItemEquiptment } from "@/hooks/queries/useItemQuery";
 
 const Shop = () => {
   const [loadingState, setLoadingState] = useState(false);
@@ -63,14 +62,15 @@ const Shop = () => {
     return [];
   }, [passData, pointData]);
 
+  const { mutate: postFrameItemEquiptment } = usePostFrameItemEquiptment({
+    setLoadingState: setLoadingState,
+  });
+
   const mountFrameHandle = async (itemId: number | undefined) => {
+    if (!itemId) return null;
     setLoadingState(true);
     await postItemUnEquipApi({});
-    await postItemEquipApi({
-      setLoadingState: setLoadingState,
-      itemId: itemId,
-      queryClient: queryClient,
-    });
+    postFrameItemEquiptment(itemId);
   };
   const unMountFrameHandle = async (itemId: number | undefined) => {
     setLoadingState(true);

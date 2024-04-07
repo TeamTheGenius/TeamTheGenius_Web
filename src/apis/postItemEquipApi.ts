@@ -1,26 +1,15 @@
-import { FRAMEID } from "@/constants/localStorageKey";
 import { instance } from "./axios/axios";
 import requests from "./axios/request";
-import { encrypt } from "@/hooks/useCrypto";
 
-async function postItemEquipApi({
-  itemId,
-  queryClient,
-  setLoadingState,
-}: {
-  setLoadingState: React.Dispatch<React.SetStateAction<boolean>>;
-  itemId?: number;
-  queryClient: any;
-}) {
-  await instance
+async function postItemEquipApi({ itemId }: { itemId?: number }) {
+  const data = await instance
     .post(`${requests.fetchItemUse}/${itemId}`)
     .then((res) => {
-      setLoadingState(false);
-      localStorage.setItem(FRAMEID, encrypt(res.data.data.itemId));
-      queryClient.invalidateQueries(["itemFrameList"]);
+      return res.data.data;
     })
     .catch((err) => {
       throw err;
     });
+  return data;
 }
 export default postItemEquipApi;
