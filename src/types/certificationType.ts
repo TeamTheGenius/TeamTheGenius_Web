@@ -31,3 +31,8 @@ export interface CertificationInstnaceDetailDataType {
 interface File {
   encodedFile: string;
 }
+
+export interface myWeekCertificationDataType {
+  userId: number;
+  certifications: CertificationDataType[];
+}

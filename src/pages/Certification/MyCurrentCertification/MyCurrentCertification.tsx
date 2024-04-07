@@ -1,5 +1,4 @@
 import getCertificationInformation from "@/apis/getCertificationInformation ";
-import getMyWeekCertification from "@/apis/getMyWeekCertification";
 import CurrentAchivementRate from "@/components/Certification/MyCurrentCertification/CurrentAchivementRate/CurrentAchivementRate";
 import MyAllCertificationLinkButton from "@/components/Certification/MyCurrentCertification/MyAllCertificationLinkButton/MyAllCertificationLinkButton";
 import MyCertificationSummary from "@/components/Certification/MyCurrentCertification/MyCertificationSummary/MyCertificationSummary";
@@ -7,6 +6,7 @@ import MyRepository from "@/components/Certification/MyCurrentCertification/MyRe
 import MyThisWeekCertification from "@/components/Certification/MyCurrentCertification/MyWeekCertification/MyThisWeekCertification";
 import PRTemplate from "@/components/Certification/MyCurrentCertification/PRTemplate/PRTemplate";
 import { QUERY_KEY } from "@/constants/queryKey";
+import { useGetMyCertificationWeek } from "@/hooks/queries/useCertificationQuery";
 import { decrypt } from "@/hooks/useCrypto";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -22,30 +22,6 @@ interface myCurrentCertificationData {
   failureCount: number;
   remainCount: number;
 }
-
-interface myWeekCertificationData {
-  userId: number;
-  certifications: CertificationData[];
-}
-
-interface CertificationData {
-  certificationId: number;
-  certificationAttempt: number;
-  dayOfWeek: DayOfWeek;
-  certificatedAt: string;
-  certificateStatus: "NOT_YET" | "CERTIFICATED";
-  prCount: number;
-  prLinks: string[];
-}
-
-type DayOfWeek =
-  | "MONDAY"
-  | "TUESDAY"
-  | "WEDNESDAY"
-  | "THURSDAY"
-  | "FRIDAY"
-  | "SATURDAY"
-  | "SUNDAY";
 
 function MyCurrentCertification() {
   const { id } = useParams();
@@ -65,17 +41,8 @@ function MyCurrentCertification() {
           : Promise.resolve(null),
     });
 
-  const { data: myWeekCertificationData } = useQuery<myWeekCertificationData>({
-    queryKey: [
-      QUERY_KEY.MY_WEEK_CERTIFICATIONS_OF_INSTANCE,
-      { decryptedInstanceId },
-    ],
-    queryFn: () =>
-      decryptedInstanceId
-        ? getMyWeekCertification({
-            instanceId: parseInt(decryptedInstanceId),
-          })
-        : Promise.resolve(null),
+  const { data: myWeekCertificationData } = useGetMyCertificationWeek({
+    decryptedInstanceId,
   });
 
   if (!myCurrentCertificationData) {

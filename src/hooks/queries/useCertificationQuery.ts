@@ -1,9 +1,11 @@
 import getCertificationInstanceDetail from "@/apis/getCertificationInstanceDetail ";
+import getMyWeekCertification from "@/apis/getMyWeekCertification";
 import postTodayCertification from "@/apis/postTodayCertification";
 import { QUERY_KEY } from "@/constants/queryKey";
 import {
   CertificationDataType,
   CertificationInstnaceDetailDataType,
+  myWeekCertificationDataType,
 } from "@/types/certificationType";
 import { useMutation, useQuery } from "react-query";
 
@@ -47,4 +49,23 @@ export const useGetCertificationInstanceDetail = ({
       }),
   });
   return { data, isLoading };
+};
+
+interface GetCertificationWeekType {
+  decryptedInstanceId: number;
+}
+export const useGetMyCertificationWeek = ({
+  decryptedInstanceId,
+}: GetCertificationWeekType) => {
+  const { data } = useQuery<myWeekCertificationDataType>({
+    queryKey: [
+      QUERY_KEY.MY_WEEK_CERTIFICATIONS_OF_INSTANCE,
+      { decryptedInstanceId },
+    ],
+    queryFn: () =>
+      getMyWeekCertification({
+        instanceId: decryptedInstanceId,
+      }),
+  });
+  return { data };
 };
