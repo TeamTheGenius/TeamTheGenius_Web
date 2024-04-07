@@ -4,35 +4,15 @@ import { PATH } from "@/constants/path";
 import HorizontalScroll from "../HorizontalScroll/HorizontalScroll";
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import { useNavigate } from "react-router-dom";
-import getRecommendedChallenge from "@/apis/getRecommendedChallenge";
 import { useState } from "react";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
-import { useQuery } from "react-query";
 import { encrypt } from "@/hooks/useCrypto";
-import { QUERY_KEY } from "@/constants/queryKey";
-
-interface Post {
-  instanceId: number;
-  title: string;
-  participantCnt: number;
-  pointPerPerson: number;
-  fileResponse: {
-    encodedFile: string;
-  };
-}
-
-interface Data {
-  posts: Post[];
-}
+import { useGetRecommendInstance } from "@/hooks/queries/useHomeInstanceQuery";
 
 function SuggestionChallengeItems() {
   const [clickPossible, setClickPossible] = useState<boolean>(true);
   const navigate = useNavigate();
-  const { data } = useQuery<Data>({
-    queryKey: [QUERY_KEY.RECOMMENDED_CHALLENGES],
-    queryFn: () => getRecommendedChallenge({ pageParams: 0, size: 7 }),
-    suspense: true,
-  });
+  const { data } = useGetRecommendInstance();
 
   const onClick = (id: number, clickPossible: boolean) => {
     if (clickPossible) {

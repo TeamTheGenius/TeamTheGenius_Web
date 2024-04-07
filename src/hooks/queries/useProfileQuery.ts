@@ -21,7 +21,7 @@ export const useGetMyProfile = () => {
   const { data } = useQuery<MyProfileDataType>({
     queryKey: [QUERY_KEY.MY_PROFILE],
     queryFn: () => getMyPageProfile(),
-    //suspense: true,
+    suspense: true,
   });
 
   return { data };
