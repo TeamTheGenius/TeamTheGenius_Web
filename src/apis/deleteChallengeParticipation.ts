@@ -5,19 +5,13 @@ interface Params {
   instanceId: number;
 }
 
-const deleteChallengeParticipation = ({
-  instanceId,
-}: Params): Promise<void> => {
-  return new Promise<void>((resolve, reject) => {
-    acceptInstance
-      .delete(`${requests.fetchChallenges}/${instanceId}`)
-      .then(() => {
-        resolve();
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
+const deleteChallengeParticipation = async ({ instanceId }: Params) => {
+  await acceptInstance
+    .delete(`${requests.fetchChallenges}/${instanceId}`)
+    .then(() => {})
+    .catch((err) => {
+      throw err;
+    });
 };
 
 export default deleteChallengeParticipation;

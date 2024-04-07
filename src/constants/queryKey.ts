@@ -24,10 +24,10 @@ export const QUERY_KEY = {
   ALL_CERTIFICATIONS_OF_INSTANCE: "allCertificationsOfInstance",
   CERTIFICATION_USER_PROFILE: "certificationUserProfile",
   MY_WEEK_CERTIFICATIONS_OF_INSTANCE: "myWeekCertificationsOfInstance",
-
   INFINITE_OTHERS_WEEK_CERTIFICATIONS_OF_INSTANCE:
     "infiniteOthersWeekCertificationsOfInstance",
   MY_CERTIFICATIONS_STATUS_OF_INSTANCE: "myCertificationsStatusOfInstance",
+
   CHALLENGE_INSTANCE_DETAIL: "challengeInstanceDetail",
 
   MY_DONE_CHALLENGES: "myDoneChallenges",

@@ -1,21 +1,10 @@
-import getSearchedChallengeItem from "@/apis/getSearchedChallengeItem";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import VerticalChallengeItems from "@/components/Common/VerticalChallengeItems/VerticalChallengeItems";
-import { QUERY_KEY } from "@/constants/queryKey";
+import { useGetSearchInfinitePreActivityInstance } from "@/hooks/queries/useHomeInstanceQuery";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
-import { useInfiniteQuery } from "react-query";
 import { useOutletContext } from "react-router-dom";
-
-interface Data {
-  instanceId: number;
-  title: string;
-  participantCnt: number;
-  pointPerPerson: number;
-  fileResponse: {
-    encodedFile: string;
-  };
-}
+import { InstanceThumbnailDataType } from "@/types/homeInstance";
 
 interface Outlet {
   searchQuery: string;
@@ -28,26 +17,10 @@ function PreActivitySearch() {
     useOutletContext<Outlet>();
 
   const [ref, inView] = useInView();
-  const [challenges, setChallenges] = useState<Data[]>([]);
+  const [challenges, setChallenges] = useState<InstanceThumbnailDataType[]>([]);
 
-  const { fetchNextPage, hasNextPage, refetch, isLoading } = useInfiniteQuery({
-    queryKey: [QUERY_KEY.INFINITE_SEARCHED_PRE_ACTIVITY_CHALLENGES],
-    queryFn: ({ pageParam = 0 }) =>
-      getSearchedChallengeItem({
-        pageParams: pageParam,
-        size: 20,
-        keyword: searchQuery,
-        progress: "PREACTIVITY",
-      }),
-    getNextPageParam: (lastPage) => {
-      return lastPage.isLast ? undefined : lastPage.page + 1;
-    },
-    onSuccess: (res) => {
-      const newChallenges = res.pages.map((page) => page.posts).flat();
-      setChallenges(newChallenges);
-    },
-    cacheTime: 0,
-  });
+  const { fetchNextPage, hasNextPage, refetch, isLoading } =
+    useGetSearchInfinitePreActivityInstance({ setChallenges, searchQuery });
 
   useEffect(() => {
     if (inView && hasNextPage) {

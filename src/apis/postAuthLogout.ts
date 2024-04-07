@@ -1,17 +1,13 @@
 import { acceptInstance } from "./axios/axios";
 import requests from "./axios/request";
 
-const postAuthLogout = (): Promise<void> => {
-  return new Promise<void>((resolve, reject) => {
-    acceptInstance
-      .post(`${requests.fetchLogout}`, " ")
-      .then(() => {
-        resolve();
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
+const postAuthLogout = async () => {
+  await acceptInstance
+    .post(`${requests.fetchLogout}`, " ")
+    .then(() => {})
+    .catch((err) => {
+      throw err;
+    });
 };
 
 export default postAuthLogout;

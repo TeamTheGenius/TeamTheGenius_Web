@@ -26,8 +26,8 @@ function MainHeader({ headerText }: Props) {
   }, 300);
 
   return (
-    <div className="my-[1.1rem] max-w-[77.3rem] w-full z-50 bg-white fixed top-0 h-[4.7rem] _sm:h-[3.8rem]">
-      <div className="w-full h-full py-[1.1rem] px-[2.2rem] flex justify-between items-center">
+    <div className="py-[3.45rem] max-w-[77.3rem] w-full z-50 bg-white fixed top-0 h-[4.7rem] _sm:h-[3.8rem]">
+      <div className="w-full h-full  px-[2.2rem] flex justify-between items-center">
         <div className="flex justify-center items-center h-[4.2rem] ">
           <Link
             to={PATH.HOME}

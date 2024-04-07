@@ -64,8 +64,6 @@ const MyChallengeProgress = () => {
       <CertificationPassModal
         closeModal={closeModal}
         instanceId={instanceId}
-        refetch={refetch}
-        setModal={setModal}
         numOfPassItem={numOfPassItem}
         itemId={itemId}
       />
