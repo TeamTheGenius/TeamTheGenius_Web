@@ -1,10 +1,12 @@
-import deleteLikeChallenge from "@/apis/deleteLikeChallenge";
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import Header from "@/components/Common/Header/Header";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import MobCard from "@/components/Common/MobCard";
 import { PATH } from "@/constants/path";
-import { useGetInfiniteLikedChallenges } from "@/hooks/queries/useLikeQuery";
+import {
+  useDeleteLikesChallenge,
+  useGetInfiniteLikedChallenges,
+} from "@/hooks/queries/useLikeQuery";
 import { encrypt } from "@/hooks/useCrypto";
 import { LikedChallengeDataType } from "@/types/likeType";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
@@ -17,7 +19,8 @@ function InterestChallenge() {
   const [challenges, setChallenges] = useState<LikedChallengeDataType[]>([]);
   const navigate = useNavigate();
 
-  const { fetchNextPage, hasNextPage, refetch, isLoading } =
+  const { mutate: deleteLikesChallenges } = useDeleteLikesChallenge();
+  const { fetchNextPage, hasNextPage, isLoading } =
     useGetInfiniteLikedChallenges({ setChallenges: setChallenges });
 
   useEffect(() => {
@@ -34,13 +37,7 @@ function InterestChallenge() {
 
   const onClickHeart = async (e: React.MouseEvent, likesId: number) => {
     e.stopPropagation();
-    await deleteLikeChallenge({ likesId: likesId })
-      .then(() => {
-        refetch();
-      })
-      .catch((err) => {
-        throw err;
-      });
+    deleteLikesChallenges(likesId);
   };
 
   return (

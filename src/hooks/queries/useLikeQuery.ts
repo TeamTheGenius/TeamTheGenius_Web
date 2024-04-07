@@ -1,3 +1,4 @@
+import deleteLikeChallenge from "@/apis/deleteLikeChallenge";
 import getLikeChallenges from "@/apis/getLikeChallenges";
 import postLikeChallenge from "@/apis/postLikeChallenge";
 import { QUERY_KEY } from "@/constants/queryKey";
@@ -41,4 +42,17 @@ export const usePostLikesChallenge = () => {
   return { mutate };
 };
 
-export const useDeleteLikesChallenge = () => {};
+export const useDeleteLikesChallenge = () => {
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation(
+    (likesId: number) => deleteLikeChallenge({ likesId }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(QUERY_KEY.CHALLENGE_INSTANCE_DETAIL);
+        queryClient.invalidateQueries(QUERY_KEY.INFINITE_MY_LIKED_CHALLENGES);
+      },
+    }
+  );
+  return { mutate };
+};
