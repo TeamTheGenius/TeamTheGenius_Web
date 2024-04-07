@@ -1,4 +1,4 @@
-export interface MyChallengeThumbnailDataType {
+export interface MyChallengePreActivityDataType {
   instanceId: number;
   title: string;
   remainDays: number;
@@ -9,4 +9,17 @@ export interface MyChallengeThumbnailDataType {
 
 interface File {
   encodedFile: string;
+}
+
+export interface MyChallengeDoneDataType {
+  instanceId: number;
+  title: string;
+  pointPerPerson: number;
+  joinResult: "SUCCESS" | "FAIL";
+  canGetReward: boolean;
+  numOfPointItem: number;
+  rewardedPoints: number;
+  achievementRate: number;
+  itemId: number;
+  fileResponse: File;
 }

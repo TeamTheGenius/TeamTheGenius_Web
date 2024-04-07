@@ -1,10 +1,14 @@
+import getMyChallengeDone from "@/apis/getMyChallengeDone";
 import getMyChallengePreActivity from "@/apis/getMyChallengePreActivity";
 import { QUERY_KEY } from "@/constants/queryKey";
-import { MyChallengeThumbnailDataType } from "@/types/myChallengeType";
+import {
+  MyChallengeDoneDataType,
+  MyChallengePreActivityDataType,
+} from "@/types/myChallengeType";
 import { useQuery } from "react-query";
 
 export const useGetMyPreActivityChallenges = () => {
-  const { data } = useQuery<MyChallengeThumbnailDataType[]>({
+  const { data } = useQuery<MyChallengePreActivityDataType[]>({
     queryKey: [QUERY_KEY.MY_PRE_ACTIVITY_CHALLENGES],
     queryFn: () => getMyChallengePreActivity(),
     suspense: true,
@@ -12,6 +16,13 @@ export const useGetMyPreActivityChallenges = () => {
   return { data };
 };
 
-export const useGetMyDoneChallenges = () => {};
+export const useGetMyDoneChallenges = () => {
+  const { data } = useQuery<MyChallengeDoneDataType[]>({
+    queryKey: [QUERY_KEY.MY_DONE_CHALLENGES],
+    queryFn: () => getMyChallengeDone(),
+    suspense: true,
+  });
+  return { data };
+};
 
 export const useGetMyActivityChallenges = () => {};

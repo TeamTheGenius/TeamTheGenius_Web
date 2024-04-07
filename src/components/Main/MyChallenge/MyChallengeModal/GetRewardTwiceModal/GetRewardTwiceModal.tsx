@@ -1,13 +1,14 @@
 import getMyChallengeDoneReward from "@/apis/getMyChallengeDoneReward";
 import Button from "@/components/Common/Button";
 import { Modal } from "@/components/Common/Modal/Modal";
+import { QUERY_KEY } from "@/constants/queryKey";
 import { usePostPointTwiceItemUse } from "@/hooks/queries/useItemQuery";
+import { useQueryClient } from "react-query";
 
 interface TwiceRewardModalProps {
   closeModal: () => void;
   instanceId: number;
   numOfPointItem: number;
-  refetch: () => void;
   itemId: number;
 }
 
@@ -15,9 +16,10 @@ function GetRewardTwiceModal({
   closeModal,
   instanceId,
   numOfPointItem,
-  refetch,
+
   itemId,
 }: TwiceRewardModalProps) {
+  const queryClient = useQueryClient();
   const onSuccessPostItemUse = () => {
     closeModal();
   };
@@ -33,7 +35,7 @@ function GetRewardTwiceModal({
     await getMyChallengeDoneReward({ instanceId })
       .then(() => {
         closeModal();
-        refetch();
+        queryClient.invalidateQueries(QUERY_KEY.MY_DONE_CHALLENGES);
       })
       .catch((err) => {
         throw err;
