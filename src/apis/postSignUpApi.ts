@@ -49,6 +49,8 @@ const signUpApi = async ({
     })
     .catch((err) => {
       alert("오류가 발생했습니다.");
+      setIsLoading(false);
+      navigate(PATH.LOGIN);
       throw err;
     });
 };

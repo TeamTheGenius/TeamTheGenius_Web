@@ -10,8 +10,10 @@ import UserInfo from "@/components/MyPage/MyPage/UserEdit/UserImg/UserImg";
 import UserName from "@/components/MyPage/MyPage/UserEdit/UserName/UserName";
 import { useNavigate } from "react-router-dom";
 import NickNameInput from "@/components/Common/NickNameInput/NickNameInput";
+
 import useModal from "@/hooks/useModal";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
+import NickNameInput from "@/components/Common/NickNameInput/NickNameInput";
 import { EditModal } from "@/components/MyPage/EditModal/EditModal";
 import {
   useGetMyProfile,
@@ -22,11 +24,20 @@ const UserInfoEdit = () => {
   const [signUpBoolean, setsignUpBoolean] = useState(true);
   const [nickCheck, setNickCheck] = useState("");
   const [nickName, setNickName] = useState("");
+  const [myInfo, setMyInfo] = useState("");
   const [infoShow, setInfoShow] = useState(0);
   const [nickNameShow, setNickNameShow] = useState(0);
   const [imageUrl, setImageUrl] = useState("");
   const { openModal, closeModal, isModalOpened } = useModal();
   const [isLoading, setIsLoading] = useState(false);
+
+  const [modal, setModal] = useState(<></>);
+  const { data } = useQuery<Data>({
+    queryKey: ["myPageProfile"],
+    queryFn: () => getMyPageProfile(),
+  });
+
+  const navigate = useNavigate();
 
   const { data } = useGetMyProfile();
   const { formik } = formikUtil();
@@ -51,9 +62,27 @@ const UserInfoEdit = () => {
     formik.handleChange(e);
     setNickName(e.target.value);
   };
-
+  const handleMyInfoChange = (e: any) => {
+    formik.handleChange(e);
+    setMyInfo(e.target.value);
+  };
+  const editModalOpen = () => {
+    setIsLoading(false);
+    openModal();
+    setModal(
+      <EditModal
+        modalHandle={editHandle}
+        isLoading={isLoading}
+        editBoolean={true}
+        success="유저정보를 수정하시겠습니까?"
+        fail="Error"
+        buttonText="확인하기"
+      />
+    );
+  };
   const editHandle = () => {
     setIsLoading(true);
+
     const valueMyInfo = formik.values.myInfo;
 
     const finalNickName = nickName || data?.nickname;
@@ -61,14 +90,35 @@ const UserInfoEdit = () => {
 
     if (finalNickName && signUpBoolean) {
       if (/[^ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-Z0-9]/.test(finalNickName)) {
-        alert("닉네임에는 특수문자를 사용할 수 없습니다.");
+        openModal();
+        setModal(
+          <EditModal
+            modalHandle={closeModal}
+            isLoading={isLoading}
+            editBoolean={true}
+            success="닉네임에는 특수문자를 사용할 수 없습니다."
+            fail="Error"
+            buttonText="확인하기"
+          />
+        );
       }
     }
     if (signUpBoolean && finalMyinfo && finalNickName) {
       mutate({ myInfo: finalMyinfo, nickName: finalNickName, files: imageUrl });
     }
+    setIsLoading(false);
     if (!signUpBoolean && finalNickName !== data?.nickname) {
-      alert("닉네임 중복확인을 해주세요.");
+      openModal();
+      setModal(
+        <EditModal
+          modalHandle={closeModal}
+          isLoading={isLoading}
+          editBoolean={true}
+          success="닉네임 중복체크 해주세요"
+          fail="Error"
+          buttonText="확인하기"
+        />
+      );
     }
     if (isLoading) {
       closeModal();
@@ -77,18 +127,7 @@ const UserInfoEdit = () => {
 
   return (
     <>
-      {isModalOpened && (
-        <ModalLayer onClick={closeModal}>
-          <EditModal
-            isLoading={isLoading}
-            editHandle={editHandle}
-            editBoolean={true}
-            success="프로필을 수정하시겠습니까?"
-            fail="Error"
-            buttonText="확인하기"
-          />
-        </ModalLayer>
-      )}
+      {isModalOpened && <ModalLayer onClick={closeModal}>{modal}</ModalLayer>}
       <MobCard>
         <Header content="회원 정보 수정" />
         <div className="w-full pt-[7.8rem] px-[2.2rem] flex flex-col justify-center items-center">
@@ -111,6 +150,7 @@ const UserInfoEdit = () => {
                   id="nickName"
                   value={data?.nickname}
                   setShow={setNickNameShow}
+                  setNickName={setNickName}
                 />
               ) : (
                 <NickNameInput
@@ -142,6 +182,7 @@ const UserInfoEdit = () => {
                   id="myInfoPreveiw"
                   value={data?.information}
                   setShow={setInfoShow}
+                  setMyInfo={setMyInfo}
                 />
               ) : (
                 <InfoInput
@@ -152,8 +193,8 @@ const UserInfoEdit = () => {
                   name="myInfo"
                   placeholder="자신을 소개해주세요. (100자까지)"
                   maxLength={100}
-                  value={formik.values.myInfo}
-                  onChange={formik.handleChange}
+                  value={myInfo}
+                  onChange={handleMyInfoChange}
                   onBlur={formik.handleBlur}
                   error={
                     formik.touched.myInfo && formik.errors.myInfo
@@ -164,7 +205,7 @@ const UserInfoEdit = () => {
               )}
             </ul>
             <BottomButton
-              onClick={openModal}
+              onClick={editModalOpen}
               content="수정완료"
               borderColor="border-black"
               btnMaxWidth="max-w-[46.7rem]"

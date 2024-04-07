@@ -1,12 +1,13 @@
 .nav-pending {
-    @apply w-full h-[90px] _sm:h-[64px] flex items-center justify-center flex-col text-[1.4rem] _sm:text-[1.2rem] text-[#777] font-medium leading-_normal;
-  }
-  .nav-active {
-    @apply w-full h-[90px] _sm:h-[64px] flex items-center justify-center flex-col text-_coral-70 text-[1.4rem] _sm:text-[1.2rem] font-medium leading-_normal;
-  }
-  .loaded {
-    @apply _sm:w-[30px] _sm:h-[30px] w-[50px] h-[50px];
-  }
-  .pending {
-    @apply _sm:w-[30px] _sm:h-[30px] w-[50px] h-[50px];
-  }
+  @apply w-full h-[90px] _sm:h-[64px] flex items-center justify-center flex-col text-[1.4rem] _sm:text-[1.2rem] text-[#777] font-medium leading-_normal;
+}
+.nav-active {
+  @apply w-full h-[90px] _sm:h-[64px] flex items-center justify-center flex-col text-_coral-70 text-[1.4rem] _sm:text-[1.2rem] font-medium leading-_normal;
+}
+.loaded {
+  @apply _sm:w-[30px] _sm:h-[30px] w-[50px] h-[50px];
+}
+.pending {
+  @apply _sm:w-[30px] _sm:h-[30px] w-[50px] h-[50px];
+}
+
