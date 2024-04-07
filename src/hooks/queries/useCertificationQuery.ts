@@ -1,3 +1,4 @@
+import getCertificationInformation from "@/apis/getCertificationInformation ";
 import getCertificationInstanceDetail from "@/apis/getCertificationInstanceDetail ";
 import getMyWeekCertification from "@/apis/getMyWeekCertification";
 import getOthersWeekCertification from "@/apis/getOthersWeekCertification";
@@ -8,6 +9,7 @@ import {
   AllWeekCertificationDataType,
   CertificationDataType,
   CertificationInstnaceDetailDataType,
+  CertificationStatisticsType,
   TotalCertificationDataType,
   myWeekCertificationDataType,
 } from "@/types/certificationType";
@@ -127,6 +129,25 @@ export const useGetTotalCertifications = ({
       getTotalCertification({
         instanceId: decryptedInstanceId,
         userId: decryptedUserId,
+      }),
+  });
+  return { data };
+};
+
+interface GetCertificationStatisticsType {
+  decryptedInstanceId: number;
+}
+export const useGetCertificationStatistics = ({
+  decryptedInstanceId,
+}: GetCertificationStatisticsType) => {
+  const { data } = useQuery<CertificationStatisticsType>({
+    queryKey: [
+      QUERY_KEY.MY_CERTIFICATIONS_STATUS_OF_INSTANCE,
+      { decryptedInstanceId },
+    ],
+    queryFn: () =>
+      getCertificationInformation({
+        instanceId: decryptedInstanceId,
       }),
   });
   return { data };

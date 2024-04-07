@@ -51,3 +51,15 @@ export interface TotalCertificationDataType {
   totalAttempts: number;
   certifications: CertificationDataType[];
 }
+
+export interface CertificationStatisticsType {
+  prTemplate: string;
+  repository: string;
+  successPercent: number;
+  totalAttempt: number;
+  currentAttempt: number;
+  pointPerPerson: number;
+  successCount: number;
+  failureCount: number;
+  remainCount: number;
+}
