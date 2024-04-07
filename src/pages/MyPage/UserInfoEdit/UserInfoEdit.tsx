@@ -12,7 +12,7 @@ import postUserInfoEdit from "@/apis/postUserInfoEdit";
 import formikUtil from "@/utils/useEditFormik";
 import UserInfo from "@/components/MyPage/MyPage/UserEdit/UserImg/UserImg";
 import UserName from "@/components/MyPage/MyPage/UserEdit/UserName/UserName";
-import NickNameInput from "@/components/Common/NickNameInput/NickNameInput";
+import NickNameInput from "@/components/common/NickNameInput/NickNameInput";
 import { useNavigate } from "react-router-dom";
 import useModal from "@/hooks/useModal";
 import { ModalLayer } from "@/components/Common/Modal/Modal";

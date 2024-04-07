@@ -10,6 +10,7 @@ import React, {
 import nickname_X from "@/assets/icon/nickname_X.svg";
 import { getCheckNicknameApi } from "@/apis/getCheckNicknameApi";
 import Loading from "../Loading/Loading";
+
 type SignUpInputProps = {
   label: string;
   id: string;
@@ -57,6 +58,7 @@ const NickNameInput: React.FC<SignUpInputProps> = ({
       setIsLoading,
     });
   };
+
   const resetValue = () => {
     setValue("");
     onChange({ target: { value: "" } } as ChangeEvent<HTMLInputElement>);
@@ -110,10 +112,10 @@ const NickNameInput: React.FC<SignUpInputProps> = ({
           handleClick={nickNameCheck}
         />
       </div>
-      {signUpBoolean && !error ? (
+      {signUpBoolean ? (
         <div className="signUp-check">{nickCheck}</div>
       ) : (
-        ""
+        <div className="signUp-err">{nickCheck}</div>
       )}
       {error && <div className="signUp-err">{error}</div>}
     </li>

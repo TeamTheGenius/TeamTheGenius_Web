@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import "@/components/Common/BottomNav/bottomNavStyle.css";
+import "@/components/common/BottomNav/bottomNavStyle.css";
 import icon_off_home from "@/assets/icon/icon_off_home.svg";
 import icon_off_myChallenge from "@/assets/icon/icon_off_myChallenge.svg";
 // 교체할 이미지
