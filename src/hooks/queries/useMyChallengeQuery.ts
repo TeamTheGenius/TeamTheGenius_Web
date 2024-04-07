@@ -1,5 +1,6 @@
 import getMyChallengeActivity from "@/apis/getMyChallengeActivity";
 import getMyChallengeDone from "@/apis/getMyChallengeDone";
+import getMyChallengeDoneReward from "@/apis/getMyChallengeDoneReward";
 import getMyChallengePreActivity from "@/apis/getMyChallengePreActivity";
 import { QUERY_KEY } from "@/constants/queryKey";
 import {
@@ -7,7 +8,7 @@ import {
   MyChallengeDoneDataType,
   MyChallengePreActivityDataType,
 } from "@/types/myChallengeType";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export const useGetMyPreActivityChallenges = () => {
   const { data } = useQuery<MyChallengePreActivityDataType[]>({
@@ -34,4 +35,28 @@ export const useGetMyActivityChallenges = () => {
     suspense: true,
   });
   return { data };
+};
+
+interface GetChallengeSuccessRewardMutateType {
+  instanceId: number;
+}
+interface GetChallengeSuccessRewardType {
+  onSuccess: (pointPerPerson: number) => void;
+}
+
+export const useGetChallengeSuccessReward = ({
+  onSuccess,
+}: GetChallengeSuccessRewardType) => {
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation(
+    ({ instanceId }: GetChallengeSuccessRewardMutateType) =>
+      getMyChallengeDoneReward({ instanceId }),
+    {
+      onSuccess: (res: MyChallengeDoneDataType) => {
+        queryClient.invalidateQueries(QUERY_KEY.MY_DONE_CHALLENGES);
+        onSuccess(res.pointPerPerson);
+      },
+    }
+  );
+  return { mutate };
 };

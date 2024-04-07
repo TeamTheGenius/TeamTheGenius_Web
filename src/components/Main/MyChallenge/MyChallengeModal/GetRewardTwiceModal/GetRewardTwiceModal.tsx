@@ -1,9 +1,7 @@
-import getMyChallengeDoneReward from "@/apis/getMyChallengeDoneReward";
 import Button from "@/components/Common/Button";
 import { Modal } from "@/components/Common/Modal/Modal";
-import { QUERY_KEY } from "@/constants/queryKey";
 import { usePostPointTwiceItemUse } from "@/hooks/queries/useItemQuery";
-import { useQueryClient } from "react-query";
+import { useGetChallengeSuccessReward } from "@/hooks/queries/useMyChallengeQuery";
 
 interface TwiceRewardModalProps {
   closeModal: () => void;
@@ -19,7 +17,6 @@ function GetRewardTwiceModal({
 
   itemId,
 }: TwiceRewardModalProps) {
-  const queryClient = useQueryClient();
   const onSuccessPostItemUse = () => {
     closeModal();
   };
@@ -27,19 +24,20 @@ function GetRewardTwiceModal({
     onSuccess: onSuccessPostItemUse,
   });
 
+  const onSuccessGetChallengeSuccessReward = () => {
+    closeModal();
+  };
+  const { mutate: getChallengeSuccessRewardMutate } =
+    useGetChallengeSuccessReward({
+      onSuccess: onSuccessGetChallengeSuccessReward,
+    });
+
   const onClickUse = async () => {
     pointTwiceItemUse({ instanceId, itemId });
   };
 
-  const onClickNotUse = async () => {
-    await getMyChallengeDoneReward({ instanceId })
-      .then(() => {
-        closeModal();
-        queryClient.invalidateQueries(QUERY_KEY.MY_DONE_CHALLENGES);
-      })
-      .catch((err) => {
-        throw err;
-      });
+  const onClickNotUse = () => {
+    getChallengeSuccessRewardMutate({ instanceId });
   };
 
   return (
