@@ -10,6 +10,7 @@ import React, {
 import nickname_X from "@/assets/icon/nickname_X.svg";
 import { getCheckNicknameApi } from "@/apis/getCheckNicknameApi";
 import Loading from "../Loading/Loading";
+import { EditModal } from "@/components/MyPage/EditModal/EditModal";
 
 type SignUpInputProps = {
   label: string;
@@ -28,6 +29,10 @@ type SignUpInputProps = {
   margin: string | null;
   signUpBoolean: boolean;
   setsignUpBoolean: Dispatch<SetStateAction<boolean>>;
+  userValue?: string;
+  openModal: () => void;
+  closeModal: () => void;
+  setModal: React.Dispatch<React.SetStateAction<JSX.Element>>;
 };
 
 const NickNameInput: React.FC<SignUpInputProps> = ({
@@ -47,8 +52,26 @@ const NickNameInput: React.FC<SignUpInputProps> = ({
   margin,
   signUpBoolean,
   setsignUpBoolean,
+  userValue,
+  openModal,
+  setModal,
+  closeModal,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
+
+  const sameNickCheck = () => {
+    openModal();
+    setModal(
+      <EditModal
+        modalHandle={closeModal}
+        isLoading={isLoading}
+        editBoolean={true}
+        success="닉네임 변경 후 시도해주세요"
+        fail="Error"
+        buttonText="확인하기"
+      />
+    );
+  };
   const nickNameCheck = () => {
     setIsLoading(true);
     getCheckNicknameApi({
@@ -101,16 +124,29 @@ const NickNameInput: React.FC<SignUpInputProps> = ({
             </button>
           </>
         </div>
-        <Button
-          width="w-[76px]"
-          height="h-[38px]"
-          content="중복확인"
-          fontWeight="font-medium"
-          backgroundColor="bg-[#6893FF]"
-          textColor="text-white"
-          textSize="text-[1.3rem]"
-          handleClick={nickNameCheck}
-        />
+        {userValue === value ? (
+          <Button
+            width="w-[76px]"
+            height="h-[38px]"
+            content="중복확인"
+            fontWeight="font-medium"
+            backgroundColor="bg-[#dddddd]"
+            textColor="text-white"
+            textSize="text-[1.3rem]"
+            handleClick={sameNickCheck}
+          />
+        ) : (
+          <Button
+            width="w-[76px]"
+            height="h-[38px]"
+            content="중복확인"
+            fontWeight="font-medium"
+            backgroundColor="bg-[#6893FF]"
+            textColor="text-white"
+            textSize="text-[1.3rem]"
+            handleClick={nickNameCheck}
+          />
+        )}
       </div>
       {signUpBoolean ? (
         <div className="signUp-check">{nickCheck}</div>

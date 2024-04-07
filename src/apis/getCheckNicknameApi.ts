@@ -1,7 +1,6 @@
-import { instance, noCookieinstance } from "./axios/axios";
+import { noCookieinstance } from "./axios/axios";
 import requests from "./axios/request";
 
-import axios from "axios";
 type nickNameCheckApiType = {
   value: string;
   setNickCheck: React.Dispatch<React.SetStateAction<string>>;
