@@ -6,8 +6,7 @@ import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyCha
 import successStamp from "@/assets/icon/success-stamp.svg";
 import getMyChallengeActivity from "@/apis/getMyChallengeActivity";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
-import { useQuery } from "react-query";
-import postTodayCertification from "@/apis/postTodayCertification";
+import { useQuery, useQueryClient } from "react-query";
 import MyChallengePassItem from "@/components/Main/MyChallenge/MyChallengePass/MyChallengePassItem";
 import useModal from "@/hooks/useModal";
 import { useState } from "react";
@@ -16,6 +15,8 @@ import { getToday } from "@/utils/getToday";
 import CertificationPassModal from "@/components/Main/MyChallenge/MyChallengeModal/CertificationPassModal/CertificationPassModal";
 import CertificationFailModal from "@/components/Certification/CertificationModal/CertificationFailModal/CertificationFailModal";
 import { QUERY_KEY } from "@/constants/queryKey";
+import { usePostTodayCertification } from "@/hooks/queries/useCertificationQuery";
+import { CertificationDataType } from "@/types/certificationType";
 
 interface Data {
   instanceId: number;
@@ -42,11 +43,23 @@ interface PassItemModal {
 
 const MyChallengeProgress = () => {
   const { isModalOpened, openModal, closeModal } = useModal();
+  const queryClient = useQueryClient();
   const [modal, setModal] = useState<React.ReactNode>();
-  const { data, refetch } = useQuery<Data[]>({
+  const { data } = useQuery<Data[]>({
     queryKey: [QUERY_KEY.MY_ACTIVITY_CHALLENGES],
     queryFn: () => getMyChallengeActivity(),
     suspense: true,
+  });
+  const onSuccessPostTodayCertification = (res: CertificationDataType) => {
+    if (res.certificateStatus === "NOT_YET") {
+      setModal(<CertificationFailModal closeModal={closeModal} />);
+      openModal();
+    } else {
+      queryClient.invalidateQueries(QUERY_KEY.MY_ACTIVITY_CHALLENGES);
+    }
+  };
+  const { mutate: postTodayCertificationMutate } = usePostTodayCertification({
+    onSuccess: onSuccessPostTodayCertification,
   });
 
   if (!data) {
@@ -76,21 +89,10 @@ const MyChallengeProgress = () => {
     instanceId: number
   ) => {
     e.stopPropagation();
-    await postTodayCertification({
+    postTodayCertificationMutate({
       instanceId: instanceId,
       targetDate: getToday(),
-    })
-      .then((res) => {
-        if (res.certificateStatus === "NOT_YET") {
-          setModal(<CertificationFailModal closeModal={closeModal} />);
-          openModal();
-        } else {
-          refetch();
-        }
-      })
-      .catch((err) => {
-        throw err;
-      });
+    });
   };
 
   return (
