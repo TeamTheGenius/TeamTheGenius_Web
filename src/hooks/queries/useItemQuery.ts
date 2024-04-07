@@ -5,6 +5,8 @@ import { encrypt } from "../useCrypto";
 import { QUERY_KEY } from "@/constants/queryKey";
 import postUseItem from "@/apis/postUseItem";
 import postItemUnEquipApi from "@/apis/postItemUnEquipApi";
+import postdItemBuyApi from "@/apis/postdItemBuyApi";
+import { AxiosError } from "axios";
 
 interface usePostFrameItemType {
   onSuccess: () => void;
@@ -78,6 +80,34 @@ export const usePostPointTwiceItemUse = ({ onSuccess }: usePostItemUseType) => {
       onSuccess: () => {
         queryClient.invalidateQueries(QUERY_KEY.MY_DONE_CHALLENGES);
         onSuccess();
+      },
+    }
+  );
+  return { mutate };
+};
+
+interface usePostItemBuyType {
+  onSuccess: () => void;
+  onError: (errMessage: string) => void;
+}
+export const usePostItemBuy = ({
+  onSuccess: onSuccess,
+  onError: onError,
+}: usePostItemBuyType) => {
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation(
+    (itemId: number) => postdItemBuyApi({ itemId }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(QUERY_KEY.SHOP_PASS_ITEM);
+        queryClient.invalidateQueries(QUERY_KEY.SHOP_POINT_TWICE_ITEM);
+        queryClient.invalidateQueries(QUERY_KEY.SHOP_FRAME_ITEMS);
+        queryClient.invalidateQueries(QUERY_KEY.MY_PROFILE);
+        onSuccess();
+      },
+      onError: (err: AxiosError) => {
+        onError(err?.response?.data?.message);
       },
     }
   );

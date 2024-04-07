@@ -1,11 +1,11 @@
 import Button from "@/components/Common/Button";
 import pointBigIcon from "@/assets/icon/point-big-icon.svg";
-import postdItemBuyApi from "@/apis/postdItemBuyApi";
 import { shopFrameListType, shopTicketListType } from "@/types/shopType";
 import { cls } from "@/utils/mergeTailwind";
 import ShopCompletedModal from "@/components/Shop/ShopModal/ShopCompletedModal/ShopCompletedModal";
 import ShopTicketCount from "@/components/Shop/ShopTicketList/ShopTicketItem/ShopTicketCount/ShopTicketCount";
 import Loading from "@/components/Common/Loading/Loading";
+import { usePostItemBuy } from "@/hooks/queries/useItemQuery";
 
 type ShopBuyModalType = {
   closeModal: () => void;
@@ -26,6 +26,27 @@ function ShopBuyModal({
   closeModal,
   mountFrameHandle,
 }: ShopBuyModalType) {
+  const onSuccessPostItemBuy = () => {
+    completeModal();
+    setLoadingState(false);
+  };
+  const onErrorPostItemBuy = (errMessage: string) => {
+    setLoadingState(false);
+    setModal(
+      <ShopCompletedModal
+        loadingState={loadingState}
+        mountFrameHandle={mountFrameHandle}
+        err={errMessage}
+        queryClient={queryClient}
+        closeModal={closeModal}
+      />
+    );
+  };
+  const { mutate: postItemBuy } = usePostItemBuy({
+    onSuccess: onSuccessPostItemBuy,
+    onError: onErrorPostItemBuy,
+  });
+
   const isValidCategory = ["CERTIFICATION_PASSER", "POINT_MULTIPLIER"].includes(
     item?.itemCategory || ""
   );
@@ -43,26 +64,9 @@ function ShopBuyModal({
   };
   const buyHandle = () => {
     setLoadingState(true);
-    postdItemBuyApi({
-      setLoadingState: setLoadingState,
-      item: item,
-      queryClient: queryClient,
-      completeModal: completeModal,
-    })
-      .then(() => {})
-      .catch((err) => {
-        setLoadingState(false);
-        setModal(
-          <ShopCompletedModal
-            loadingState={loadingState}
-            mountFrameHandle={mountFrameHandle}
-            err={err.response.data.message}
-            queryClient={queryClient}
-            closeModal={closeModal}
-          />
-        );
-        throw err;
-      });
+    if (item) {
+      postItemBuy(item.itemId);
+    }
   };
 
   const onClickModalBox = (e: React.MouseEvent) => {
