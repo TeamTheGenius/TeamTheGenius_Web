@@ -10,3 +10,4 @@
 .pending {
   @apply _sm:w-[30px] _sm:h-[30px] w-[50px] h-[50px];
 }
+

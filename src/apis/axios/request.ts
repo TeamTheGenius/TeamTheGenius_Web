@@ -30,7 +30,7 @@ const requests = {
   fetchCertVerifyToken: `/certification/verify/token`,
   fetchCertVerifyRepo: `/certification/verify/repository`,
   fetchCertRegisterToken: `/certification/register/token`,
-  fetchCheckNickname: `/signup/check-nickname`,
+  fetchCheckNickname: `/auth/check-nickname`,
   fetchPaymentToss: `/payment/toss`,
   fetchPaymentTossFail: `/payment/toss/fail`,
   fetchPaymentReceipt: `/payment`,

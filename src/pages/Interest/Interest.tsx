@@ -12,7 +12,6 @@ import basicGrayProfileImage from "@/assets/image/basic-profile-image-gray.png";
 import basicPinkProfileImage from "@/assets/image/basic-profile-image-pink.png";
 import basicBlueProfileImage from "@/assets/image/basic-profile-image-blue.png";
 import basicGreenProfileImage from "@/assets/image/basic-profile-image-green.png";
-
 import Loading from "@/components/Common/Loading/Loading";
 
 type Interest = {

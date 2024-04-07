@@ -1,3 +1,4 @@
+import { instance, noCookieinstance } from "./axios/axios";
 import requests from "./axios/request";
 
 import axios from "axios";
@@ -24,17 +25,17 @@ export const getCheckNicknameApi = async ({
     setIsLoading(false);
     return;
   }
-  await axios
-    .get(`/api${requests.fetchCheckNickname}`, { params })
+  await noCookieinstance
+    .get(`${requests.fetchCheckNickname}`, { params })
     .then((res) => {
-      console.log("res", res);
       setIsLoading(false);
       setsignUpBoolean(true);
       setNickCheck("사용 가능한 닉네임입니다.");
     })
     .catch((err) => {
+      setIsLoading(false);
       setsignUpBoolean(false);
-      setNickCheck("이미 존재하는 닉네임입니다.");
+      setNickCheck(err.response.data.message);
       throw err;
     });
 };

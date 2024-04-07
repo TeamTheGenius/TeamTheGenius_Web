@@ -1,6 +1,7 @@
 import "@/components/Common/Loading/loading.css";
 import loading from "@/assets/icon/loading.png";
 import MobCard from "../MobCard";
+
 function Loading() {
   return (
     <MobCard>

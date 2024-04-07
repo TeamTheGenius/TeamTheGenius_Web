@@ -8,10 +8,7 @@ import InfoInput from "@/components/MyPage/MyPage/UserEdit/InfoInput/InfoInput";
 import formikUtil from "@/utils/useEditFormik";
 import UserInfo from "@/components/MyPage/MyPage/UserEdit/UserImg/UserImg";
 import UserName from "@/components/MyPage/MyPage/UserEdit/UserName/UserName";
-
-
 import { useNavigate } from "react-router-dom";
-
 import NickNameInput from "@/components/Common/NickNameInput/NickNameInput";
 
 import useModal from "@/hooks/useModal";
