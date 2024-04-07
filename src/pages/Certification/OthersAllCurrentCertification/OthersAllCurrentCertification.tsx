@@ -1,39 +1,13 @@
-import getTotalCertification from "@/apis/getTotalCertification";
 import OthersProfile from "@/components/Certification/OthersAllCurrentCertification/OthersProfile/OthersProfile";
 import TotalCertification from "@/components/Certification/TotalCertification/TotalCertification";
 import Header from "@/components/Common/Header/Header";
 import MobCard from "@/components/Common/MobCard";
 import { decrypt } from "@/hooks/useCrypto";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
-import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import basicProfileImage from "@/assets/image/basic-profile-image-gray.png";
-import { QUERY_KEY } from "@/constants/queryKey";
 import { useGetUserProfile } from "@/hooks/queries/useProfileQuery";
-
-interface Data {
-  totalAttempts: number;
-  certifications: CertificationData[];
-}
-
-interface CertificationData {
-  certificationId: number;
-  certificationAttempt: number;
-  dayOfWeek: DayOfWeek;
-  certificatedAt: string;
-  certificateStatus: "NOT_YET" | "CERTIFICATED" | "PASSED";
-  prCount: number;
-  prLinks: string[];
-}
-
-type DayOfWeek =
-  | "MONDAY"
-  | "TUESDAY"
-  | "WEDNESDAY"
-  | "THURSDAY"
-  | "FRIDAY"
-  | "SATURDAY"
-  | "SUNDAY";
+import { useGetTotalCertifications } from "@/hooks/queries/useCertificationQuery";
 
 function OthersAllCurrentCertification() {
   const { id } = useParams();
@@ -41,19 +15,9 @@ function OthersAllCurrentCertification() {
   const decryptedInstanceId = decrypt(id);
   const decryptedUserId = decrypt(userId);
 
-  const { data: certifications } = useQuery<Data>({
-    queryKey: [
-      QUERY_KEY.ALL_CERTIFICATIONS_OF_INSTANCE,
-      { decryptedInstanceId },
-      { decryptedUserId },
-    ],
-    queryFn: () =>
-      decryptedInstanceId && decryptedUserId
-        ? getTotalCertification({
-            instanceId: parseInt(decryptedInstanceId),
-            userId: parseInt(decryptedUserId),
-          })
-        : Promise.resolve(null),
+  const { data: certifications } = useGetTotalCertifications({
+    decryptedInstanceId,
+    decryptedUserId,
   });
 
   const { data: userProfile } = useGetUserProfile(decryptedUserId);

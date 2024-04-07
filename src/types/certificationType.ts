@@ -46,3 +46,8 @@ export interface AllWeekCertificationDataType {
     encodedFile: string;
   };
 }
+
+export interface TotalCertificationDataType {
+  totalAttempts: number;
+  certifications: CertificationDataType[];
+}

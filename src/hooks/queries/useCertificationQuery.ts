@@ -1,12 +1,14 @@
 import getCertificationInstanceDetail from "@/apis/getCertificationInstanceDetail ";
 import getMyWeekCertification from "@/apis/getMyWeekCertification";
 import getOthersWeekCertification from "@/apis/getOthersWeekCertification";
+import getTotalCertification from "@/apis/getTotalCertification";
 import postTodayCertification from "@/apis/postTodayCertification";
 import { QUERY_KEY } from "@/constants/queryKey";
 import {
   AllWeekCertificationDataType,
   CertificationDataType,
   CertificationInstnaceDetailDataType,
+  TotalCertificationDataType,
   myWeekCertificationDataType,
 } from "@/types/certificationType";
 import { useInfiniteQuery, useMutation, useQuery } from "react-query";
@@ -104,4 +106,28 @@ export const useGetAllCertificationWeek = ({
     cacheTime: 0,
   });
   return { fetchNextPage, hasNextPage };
+};
+
+interface GetTotalCertificationsType {
+  decryptedInstanceId: number;
+  decryptedUserId: number;
+}
+
+export const useGetTotalCertifications = ({
+  decryptedInstanceId,
+  decryptedUserId,
+}: GetTotalCertificationsType) => {
+  const { data } = useQuery<TotalCertificationDataType>({
+    queryKey: [
+      QUERY_KEY.ALL_CERTIFICATIONS_OF_INSTANCE,
+      { decryptedInstanceId },
+      { decryptedUserId },
+    ],
+    queryFn: () =>
+      getTotalCertification({
+        instanceId: decryptedInstanceId,
+        userId: decryptedUserId,
+      }),
+  });
+  return { data };
 };
