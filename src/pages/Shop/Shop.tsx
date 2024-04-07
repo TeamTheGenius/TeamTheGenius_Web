@@ -10,7 +10,6 @@ import christmasFrame from "@/assets/icon/profile-frame-christmas.svg";
 import powerOfDarkFrame from "@/assets/icon/profile-frame-power-of-dark.svg";
 import pointTwiceItem from "@/assets/image/pass_0.svg";
 import passItem from "@/assets/image/pass_1.svg";
-import postItemUnEquipApi from "@/apis/postItemUnEquipApi";
 import useModal from "@/hooks/useModal";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import ShopBuyModal from "@/components/Shop/ShopModal/ShopBuyModal/ShopBuyModal";
@@ -20,7 +19,10 @@ import ShopTicketList from "@/components/Shop/ShopTicketList/ShopTicketList";
 import MainHeader from "@/components/Common/MainHeader/MainHeader";
 import { QUERY_KEY } from "@/constants/queryKey";
 import { useGetMyProfile } from "@/hooks/queries/useProfileQuery";
-import { usePostFrameItemEquiptment } from "@/hooks/queries/useItemQuery";
+import {
+  usePostFrameItemEquiptment,
+  usePostFrameItemUnEquiptment,
+} from "@/hooks/queries/useItemQuery";
 
 const Shop = () => {
   const [loadingState, setLoadingState] = useState(false);
@@ -53,6 +55,24 @@ const Shop = () => {
     queryFn: () => getItemPointApi(),
   });
 
+  const onSuccessPostFrameItemUnEquipment = () => {
+    if (setLoadingState) {
+      setLoadingState(false);
+    }
+  };
+  const {
+    mutate: postFrameItemUnEquipment,
+    mutateAsync: postFrameItemUnEquipmentAsync,
+  } = usePostFrameItemUnEquiptment({
+    onSuccess: onSuccessPostFrameItemUnEquipment,
+  });
+  const onSuccessPostFrameItemEquiptment = () => {
+    setLoadingState(false);
+  };
+  const { mutate: postFrameItemEquiptment } = usePostFrameItemEquiptment({
+    onSuccess: onSuccessPostFrameItemEquiptment,
+  });
+
   const queryClient = useQueryClient();
 
   const combinedData = useMemo(() => {
@@ -62,22 +82,15 @@ const Shop = () => {
     return [];
   }, [passData, pointData]);
 
-  const { mutate: postFrameItemEquiptment } = usePostFrameItemEquiptment({
-    setLoadingState: setLoadingState,
-  });
-
   const mountFrameHandle = async (itemId: number | undefined) => {
     if (!itemId) return null;
     setLoadingState(true);
-    await postItemUnEquipApi({});
+    await postFrameItemUnEquipmentAsync();
     postFrameItemEquiptment(itemId);
   };
-  const unMountFrameHandle = async (itemId: number | undefined) => {
+  const unMountFrameHandle = async () => {
     setLoadingState(true);
-    await postItemUnEquipApi({
-      queryClient: queryClient,
-      setLoadingState: setLoadingState,
-    });
+    postFrameItemUnEquipment();
   };
 
   const buyItem = (item: shopFrameListType | undefined) => {
