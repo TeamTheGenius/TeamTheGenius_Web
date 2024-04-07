@@ -1,12 +1,16 @@
 import postItemEquipApi from "@/apis/postItemEquipApi";
 import { FRAMEID } from "@/constants/localStorageKey";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { encrypt } from "../useCrypto";
 import { QUERY_KEY } from "@/constants/queryKey";
 import postUseItem from "@/apis/postUseItem";
 import postItemUnEquipApi from "@/apis/postItemUnEquipApi";
 import postdItemBuyApi from "@/apis/postdItemBuyApi";
 import { AxiosError } from "axios";
+import { shopFrameListType, shopTicketListType } from "@/types/shopType";
+import getItemFrameApi from "@/apis/getItemFrameApi";
+import getItemPassApi from "@/apis/getItemPassApi";
+import getItemPointApi from "@/apis/getItemPointApi";
 
 interface usePostFrameItemType {
   onSuccess: () => void;
@@ -112,4 +116,28 @@ export const usePostItemBuy = ({
     }
   );
   return { mutate };
+};
+
+export const useGetFrameItems = () => {
+  const { data, isLoading } = useQuery<shopFrameListType[]>({
+    queryKey: [QUERY_KEY.SHOP_FRAME_ITEMS],
+    queryFn: () => getItemFrameApi(),
+  });
+  return { data, isLoading };
+};
+
+export const useGetPassItems = () => {
+  const { data, isLoading } = useQuery<shopTicketListType[]>({
+    queryKey: [QUERY_KEY.SHOP_PASS_ITEM],
+    queryFn: () => getItemPassApi(),
+  });
+  return { data, isLoading };
+};
+
+export const useGetPointTwiceItems = () => {
+  const { data, isLoading } = useQuery<shopTicketListType[]>({
+    queryKey: [QUERY_KEY.SHOP_POINT_TWICE_ITEM],
+    queryFn: () => getItemPointApi(),
+  });
+  return { data, isLoading };
 };
