@@ -23,7 +23,7 @@ function PullReq({
   prBoolean,
 }: PullReqType) {
   const [loadingState, setLoadingState] = useState(false);
-  const [errState, setErrState] = useState("");
+  const [messageState, setMesseageState] = useState("");
   const [modal, setModal] = useState<React.ReactNode>();
   const { openModal, closeModal, isModalOpened } = useModal();
 
@@ -31,14 +31,14 @@ function PullReq({
     setLoadingState(true);
     await getPullRequestVerifyApi({
       openModal: openModal,
-      setErrState: setErrState,
+      setMesseageState: setMesseageState,
       repo: repoState,
       setPrBoolean: setPrBoolean,
       setLoadingState: setLoadingState,
     }).catch((err) => {
       setPrBoolean(false);
       setLoadingState(false);
-      setErrState(err.response.data.message);
+      setMesseageState(err.response.data.message);
     });
 
     openModal();
@@ -49,15 +49,17 @@ function PullReq({
     setModal(
       <GitPullReqModal
         closeModal={closeModal}
-        errState={"레포지토리 선택을 먼저 진행해주세요."}
+        messageState={"레포지토리 선택을 먼저 진행해주세요."}
       />
     );
   };
   useEffect(() => {
-    if (errState) {
-      setModal(<GitPullReqModal closeModal={closeModal} errState={errState} />);
+    if (messageState) {
+      setModal(
+        <GitPullReqModal closeModal={closeModal} messageState={messageState} />
+      );
     }
-  }, [errState]);
+  }, [messageState]);
   return (
     <>
       {modal && isModalOpened && (

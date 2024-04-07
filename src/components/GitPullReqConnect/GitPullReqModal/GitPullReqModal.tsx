@@ -3,20 +3,21 @@ import { Modal } from "@/components/Common/Modal/Modal";
 
 function GitPullReqModal({
   closeModal,
-  errState,
+  messageState,
 }: {
   closeModal: () => void;
-  errState: string;
+  messageState: string;
 }) {
   const completeHandle = () => {
     closeModal();
   };
+  console.log("err", messageState);
   return (
     <>
       <Modal.ModalContentBox width="w-[35.5rem]" height="h-[32.3rem]">
         <div className="flex flex-col justify-center relative items-center">
           <div className="mb-[7.4rem]">
-            {errState && <Modal.ModalContent content={errState} />}
+            {messageState && <Modal.ModalContent content={messageState} />}
           </div>
           <Button
             content="닫기"
