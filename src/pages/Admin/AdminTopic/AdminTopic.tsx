@@ -6,10 +6,8 @@ import { useEffect, useState } from "react";
 import { Pagination } from "antd";
 import getAdminTopicListApi from "@/apis/getAdminTopicListApi";
 import { adminTopicDataType } from "@/types/adminType";
-import postJWTApi from "@/apis/postJWTApi";
-import { useNavigate } from "react-router-dom";
-import { PATH } from "@/constants/path";
 import Loading from "@/components/Common/Loading/Loading";
+import { useOnlyAdminPermit } from "@/hooks/queries/useAuthQuery";
 
 const AdminTopic = () => {
   const [topicModalIsOpen, setTopicModalIsOpen] = useState<boolean>(false);
@@ -17,7 +15,8 @@ const AdminTopic = () => {
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [totalNumber, setTotalNumber] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const navigate = useNavigate();
+
+  const { mutate: checkAdmin } = useOnlyAdminPermit();
 
   const handlePageChange = (page: number) => {
     setPageNumber(page);
@@ -31,17 +30,7 @@ const AdminTopic = () => {
   };
 
   useEffect(() => {
-    postJWTApi()
-      .then((res) => {
-        if (res.role !== "ADMIN") {
-          navigate(PATH.ERROR, {
-            state: { errNum: 403, errorTxt: "접근 권한이 없습니다." },
-          });
-        }
-      })
-      .catch(() => {
-        navigate(PATH.LOGIN);
-      });
+    checkAdmin();
     setIsLoading(true);
     getAdminTopicListApi({
       setIsLoading,

@@ -1,15 +1,15 @@
 import Button from "@/components/Common/Button";
 import Heart from "../Heart/Heart";
 import { useNavigate } from "react-router-dom";
-import deleteLikeChallenge from "@/apis/deleteLikeChallenge";
-import postLikeChallenge from "@/apis/postLikeChallenge";
-import { useMutation } from "react-query";
+import {
+  useDeleteLikesChallenge,
+  usePostLikesChallenge,
+} from "@/hooks/queries/useLikeQuery";
 
 interface HeartProps {
   isHearted: boolean;
   likesId: number;
   heartCount: number;
-  refetch: () => void;
   instanceId: number;
 }
 
@@ -24,31 +24,16 @@ interface ButtonProps {
 function BottomHeart({
   isHearted,
   likesId,
-  refetch,
   heartCount,
   instanceId,
 }: HeartProps) {
-  const deleteLikeMutation = useMutation(deleteLikeChallenge);
-  const postLikeMutation = useMutation(postLikeChallenge);
+  const { mutate: postLikesChallenges } = usePostLikesChallenge();
+  const { mutate: deleteLikesChallenges } = useDeleteLikesChallenge();
   const onClick = () => {
     if (isHearted) {
-      deleteLikeMutation.mutate(
-        { likesId: likesId },
-        {
-          onSuccess: () => {
-            refetch();
-          },
-        }
-      );
+      deleteLikesChallenges(likesId);
     } else {
-      postLikeMutation.mutate(
-        { instanceId: instanceId },
-        {
-          onSuccess: () => {
-            refetch();
-          },
-        }
-      );
+      postLikesChallenges(instanceId);
     }
   };
   return (

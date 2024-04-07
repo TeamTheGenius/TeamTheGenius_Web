@@ -63,7 +63,7 @@ const InstanceCreateModal = ({
       "YYYY-MM-DDT23:59:59"
     );
 
-    let instanceData = {
+    const instanceData = {
       setIsLoading: setIsLoading,
       setModalIsOpen: setModalIsOpen,
       setInstanceList: setInstanceList,

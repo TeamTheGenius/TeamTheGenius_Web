@@ -2,18 +2,18 @@ import { Profile } from "@/components/Common/Profile/Profile";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { Form, Upload, message } from "antd";
 import userImage from "@/assets/icon/image-edit.svg";
-import { Data } from "@/types/myProfileData";
 import { useState } from "react";
 import React from "react";
 import { FRAMEID } from "@/constants/localStorageKey";
 import { decrypt } from "@/hooks/useCrypto";
+import { MyProfileDataType } from "@/types/profileType";
 
 function UserInfo({
   data,
   setImageUrl,
   imageUrl,
 }: {
-  data?: Data;
+  data?: MyProfileDataType;
   setImageUrl: React.Dispatch<React.SetStateAction<string>>;
   imageUrl: string;
 }) {

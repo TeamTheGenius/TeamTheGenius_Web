@@ -1,34 +1,28 @@
-import deleteChallengeParticipation from "@/apis/deleteChallengeParticipation";
 import Button from "@/components/Common/Button";
 import { Modal } from "@/components/Common/Modal/Modal";
+import { useDeleteChallengeJoin } from "@/hooks/queries/useInstanceDetailQuery";
 
 interface Props {
-  refetch: () => void;
   closeModal: () => void;
   instanceId: number;
   title: string;
 }
 
-function ParticipationCancelAskModal({
-  closeModal,
-  refetch,
-  instanceId,
-  title,
-}: Props) {
-  const onClickParticipationCancelYesButton = async () => {
-    await deleteChallengeParticipation({ instanceId: instanceId })
-      .then(() => {
-        refetch();
-        closeModal();
-      })
-      .catch((err) => {
-        throw err;
-      });
+function ParticipationCancelAskModal({ closeModal, instanceId, title }: Props) {
+  const onSuccessDeleteChallengeJoin = () => {
+    closeModal();
+  };
+  const { mutate: deleteChallengeJoin } = useDeleteChallengeJoin({
+    onSuccess: onSuccessDeleteChallengeJoin,
+  });
+  const onClickParticipationCancelYesButton = () => {
+    deleteChallengeJoin({ instanceId });
   };
 
   const onClickParticipationCancelNoButton = () => {
     closeModal();
   };
+
   return (
     <Modal.ModalContentBox width="w-[35.5rem]" height="h-[32.3rem]">
       <div className="flex flex-col items-center">

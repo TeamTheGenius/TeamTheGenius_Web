@@ -1,13 +1,10 @@
 import Button from "@/components/Common/Button";
 import { Modal } from "@/components/Common/Modal/Modal";
-import HasNoItemModal from "../HasNoItemModal/HasNoItemModal";
-import postUseItem from "@/apis/postUseItem";
+import { usePostCertificationPassItemUse } from "@/hooks/queries/useItemQuery";
 
 interface PassItemModalProps {
   closeModal: () => void;
   instanceId: number;
-  refetch: () => void;
-  setModal: React.Dispatch<React.SetStateAction<React.ReactNode>>;
   numOfPassItem: number;
   itemId: number;
 }
@@ -15,26 +12,20 @@ interface PassItemModalProps {
 function CertificationPassModal({
   closeModal,
   instanceId,
-  refetch,
-  setModal,
   numOfPassItem,
   itemId,
 }: PassItemModalProps) {
   const onClickNotUse = () => {
     closeModal();
   };
-
+  const onSuccessPostItemUse = () => {
+    closeModal();
+  };
+  const { mutate: certificationPassItemUse } = usePostCertificationPassItemUse({
+    onSuccess: onSuccessPostItemUse,
+  });
   const onClickUsePassItem = async () => {
-    postUseItem({ instanceId: instanceId, itemId: itemId })
-      .then(() => {
-        closeModal();
-        refetch();
-      })
-      .catch(() => {
-        setModal(
-          <HasNoItemModal itemName="인증 패스" closeModal={closeModal} />
-        );
-      });
+    certificationPassItemUse({ instanceId, itemId });
   };
 
   return (

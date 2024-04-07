@@ -4,13 +4,12 @@ import Header from "@/components/Common/Header/Header";
 import MobCard from "@/components/Common/MobCard";
 import GithubTokenInput from "@/components/GithubToken/GithubTokenInput";
 import { ChangeEvent, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Repo from "@/components/GitPullReqConnect/Repo/Repo";
 import PullReq from "@/components/GitPullReqConnect/PullReq/PullReq";
 import PullReqExp from "@/components/GitPullReqConnect/PullReqExp/PullReqExp";
 import getUserRepoApi from "@/apis/getUserRepoApi";
 import BottomButton from "@/components/Common/BottomButton/BottomButton";
-import postChallengeRepoRegiApi from "@/apis/postChallengeRepoRegiApi";
 import getGithubTokenApi from "@/apis/getGithubTokenApi";
 import { useQuery } from "react-query";
 import { decrypt } from "@/hooks/useCrypto";
@@ -18,6 +17,8 @@ import Loading from "@/components/Common/Loading/Loading";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import useModal from "@/hooks/useModal";
 import GitPullReqModal from "@/components/GitPullReqConnect/GitPullReqModal/GitPullReqModal";
+import { QUERY_KEY } from "@/constants/queryKey";
+import { usePostChallengeJoin } from "@/hooks/queries/useInstanceDetailQuery";
 
 const GitPullReqConnect = () => {
   const [githubBoolean, setGithubBoolean] = useState(false);
@@ -31,7 +32,6 @@ const GitPullReqConnect = () => {
   const { openModal, closeModal, isModalOpened } = useModal();
   const [repoOk, setRepoOk] = useState("ready");
 
-  const navigate = useNavigate();
   const param = useParams();
   const paramNumber = param.id;
   const decryptNumber = decrypt(paramNumber);
@@ -45,16 +45,22 @@ const GitPullReqConnect = () => {
     );
   };
 
+  const onSuccessPostChallengeJoin = () => {
+    setLoadingState(false);
+  };
+  const onErrorPostChallengeJoin = (errorMessage: string) => {
+    openModal();
+    setErrState(errorMessage);
+    setLoadingState(false);
+  };
+  const { mutate: postChallengeJoin } = usePostChallengeJoin({
+    onSuccess: onSuccessPostChallengeJoin,
+    onError: onErrorPostChallengeJoin,
+  });
+
   const challengeRegiHandle = () => {
     setLoadingState(true);
-    postChallengeRepoRegiApi({
-      openModal: openModal,
-      setErrState: setErrState,
-      setLoadingState: setLoadingState,
-      navigate: navigate,
-      instanceId: decryptNumber,
-      repo: repoState,
-    });
+    postChallengeJoin({ instanceId: decryptNumber, repo: repoState });
     setModal(<GitPullReqModal closeModal={closeModal} errState={errState} />);
   };
   const challengeRegiFalseHandle = () => {
@@ -68,13 +74,13 @@ const GitPullReqConnect = () => {
   };
 
   const { data: githubTokenOk } = useQuery<string>({
-    queryKey: ["getGithubToken"],
+    queryKey: [QUERY_KEY.GITHUB_TOKEN],
     queryFn: getGithubTokenApi,
     useErrorBoundary: false,
   });
 
   const { data: repoList } = useQuery<string[]>({
-    queryKey: ["getUserRepo"],
+    queryKey: [QUERY_KEY.GITHUB_REPOSITORIES],
     queryFn: getUserRepoApi,
     enabled: githubTokenOk === "OK",
   });

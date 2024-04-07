@@ -1,23 +1,27 @@
 import Header from "@/components/Common/Header/Header";
 import { Form } from "antd";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import MobCard from "@/components/Common/MobCard";
 import BottomButton from "@/components/Common/BottomButton/BottomButton";
-import { Data } from "@/types/myProfileData";
-import { useQuery, useQueryClient } from "react-query";
-import getMyPageProfile from "@/apis/getMyPageProfile";
 import UserPreview from "@/components/MyPage/MyPage/UserEdit/UserPreview/UserPreview";
 import InfoInput from "@/components/MyPage/MyPage/UserEdit/InfoInput/InfoInput";
-import postUserInfoEdit from "@/apis/postUserInfoEdit";
 import formikUtil from "@/utils/useEditFormik";
 import UserInfo from "@/components/MyPage/MyPage/UserEdit/UserImg/UserImg";
 import UserName from "@/components/MyPage/MyPage/UserEdit/UserName/UserName";
 
+
 import { useNavigate } from "react-router-dom";
+
+import NickNameInput from "@/components/Common/NickNameInput/NickNameInput";
+
 import useModal from "@/hooks/useModal";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import NickNameInput from "@/components/Common/NickNameInput/NickNameInput";
 import { EditModal } from "@/components/MyPage/EditModal/EditModal";
+import {
+  useGetMyProfile,
+  usePostMyProfile,
+} from "@/hooks/queries/useProfileQuery";
 
 const UserInfoEdit = () => {
   const [signUpBoolean, setsignUpBoolean] = useState(true);
@@ -29,6 +33,7 @@ const UserInfoEdit = () => {
   const [imageUrl, setImageUrl] = useState("");
   const { openModal, closeModal, isModalOpened } = useModal();
   const [isLoading, setIsLoading] = useState(false);
+
   const [modal, setModal] = useState(<></>);
   const { data } = useQuery<Data>({
     queryKey: ["myPageProfile"],
@@ -37,11 +42,26 @@ const UserInfoEdit = () => {
 
   const navigate = useNavigate();
 
+  const { data } = useGetMyProfile();
   const { formik } = formikUtil();
 
-  const queryClient = useQueryClient();
+  const onSuccessPostMyProfile = () => {
+    setNickCheck("");
+    setNickName("");
+    setInfoShow(0);
+    setNickNameShow(0);
+    setIsLoading(false);
+  };
 
-  const handleNickNameChange = (e: any) => {
+  const onErrorPostMyProfile = () => {
+    alert("생성 실패");
+  };
+  const { mutate } = usePostMyProfile({
+    onSuccess: onSuccessPostMyProfile,
+    onError: onErrorPostMyProfile,
+  });
+
+  const handleNickNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     formik.handleChange(e);
     setNickName(e.target.value);
   };
@@ -86,19 +106,8 @@ const UserInfoEdit = () => {
         );
       }
     }
-    if (signUpBoolean) {
-      postUserInfoEdit({
-        navigate: navigate,
-        setNickName: setNickName,
-        setNickCheck: setNickCheck,
-        queryClient: queryClient,
-        myInfo: finalMyinfo,
-        nickName: finalNickName,
-        files: imageUrl,
-        setInfoShow: setInfoShow,
-        setNickNameShow: setNickNameShow,
-        setIsLoading: setIsLoading,
-      });
+    if (signUpBoolean && finalMyinfo && finalNickName) {
+      mutate({ myInfo: finalMyinfo, nickName: finalNickName, files: imageUrl });
     }
     setIsLoading(false);
     if (!signUpBoolean && finalNickName !== data?.nickname) {

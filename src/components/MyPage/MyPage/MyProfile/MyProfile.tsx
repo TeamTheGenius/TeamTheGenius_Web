@@ -2,20 +2,14 @@ import { Profile } from "@/components/Common/Profile/Profile";
 import SettingButton from "../SettingButton/SettingButton";
 import Temperature from "../Temperature/Temperature";
 import MyPoint from "../MyPoint/MyPoint";
-import getMyPageProfile from "@/apis/getMyPageProfile";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
-import { useQuery } from "react-query";
-import { Data } from "@/types/myProfileData";
 import { FRAMEID } from "@/constants/localStorageKey";
 import { decrypt } from "@/hooks/useCrypto";
 import basicProfileImage from "@/assets/image/basic-profile-image-gray.png";
+import { useGetMyProfile } from "@/hooks/queries/useProfileQuery";
 
 function MyProfile() {
-  const { data } = useQuery<Data>({
-    queryKey: ["myPageProfile"],
-    queryFn: () => getMyPageProfile(),
-    suspense: true,
-  });
+  const { data } = useGetMyProfile();
 
   if (!data) {
     return;

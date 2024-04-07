@@ -12,7 +12,7 @@ import getCertificationInstanceDetail from "@/apis/getCertificationInstanceDetai
 import { useQuery } from "react-query";
 import Loading from "@/components/Common/Loading/Loading";
 import { decrypt } from "@/hooks/useCrypto";
-
+import { QUERY_KEY } from "@/constants/queryKey";
 
 interface Data {
   instanceId: number;
@@ -34,7 +34,10 @@ function ChallengeInformation() {
   const decryptedInstanceId = decrypt(id);
 
   const { data, isLoading } = useQuery<Data>({
-    queryKey: ["certificationInstanceDetail", { decryptedInstanceId }],
+    queryKey: [
+      QUERY_KEY.CERTIFICATION_INSTANCE_DETAIL,
+      { decryptedInstanceId },
+    ],
     queryFn: () =>
       decryptedInstanceId
         ? getCertificationInstanceDetail({
