@@ -1,19 +1,11 @@
 import getLikeChallenges from "@/apis/getLikeChallenges";
+import postLikeChallenge from "@/apis/postLikeChallenge";
 import { QUERY_KEY } from "@/constants/queryKey";
-import { useInfiniteQuery } from "react-query";
-
-interface Data {
-  instanceId: number;
-  title: string;
-  pointPerPerson: number;
-  fileResponse: {
-    encodedFile: string;
-  };
-  likesId: number;
-}
+import { LikedChallengeDataType } from "@/types/likeType";
+import { useInfiniteQuery, useMutation, useQueryClient } from "react-query";
 
 interface GetInfiniteLikedChallengesDataType {
-  setChallenges: React.Dispatch<React.SetStateAction<Data[]>>;
+  setChallenges: React.Dispatch<React.SetStateAction<LikedChallengeDataType[]>>;
 }
 
 export const useGetInfiniteLikedChallenges = ({
@@ -35,6 +27,18 @@ export const useGetInfiniteLikedChallenges = ({
   return { fetchNextPage, hasNextPage, refetch, isLoading };
 };
 
-export const usePostLikesChallenge = () => {};
+export const usePostLikesChallenge = () => {
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation(
+    (instanceId: number) => postLikeChallenge({ instanceId }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(QUERY_KEY.CHALLENGE_INSTANCE_DETAIL);
+      },
+    }
+  );
+  return { mutate };
+};
 
 export const useDeleteLikesChallenge = () => {};
