@@ -1,13 +1,12 @@
-import getMyChallengeDoneReward from "@/apis/getMyChallengeDoneReward";
 import Button from "@/components/Common/Button";
 import { Modal } from "@/components/Common/Modal/Modal";
 import { usePostPointTwiceItemUse } from "@/hooks/queries/useItemQuery";
+import { useGetChallengeSuccessReward } from "@/hooks/queries/useMyChallengeQuery";
 
 interface TwiceRewardModalProps {
   closeModal: () => void;
   instanceId: number;
   numOfPointItem: number;
-  refetch: () => void;
   itemId: number;
 }
 
@@ -15,7 +14,7 @@ function GetRewardTwiceModal({
   closeModal,
   instanceId,
   numOfPointItem,
-  refetch,
+
   itemId,
 }: TwiceRewardModalProps) {
   const onSuccessPostItemUse = () => {
@@ -25,19 +24,20 @@ function GetRewardTwiceModal({
     onSuccess: onSuccessPostItemUse,
   });
 
+  const onSuccessGetChallengeSuccessReward = () => {
+    closeModal();
+  };
+  const { mutate: getChallengeSuccessRewardMutate } =
+    useGetChallengeSuccessReward({
+      onSuccess: onSuccessGetChallengeSuccessReward,
+    });
+
   const onClickUse = async () => {
     pointTwiceItemUse({ instanceId, itemId });
   };
 
-  const onClickNotUse = async () => {
-    await getMyChallengeDoneReward({ instanceId })
-      .then(() => {
-        closeModal();
-        refetch();
-      })
-      .catch((err) => {
-        throw err;
-      });
+  const onClickNotUse = () => {
+    getChallengeSuccessRewardMutate({ instanceId });
   };
 
   return (

@@ -1,5 +1,3 @@
-import getMyChallengeDone from "@/apis/getMyChallengeDone";
-import getMyChallengeDoneReward from "@/apis/getMyChallengeDoneReward";
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import MyChallengeLabel from "@/components/Main/MyChallenge/MyChallengeLabel/MyChallengeLabel";
 import MyChallengeLinkWrap from "@/components/Main/MyChallenge/MyChallengeLinkWrap/MyChallengeLinkWrap";
@@ -7,9 +5,11 @@ import GetRewardModal from "@/components/Main/MyChallenge/MyChallengeModal/GetRe
 import GetRewardTwiceModal from "@/components/Main/MyChallenge/MyChallengeModal/GetRewardTwiceModal/GetRewardTwiceModal";
 import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyChallengeTitle";
 import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyChallengeWrap";
-import { QUERY_KEY } from "@/constants/queryKey";
+import {
+  useGetChallengeSuccessReward,
+  useGetMyDoneChallenges,
+} from "@/hooks/queries/useMyChallengeQuery";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
-import { useQuery } from "react-query";
 import { useOutletContext } from "react-router-dom";
 
 interface Props {
@@ -18,31 +18,21 @@ interface Props {
   openModal: () => void;
 }
 
-interface Data {
-  instanceId: number;
-  title: string;
-  pointPerPerson: number;
-  joinResult: "SUCCESS" | "FAIL";
-  canGetReward: boolean;
-  numOfPointItem: number;
-  rewardedPoints: number;
-  achievementRate: number;
-  itemId: number;
-  fileResponse: File;
-}
-
-interface File {
-  encodedFile: string;
-}
-
 const MyChallengeComplete = () => {
   const { setModal, closeModal, openModal } = useOutletContext<Props>();
 
-  const { data, refetch } = useQuery<Data[]>({
-    queryKey: [QUERY_KEY.MY_DONE_CHALLENGES],
-    queryFn: () => getMyChallengeDone(),
-    suspense: true,
-  });
+  const { data } = useGetMyDoneChallenges();
+
+  const onSuccessGetChallengeSuccessReward = (pointPerPerson: number) => {
+    setModal(
+      <GetRewardModal closeModal={closeModal} pointPerPerson={pointPerPerson} />
+    );
+    openModal();
+  };
+  const { mutate: GetChallengeSuccessRewardMutate } =
+    useGetChallengeSuccessReward({
+      onSuccess: onSuccessGetChallengeSuccessReward,
+    });
 
   if (!data) {
     return;
@@ -50,16 +40,10 @@ const MyChallengeComplete = () => {
 
   const onClickGetRewardButton = async (
     e: React.MouseEvent,
-    instanceId: number,
-    pointPerPerson: number
+    instanceId: number
   ) => {
     e.stopPropagation();
-    await getMyChallengeDoneReward({ instanceId });
-    setModal(
-      <GetRewardModal closeModal={closeModal} pointPerPerson={pointPerPerson} />
-    );
-    openModal();
-    refetch();
+    GetChallengeSuccessRewardMutate({ instanceId });
   };
   const onClickGetRewardTwiceButton = (
     e: React.MouseEvent,
@@ -73,7 +57,6 @@ const MyChallengeComplete = () => {
         numOfPointItem={numOfPointItem}
         instanceId={instanceId}
         closeModal={closeModal}
-        refetch={refetch}
         itemId={itemId}
       />
     );
@@ -132,11 +115,7 @@ const MyChallengeComplete = () => {
                     <MyChallengeLabel
                       labelText="보상 수령"
                       onClick={(e: React.MouseEvent) =>
-                        onClickGetRewardButton(
-                          e,
-                          item.instanceId,
-                          item.pointPerPerson
-                        )
+                        onClickGetRewardButton(e, item.instanceId)
                       }
                     />
                   )}

@@ -8,42 +8,16 @@ import Line from "../Line/Line";
 import ChallengeDetailLinkButton from "../ChallengeDetailLinkButton/ChallengeDetailLinkButton";
 import { useParams } from "react-router-dom";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
-import getCertificationInstanceDetail from "@/apis/getCertificationInstanceDetail ";
-import { useQuery } from "react-query";
 import Loading from "@/components/Common/Loading/Loading";
 import { decrypt } from "@/hooks/useCrypto";
-import { QUERY_KEY } from "@/constants/queryKey";
-
-interface Data {
-  instanceId: number;
-  title: string;
-  participantCount: number;
-  pointPerPerson: number;
-  certificationMethod: string;
-  startDate: string;
-  completedDate: string;
-  fileResponse: File;
-}
-
-interface File {
-  encodedFile: string;
-}
+import { useGetCertificationInstanceDetail } from "@/hooks/queries/useCertificationQuery";
 
 function ChallengeInformation() {
   const { id } = useParams();
   const decryptedInstanceId = decrypt(id);
 
-  const { data, isLoading } = useQuery<Data>({
-    queryKey: [
-      QUERY_KEY.CERTIFICATION_INSTANCE_DETAIL,
-      { decryptedInstanceId },
-    ],
-    queryFn: () =>
-      decryptedInstanceId
-        ? getCertificationInstanceDetail({
-            instanceId: parseInt(decryptedInstanceId),
-          })
-        : Promise.resolve(null),
+  const { data, isLoading } = useGetCertificationInstanceDetail({
+    decryptedInstanceId,
   });
 
   if (!data) {

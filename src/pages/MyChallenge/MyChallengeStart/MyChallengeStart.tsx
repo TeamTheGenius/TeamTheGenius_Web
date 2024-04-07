@@ -3,39 +3,16 @@ import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyC
 import MyChallengeLinkWrap from "@/components/Main/MyChallenge/MyChallengeLinkWrap/MyChallengeLinkWrap";
 import MyChallengeLabel from "@/components/Main/MyChallenge/MyChallengeLabel/MyChallengeLabel";
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
-import getMyChallengePreActivity from "@/apis/getMyChallengePreActivity";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
-import { useQuery } from "react-query";
-import { QUERY_KEY } from "@/constants/queryKey";
-
-interface Data {
-  instanceId: number;
-  title: string;
-  remainDays: number;
-  participantCount: number;
-  pointPerPerson: number;
-  fileResponse: File;
-}
-
-interface File {
-  encodedFile: string;
-}
+import { useGetMyPreActivityChallenges } from "@/hooks/queries/useMyChallengeQuery";
 
 const MyChallengeStart = () => {
-  const { data } = useQuery<Data[]>({
-    queryKey: [QUERY_KEY.MY_PRE_ACTIVITY_CHALLENGES],
-    queryFn: () => getMyChallengePreActivity(),
-    suspense: true,
-  });
-
-  if (!data) {
-    return;
-  }
+  const { data } = useGetMyPreActivityChallenges();
 
   return (
     <>
       <MyChallengeWrap>
-        {data.map((item, index) => {
+        {data?.map((item, index) => {
           return (
             <li key={index} className="mb-[1.3rem] list-none">
               <MyChallengeLinkWrap key={index} instanceId={item.instanceId}>

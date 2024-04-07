@@ -1,4 +1,3 @@
-import getOthersWeekCertification from "@/apis/getOthersWeekCertification";
 import OthersAllCertificationLinkButton from "@/components/Certification/OthersCurrentCertification/OthersAllCertificationLinkButton/OthersAllCertificationLinkButton";
 import OthersProfile from "@/components/Certification/OthersCurrentCertification/OthersProfile/OthersProfile";
 import ThisWeekCertification from "@/components/Certification/ThisWeekCertification/ThisWeekCertification";
@@ -8,67 +7,23 @@ import { decrypt } from "@/hooks/useCrypto";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
-import { useInfiniteQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import basicProfileImage from "@/assets/image/basic-profile-image-gray.png";
-import { QUERY_KEY } from "@/constants/queryKey";
-
-interface Data {
-  userId: number;
-  nickname: string;
-  certifications: CertificationData[];
-  frameId: number;
-  profile: {
-    encodedFile: string;
-  };
-}
-
-interface CertificationData {
-  certificationId: number;
-  certificationAttempt: number;
-  dayOfWeek: DayOfWeek;
-  certificatedAt: string;
-  certificateStatus: "NOT_YET" | "CERTIFICATED";
-  prCount: number;
-  prLinks: string[];
-}
-
-type DayOfWeek =
-  | "MONDAY"
-  | "TUESDAY"
-  | "WEDNESDAY"
-  | "THURSDAY"
-  | "FRIDAY"
-  | "SATURDAY"
-  | "SUNDAY";
+import { AllWeekCertificationDataType } from "@/types/certificationType";
+import { useGetAllCertificationWeek } from "@/hooks/queries/useCertificationQuery";
 
 function OthersCurrentCertification() {
   const { id } = useParams();
   const decryptedInstanceId = decrypt(id);
   const [ref, inView] = useInView();
-  const [certifications, setcertifications] = useState<Data[]>([]);
 
-  const { fetchNextPage, hasNextPage } = useInfiniteQuery({
-    queryKey: [
-      QUERY_KEY.INFINITE_OTHERS_WEEK_CERTIFICATIONS_OF_INSTANCE,
-      { decryptedInstanceId },
-    ],
-    queryFn: ({ pageParam = 0 }) =>
-      decryptedInstanceId
-        ? getOthersWeekCertification({
-            pageParams: pageParam,
-            instanceId: parseInt(decryptedInstanceId),
-            size: 20,
-          })
-        : Promise.resolve({ isLast: true, page: 0, posts: [] }),
-    getNextPageParam: (lastPage) => {
-      return !lastPage.isLast ? lastPage.page + 1 : undefined;
-    },
-    onSuccess: (res) => {
-      const newChallenges = res.pages.map((page) => page.posts).flat();
-      setcertifications(newChallenges);
-    },
-    cacheTime: 0,
+  const [certifications, setcertifications] = useState<
+    AllWeekCertificationDataType[]
+  >([]);
+
+  const { fetchNextPage, hasNextPage } = useGetAllCertificationWeek({
+    decryptedInstanceId,
+    setcertifications,
   });
 
   useEffect(() => {
@@ -76,9 +31,6 @@ function OthersCurrentCertification() {
       fetchNextPage();
     }
   }, [inView, hasNextPage, fetchNextPage]);
-
-  if (!certifications) return null;
-  if (!id) return null;
 
   return (
     <div className="mt-[3.8rem] _sm:mt-[2.4rem] flex flex-col gap-[3rem] justify-center items-center px-[2.2rem] pb-[2.2rem]">
