@@ -8,9 +8,6 @@ import InfoInput from "@/components/MyPage/MyPage/UserEdit/InfoInput/InfoInput";
 import formikUtil from "@/utils/useEditFormik";
 import UserInfo from "@/components/MyPage/MyPage/UserEdit/UserImg/UserImg";
 import UserName from "@/components/MyPage/MyPage/UserEdit/UserName/UserName";
-import { useNavigate } from "react-router-dom";
-import NickNameInput from "@/components/Common/NickNameInput/NickNameInput";
-
 import useModal from "@/hooks/useModal";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import NickNameInput from "@/components/Common/NickNameInput/NickNameInput";
@@ -32,12 +29,6 @@ const UserInfoEdit = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [modal, setModal] = useState(<></>);
-  const { data } = useQuery<Data>({
-    queryKey: ["myPageProfile"],
-    queryFn: () => getMyPageProfile(),
-  });
-
-  const navigate = useNavigate();
 
   const { data } = useGetMyProfile();
   const { formik } = formikUtil();
@@ -82,11 +73,12 @@ const UserInfoEdit = () => {
   };
   const editHandle = () => {
     setIsLoading(true);
-
+    console.log("si", signUpBoolean);
     const valueMyInfo = formik.values.myInfo;
 
     const finalNickName = nickName || data?.nickname;
     const finalMyinfo = valueMyInfo || data?.information;
+    console.log(finalNickName);
 
     if (finalNickName && signUpBoolean) {
       if (/[^ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-Z0-9]/.test(finalNickName)) {
@@ -160,6 +152,10 @@ const UserInfoEdit = () => {
                   id="nickName"
                   name="nickName"
                   placeholder="2 ~ 15자 입력 가능합니다."
+                  closeModal={closeModal}
+                  openModal={openModal}
+                  setModal={setModal}
+                  userValue={data?.nickname}
                   maxLength={15}
                   signUpBoolean={signUpBoolean}
                   setsignUpBoolean={setsignUpBoolean}
