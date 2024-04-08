@@ -3,11 +3,11 @@ import { GithubTokenInputType } from "@/types/githubTokenType";
 import { ChangeEvent, useState } from "react";
 import GitTokenCheckIcon from "../GitPullReqConnect/GitTokenCheckIcon/GitTokenCheckIcon";
 import Label from "../GitPullReqConnect/Label/Label";
-import { useQuery } from "react-query";
 import LoadingBox from "../Common/Loading/LoadingBox/LoadingBox";
-import getGithubTokenApi from "@/apis/getGithubTokenApi";
-import { QUERY_KEY } from "@/constants/queryKey";
-import { usePostTokenRegister } from "@/hooks/queries/useGithubQuery";
+import {
+  useGetTokenVerify,
+  usePostTokenRegister,
+} from "@/hooks/queries/useGithubQuery";
 const GithubTokenInput = ({
   label,
   id,
@@ -21,11 +21,8 @@ const GithubTokenInput = ({
   const [tokenState, setTokenState] = useState("");
   const [loadingState, setLoadingState] = useState(false);
   const [tokenBoolean, setTokenBoolean] = useState(false);
-  const { data: githubTokenInputOk } = useQuery<string>({
-    queryKey: [QUERY_KEY.GITHUB_TOKEN],
-    queryFn: getGithubTokenApi,
-    useErrorBoundary: false,
-  });
+  const { data: githubTokenInputOk } = useGetTokenVerify();
+
   const onSuccessUsePostTokenRegister = () => {
     setLoadingState(false);
     setTokenBoolean(true);

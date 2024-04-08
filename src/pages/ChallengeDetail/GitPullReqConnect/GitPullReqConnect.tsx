@@ -10,7 +10,6 @@ import PullReq from "@/components/GitPullReqConnect/PullReq/PullReq";
 import PullReqExp from "@/components/GitPullReqConnect/PullReqExp/PullReqExp";
 import getUserRepoApi from "@/apis/getUserRepoApi";
 import BottomButton from "@/components/Common/BottomButton/BottomButton";
-import getGithubTokenApi from "@/apis/getGithubTokenApi";
 import { useQuery } from "react-query";
 import { decrypt } from "@/hooks/useCrypto";
 import Loading from "@/components/Common/Loading/Loading";
@@ -19,6 +18,7 @@ import useModal from "@/hooks/useModal";
 import GitPullReqModal from "@/components/GitPullReqConnect/GitPullReqModal/GitPullReqModal";
 import { QUERY_KEY } from "@/constants/queryKey";
 import { usePostChallengeJoin } from "@/hooks/queries/useInstanceDetailQuery";
+import { useGetTokenVerify } from "@/hooks/queries/useGithubQuery";
 
 const GitPullReqConnect = () => {
   const [githubBoolean, setGithubBoolean] = useState(false);
@@ -58,6 +58,8 @@ const GitPullReqConnect = () => {
     onError: onErrorPostChallengeJoin,
   });
 
+  const { data: githubTokenOk } = useGetTokenVerify();
+
   const challengeRegiHandle = () => {
     setLoadingState(true);
     postChallengeJoin({ instanceId: decryptNumber, repo: repoState });
@@ -74,12 +76,6 @@ const GitPullReqConnect = () => {
       />
     );
   };
-
-  const { data: githubTokenOk } = useQuery<string>({
-    queryKey: [QUERY_KEY.GITHUB_TOKEN],
-    queryFn: getGithubTokenApi,
-    useErrorBoundary: false,
-  });
 
   const { data: repoList } = useQuery<string[]>({
     queryKey: [QUERY_KEY.GITHUB_REPOSITORIES],

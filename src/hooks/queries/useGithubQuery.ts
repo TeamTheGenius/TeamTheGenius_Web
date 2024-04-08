@@ -1,7 +1,8 @@
+import getGithubTokenApi from "@/apis/getGithubTokenApi";
 import postGithubTokenRegi from "@/apis/postGithubTokenRegi";
 import { QUERY_KEY } from "@/constants/queryKey";
 import { AxiosError } from "axios";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 interface PostTokenRegisterType {
   onSuccess: () => void;
@@ -29,4 +30,13 @@ export const usePostTokenRegister = ({
     }
   );
   return { mutate };
+};
+
+export const useGetTokenVerify = () => {
+  const { data } = useQuery<string>({
+    queryKey: [QUERY_KEY.GITHUB_TOKEN],
+    queryFn: getGithubTokenApi,
+    useErrorBoundary: false,
+  });
+  return { data };
 };
