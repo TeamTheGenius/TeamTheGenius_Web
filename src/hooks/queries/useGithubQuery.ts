@@ -1,4 +1,5 @@
 import getGithubTokenApi from "@/apis/getGithubTokenApi";
+import getPullRequestVerifyApi from "@/apis/getPullRequestVerifyApi";
 import getRepoVertifyApi from "@/apis/getRepoVertifyApi";
 import postGithubTokenRegi from "@/apis/postGithubTokenRegi";
 import { QUERY_KEY } from "@/constants/queryKey";
@@ -28,6 +29,7 @@ export const usePostTokenRegister = ({
       onError: (err: AxiosError) => {
         onError(err?.response?.data?.message);
       },
+      useErrorBoundary: false,
     }
   );
   return { mutate };
@@ -62,6 +64,34 @@ export const useGetVerifyRepository = ({
       onError: (err: AxiosError) => {
         onError(err);
       },
+      useErrorBoundary: false,
+    }
+  );
+  return { mutate };
+};
+
+interface GetVerifyPullRequestMutateType {
+  repo: string;
+}
+interface GetVerifyPullRequestType {
+  onSuccess: () => void;
+  onError: (err: AxiosError) => void;
+}
+export const useGetVerifyPullRequest = ({
+  onSuccess,
+  onError,
+}: GetVerifyPullRequestType) => {
+  const { mutate } = useMutation(
+    ({ repo }: GetVerifyPullRequestMutateType) =>
+      getPullRequestVerifyApi({ repo }),
+    {
+      onSuccess: () => {
+        onSuccess();
+      },
+      onError: (err: AxiosError) => {
+        onError(err);
+      },
+      useErrorBoundary: false,
     }
   );
   return { mutate };

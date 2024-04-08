@@ -7,6 +7,8 @@ import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import useModal from "@/hooks/useModal";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import GitPullReqModal from "../GitPullReqModal/GitPullReqModal";
+import { useGetVerifyPullRequest } from "@/hooks/queries/useGithubQuery";
+import { AxiosError } from "axios";
 type PullReqType = {
   label: string;
   repoState: string;
@@ -23,43 +25,49 @@ function PullReq({
   prBoolean,
 }: PullReqType) {
   const [loadingState, setLoadingState] = useState(false);
-  const [messageState, setMesseageState] = useState("");
   const [modal, setModal] = useState<React.ReactNode>();
   const { openModal, closeModal, isModalOpened } = useModal();
 
-  const pullReqCheck = async () => {
-    setLoadingState(true);
-    await getPullRequestVerifyApi({
-      openModal: openModal,
-      setMesseageState: setMesseageState,
-      repo: repoState,
-      setPrBoolean: setPrBoolean,
-      setLoadingState: setLoadingState,
-    }).catch((err) => {
-      setPrBoolean(false);
-      setLoadingState(false);
-      setMesseageState(err.response.data.message);
-    });
-
+  const onErrorGetVerifyPullRequest = (err: AxiosError) => {
+    setPrBoolean(false);
+    setLoadingState(false);
+    setModal(
+      <GitPullReqModal
+        closeModal={closeModal}
+        messageState={err?.response?.data?.message}
+      />
+    );
     openModal();
+  };
+  const onSuccessGetVerifyPullRequest = () => {
+    setPrBoolean(true);
+    setLoadingState(false);
+    setModal(
+      <GitPullReqModal
+        closeModal={closeModal}
+        messageState={"PR연결이 확인되었습니다."}
+      />
+    );
+  };
+  const { mutate: getVerifyPullRequestMutate } = useGetVerifyPullRequest({
+    onSuccess: onSuccessGetVerifyPullRequest,
+    onError: onErrorGetVerifyPullRequest,
+  });
+
+  const pullReqCheck = () => {
+    setLoadingState(true);
+    getVerifyPullRequestMutate({ repo: repoState });
   };
 
   const pullReqFalse = () => {
-    openModal();
     setModal(
       <GitPullReqModal
         closeModal={closeModal}
         messageState={"레포지토리 선택을 먼저 진행해주세요."}
       />
     );
+    openModal();
   };
-  useEffect(() => {
-    if (messageState) {
-      setModal(
-        <GitPullReqModal closeModal={closeModal} messageState={messageState} />
-      );
-    }
-  }, [messageState]);
   return (
     <>
       {modal && isModalOpened && (

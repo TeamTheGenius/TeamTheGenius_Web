@@ -42,6 +42,7 @@ export const usePostChallengeJoin = ({
       onError: (error: AxiosError) => {
         onError(error?.response?.data?.message);
       },
+      useErrorBoundary: false,
     }
   );
   return { mutate };

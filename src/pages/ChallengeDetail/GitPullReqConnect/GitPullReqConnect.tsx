@@ -132,6 +132,7 @@ const GitPullReqConnect = () => {
               githubTokenOk={githubTokenOk}
             />
           </div>
+
           <div className="w-full mb-[3rem]">
             <PullReq
               label="3. Pull Request"
@@ -141,6 +142,7 @@ const GitPullReqConnect = () => {
               prBoolean={prBoolean}
             />
           </div>
+
           <div className="w-full">
             <PullReqExp label="Pull Request 연결 방법" />
           </div>

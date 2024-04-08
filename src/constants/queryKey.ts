@@ -1,6 +1,8 @@
 export const QUERY_KEY = {
   GITHUB_TOKEN: "githubToken",
   GITHUB_REPOSITORIES: "githubRepositories",
+  IS_REPOSITORY_VALID: "isRepositoryValid",
+  IS_PULL_REQUEST_VALID: "isPullRequestValid",
 
   POPULAR_CHALLENGES: "popularChallenges",
   RECOMMENDED_CHALLENGES: "recommendedChallenges",
