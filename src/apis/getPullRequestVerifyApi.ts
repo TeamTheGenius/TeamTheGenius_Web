@@ -5,15 +5,14 @@ type getPullRequestVerifyApiType = {
   repo: string;
   setPrBoolean: React.Dispatch<React.SetStateAction<boolean>>;
   setLoadingState: React.Dispatch<React.SetStateAction<boolean>>;
-  setErrState: React.Dispatch<React.SetStateAction<string>>;
+  setMesseageState: React.Dispatch<React.SetStateAction<string>>;
   openModal: () => void;
 };
 const getPullRequestVerifyApi = async ({
   repo,
   setPrBoolean,
   setLoadingState,
-  openModal,
-  setErrState,
+  setMesseageState,
 }: getPullRequestVerifyApiType) => {
   await acceptInstance
     .get(`${requests.fetchCertPullReq}`, {
@@ -22,6 +21,7 @@ const getPullRequestVerifyApi = async ({
     .then(() => {
       setPrBoolean(true);
       setLoadingState(false);
+      setMesseageState("PR연결이 확인되었습니다.");
     })
     .catch((err) => {
       throw err;

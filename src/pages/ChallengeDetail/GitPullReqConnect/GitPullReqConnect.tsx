@@ -61,14 +61,16 @@ const GitPullReqConnect = () => {
   const challengeRegiHandle = () => {
     setLoadingState(true);
     postChallengeJoin({ instanceId: decryptNumber, repo: repoState });
-    setModal(<GitPullReqModal closeModal={closeModal} errState={errState} />);
+    setModal(
+      <GitPullReqModal closeModal={closeModal} messageState={errState} />
+    );
   };
   const challengeRegiFalseHandle = () => {
     openModal();
     setModal(
       <GitPullReqModal
         closeModal={closeModal}
-        errState={"3.pull request까지 진행 후 \n 참가하기가 가능합니다."}
+        messageState={"3.pull request까지 진행 후 \n 참가하기가 가능합니다."}
       />
     );
   };
