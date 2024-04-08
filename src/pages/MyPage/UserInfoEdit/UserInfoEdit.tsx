@@ -25,8 +25,8 @@ const UserInfoEdit = () => {
   const [infoShow, setInfoShow] = useState(0);
   const [nickNameShow, setNickNameShow] = useState(0);
   const [imageUrl, setImageUrl] = useState("");
-  const { openModal, closeModal, isModalOpened } = useModal();
   const [isLoading, setIsLoading] = useState(false);
+  const { openModal, closeModal, isModalOpened } = useModal();
 
   const [modal, setModal] = useState(<></>);
 
@@ -155,6 +155,7 @@ const UserInfoEdit = () => {
                   closeModal={closeModal}
                   openModal={openModal}
                   setModal={setModal}
+                  formikNickName={formik.values.nickName}
                   userValue={data?.nickname}
                   maxLength={15}
                   signUpBoolean={signUpBoolean}
