@@ -11,7 +11,6 @@ function GitPullReqModal({
   const completeHandle = () => {
     closeModal();
   };
-  console.log("err", messageState);
   return (
     <>
       <Modal.ModalContentBox width="w-[35.5rem]" height="h-[32.3rem]">

@@ -8,17 +8,17 @@ import { useParams } from "react-router-dom";
 import Repo from "@/components/GitPullReqConnect/Repo/Repo";
 import PullReq from "@/components/GitPullReqConnect/PullReq/PullReq";
 import PullReqExp from "@/components/GitPullReqConnect/PullReqExp/PullReqExp";
-import getUserRepoApi from "@/apis/getUserRepoApi";
 import BottomButton from "@/components/Common/BottomButton/BottomButton";
-import getGithubTokenApi from "@/apis/getGithubTokenApi";
-import { useQuery } from "react-query";
 import { decrypt } from "@/hooks/useCrypto";
 import Loading from "@/components/Common/Loading/Loading";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import useModal from "@/hooks/useModal";
 import GitPullReqModal from "@/components/GitPullReqConnect/GitPullReqModal/GitPullReqModal";
-import { QUERY_KEY } from "@/constants/queryKey";
 import { usePostChallengeJoin } from "@/hooks/queries/useInstanceDetailQuery";
+import {
+  useGetRepositories,
+  useGetTokenVerify,
+} from "@/hooks/queries/useGithubQuery";
 
 const GitPullReqConnect = () => {
   const [githubBoolean, setGithubBoolean] = useState(false);
@@ -58,6 +58,9 @@ const GitPullReqConnect = () => {
     onError: onErrorPostChallengeJoin,
   });
 
+  const { data: githubTokenOk } = useGetTokenVerify();
+  const { data: repoList } = useGetRepositories({ githubTokenOk });
+
   const challengeRegiHandle = () => {
     setLoadingState(true);
     postChallengeJoin({ instanceId: decryptNumber, repo: repoState });
@@ -75,17 +78,6 @@ const GitPullReqConnect = () => {
     );
   };
 
-  const { data: githubTokenOk } = useQuery<string>({
-    queryKey: [QUERY_KEY.GITHUB_TOKEN],
-    queryFn: getGithubTokenApi,
-    useErrorBoundary: false,
-  });
-
-  const { data: repoList } = useQuery<string[]>({
-    queryKey: [QUERY_KEY.GITHUB_REPOSITORIES],
-    queryFn: getUserRepoApi,
-    enabled: githubTokenOk === "OK",
-  });
   if (loadingState) {
     return <Loading />;
   }
@@ -136,6 +128,7 @@ const GitPullReqConnect = () => {
               githubTokenOk={githubTokenOk}
             />
           </div>
+
           <div className="w-full mb-[3rem]">
             <PullReq
               label="3. Pull Request"
@@ -145,6 +138,7 @@ const GitPullReqConnect = () => {
               prBoolean={prBoolean}
             />
           </div>
+
           <div className="w-full">
             <PullReqExp label="Pull Request 연결 방법" />
           </div>

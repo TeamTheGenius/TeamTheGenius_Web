@@ -113,6 +113,7 @@ export const usePostItemBuy = ({
       onError: (err: AxiosError) => {
         onError(err?.response?.data?.message);
       },
+      useErrorBoundary: false,
     }
   );
   return { mutate };

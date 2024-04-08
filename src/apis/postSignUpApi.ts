@@ -1,17 +1,12 @@
-import { PATH } from "@/constants/path";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
-import { IDENTIFIER } from "@/constants/localStorageKey";
 import requests from "./axios/request";
 import { multiInstance } from "./axios/axios";
-import { encrypt } from "@/hooks/useCrypto";
 type SignUpApiParams = {
   identifier: string;
   nickname: string;
   information: string;
   interest: CheckboxValueType[];
   files: string;
-  navigate: (path: string) => void;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const signUpApi = async ({
@@ -20,10 +15,8 @@ const signUpApi = async ({
   information,
   interest,
   files,
-  navigate,
-  setIsLoading,
 }: SignUpApiParams) => {
-  const data = {
+  const body = {
     identifier: identifier,
     nickname: nickname,
     information: information,
@@ -33,26 +26,21 @@ const signUpApi = async ({
   const formData = new FormData();
   formData.append(
     "data",
-    new Blob([JSON.stringify(data)], { type: "application/json" })
+    new Blob([JSON.stringify(body)], { type: "application/json" })
   );
 
   const imageFile = await fetch(files).then((res) => res.blob());
   formData.append("files", imageFile, `basic-profile.jpg`);
 
-  await multiInstance
+  const data = await multiInstance
     .post(`${requests.fetchAuthSignup}`, formData)
     .then((res) => {
-      const identifier = res.data.data.identifier;
-      setIsLoading(false);
-      localStorage.setItem(IDENTIFIER, encrypt(identifier));
-      navigate(PATH.AUTH);
+      return res;
     })
     .catch((err) => {
-      alert("오류가 발생했습니다.");
-      setIsLoading(false);
-      navigate(PATH.LOGIN);
       throw err;
     });
+  return data;
 };
 
 export default signUpApi;
