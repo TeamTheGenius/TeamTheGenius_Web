@@ -1,11 +1,12 @@
 import signUpApi from "@/apis/postSignUpApi";
 import { IDENTIFIER } from "@/constants/localStorageKey";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import { useMutation } from "react-query";
 import { encrypt } from "../useCrypto";
 import { useNavigate } from "react-router-dom";
 import { PATH } from "@/constants/path";
+import { getCheckNicknameApi } from "@/apis/getCheckNicknameApi";
 
 interface PostSignUpMutateType {
   identifier: string;
@@ -39,6 +40,32 @@ export const usePostSignUp = ({ onSuccess, onError }: PostSignUpType) => {
       onError: () => {
         navigate(PATH.LOGIN);
         onError();
+      },
+      useErrorBoundary: false,
+    }
+  );
+  return { mutate };
+};
+
+interface GetCheckNinkNameMutateType {
+  value: string;
+}
+interface GetCheckNinkNameType {
+  onSuccess: () => void;
+  onError: (err: AxiosError) => void;
+}
+export const useGetCheckNickName = ({
+  onSuccess,
+  onError,
+}: GetCheckNinkNameType) => {
+  const { mutate } = useMutation(
+    ({ value }: GetCheckNinkNameMutateType) => getCheckNicknameApi({ value }),
+    {
+      onSuccess: () => {
+        onSuccess();
+      },
+      onError: (err: AxiosError) => {
+        onError(err);
       },
       useErrorBoundary: false,
     }
