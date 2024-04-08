@@ -11,6 +11,7 @@ import nickname_X from "@/assets/icon/nickname_X.svg";
 import { getCheckNicknameApi } from "@/apis/getCheckNicknameApi";
 import Loading from "../Loading/Loading";
 import { EditModal } from "@/components/MyPage/EditModal/EditModal";
+import { SignUpModal } from "@/components/SignUp/SignUpForm/SignUpModal/SignUpModal";
 
 type SignUpInputProps = {
   label: string;
@@ -33,6 +34,7 @@ type SignUpInputProps = {
   openModal: () => void;
   closeModal: () => void;
   setModal: React.Dispatch<React.SetStateAction<JSX.Element>>;
+  formikNickName: string;
 };
 
 const NickNameInput: React.FC<SignUpInputProps> = ({
@@ -56,6 +58,7 @@ const NickNameInput: React.FC<SignUpInputProps> = ({
   openModal,
   setModal,
   closeModal,
+  formikNickName,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -74,12 +77,43 @@ const NickNameInput: React.FC<SignUpInputProps> = ({
   };
   const nickNameCheck = () => {
     setIsLoading(true);
-    getCheckNicknameApi({
-      value,
-      setNickCheck,
-      setsignUpBoolean,
-      setIsLoading,
-    });
+    if (formikNickName) {
+      if (/[^ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-Z0-9]/.test(formikNickName)) {
+        setIsLoading(false);
+        openModal();
+        setModal(
+          <SignUpModal
+            modalHandle={closeModal}
+            isLoading={isLoading}
+            editBoolean={true}
+            success="닉네임에는 특수문자를 사용할 수 없습니다."
+            fail="Error"
+            buttonText="확인하기"
+          />
+        );
+      } else {
+        getCheckNicknameApi({
+          value,
+          setNickCheck,
+          setsignUpBoolean,
+          setIsLoading,
+        });
+      }
+    } else if (!formikNickName) {
+      setIsLoading(false);
+      openModal();
+      setModal(
+        <SignUpModal
+          modalHandle={closeModal}
+          isLoading={isLoading}
+          editBoolean={true}
+          success="닉네임을 입력해주세요."
+          fail="Error"
+          buttonText="확인하기"
+        />
+      );
+    }
+    setIsLoading(false);
   };
 
   const resetValue = () => {
@@ -151,9 +185,10 @@ const NickNameInput: React.FC<SignUpInputProps> = ({
       {signUpBoolean ? (
         <div className="signUp-check">{nickCheck}</div>
       ) : (
-        <div className="signUp-err">{nickCheck}</div>
+        <>
+          <div className="signUp-err">{error}</div>
+        </>
       )}
-      {error && <div className="signUp-err">{error}</div>}
     </li>
   );
 };

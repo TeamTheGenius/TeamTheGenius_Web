@@ -27,9 +27,13 @@ export const getCheckNicknameApi = async ({
   await noCookieinstance
     .get(`${requests.fetchCheckNickname}`, { params })
     .then((res) => {
+      const replaceData = (res.data.message = res.data.message.replace(
+        "요청이 정상적으로 처리되었습니다",
+        "사용 가능한 닉네임입니다"
+      ));
       setIsLoading(false);
       setsignUpBoolean(true);
-      setNickCheck("사용 가능한 닉네임입니다.");
+      setNickCheck(replaceData);
     })
     .catch((err) => {
       setIsLoading(false);

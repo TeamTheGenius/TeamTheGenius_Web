@@ -6,6 +6,10 @@ import { PATH } from "@/constants/path";
 import SignUpDesc from "./SignUpInput/SignUpDesc";
 import { useState } from "react";
 import NickNameInput from "@/components/Common/NickNameInput/NickNameInput";
+import useModal from "@/hooks/useModal";
+import { SignUpModal } from "./SignUpModal/SignUpModal";
+import { ModalLayer } from "@/components/Common/Modal/Modal";
+
 const SignUpForm = () => {
   const [signUpBoolean, setsignUpBoolean] = useState(false);
   const [nickName, setNickName] = useState("");
@@ -14,7 +18,10 @@ const SignUpForm = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const gitName = searchParams.get("identifier");
+  const [isLoading, setIsLoading] = useState(false);
+  const { openModal, closeModal, isModalOpened } = useModal();
 
+  const [modal, setModal] = useState(<></>);
   const validationSchema = Yup.object().shape({
     nickName: Yup.string()
       .required("닉네임을 입력해주세요.")
@@ -45,7 +52,18 @@ const SignUpForm = () => {
   const naviState = () => {
     if (formik.values.nickName && signUpBoolean) {
       if (/[^ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-Z0-9]/.test(formik.values.nickName)) {
-        alert("닉네임에는 특수문자를 사용할 수 없습니다.");
+        setIsLoading(false);
+        openModal();
+        setModal(
+          <SignUpModal
+            modalHandle={closeModal}
+            isLoading={isLoading}
+            editBoolean={true}
+            success="닉네임에는 특수문자를 사용할 수 없습니다."
+            fail="Error"
+            buttonText="확인하기"
+          />
+        );
       } else {
         navigate(PATH.INTEREST, {
           state: {
@@ -56,14 +74,37 @@ const SignUpForm = () => {
         });
       }
     } else if (!formik.values.nickName) {
-      alert("닉네임을 입력해주세요.");
+      setIsLoading(false);
+      openModal();
+      setModal(
+        <SignUpModal
+          modalHandle={closeModal}
+          isLoading={isLoading}
+          editBoolean={true}
+          success="닉네임을 입력해주세요."
+          fail="Error"
+          buttonText="확인하기"
+        />
+      );
     } else if (!signUpBoolean) {
-      alert("닉네임 중복확인을 해주세요.");
+      setIsLoading(false);
+      openModal();
+      setModal(
+        <SignUpModal
+          modalHandle={closeModal}
+          isLoading={isLoading}
+          editBoolean={true}
+          success="닉네임 중복확인을 해주세요."
+          fail="Error"
+          buttonText="확인하기"
+        />
+      );
     }
   };
 
   return (
     <>
+      {isModalOpened && <ModalLayer onClick={closeModal}>{modal}</ModalLayer>}
       <form onSubmit={formik.handleSubmit}>
         <ul className="mb-[15rem]">
           <NickNameInput
@@ -74,6 +115,10 @@ const SignUpForm = () => {
             name="nickName"
             placeholder="2 ~ 15자 입력 가능합니다."
             maxLength={15}
+            closeModal={closeModal}
+            openModal={openModal}
+            setModal={setModal}
+            formikNickName={formik.values.nickName}
             signUpBoolean={signUpBoolean}
             setsignUpBoolean={setsignUpBoolean}
             value={nickName}
