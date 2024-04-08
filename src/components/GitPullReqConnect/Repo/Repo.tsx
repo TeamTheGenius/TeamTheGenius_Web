@@ -1,13 +1,14 @@
 import Button from "@/components/Common/Button";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import DropDownIcon from "@/assets/icon/arrow-down.svg";
-import getRepoVertifyApi from "@/apis/getRepoVertifyApi";
 import GitTokenCheckIcon from "../GitTokenCheckIcon/GitTokenCheckIcon";
 import Label from "../Label/Label";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import useModal from "@/hooks/useModal";
 import GitPullReqModal from "../GitPullReqModal/GitPullReqModal";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
+import { useGetVerifyRepository } from "@/hooks/queries/useGithubQuery";
+import { AxiosError, AxiosResponse } from "axios";
 type repoType = {
   label: string;
   value: string;
@@ -35,19 +36,29 @@ function Repo({
   const [modal, setModal] = useState<React.ReactNode>();
   const [errState, setErrState] = useState("");
   const { openModal, closeModal, isModalOpened } = useModal();
+
+  const onSuccessGetVerifyRepository = (res: AxiosResponse) => {
+    setRepoOk(res.data.code);
+    setLoadingState(false);
+    setRepoState(selectedValue);
+    setRepoBoolean(true);
+  };
+  const onErrorGetVerifyRepository = (err: AxiosError) => {
+    setErrState(err?.response?.data?.message);
+    setRepoBoolean(false);
+    setLoadingState(false);
+    openModal();
+  };
+  const { mutate: getVerifyRepositoryMutate } = useGetVerifyRepository({
+    onSuccess: onSuccessGetVerifyRepository,
+    onError: onErrorGetVerifyRepository,
+  });
   const gitRepoCheck = () => {
     setLoadingState(true);
-    getRepoVertifyApi({
-      setRepoOk: setRepoOk,
-      openModal: openModal,
-      setErrState: setErrState,
-      setLoadingState: setLoadingState,
-      repo: selectedValue,
-      setRepoBoolean: setRepoBoolean,
-      setRepoState: setRepoState,
-      selectedValue: selectedValue,
-    });
-    setModal(<GitPullReqModal closeModal={closeModal} errState={errState} />);
+    getVerifyRepositoryMutate({ repo: selectedValue });
+    setModal(
+      <GitPullReqModal closeModal={closeModal} messageState={errState} />
+    );
   };
   const gitRepoFlase = () => {
     alert("깃허브 토큰 등록을 먼저 진행해주세요.");

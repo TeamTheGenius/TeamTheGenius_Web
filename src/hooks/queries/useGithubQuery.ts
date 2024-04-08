@@ -1,7 +1,8 @@
 import getGithubTokenApi from "@/apis/getGithubTokenApi";
+import getRepoVertifyApi from "@/apis/getRepoVertifyApi";
 import postGithubTokenRegi from "@/apis/postGithubTokenRegi";
 import { QUERY_KEY } from "@/constants/queryKey";
-import { AxiosError } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 interface PostTokenRegisterType {
@@ -39,4 +40,29 @@ export const useGetTokenVerify = () => {
     useErrorBoundary: false,
   });
   return { data };
+};
+
+interface GetVerifyRepositoryMutateType {
+  repo: string;
+}
+interface GetVerifyRepositoryType {
+  onSuccess: (res: AxiosResponse) => void;
+  onError: (err: AxiosError) => void;
+}
+export const useGetVerifyRepository = ({
+  onSuccess,
+  onError,
+}: GetVerifyRepositoryType) => {
+  const { mutate } = useMutation(
+    ({ repo }: GetVerifyRepositoryMutateType) => getRepoVertifyApi({ repo }),
+    {
+      onSuccess: (res: AxiosResponse) => {
+        onSuccess(res);
+      },
+      onError: (err: AxiosError) => {
+        onError(err);
+      },
+    }
+  );
+  return { mutate };
 };
