@@ -51,9 +51,10 @@ interface GetCheckNinkNameMutateType {
   value: string;
 }
 interface GetCheckNinkNameType {
-  onSuccess: () => void;
+  onSuccess: (res: AxiosResponse) => void;
   onError: (err: AxiosError) => void;
 }
+
 export const useGetCheckNickName = ({
   onSuccess,
   onError,
@@ -61,8 +62,8 @@ export const useGetCheckNickName = ({
   const { mutate } = useMutation(
     ({ value }: GetCheckNinkNameMutateType) => getCheckNicknameApi({ value }),
     {
-      onSuccess: () => {
-        onSuccess();
+      onSuccess: (res: AxiosResponse) => {
+        onSuccess(res);
       },
       onError: (err: AxiosError) => {
         onError(err);
