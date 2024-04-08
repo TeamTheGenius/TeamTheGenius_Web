@@ -3,12 +3,7 @@ import { shopFrameType } from "@/types/shopType";
 import ShopFrameButton from "./ShopFrameButton/ShopFrameButton";
 import ShopFrameName from "./ShopFrameName/ShopFrameName";
 import ShopFrameImg from "./ShopFrameImg/ShopFrameImg";
-function ShopFrameItem({
-  item,
-  buyItem,
-  mountFrameHandle,
-  unMountFrameHandle,
-}: shopFrameType) {
+function ShopFrameItem({ item, buyItem }: shopFrameType) {
   return (
     <div>
       <ShopFrameImg
@@ -18,11 +13,7 @@ function ShopFrameItem({
         equip={item.equipStatus}
       />
       <ShopFrameName name={item.name} />
-      <ShopFrameButton
-        item={item}
-        mountFrameHandle={mountFrameHandle}
-        unMountFrameHandle={unMountFrameHandle}
-      />
+      <ShopFrameButton item={item} />
     </div>
   );
 }

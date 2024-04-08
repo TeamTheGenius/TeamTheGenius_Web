@@ -17,6 +17,7 @@ import { QUERY_KEY } from "@/constants/queryKey";
 import { usePostTodayCertification } from "@/hooks/queries/useCertificationQuery";
 import { CertificationDataType } from "@/types/certificationType";
 import { useGetMyActivityChallenges } from "@/hooks/queries/useMyChallengeQuery";
+import { createPortal } from "react-dom";
 
 interface PassItemModal {
   e: React.MouseEvent;
@@ -27,8 +28,8 @@ interface PassItemModal {
 
 const MyChallengeProgress = () => {
   const { isModalOpened, openModal, closeModal } = useModal();
-  const queryClient = useQueryClient();
   const [modal, setModal] = useState<React.ReactNode>();
+  const queryClient = useQueryClient();
 
   const { data } = useGetMyActivityChallenges();
   const onSuccessPostTodayCertification = (res: CertificationDataType) => {
@@ -78,9 +79,12 @@ const MyChallengeProgress = () => {
 
   return (
     <>
-      {modal && isModalOpened && (
-        <ModalLayer onClick={closeModal}>{modal}</ModalLayer>
-      )}
+      {modal &&
+        isModalOpened &&
+        createPortal(
+          <ModalLayer onClick={closeModal}>{modal}</ModalLayer>,
+          document.body
+        )}
 
       <MyChallengeWrap>
         {data.map((item, index) => {

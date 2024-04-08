@@ -1,8 +1,11 @@
 import ChallengeInformation from "@/components/Certification/Certification/ChallengeInformation/ChallengeInformation";
 import Tabs from "@/components/Certification/Certification/Tabs/Tabs";
 import DynamicBackIcon from "@/components/Common/DynamicBackIcon/DynamicBackIcon";
+import Loading from "@/components/Common/Loading/Loading";
+import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import MobCard from "@/components/Common/MobCard";
 import { decrypt } from "@/hooks/useCrypto";
+import { Suspense } from "react";
 import { Outlet, useParams } from "react-router-dom";
 
 function Certification() {
@@ -19,9 +22,13 @@ function Certification() {
       </div>
       <div className="flex flex-col items-center">
         <div className="max-w-[54.6rem] w-full flex flex-col">
-          <ChallengeInformation />
+          <Suspense fallback={<Loading />}>
+            <ChallengeInformation />
+          </Suspense>
           <Tabs id={decryptedInstanceId} />
-          <Outlet />
+          <Suspense fallback={<LoadingBox />}>
+            <Outlet />
+          </Suspense>
         </div>
       </div>
     </MobCard>

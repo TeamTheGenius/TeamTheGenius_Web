@@ -1,38 +1,25 @@
 import Button from "@/components/Common/Button";
-import Loading from "@/components/Common/Loading/Loading";
 import { Modal } from "@/components/Common/Modal/Modal";
 
-function ShopCompleteEquip({
-  closeModal,
-  loadingState,
-}: {
-  closeModal: () => void;
-  loadingState: boolean;
-}) {
+function ShopCompleteEquip({ closeModal }: { closeModal: () => void }) {
   const completeHandle = () => {
     closeModal();
   };
   return (
     <>
-      {loadingState ? (
-        <Loading />
-      ) : (
-        <>
-          <div className="mb-[7.4rem]">
-            <Modal.ModalContent content="이미 소지하고 있는 아이템입니다!" />
-          </div>
-          <Button
-            content="돌아가기"
-            width="w-[16.4rem]"
-            height="h-[5rem]"
-            backgroundColor="bg-white border-2 border-[#ff4356]"
-            textSize="text-[1.5rem]"
-            fontWeight="font-[500]"
-            textColor="text-[#ff4356]"
-            handleClick={completeHandle}
-          />
-        </>
-      )}
+      <div className="mb-[7.4rem]">
+        <Modal.ModalContent content="이미 소지하고 있는 아이템입니다!" />
+      </div>
+      <Button
+        content="돌아가기"
+        width="w-[16.4rem]"
+        height="h-[5rem]"
+        backgroundColor="bg-white border-2 border-[#ff4356]"
+        textSize="text-[1.5rem]"
+        fontWeight="font-[500]"
+        textColor="text-[#ff4356]"
+        handleClick={completeHandle}
+      />
     </>
   );
 }

@@ -25,16 +25,9 @@ export type ticketListType = {
   count: number;
 };
 export type shopFrameSliceType = {
-  frameLoading: boolean;
-  frameDataState: shopFrameListType[] | undefined;
-  frameData: shopFrameListType[] | undefined;
   buyItem: (itemId: shopFrameListType | undefined) => void;
-  mountFrameHandle: (itemId: number | undefined) => void;
-  unMountFrameHandle: (itemId: number | undefined) => void;
 };
 export type shopFrameType = {
   item: shopFrameListType;
   buyItem: (itemId: shopFrameListType | undefined) => void;
-  mountFrameHandle: (itemId: number | undefined) => void;
-  unMountFrameHandle: (itemId: number | undefined) => void;
 };

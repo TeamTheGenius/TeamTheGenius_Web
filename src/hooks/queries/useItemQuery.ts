@@ -12,12 +12,7 @@ import getItemFrameApi from "@/apis/getItemFrameApi";
 import getItemPassApi from "@/apis/getItemPassApi";
 import getItemPointApi from "@/apis/getItemPointApi";
 
-interface usePostFrameItemType {
-  onSuccess: () => void;
-}
-export const usePostFrameItemEquiptment = ({
-  onSuccess,
-}: usePostFrameItemType) => {
+export const usePostFrameItemEquiptment = () => {
   const queryClient = useQueryClient();
   const { mutate } = useMutation(
     (itemId: number) => postItemEquipApi({ itemId }),
@@ -25,25 +20,18 @@ export const usePostFrameItemEquiptment = ({
       onSuccess: (data) => {
         localStorage.setItem(FRAMEID, encrypt(data.itemId));
         queryClient.invalidateQueries(QUERY_KEY.SHOP_FRAME_ITEMS);
-        onSuccess();
       },
     }
   );
   return { mutate };
 };
 
-interface PostFrameItemUnEquiptmentType {
-  onSuccess: () => void;
-}
-export const usePostFrameItemUnEquiptment = ({
-  onSuccess,
-}: PostFrameItemUnEquiptmentType) => {
+export const usePostFrameItemUnEquiptment = () => {
   const queryClient = useQueryClient();
   const { mutate, mutateAsync } = useMutation(postItemUnEquipApi, {
     onSuccess: () => {
       localStorage.removeItem(FRAMEID);
       queryClient.invalidateQueries(QUERY_KEY.SHOP_FRAME_ITEMS);
-      onSuccess();
     },
   });
   return { mutate, mutateAsync };
@@ -99,7 +87,6 @@ export const usePostItemBuy = ({
   onError: onError,
 }: usePostItemBuyType) => {
   const queryClient = useQueryClient();
-
   const { mutate } = useMutation(
     (itemId: number) => postdItemBuyApi({ itemId }),
     {
@@ -120,25 +107,28 @@ export const usePostItemBuy = ({
 };
 
 export const useGetFrameItems = () => {
-  const { data, isLoading } = useQuery<shopFrameListType[]>({
+  const { data, isLoading, isSuccess } = useQuery<shopFrameListType[]>({
     queryKey: [QUERY_KEY.SHOP_FRAME_ITEMS],
     queryFn: () => getItemFrameApi(),
+    suspense: true,
   });
-  return { data, isLoading };
+  return { data, isLoading, isSuccess };
 };
 
 export const useGetPassItems = () => {
-  const { data, isLoading } = useQuery<shopTicketListType[]>({
+  const { data, isLoading, isSuccess } = useQuery<shopTicketListType[]>({
     queryKey: [QUERY_KEY.SHOP_PASS_ITEM],
     queryFn: () => getItemPassApi(),
+    suspense: true,
   });
-  return { data, isLoading };
+  return { data, isLoading, isSuccess };
 };
 
 export const useGetPointTwiceItems = () => {
-  const { data, isLoading } = useQuery<shopTicketListType[]>({
+  const { data, isLoading, isSuccess } = useQuery<shopTicketListType[]>({
     queryKey: [QUERY_KEY.SHOP_POINT_TWICE_ITEM],
     queryFn: () => getItemPointApi(),
+    suspense: true,
   });
-  return { data, isLoading };
+  return { data, isLoading, isSuccess };
 };

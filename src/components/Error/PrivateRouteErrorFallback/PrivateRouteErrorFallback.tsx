@@ -16,7 +16,7 @@ const PrivateRouteErrorFallback = ({
     if (location.pathname !== errorLocation.current) {
       resetErrorBoundary();
     }
-  }, [location.pathname]);
+  }, [location.pathname, resetErrorBoundary]); // resetErrorBoundary를 의존성 배열에 추가
 
   const onClickGoToLogIn = () => {
     resetErrorBoundary();
@@ -28,7 +28,7 @@ const PrivateRouteErrorFallback = ({
     navigate(-1);
   };
 
-  return error.response?.data?.message === "JWT가 유효하지 않습니다." ? (
+  return error?.response?.data?.message === "JWT가 유효하지 않습니다." ? ( // error가 null이 아닌 경우에만 접근하도록 수정
     <Error
       errorTxt="재로그인이 필요합니다."
       onClick={onClickGoToLogIn}
@@ -37,8 +37,8 @@ const PrivateRouteErrorFallback = ({
   ) : (
     <Error
       onClick={onClickBack}
-      errNum={error.response?.data?.resultCode}
-      errorTxt={error.response?.data?.message}
+      errNum={error?.response?.data?.resultCode} // error가 null이 아닌 경우에만 접근하도록 수정
+      errorTxt={error?.response?.data?.message} // error가 null이 아닌 경우에만 접근하도록 수정
     />
   );
 };

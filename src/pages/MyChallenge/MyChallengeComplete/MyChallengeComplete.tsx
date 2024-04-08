@@ -1,4 +1,5 @@
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
+import { ModalLayer } from "@/components/Common/Modal/Modal";
 import MyChallengeLabel from "@/components/Main/MyChallenge/MyChallengeLabel/MyChallengeLabel";
 import MyChallengeLinkWrap from "@/components/Main/MyChallenge/MyChallengeLinkWrap/MyChallengeLinkWrap";
 import GetRewardModal from "@/components/Main/MyChallenge/MyChallengeModal/GetRewardModal/GetRewardModal";
@@ -9,17 +10,14 @@ import {
   useGetChallengeSuccessReward,
   useGetMyDoneChallenges,
 } from "@/hooks/queries/useMyChallengeQuery";
+import useModal from "@/hooks/useModal";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
-import { useOutletContext } from "react-router-dom";
-
-interface Props {
-  setModal: React.Dispatch<React.SetStateAction<React.ReactNode>>;
-  closeModal: () => void;
-  openModal: () => void;
-}
+import React, { useState } from "react";
+import { createPortal } from "react-dom";
 
 const MyChallengeComplete = () => {
-  const { setModal, closeModal, openModal } = useOutletContext<Props>();
+  const { isModalOpened, closeModal, openModal } = useModal();
+  const [modal, setModal] = useState<React.ReactNode>();
 
   const { data } = useGetMyDoneChallenges();
 
@@ -64,6 +62,12 @@ const MyChallengeComplete = () => {
   };
   return (
     <>
+      {isModalOpened &&
+        createPortal(
+          <ModalLayer onClick={closeModal}>{modal}</ModalLayer>,
+          document.body
+        )}
+
       <MyChallengeWrap>
         {data.map((item, index) => {
           return (

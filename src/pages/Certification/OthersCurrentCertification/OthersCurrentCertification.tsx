@@ -11,6 +11,7 @@ import { useParams } from "react-router-dom";
 import basicProfileImage from "@/assets/image/basic-profile-image-gray.png";
 import { AllWeekCertificationDataType } from "@/types/certificationType";
 import { useGetAllCertificationWeek } from "@/hooks/queries/useCertificationQuery";
+import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 
 function OthersCurrentCertification() {
   const { id } = useParams();
@@ -21,7 +22,7 @@ function OthersCurrentCertification() {
     AllWeekCertificationDataType[]
   >([]);
 
-  const { fetchNextPage, hasNextPage } = useGetAllCertificationWeek({
+  const { fetchNextPage, hasNextPage, isLoading } = useGetAllCertificationWeek({
     decryptedInstanceId,
     setcertifications,
   });
@@ -31,6 +32,8 @@ function OthersCurrentCertification() {
       fetchNextPage();
     }
   }, [inView, hasNextPage, fetchNextPage]);
+
+  if (isLoading) return <LoadingBox />;
 
   return (
     <div className="mt-[3.8rem] _sm:mt-[2.4rem] flex flex-col gap-[3rem] justify-center items-center px-[2.2rem] pb-[2.2rem]">

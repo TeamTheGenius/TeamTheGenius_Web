@@ -53,6 +53,7 @@ export const useGetCertificationInstanceDetail = ({
       getCertificationInstanceDetail({
         instanceId: decryptedInstanceId,
       }),
+    suspense: true,
   });
   return { data, isLoading };
 };
@@ -72,6 +73,7 @@ export const useGetMyCertificationWeek = ({
       getMyWeekCertification({
         instanceId: decryptedInstanceId,
       }),
+    suspense: true,
   });
   return { data };
 };
@@ -87,7 +89,7 @@ export const useGetAllCertificationWeek = ({
   decryptedInstanceId,
   setcertifications,
 }: GetAllCertificationWeekType) => {
-  const { fetchNextPage, hasNextPage } = useInfiniteQuery({
+  const { fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
     queryKey: [
       QUERY_KEY.INFINITE_OTHERS_WEEK_CERTIFICATIONS_OF_INSTANCE,
       { decryptedInstanceId },
@@ -107,7 +109,7 @@ export const useGetAllCertificationWeek = ({
     },
     cacheTime: 0,
   });
-  return { fetchNextPage, hasNextPage };
+  return { fetchNextPage, hasNextPage, isLoading };
 };
 
 interface GetTotalCertificationsType {
@@ -130,6 +132,7 @@ export const useGetTotalCertifications = ({
         instanceId: decryptedInstanceId,
         userId: decryptedUserId,
       }),
+    suspense: true,
   });
   return { data };
 };
@@ -149,6 +152,7 @@ export const useGetCertificationStatistics = ({
       getCertificationInformation({
         instanceId: decryptedInstanceId,
       }),
+    suspense: true,
   });
   return { data };
 };
