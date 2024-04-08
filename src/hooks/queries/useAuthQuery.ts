@@ -39,6 +39,7 @@ export const usePostAuth = () => {
       localStorage.removeItem(FRAMEID);
       navigate(PATH.LOGIN);
     },
+    useErrorBoundary: false,
   });
   return { mutate };
 };

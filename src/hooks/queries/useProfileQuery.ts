@@ -83,8 +83,9 @@ export const usePostMyProfileInterestTag = ({
     (checkedValues: CheckboxValueType[]) =>
       postInterestEditApi({ interestEditData: checkedValues }),
     {
-      onSuccess: onSuccess,
-      onError: onError,
+      onSuccess: () => onSuccess(),
+      onError: () => onError(),
+      useErrorBoundary: false,
     }
   );
 
@@ -118,7 +119,8 @@ export const usePostMyProfile = ({
         queryClient.invalidateQueries(QUERY_KEY.MY_PROFILE);
         navigate(PATH.MY_PAGE);
       },
-      onError: onError,
+      onError: () => onError(),
+      useErrorBoundary: false,
     }
   );
   return { mutate };

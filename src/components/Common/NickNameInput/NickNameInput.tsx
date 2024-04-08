@@ -1,5 +1,4 @@
 import Button from "@/components/Common/Button";
-
 import React, {
   ChangeEvent,
   Dispatch,
@@ -8,10 +7,12 @@ import React, {
   useState,
 } from "react";
 import nickname_X from "@/assets/icon/nickname_X.svg";
-import { getCheckNicknameApi } from "@/apis/getCheckNicknameApi";
 import Loading from "../Loading/Loading";
 import { EditModal } from "@/components/MyPage/EditModal/EditModal";
 import { SignUpModal } from "@/components/SignUp/SignUpForm/SignUpModal/SignUpModal";
+import { useGetCheckNickName } from "@/hooks/queries/useUserQuery";
+import { AxiosError } from "axios";
+
 
 type SignUpInputProps = {
   label: string;
@@ -61,6 +62,22 @@ const NickNameInput: React.FC<SignUpInputProps> = ({
   formikNickName,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
+
+  const onSuccessGetCheckNickName = () => {
+    setIsLoading(false);
+    setsignUpBoolean(true);
+    setNickCheck("사용 가능한 닉네임입니다.");
+  };
+  const onErrorGetCheckNickName = (err: AxiosError) => {
+    setIsLoading(false);
+    setsignUpBoolean(false);
+    setNickCheck(err?.response?.data?.message);
+  };
+  const { mutate: getCheckNinkNameMutate } = useGetCheckNickName({
+    onSuccess: onSuccessGetCheckNickName,
+    onError: onErrorGetCheckNickName,
+  });
+  const specialChars = /[!@#$%^&*(),.?":{}|<>]/;
 
   const sameNickCheck = () => {
     openModal();
