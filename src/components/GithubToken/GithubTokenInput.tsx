@@ -1,14 +1,13 @@
 import Button from "@/components/Common/Button";
 import { GithubTokenInputType } from "@/types/githubTokenType";
 import { ChangeEvent, useState } from "react";
-
-import postGithubTokenRegi from "@/apis/postGithubTokenRegi";
 import GitTokenCheckIcon from "../GitPullReqConnect/GitTokenCheckIcon/GitTokenCheckIcon";
 import Label from "../GitPullReqConnect/Label/Label";
-import { QueryClient, useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import LoadingBox from "../Common/Loading/LoadingBox/LoadingBox";
 import getGithubTokenApi from "@/apis/getGithubTokenApi";
 import { QUERY_KEY } from "@/constants/queryKey";
+import { usePostTokenRegister } from "@/hooks/queries/useGithubQuery";
 const GithubTokenInput = ({
   label,
   id,
@@ -27,17 +26,24 @@ const GithubTokenInput = ({
     queryFn: getGithubTokenApi,
     useErrorBoundary: false,
   });
-  const queryClient: QueryClient = useQueryClient();
+  const onSuccessUsePostTokenRegister = () => {
+    setLoadingState(false);
+    setTokenBoolean(true);
+    setGithubBoolean(true);
+  };
+  const onErrorUsePostTokenRegister = (errMessage: string) => {
+    setLoadingState(false);
+    setTokenBoolean(false);
+    setTokenState(errMessage);
+  };
+  const { mutate: postTokenRegisterMutate } = usePostTokenRegister({
+    onSuccess: onSuccessUsePostTokenRegister,
+    onError: onErrorUsePostTokenRegister,
+  });
+
   const gitTokenCheck = () => {
     setLoadingState(true);
-    postGithubTokenRegi({
-      setLoadingState: setLoadingState,
-      queryClient: queryClient,
-      githubToken: value,
-      setTokenState: setTokenState,
-      setTokenBoolean: setTokenBoolean,
-      setGithubBoolean: setGithubBoolean,
-    });
+    postTokenRegisterMutate({ githubToken: value });
   };
 
   const inputChange = (event: ChangeEvent<HTMLInputElement>) => {

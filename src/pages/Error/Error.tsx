@@ -6,14 +6,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 export type ErrorHeaderType = {
   errNum?: number;
   errorTxt?: string;
-  path?: string;
+  onClick?: () => void;
   buttonText?: string;
   buttonExist?: boolean;
 };
 const Error = ({
   errNum,
   errorTxt,
-  path,
+  onClick,
   buttonText,
   buttonExist,
 }: ErrorHeaderType) => {
@@ -25,8 +25,8 @@ const Error = ({
     errorTxt: locationErrorTxt,
   }: ErrorHeaderType = location.state || {};
 
-  const back = () => {
-    if (path) navigate(path);
+  const onClickButton = () => {
+    if (onClick) onClick();
     else navigate(-1);
   };
   return (
@@ -47,7 +47,7 @@ const Error = ({
                 textSize={"text-[1.8rem]"}
                 textColor={"text-white"}
                 fontWeight={"font-medium"}
-                handleClick={back}
+                handleClick={onClickButton}
               />
             </div>
           </div>
