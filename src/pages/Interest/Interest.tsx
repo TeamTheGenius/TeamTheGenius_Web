@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import LoginMobCard from "@/components/Common/LoginMobCard";
 import Button from "@/components/Common/Button";
 import InterestCheck from "@/components/Interest/InterestCheck/InterestCheck";
 import InterestHeader from "@/components/Interest/InterestHeader/InterestHeader";
-import signUpApi from "@/apis/postSignUpApi";
 import { interestsData } from "@/data/InterestData";
 import basicOrangeProfileImage from "@/assets/image/basic-profile-image-orange.png";
 import basicGrayProfileImage from "@/assets/image/basic-profile-image-gray.png";
@@ -13,6 +12,7 @@ import basicPinkProfileImage from "@/assets/image/basic-profile-image-pink.png";
 import basicBlueProfileImage from "@/assets/image/basic-profile-image-blue.png";
 import basicGreenProfileImage from "@/assets/image/basic-profile-image-green.png";
 import Loading from "@/components/Common/Loading/Loading";
+import { usePostSignUp } from "@/hooks/queries/useUserQuery";
 
 type Interest = {
   id: number;
@@ -24,10 +24,19 @@ const Interest = () => {
   const [checkedValues, setCheckedValues] = useState<CheckboxValueType[]>([]);
   const location = useLocation();
   const locationState = location.state;
-
-  const navigate = useNavigate();
-
   const InterestValue: Interest[] = interestsData;
+
+  const onSuccessPostSignUp = () => {
+    setIsLoading(false);
+  };
+  const onErrorPostSignUp = () => {
+    setIsLoading(false);
+    alert("오류가 발생했습니다.");
+  };
+  const { mutate: postSignUpMutate } = usePostSignUp({
+    onSuccess: onSuccessPostSignUp,
+    onError: onErrorPostSignUp,
+  });
 
   const getRandomProfileImage = () => {
     const imagePaths = [
@@ -42,18 +51,17 @@ const Interest = () => {
     return imagePaths[randomIndex];
   };
 
-  const handleSignUp = async () => {
+  const handleSignUp = () => {
     setIsLoading(true);
-    await signUpApi({
+    postSignUpMutate({
       identifier: locationState.gitNickName,
       nickname: locationState.nickName,
       information: locationState.myInfo,
       interest: checkedValues,
       files: getRandomProfileImage(),
-      setIsLoading: setIsLoading,
-      navigate,
     });
   };
+
   if (isLoading) {
     return <Loading />;
   }
