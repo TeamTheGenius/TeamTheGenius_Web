@@ -19,8 +19,13 @@ const PrivateRouteErrorFallback = ({
   }, [location.pathname]);
 
   const onClickGoToLogIn = () => {
-    navigate(PATH.LOGIN);
     resetErrorBoundary();
+    navigate(PATH.LOGIN);
+  };
+
+  const onClickBack = () => {
+    resetErrorBoundary();
+    navigate(-1);
   };
 
   return error.response?.data?.message === "JWT가 유효하지 않습니다." ? (
@@ -31,6 +36,7 @@ const PrivateRouteErrorFallback = ({
     />
   ) : (
     <Error
+      onClick={onClickBack}
       errNum={error.response?.data?.resultCode}
       errorTxt={error.response?.data?.message}
     />

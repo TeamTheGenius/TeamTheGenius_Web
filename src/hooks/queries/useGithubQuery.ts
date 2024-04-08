@@ -1,6 +1,7 @@
 import getGithubTokenApi from "@/apis/getGithubTokenApi";
 import getPullRequestVerifyApi from "@/apis/getPullRequestVerifyApi";
 import getRepoVertifyApi from "@/apis/getRepoVertifyApi";
+import getUserRepoApi from "@/apis/getUserRepoApi";
 import postGithubTokenRegi from "@/apis/postGithubTokenRegi";
 import { QUERY_KEY } from "@/constants/queryKey";
 import { AxiosError, AxiosResponse } from "axios";
@@ -95,4 +96,16 @@ export const useGetVerifyPullRequest = ({
     }
   );
   return { mutate };
+};
+
+interface GetRepositoriesType {
+  githubTokenOk: string | undefined;
+}
+export const useGetRepositories = ({ githubTokenOk }: GetRepositoriesType) => {
+  const { data } = useQuery<string[]>({
+    queryKey: [QUERY_KEY.GITHUB_REPOSITORIES],
+    queryFn: getUserRepoApi,
+    enabled: githubTokenOk === "OK",
+  });
+  return { data };
 };

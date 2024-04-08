@@ -8,17 +8,17 @@ import { useParams } from "react-router-dom";
 import Repo from "@/components/GitPullReqConnect/Repo/Repo";
 import PullReq from "@/components/GitPullReqConnect/PullReq/PullReq";
 import PullReqExp from "@/components/GitPullReqConnect/PullReqExp/PullReqExp";
-import getUserRepoApi from "@/apis/getUserRepoApi";
 import BottomButton from "@/components/Common/BottomButton/BottomButton";
-import { useQuery } from "react-query";
 import { decrypt } from "@/hooks/useCrypto";
 import Loading from "@/components/Common/Loading/Loading";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import useModal from "@/hooks/useModal";
 import GitPullReqModal from "@/components/GitPullReqConnect/GitPullReqModal/GitPullReqModal";
-import { QUERY_KEY } from "@/constants/queryKey";
 import { usePostChallengeJoin } from "@/hooks/queries/useInstanceDetailQuery";
-import { useGetTokenVerify } from "@/hooks/queries/useGithubQuery";
+import {
+  useGetRepositories,
+  useGetTokenVerify,
+} from "@/hooks/queries/useGithubQuery";
 
 const GitPullReqConnect = () => {
   const [githubBoolean, setGithubBoolean] = useState(false);
@@ -59,6 +59,7 @@ const GitPullReqConnect = () => {
   });
 
   const { data: githubTokenOk } = useGetTokenVerify();
+  const { data: repoList } = useGetRepositories({ githubTokenOk });
 
   const challengeRegiHandle = () => {
     setLoadingState(true);
@@ -77,11 +78,6 @@ const GitPullReqConnect = () => {
     );
   };
 
-  const { data: repoList } = useQuery<string[]>({
-    queryKey: [QUERY_KEY.GITHUB_REPOSITORIES],
-    queryFn: getUserRepoApi,
-    enabled: githubTokenOk === "OK",
-  });
   if (loadingState) {
     return <Loading />;
   }
