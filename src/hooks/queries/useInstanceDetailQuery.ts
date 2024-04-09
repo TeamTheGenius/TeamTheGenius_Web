@@ -8,10 +8,11 @@ import { AxiosError } from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 
-export const useGetChallengeDetail = (decryptId: string) => {
+export const useGetChallengeDetail = (decryptId: number) => {
   const { data, refetch, isLoading } = useQuery<ChallengeDetailDataType>({
     queryKey: [QUERY_KEY.CHALLENGE_INSTANCE_DETAIL, { decryptId }],
-    queryFn: () => getInstanceDetail({ instanceId: parseInt(decryptId) }),
+    queryFn: () => getInstanceDetail({ instanceId: decryptId }),
+    suspense: true,
   });
   return { data, refetch, isLoading };
 };

@@ -77,7 +77,7 @@ export const usePostMyProfileInterestTag = ({
   onSuccess,
   onError,
 }: usePostMyProfileInterestTagParams) => {
-  const { mutate } = useMutation(
+  const { mutate, isLoading } = useMutation(
     (checkedValues: CheckboxValueType[]) =>
       postInterestEditApi({ interestEditData: checkedValues }),
     {
@@ -87,7 +87,7 @@ export const usePostMyProfileInterestTag = ({
     }
   );
 
-  return { mutate };
+  return { mutate, isLoading };
 };
 
 interface usePostMyProfileParams {
@@ -108,7 +108,7 @@ export const usePostMyProfile = ({
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const { mutate } = useMutation(
+  const { mutate, isLoading } = useMutation(
     ({ myInfo, nickName, files }: usePostMyProfileMutationParams) =>
       postUserInfoEdit({ myInfo, nickName, files }),
     {
@@ -121,7 +121,7 @@ export const usePostMyProfile = ({
       useErrorBoundary: false,
     }
   );
-  return { mutate };
+  return { mutate, isLoading };
 };
 
 export const useGetMyAllChallengesStatistics = () => {
