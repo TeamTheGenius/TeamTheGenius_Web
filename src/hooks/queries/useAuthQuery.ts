@@ -21,7 +21,7 @@ export const usePostAuthLogout = () => {
 
 export const usePostAuth = () => {
   const navigate = useNavigate();
-  const { mutate } = useMutation(postJWTApi, {
+  const { mutate, isLoading } = useMutation(postJWTApi, {
     onSuccess: (data) => {
       if (data.frameId) {
         localStorage.setItem(FRAMEID, encrypt(data.frameId));
@@ -41,7 +41,7 @@ export const usePostAuth = () => {
     },
     useErrorBoundary: false,
   });
-  return { mutate };
+  return { mutate, isLoading };
 };
 
 export const useOnlyAdminPermit = () => {

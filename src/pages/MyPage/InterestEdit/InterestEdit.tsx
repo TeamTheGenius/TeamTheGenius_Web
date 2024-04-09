@@ -85,7 +85,7 @@ const InterestEdit = () => {
             success="관심사 수정에 성공했습니다"
             fail="관심사 수정에 실패했습니다"
             buttonText="확인하기"
-            editHandle={() => {
+            modalHandle={() => {
               closeModal();
             }}
           />

@@ -1,38 +1,22 @@
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
+import { ModalLayer } from "@/components/Common/Modal/Modal";
 import MyChallengeLabel from "@/components/Main/MyChallenge/MyChallengeLabel/MyChallengeLabel";
 import MyChallengeLinkWrap from "@/components/Main/MyChallenge/MyChallengeLinkWrap/MyChallengeLinkWrap";
 import GetRewardModal from "@/components/Main/MyChallenge/MyChallengeModal/GetRewardModal/GetRewardModal";
-import GetRewardTwiceModal from "@/components/Main/MyChallenge/MyChallengeModal/GetRewardTwiceModal/GetRewardTwiceModal";
+import AskGetRewardTwiceModal from "@/components/Main/MyChallenge/MyChallengeModal/AskGetRewardTwiceModal/AskGetRewardTwiceModal";
 import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyChallengeTitle";
 import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyChallengeWrap";
-import {
-  useGetChallengeSuccessReward,
-  useGetMyDoneChallenges,
-} from "@/hooks/queries/useMyChallengeQuery";
+import { useGetMyDoneChallenges } from "@/hooks/queries/useMyChallengeQuery";
+import useModal from "@/hooks/useModal";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
-import { useOutletContext } from "react-router-dom";
-
-interface Props {
-  setModal: React.Dispatch<React.SetStateAction<React.ReactNode>>;
-  closeModal: () => void;
-  openModal: () => void;
-}
+import React, { useState } from "react";
+import { createPortal } from "react-dom";
 
 const MyChallengeComplete = () => {
-  const { setModal, closeModal, openModal } = useOutletContext<Props>();
+  const { isModalOpened, closeModal, openModal } = useModal();
+  const [modal, setModal] = useState<React.ReactNode>();
 
   const { data } = useGetMyDoneChallenges();
-
-  const onSuccessGetChallengeSuccessReward = (pointPerPerson: number) => {
-    setModal(
-      <GetRewardModal closeModal={closeModal} pointPerPerson={pointPerPerson} />
-    );
-    openModal();
-  };
-  const { mutate: GetChallengeSuccessRewardMutate } =
-    useGetChallengeSuccessReward({
-      onSuccess: onSuccessGetChallengeSuccessReward,
-    });
 
   if (!data) {
     return;
@@ -43,7 +27,14 @@ const MyChallengeComplete = () => {
     instanceId: number
   ) => {
     e.stopPropagation();
-    GetChallengeSuccessRewardMutate({ instanceId });
+    setModal(
+      <GetRewardModal
+        setModal={setModal}
+        instanceId={instanceId}
+        closeModal={closeModal}
+      />
+    );
+    openModal();
   };
   const onClickGetRewardTwiceButton = (
     e: React.MouseEvent,
@@ -53,10 +44,11 @@ const MyChallengeComplete = () => {
   ) => {
     e.stopPropagation();
     setModal(
-      <GetRewardTwiceModal
+      <AskGetRewardTwiceModal
         numOfPointItem={numOfPointItem}
         instanceId={instanceId}
         closeModal={closeModal}
+        setModal={setModal}
         itemId={itemId}
       />
     );
@@ -64,6 +56,12 @@ const MyChallengeComplete = () => {
   };
   return (
     <>
+      {isModalOpened &&
+        createPortal(
+          <ModalLayer onClick={closeModal}>{modal}</ModalLayer>,
+          document.body
+        )}
+
       <MyChallengeWrap>
         {data.map((item, index) => {
           return (

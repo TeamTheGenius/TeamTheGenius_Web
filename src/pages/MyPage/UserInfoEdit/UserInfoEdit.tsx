@@ -73,12 +73,10 @@ const UserInfoEdit = () => {
   };
   const editHandle = () => {
     setIsLoading(true);
-    console.log("si", signUpBoolean);
     const valueMyInfo = formik.values.myInfo;
 
     const finalNickName = nickName || data?.nickname;
     const finalMyinfo = valueMyInfo || data?.information;
-    console.log(finalNickName);
 
     if (finalNickName && signUpBoolean) {
       if (/[^ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-Z0-9]/.test(finalNickName)) {

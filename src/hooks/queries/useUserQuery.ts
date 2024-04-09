@@ -16,12 +16,11 @@ interface PostSignUpMutateType {
   files: string;
 }
 interface PostSignUpType {
-  onSuccess: () => void;
   onError: () => void;
 }
-export const usePostSignUp = ({ onSuccess, onError }: PostSignUpType) => {
+export const usePostSignUp = ({ onError }: PostSignUpType) => {
   const navigate = useNavigate();
-  const { mutate } = useMutation(
+  const { mutate, isLoading } = useMutation(
     ({
       identifier,
       nickname,
@@ -35,7 +34,6 @@ export const usePostSignUp = ({ onSuccess, onError }: PostSignUpType) => {
         const identifier = res.data.data.identifier;
         localStorage.setItem(IDENTIFIER, encrypt(identifier));
         navigate(PATH.AUTH);
-        onSuccess();
       },
       onError: () => {
         navigate(PATH.LOGIN);
@@ -44,7 +42,7 @@ export const usePostSignUp = ({ onSuccess, onError }: PostSignUpType) => {
       useErrorBoundary: false,
     }
   );
-  return { mutate };
+  return { mutate, isLoading };
 };
 
 interface GetCheckNinkNameMutateType {

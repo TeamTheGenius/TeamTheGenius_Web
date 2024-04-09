@@ -1,3 +1,4 @@
+import Loading from "@/components/Common/Loading/Loading";
 import { IDENTIFIER } from "@/constants/localStorageKey";
 import { usePostAuth } from "@/hooks/queries/useAuthQuery";
 import { encrypt } from "@/hooks/useCrypto";
@@ -10,7 +11,7 @@ const Auth = () => {
   const params = new URLSearchParams(search);
   const gitName = params.get("identifier");
   const identifier = localStorage.getItem(IDENTIFIER);
-  const { mutate } = usePostAuth();
+  const { mutate, isLoading } = usePostAuth();
 
   const auth = async () => {
     if (identifier) {
@@ -25,7 +26,9 @@ const Auth = () => {
     auth();
   }, []);
 
-  return <div></div>;
+  if (isLoading) {
+    return <Loading />;
+  }
 };
 
 export default Auth;

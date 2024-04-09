@@ -3,16 +3,17 @@ import { Modal } from "@/components/Common/Modal/Modal";
 
 interface Props {
   closeModal: () => void;
+  content: string;
 }
-function CertificationFailModal({ closeModal }: Props) {
+function GetRewardResultModal({ closeModal, content }: Props) {
   const onClickButton = () => {
     closeModal();
   };
 
   return (
     <Modal.ModalContentBox width="w-[35.5rem]" height="h-[32.3rem]">
-      <div className="flex flex-col gap-[1.4rem] justify-center items-center">
-        <Modal.ModalContent content={`인증 갱신에 실패하셨습니다.`} />
+      <div className="flex flex-col gap-[7.4rem] justify-center items-center">
+        <Modal.ModalContent content={content} />
         <Button
           content="확인"
           width="w-[16.4rem]"
@@ -28,4 +29,4 @@ function CertificationFailModal({ closeModal }: Props) {
   );
 }
 
-export default CertificationFailModal;
+export default GetRewardResultModal;

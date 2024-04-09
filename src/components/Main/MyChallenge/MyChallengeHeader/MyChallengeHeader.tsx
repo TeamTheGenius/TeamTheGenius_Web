@@ -4,7 +4,7 @@ import { PATH } from "@/constants/path";
 import MainHeader from "@/components/Common/MainHeader/MainHeader";
 
 const MyChallengeHeader = () => {
-  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [activeIndex, setActiveIndex] = useState<number>(1);
   const location = useLocation();
 
   const handleNavLink = (index: number) => {

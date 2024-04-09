@@ -5,18 +5,14 @@ import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyC
 import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyChallengeWrap";
 import successStamp from "@/assets/icon/success-stamp.svg";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
-import { useQueryClient } from "react-query";
 import MyChallengePassItem from "@/components/Main/MyChallenge/MyChallengePass/MyChallengePassItem";
 import useModal from "@/hooks/useModal";
 import { useState } from "react";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
-import { getToday } from "@/utils/getToday";
 import CertificationPassModal from "@/components/Main/MyChallenge/MyChallengeModal/CertificationPassModal/CertificationPassModal";
-import CertificationFailModal from "@/components/Certification/CertificationModal/CertificationFailModal/CertificationFailModal";
-import { QUERY_KEY } from "@/constants/queryKey";
-import { usePostTodayCertification } from "@/hooks/queries/useCertificationQuery";
-import { CertificationDataType } from "@/types/certificationType";
 import { useGetMyActivityChallenges } from "@/hooks/queries/useMyChallengeQuery";
+import { createPortal } from "react-dom";
+import CertificationModal from "@/components/Main/MyChallenge/MyChallengeModal/CertificationModal/CertificationModal";
 
 interface PassItemModal {
   e: React.MouseEvent;
@@ -27,22 +23,9 @@ interface PassItemModal {
 
 const MyChallengeProgress = () => {
   const { isModalOpened, openModal, closeModal } = useModal();
-  const queryClient = useQueryClient();
   const [modal, setModal] = useState<React.ReactNode>();
 
   const { data } = useGetMyActivityChallenges();
-  const onSuccessPostTodayCertification = (res: CertificationDataType) => {
-    if (res.certificateStatus === "NOT_YET") {
-      setModal(<CertificationFailModal closeModal={closeModal} />);
-      openModal();
-    } else {
-      queryClient.invalidateQueries(QUERY_KEY.MY_ACTIVITY_CHALLENGES);
-    }
-  };
-  const { mutate: postTodayCertificationMutate } = usePostTodayCertification({
-    onSuccess: onSuccessPostTodayCertification,
-  });
-
   if (!data) {
     return;
   }
@@ -70,17 +53,24 @@ const MyChallengeProgress = () => {
     instanceId: number
   ) => {
     e.stopPropagation();
-    postTodayCertificationMutate({
-      instanceId: instanceId,
-      targetDate: getToday(),
-    });
+    setModal(
+      <CertificationModal
+        instanceId={instanceId}
+        closeModal={closeModal}
+        setModal={setModal}
+      />
+    );
+    openModal();
   };
 
   return (
     <>
-      {modal && isModalOpened && (
-        <ModalLayer onClick={closeModal}>{modal}</ModalLayer>
-      )}
+      {modal &&
+        isModalOpened &&
+        createPortal(
+          <ModalLayer onClick={closeModal}>{modal}</ModalLayer>,
+          document.body
+        )}
 
       <MyChallengeWrap>
         {data.map((item, index) => {

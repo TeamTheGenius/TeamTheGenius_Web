@@ -1,21 +1,32 @@
 import pointBigIcon from "@/assets/icon/point-big-icon.svg";
+import {
+  usePostFrameItemEquiptment,
+  usePostFrameItemUnEquiptment,
+} from "@/hooks/queries/useItemQuery";
 import { shopFrameListType } from "@/types/shopType";
-function ShopFrameButton({
-  item,
-  mountFrameHandle,
-  unMountFrameHandle,
-}: {
-  item: shopFrameListType;
-  mountFrameHandle: (itemId: number | undefined) => void;
-  unMountFrameHandle: (itemId: number | undefined) => void;
-}) {
+function ShopFrameButton({ item }: { item: shopFrameListType }) {
+  const {
+    mutate: postFrameItemUnEquipment,
+    mutateAsync: postFrameItemUnEquipmentAsync,
+  } = usePostFrameItemUnEquiptment();
+  const { mutate: postFrameItemEquiptment } = usePostFrameItemEquiptment();
+
+  const mountFrameHandle = async (itemId: number | undefined) => {
+    if (!itemId) return null;
+    await postFrameItemUnEquipmentAsync();
+    postFrameItemEquiptment(itemId);
+  };
+  const unMountFrameHandle = () => {
+    postFrameItemUnEquipment();
+  };
+
   return (
     <div className="flex justify-center items-center">
       {item.equipStatus === "장착 중" && (
         <button
           className="bg-white border-2 border-[#ff4356] rounded-[1rem]"
           onClick={() => {
-            unMountFrameHandle(item.itemId);
+            unMountFrameHandle();
           }}
         >
           <span className="mx-[0.8rem] my-[0.4rem] font-bold text-[#ff4356] text-[1.2rem]">

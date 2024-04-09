@@ -7,7 +7,7 @@ function Loading() {
     <MobCard>
       <div className="bg-white w-auto h-full z-9999">
         <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
-          <img src={loading} alt="loading" className="loading" />
+          <img src={loading} alt="loading" className="loading" width={"50px"} />
         </div>
       </div>
     </MobCard>

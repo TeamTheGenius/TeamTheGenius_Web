@@ -4,48 +4,28 @@ import { shopFrameListType, shopTicketListType } from "@/types/shopType";
 import { cls } from "@/utils/mergeTailwind";
 import ShopCompletedModal from "@/components/Shop/ShopModal/ShopCompletedModal/ShopCompletedModal";
 import ShopTicketCount from "@/components/Shop/ShopTicketList/ShopTicketItem/ShopTicketCount/ShopTicketCount";
-import Loading from "@/components/Common/Loading/Loading";
 import { usePostItemBuy } from "@/hooks/queries/useItemQuery";
+import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 
 type ShopBuyModalType = {
   closeModal: () => void;
   setModal: React.Dispatch<React.SetStateAction<React.ReactNode>>;
-  setLoadingState: React.Dispatch<React.SetStateAction<boolean>>;
-  loadingState: boolean;
   item?: shopFrameListType | shopTicketListType;
-  queryClient: any;
-  mountFrameHandle: (itemId: number | undefined) => void;
 };
 
-function ShopBuyModal({
-  item,
-  queryClient,
-  setLoadingState,
-  loadingState,
-  setModal,
-  closeModal,
-  mountFrameHandle,
-}: ShopBuyModalType) {
+function ShopBuyModal({ item, setModal, closeModal }: ShopBuyModalType) {
   const onSuccessPostItemBuy = () => {
     completeModal();
-    setLoadingState(false);
   };
   const onErrorPostItemBuy = (errMessage: string) => {
-    setLoadingState(false);
-    setModal(
-      <ShopCompletedModal
-        loadingState={loadingState}
-        mountFrameHandle={mountFrameHandle}
-        err={errMessage}
-        queryClient={queryClient}
-        closeModal={closeModal}
-      />
-    );
+    setModal(<ShopCompletedModal err={errMessage} closeModal={closeModal} />);
   };
-  const { mutate: postItemBuy } = usePostItemBuy({
-    onSuccess: onSuccessPostItemBuy,
-    onError: onErrorPostItemBuy,
-  });
+  const { mutate: postItemBuy, isLoading: postItemBuyLoading } = usePostItemBuy(
+    {
+      onSuccess: onSuccessPostItemBuy,
+      onError: onErrorPostItemBuy,
+    }
+  );
 
   const isValidCategory = ["CERTIFICATION_PASSER", "POINT_MULTIPLIER"].includes(
     item?.itemCategory || ""
@@ -53,17 +33,13 @@ function ShopBuyModal({
   const completeModal = () => {
     setModal(
       <ShopCompletedModal
-        loadingState={loadingState}
-        mountFrameHandle={mountFrameHandle}
         item={item}
         isValidCategory={isValidCategory}
-        queryClient={queryClient}
         closeModal={closeModal}
       />
     );
   };
   const buyHandle = () => {
-    setLoadingState(true);
     if (item) {
       postItemBuy(item.itemId);
     }
@@ -72,6 +48,7 @@ function ShopBuyModal({
   const onClickModalBox = (e: React.MouseEvent) => {
     e.stopPropagation();
   };
+
   return (
     <div
       onClick={onClickModalBox}
@@ -80,8 +57,8 @@ function ShopBuyModal({
         isValidCategory ? "h-[46.1rem]" : "h-[36rem]"
       )}
     >
-      {loadingState ? (
-        <Loading />
+      {postItemBuyLoading ? (
+        <LoadingBox />
       ) : (
         <>
           {isValidCategory && (

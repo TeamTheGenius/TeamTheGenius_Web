@@ -18,22 +18,20 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 
 export const useGetMyProfile = () => {
-  const { data } = useQuery<MyProfileDataType>({
+  const { data, isLoading } = useQuery<MyProfileDataType>({
     queryKey: [QUERY_KEY.MY_PROFILE],
     queryFn: () => getMyPageProfile(),
     suspense: true,
   });
 
-  return { data };
+  return { data, isLoading };
 };
 
-export const useGetUserProfile = (decryptedUserId: string) => {
+export const useGetUserProfile = (decryptedUserId: number) => {
   const { data } = useQuery<UserDataType>({
     queryKey: [QUERY_KEY.CERTIFICATION_USER_PROFILE, { decryptedUserId }],
-    queryFn: () =>
-      decryptedUserId
-        ? postUserProfile({ userId: parseInt(decryptedUserId) })
-        : Promise.resolve(null),
+    queryFn: () => postUserProfile({ userId: decryptedUserId }),
+    suspense: true,
   });
 
   return { data };
@@ -79,7 +77,7 @@ export const usePostMyProfileInterestTag = ({
   onSuccess,
   onError,
 }: usePostMyProfileInterestTagParams) => {
-  const { mutate } = useMutation(
+  const { mutate, isLoading } = useMutation(
     (checkedValues: CheckboxValueType[]) =>
       postInterestEditApi({ interestEditData: checkedValues }),
     {
@@ -89,7 +87,7 @@ export const usePostMyProfileInterestTag = ({
     }
   );
 
-  return { mutate };
+  return { mutate, isLoading };
 };
 
 interface usePostMyProfileParams {
@@ -110,7 +108,7 @@ export const usePostMyProfile = ({
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const { mutate } = useMutation(
+  const { mutate, isLoading } = useMutation(
     ({ myInfo, nickName, files }: usePostMyProfileMutationParams) =>
       postUserInfoEdit({ myInfo, nickName, files }),
     {
@@ -123,7 +121,7 @@ export const usePostMyProfile = ({
       useErrorBoundary: false,
     }
   );
-  return { mutate };
+  return { mutate, isLoading };
 };
 
 export const useGetMyAllChallengesStatistics = () => {

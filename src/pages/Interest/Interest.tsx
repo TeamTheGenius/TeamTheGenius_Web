@@ -20,23 +20,18 @@ type Interest = {
 };
 
 const Interest = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const [checkedValues, setCheckedValues] = useState<CheckboxValueType[]>([]);
   const location = useLocation();
   const locationState = location.state;
   const InterestValue: Interest[] = interestsData;
 
-  const onSuccessPostSignUp = () => {
-    setIsLoading(false);
-  };
   const onErrorPostSignUp = () => {
-    setIsLoading(false);
     alert("오류가 발생했습니다.");
   };
-  const { mutate: postSignUpMutate } = usePostSignUp({
-    onSuccess: onSuccessPostSignUp,
-    onError: onErrorPostSignUp,
-  });
+  const { mutate: postSignUpMutate, isLoading: postSignUpLoading } =
+    usePostSignUp({
+      onError: onErrorPostSignUp,
+    });
 
   const getRandomProfileImage = () => {
     const imagePaths = [
@@ -52,7 +47,6 @@ const Interest = () => {
   };
 
   const handleSignUp = () => {
-    setIsLoading(true);
     postSignUpMutate({
       identifier: locationState.gitNickName,
       nickname: locationState.nickName,
@@ -62,7 +56,7 @@ const Interest = () => {
     });
   };
 
-  if (isLoading) {
+  if (postSignUpLoading) {
     return <Loading />;
   }
   return (
