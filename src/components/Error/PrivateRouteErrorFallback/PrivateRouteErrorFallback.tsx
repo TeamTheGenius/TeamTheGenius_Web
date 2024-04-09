@@ -1,22 +1,10 @@
 import { PATH } from "@/constants/path";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FallbackProps } from "react-error-boundary";
-import { useEffect, useRef } from "react";
 import Error from "@/pages/Error/Error";
 
-const PrivateRouteErrorFallback = ({
-  error,
-  resetErrorBoundary,
-}: FallbackProps) => {
-  const location = useLocation();
-  const errorLocation = useRef(location.pathname);
+const PrivateRouteErrorFallback = ({ error }: FallbackProps) => {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (location.pathname !== errorLocation.current) {
-      resetErrorBoundary();
-    }
-  }, [location.pathname, resetErrorBoundary]);
 
   const onClickGoToLogIn = () => {
     navigate(PATH.LOGIN);

@@ -59,7 +59,7 @@ export const useDeleteChallengeJoin = ({
   onSuccess,
 }: DeleteChallengeJoinType) => {
   const queryClient = useQueryClient();
-  const { mutate } = useMutation(
+  const { mutate, isLoading } = useMutation(
     ({ instanceId }: DeleteChallengeJoinMutateType) =>
       deleteChallengeParticipation({ instanceId }),
     {
@@ -69,5 +69,5 @@ export const useDeleteChallengeJoin = ({
       },
     }
   );
-  return { mutate };
+  return { mutate, isLoading };
 };
