@@ -41,22 +41,27 @@ interface GetChallengeSuccessRewardMutateType {
   instanceId: number;
 }
 interface GetChallengeSuccessRewardType {
-  onSuccess: (pointPerPerson: number) => void;
+  onSuccess: (res: MyChallengeDoneDataType) => void;
+  onError: () => void;
 }
 
 export const useGetChallengeSuccessReward = ({
   onSuccess,
+  onError,
 }: GetChallengeSuccessRewardType) => {
   const queryClient = useQueryClient();
-  const { mutate } = useMutation(
+  const { mutate, isLoading } = useMutation(
     ({ instanceId }: GetChallengeSuccessRewardMutateType) =>
       getMyChallengeDoneReward({ instanceId }),
     {
       onSuccess: (res: MyChallengeDoneDataType) => {
         queryClient.invalidateQueries(QUERY_KEY.MY_DONE_CHALLENGES);
-        onSuccess(res.pointPerPerson);
+        onSuccess(res);
+      },
+      onError: () => {
+        onError();
       },
     }
   );
-  return { mutate };
+  return { mutate, isLoading };
 };

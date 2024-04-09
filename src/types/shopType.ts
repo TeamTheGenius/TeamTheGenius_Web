@@ -29,5 +29,4 @@ export type shopFrameSliceType = {
 };
 export type shopFrameType = {
   item: shopFrameListType;
-  buyItem: (itemId: shopFrameListType | undefined) => void;
 };

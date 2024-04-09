@@ -1,22 +1,15 @@
 import SubHeader from "@/components/Shop/SubHeader/SubHeader";
 import React, { useEffect, useMemo, useState } from "react";
 import ShopTicketItem from "./ShopTicketItem/ShopTicketItem";
-import { shopFrameListType, shopTicketListType } from "@/types/shopType";
+import { shopTicketListType } from "@/types/shopType";
 import {
   useGetPassItems,
   useGetPointTwiceItems,
 } from "@/hooks/queries/useItemQuery";
 import pointTwiceItem from "@/assets/image/pass_0.svg";
 import passItem from "@/assets/image/pass_1.svg";
-import useModal from "@/hooks/useModal";
-import ShopBuyModal from "../ShopModal/ShopBuyModal/ShopBuyModal";
-import { ModalLayer } from "@/components/Common/Modal/Modal";
-import { createPortal } from "react-dom";
 
 const ShopTicketList = () => {
-  const [modal, setModal] = useState<React.ReactNode>();
-  const { openModal, closeModal, isModalOpened } = useModal();
-
   const { data: passItemData } = useGetPassItems();
   const { data: pointTwiceItemData } = useGetPointTwiceItems();
   const [ticketDataState, setTicketDataState] =
@@ -48,20 +41,8 @@ const ShopTicketList = () => {
     }
   }, [passItemData, pointTwiceItemData]);
 
-  const buyItem = (item: shopFrameListType | undefined) => {
-    setModal(
-      <ShopBuyModal closeModal={closeModal} setModal={setModal} item={item} />
-    );
-    openModal();
-  };
-
   return (
     <>
-      {isModalOpened &&
-        createPortal(
-          <ModalLayer onClick={closeModal}>{modal}</ModalLayer>,
-          document.body
-        )}
       <SubHeader content="아이템" />
       <div className="flex flex-wrap w-full">
         <>
@@ -69,7 +50,7 @@ const ShopTicketList = () => {
             {ticketDataState?.map((item: shopTicketListType) => {
               return (
                 <React.Fragment key={item.itemId}>
-                  <ShopTicketItem item={item} buyItem={buyItem} />
+                  <ShopTicketItem item={item} />
                 </React.Fragment>
               );
             })}

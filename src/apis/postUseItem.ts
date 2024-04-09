@@ -7,16 +7,19 @@ interface Params {
 }
 
 const postUseItem = async ({ instanceId, itemId }: Params) => {
-  return instance
+  const data = await instance
     .post(`${requests.fetchItemUse}/${itemId}`, " ", {
       params: {
         instanceId,
       },
     })
-    .then(() => {})
+    .then((res) => {
+      return res.data.data;
+    })
     .catch((err) => {
       throw err;
     });
+  return data;
 };
 
 export default postUseItem;

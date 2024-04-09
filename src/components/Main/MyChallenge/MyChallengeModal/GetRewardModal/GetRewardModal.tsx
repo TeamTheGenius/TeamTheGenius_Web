@@ -1,32 +1,50 @@
-import Button from "@/components/Common/Button";
 import { Modal } from "@/components/Common/Modal/Modal";
+import { useEffect } from "react";
+import GetRewardResultModal from "../GetRewardResultModal/GetRewardResultModal";
+import { useGetChallengeSuccessReward } from "@/hooks/queries/useMyChallengeQuery";
+import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
+import { MyChallengeDoneDataType } from "@/types/myChallengeType";
 
 interface RewardModalProps {
+  setModal: React.Dispatch<React.SetStateAction<React.ReactNode>>;
   closeModal: () => void;
-  pointPerPerson: number;
+  instanceId: number;
 }
 
-function GetRewardModal({ closeModal, pointPerPerson }: RewardModalProps) {
-  const onClick = async () => {
-    closeModal();
+function GetRewardModal({
+  closeModal,
+  setModal,
+  instanceId,
+}: RewardModalProps) {
+  const onSuccessGetChallengeSuccessReward = (res: MyChallengeDoneDataType) => {
+    setModal(
+      <GetRewardResultModal
+        closeModal={closeModal}
+        content={`챌린지 완료!\n${res.rewardedPoints}P를 획득하셨습니다.`}
+      />
+    );
   };
+  const onErrorGetChallengeSuccessReward = () => {
+    <GetRewardResultModal
+      closeModal={closeModal}
+      content={`보상 획득에 실패하였습니다.`}
+    />;
+  };
+  const {
+    mutate: getChallengeSuccessRewardMutate,
+    isLoading: getChallengeSucessRewardLoading,
+  } = useGetChallengeSuccessReward({
+    onSuccess: onSuccessGetChallengeSuccessReward,
+    onError: onErrorGetChallengeSuccessReward,
+  });
+
+  useEffect(() => {
+    getChallengeSuccessRewardMutate({ instanceId });
+  }, []);
+
   return (
     <Modal.ModalContentBox width="w-[35.5rem]" height="h-[32.3rem]">
-      <div className="flex flex-col gap-[7.4rem] justify-center items-center">
-        <Modal.ModalContent
-          content={`챌린지 완료!\n${pointPerPerson}P를 획득하셨습니다.`}
-        />
-        <Button
-          content="확인"
-          width="w-[16.4rem]"
-          height="h-[5rem]"
-          backgroundColor="bg-white border-2 border-_coral-70"
-          textSize="text-[1.5rem]"
-          fontWeight="font-[500]"
-          textColor="text-_coral-70"
-          handleClick={onClick}
-        />
-      </div>
+      {getChallengeSucessRewardLoading && <LoadingBox />}
     </Modal.ModalContentBox>
   );
 }

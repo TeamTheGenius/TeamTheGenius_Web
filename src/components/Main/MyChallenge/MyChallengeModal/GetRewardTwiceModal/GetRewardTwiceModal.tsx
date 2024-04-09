@@ -1,71 +1,54 @@
-import Button from "@/components/Common/Button";
+import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import { Modal } from "@/components/Common/Modal/Modal";
 import { usePostPointTwiceItemUse } from "@/hooks/queries/useItemQuery";
-import { useGetChallengeSuccessReward } from "@/hooks/queries/useMyChallengeQuery";
+import React, { useEffect } from "react";
+import GetRewardResultModal from "../GetRewardResultModal/GetRewardResultModal";
+import { MyChallengeDoneDataType } from "@/types/myChallengeType";
 
-interface TwiceRewardModalProps {
-  closeModal: () => void;
+interface Props {
+  setModal: React.Dispatch<React.SetStateAction<React.ReactNode>>;
   instanceId: number;
-  numOfPointItem: number;
+  closeModal: () => void;
   itemId: number;
 }
 
 function GetRewardTwiceModal({
-  closeModal,
+  setModal,
   instanceId,
-  numOfPointItem,
-
   itemId,
-}: TwiceRewardModalProps) {
-  const onSuccessPostItemUse = () => {
-    closeModal();
+  closeModal,
+}: Props) {
+  const onSuccessPostItemUse = (res: MyChallengeDoneDataType) => {
+    setModal(
+      <GetRewardResultModal
+        closeModal={closeModal}
+        content={`챌린지 완료!\n${res.rewardedPoints}P를 획득하셨습니다.`}
+      />
+    );
   };
-  const { mutate: pointTwiceItemUse } = usePostPointTwiceItemUse({
+
+  const onErrorPostItemUse = () => {
+    <GetRewardResultModal
+      closeModal={closeModal}
+      content={`두배 보상 아이템 사용에 실패하셨습니다.`}
+    />;
+  };
+
+  const {
+    mutate: pointTwiceItemUseMutate,
+    isLoading: pointTwiceItemUseLoading,
+  } = usePostPointTwiceItemUse({
     onSuccess: onSuccessPostItemUse,
+    onError: onErrorPostItemUse,
   });
 
-  const onSuccessGetChallengeSuccessReward = () => {
-    closeModal();
-  };
-  const { mutate: getChallengeSuccessRewardMutate } =
-    useGetChallengeSuccessReward({
-      onSuccess: onSuccessGetChallengeSuccessReward,
-    });
-
-  const onClickUse = async () => {
-    pointTwiceItemUse({ instanceId, itemId });
-  };
-
-  const onClickNotUse = () => {
-    getChallengeSuccessRewardMutate({ instanceId });
-  };
+  useEffect(() => {
+    pointTwiceItemUseMutate({ instanceId, itemId });
+  }, []);
 
   return (
     <Modal.ModalContentBox width="w-[35.5rem]" height="h-[32.3rem]">
-      <div className="flex flex-col  items-center">
-        <Modal.ModalContent
-          content={"포인트 2배 획득 아이템을\n사용하시겠어요?"}
-        />
-        <p className="text-center font-[500] text-[1.6rem]">
-          (현재 {numOfPointItem}개 보유중)
-        </p>
-        <button
-          onClick={onClickNotUse}
-          className="underline text-[#777] text-[1.3rem] font-medium mt-[3.6rem] mb-[1.6rem]"
-        >
-          사용하지 않습니다.
-        </button>
-        <Button
-          content="사용하기"
-          width="w-[16.4rem]"
-          height="h-[5rem]"
-          backgroundColor="bg-white border-2 border-_coral-70"
-          textSize="text-[1.5rem]"
-          fontWeight="font-[500]"
-          textColor="text-_coral-70"
-          handleClick={onClickUse}
-        />
-      </div>
+      {pointTwiceItemUseLoading && <LoadingBox />}
     </Modal.ModalContentBox>
   );
 }

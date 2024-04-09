@@ -26,7 +26,7 @@ interface PostTodayCertificationType {
 export const usePostTodayCertification = ({
   onSuccess,
 }: PostTodayCertificationType) => {
-  const { mutate } = useMutation(
+  const { mutate, isLoading } = useMutation(
     ({ instanceId, targetDate }: PostTodayCertificationMutateType) =>
       postTodayCertification({ instanceId, targetDate }),
     {
@@ -35,7 +35,7 @@ export const usePostTodayCertification = ({
       },
     }
   );
-  return { mutate };
+  return { mutate, isLoading };
 };
 
 interface GetCertificationInstanceDetailType {
