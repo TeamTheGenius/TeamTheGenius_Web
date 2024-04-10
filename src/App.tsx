@@ -1,11 +1,13 @@
 import "./index.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { PATH } from "./constants/path";
-import { QueryClient, QueryClientProvider } from "react-query";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQueryErrorResetBoundary,
+} from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-
 import LogIn from "./pages/LogIn/LogIn";
-
 import Interest from "./pages/Interest/Interest";
 import Main from "./pages/Main/Main";
 import AdminTopic from "./pages/Admin/AdminTopic/AdminTopic";
@@ -52,6 +54,7 @@ import { Suspense } from "react";
 import Loading from "./components/Common/Loading/Loading";
 
 function App() {
+  const { reset } = useQueryErrorResetBoundary();
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -68,6 +71,7 @@ function App() {
         fallback={
           <Error errorTxt="데이터 불러오기에 실패했어요." buttonExist={false} />
         }
+        onReset={reset}
       >
         <Suspense fallback={<Loading />}>
           <Router>

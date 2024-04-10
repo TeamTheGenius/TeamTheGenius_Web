@@ -3,20 +3,26 @@ import { PATH } from "@/constants/path";
 import { Navigate, Outlet } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
 import PrivateRouteErrorFallback from "@/components/Error/PrivateRouteErrorFallback/PrivateRouteErrorFallback";
-import { QueryErrorResetBoundary } from "react-query";
+import {
+  QueryErrorResetBoundary,
+  useQueryErrorResetBoundary,
+} from "react-query";
 
 function PrivateRoute() {
+  const { reset } = useQueryErrorResetBoundary();
+  const handleReset = () => {
+    reset();
+  };
+
   const isLogin = !!localStorage.getItem(IDENTIFIER);
   return isLogin ? (
     <QueryErrorResetBoundary>
-      {({ reset }) => (
-        <ErrorBoundary
-          FallbackComponent={PrivateRouteErrorFallback}
-          onReset={reset}
-        >
-          <Outlet />
-        </ErrorBoundary>
-      )}
+      <ErrorBoundary
+        FallbackComponent={PrivateRouteErrorFallback}
+        onReset={handleReset}
+      >
+        <Outlet />
+      </ErrorBoundary>
     </QueryErrorResetBoundary>
   ) : (
     <Navigate to={PATH.LOGIN} />

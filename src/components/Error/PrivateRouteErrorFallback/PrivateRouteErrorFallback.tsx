@@ -1,12 +1,27 @@
 import { PATH } from "@/constants/path";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FallbackProps } from "react-error-boundary";
 import Error from "@/pages/Error/Error";
+import { useEffect, useRef } from "react";
+import { useQueryClient } from "react-query";
 
-const PrivateRouteErrorFallback = ({ error }: FallbackProps) => {
+const PrivateRouteErrorFallback = ({
+  error,
+  resetErrorBoundary,
+}: FallbackProps) => {
+  const location = useLocation();
+  const errorLocation = useRef(location.pathname);
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (location.pathname !== errorLocation.current) {
+      resetErrorBoundary();
+    }
+  }, [location.pathname]);
 
   const onClickGoToLogIn = () => {
+    queryClient.removeQueries();
     navigate(PATH.LOGIN);
   };
 
