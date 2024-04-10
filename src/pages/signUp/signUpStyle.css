@@ -1,0 +1,25 @@
+.signUp-placeholder::placeholder {
+  font-family: "Pretendard-Regular", sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: -0.032rem;
+  font-weight: 500;
+}
+.signUp-input {
+  @apply border-b-2 focus:border-black w-full text-[1.5rem] outline-none py-4;
+}
+.signUp-lable {
+  @apply text-[1.7rem] font-medium;
+}
+.required::after {
+  content: "*";
+  color: #6054ff;
+  margin-left: 0.5rem;
+  position: absolute;
+  bottom: 5px;
+}
+.signUp-err {
+  @apply text-[#F64C4C] font-[1.2rem] ml-auto;
+}
+.signUp-check {
+  @apply text-[#4C7CF6] font-[1.2rem] ml-auto;
+}

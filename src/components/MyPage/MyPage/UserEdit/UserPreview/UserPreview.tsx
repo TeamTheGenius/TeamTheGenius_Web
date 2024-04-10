@@ -1,0 +1,49 @@
+import Button from "@/components/Common/Button";
+
+type SignUpInputProps = {
+  label: string;
+  id: string;
+  value?: string;
+  setShow: React.Dispatch<React.SetStateAction<number>>;
+  setNickName?: React.Dispatch<React.SetStateAction<string>>;
+  setMyInfo?: React.Dispatch<React.SetStateAction<string>>;
+};
+
+const UserPreview: React.FC<SignUpInputProps> = ({
+  label,
+  id,
+  value,
+  setShow,
+  setNickName,
+  setMyInfo,
+}) => {
+  const infoChangeHandle = () => {
+    if (value && setNickName) {
+      setNickName(value);
+    }
+    if (value && setMyInfo) {
+      setMyInfo(value);
+    }
+    setShow(1);
+  };
+  return (
+    <li className={`flex flex-col mb-[5rem]`}>
+      <label htmlFor={id} className={`signUp-lable relative`}>
+        {label}
+      </label>
+      <span className="w-full text-[1.5rem] outline-none py-4">{value}</span>
+      <Button
+        width="w-[76px]"
+        height="h-[38px]"
+        content="변경하기"
+        fontWeight="font-medium"
+        backgroundColor="bg-[#6893FF]"
+        textColor="text-white"
+        textSize="text-[1.3rem]"
+        handleClick={infoChangeHandle}
+      />
+    </li>
+  );
+};
+
+export default UserPreview;

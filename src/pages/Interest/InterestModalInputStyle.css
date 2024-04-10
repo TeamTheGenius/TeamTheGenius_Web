@@ -1,0 +1,21 @@
+.interest-placeholder::placeholder {
+  font-family: "Pretendard-Regular", sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: -0.032rem;
+}
+.interest-input {
+  @apply border-b-2 focus:border-black w-full text-_h4 outline-none py-4;
+}
+.interest-lable {
+  @apply text-_h4 font-semibold;
+}
+.required::after {
+  content: "*";
+  color: #6054ff;
+  margin-left: 0.5rem;
+}
+.interest-err {
+  color: #fd3259;
+  font-size: 1.6rem;
+  margin-left: auto;
+}
