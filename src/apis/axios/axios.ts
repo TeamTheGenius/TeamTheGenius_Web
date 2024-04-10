@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8080/api";
+const BASE_URL = "http://43.202.231.124:8080/api";
 
 const instanceConfig = {
   baseURL: BASE_URL,

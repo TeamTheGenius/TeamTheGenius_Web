@@ -21,7 +21,7 @@ const postPaymentSuccess = async ({
   };
 
   await instance
-    .post("http://localhost:8080/api/payment/toss/success", body, {
+    .post("http://43.202.231.124:8080/api/payment/toss/success", body, {
       headers: {
         Authorization: encryptedSecretKey,
       },
