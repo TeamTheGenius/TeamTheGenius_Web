@@ -4,7 +4,7 @@ export default (app) => {
   app.use(
     "/api",
     createProxyMiddleware({
-      target: "http://localhost:8080",
+      target: "http://43.202.231.124:8080",
       changeOrigin: true,
     })
   );
