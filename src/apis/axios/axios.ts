@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://gitget.co.kr/api";
+const BASE_URL = "http://localhost:8080/api";
 
 const instanceConfig = {
   baseURL: BASE_URL,

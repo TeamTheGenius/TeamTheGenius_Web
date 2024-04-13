@@ -59,9 +59,11 @@ function App() {
     defaultOptions: {
       queries: {
         useErrorBoundary: true,
+        retry: 0,
       },
       mutations: {
         useErrorBoundary: true,
+        retry: 0,
       },
     },
   });
