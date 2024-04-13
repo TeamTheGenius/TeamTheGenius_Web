@@ -1,28 +1,21 @@
 import { PATH } from "@/constants/path";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FallbackProps } from "react-error-boundary";
 import Error from "@/pages/Error/Error";
-import { useEffect, useRef } from "react";
-import { useQueryClient } from "react-query";
 
 const PrivateRouteErrorFallback = ({
   error,
   resetErrorBoundary,
 }: FallbackProps) => {
-  const location = useLocation();
-  const errorLocation = useRef(location.pathname);
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
-
-  useEffect(() => {
-    if (location.pathname !== errorLocation.current) {
-      resetErrorBoundary();
-    }
-  }, [location.pathname]);
 
   const onClickGoToLogIn = () => {
-    queryClient.removeQueries();
     navigate(PATH.LOGIN);
+  };
+
+  const onTest = () => {
+    navigate(-1);
+    resetErrorBoundary();
   };
 
   return error?.response?.data?.message === "JWT가 유효하지 않습니다." ? (
@@ -33,6 +26,7 @@ const PrivateRouteErrorFallback = ({
     />
   ) : (
     <Error
+      onClick={onTest}
       errNum={error?.response?.data?.resultCode}
       errorTxt={error?.response?.data?.message}
     />
