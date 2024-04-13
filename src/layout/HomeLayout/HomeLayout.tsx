@@ -10,7 +10,7 @@ function HomeLayout({ children }: Props) {
   return (
     <>
       <div className="max-w-[77.3rem] w-full z-10 bg-white fixed top-0">
-        <div className="my-[1.1rem]">
+        <div className="_sm:my-[1.5rem] my-[1.1rem]">
           <HomeHeader />
         </div>
         <div className="px-[2.2rem]">
