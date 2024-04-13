@@ -9,7 +9,7 @@ function Image({ imgSrc, alt }: Props) {
       <img
         src={imgSrc}
         alt={alt}
-        className="absolute top-0 left-0 w-full h-full object-contain"
+        className="absolute top-0 left-0 w-full h-full object-cover"
       />
     </div>
   );
