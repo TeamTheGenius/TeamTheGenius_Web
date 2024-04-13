@@ -7,7 +7,7 @@ interface ModalProps {
   closeModal: () => void;
 }
 
-export function ShopTestModal({ closeModal, text, buttonText }: ModalProps) {
+export function PaymentsModal({ closeModal, text, buttonText }: ModalProps) {
   return (
     <Modal.ModalContentBox width="w-[35.5rem]" height="h-[32.3rem]">
       <div className="flex flex-col gap-[7.4rem] mt-[9rem] justify-center items-center">
