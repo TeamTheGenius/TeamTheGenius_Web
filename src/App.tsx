@@ -62,7 +62,7 @@ function App() {
         retry: 0,
       },
       mutations: {
-        useErrorBoundary: true,
+        useErrorBoundary: false,
         retry: 0,
       },
     },

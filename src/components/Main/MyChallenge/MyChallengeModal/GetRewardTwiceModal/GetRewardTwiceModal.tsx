@@ -2,8 +2,9 @@ import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import { Modal } from "@/components/Common/Modal/Modal";
 import { usePostPointTwiceItemUse } from "@/hooks/queries/useItemQuery";
 import React, { useEffect } from "react";
-import GetRewardResultModal from "../GetRewardResultModal/GetRewardResultModal";
 import { MyChallengeDoneDataType } from "@/types/myChallengeType";
+import CommonModal from "@/components/Common/CommonModal/CommonModal";
+import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 
 interface Props {
   setModal: React.Dispatch<React.SetStateAction<React.ReactNode>>;
@@ -20,18 +21,18 @@ function GetRewardTwiceModal({
 }: Props) {
   const onSuccessPostItemUse = (res: MyChallengeDoneDataType) => {
     setModal(
-      <GetRewardResultModal
-        closeModal={closeModal}
+      <CommonModal
+        buttonContent="확인"
+        onClick={closeModal}
         content={`챌린지 완료!\n${res.rewardedPoints}P를 획득하셨습니다.`}
       />
     );
   };
 
-  const onErrorPostItemUse = () => {
-    <GetRewardResultModal
-      closeModal={closeModal}
-      content={`두배 보상 아이템 사용에 실패하셨습니다.`}
-    />;
+  const onErrorPostItemUse = (error: any) => {
+    setModal(
+      <CommonMutationErrorModal error={error} closeModal={closeModal} />
+    );
   };
 
   const {

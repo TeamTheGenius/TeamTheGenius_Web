@@ -1,12 +1,12 @@
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import { Modal } from "@/components/Common/Modal/Modal";
-import { QUERY_KEY } from "@/constants/queryKey";
 import { usePostTodayCertification } from "@/hooks/queries/useCertificationQuery";
 import { CertificationDataType } from "@/types/certificationType";
 import { getToday } from "@/utils/getToday";
 import React, { useEffect } from "react";
-import { useQueryClient } from "react-query";
 import CertificationResultModal from "../CertificationResultModal/CertificationResultModal";
+import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
+import CommonModal from "@/components/Common/CommonModal/CommonModal";
 
 interface Props {
   instanceId: number;
@@ -14,14 +14,13 @@ interface Props {
   closeModal: () => void;
 }
 function CertificationModal({ instanceId, setModal, closeModal }: Props) {
-  const queryClient = useQueryClient();
-
   const onSuccessPostTodayCertification = (res: CertificationDataType) => {
     if (res.certificateStatus === "NOT_YET") {
       setModal(
-        <CertificationResultModal
-          content="인증 갱신에 실패하셨습니다."
-          closeModal={closeModal}
+        <CommonModal
+          content={"유효한 Pull Request가 없어서\n인증에 실패하셨습니다."}
+          buttonContent="확인"
+          onClick={closeModal}
         />
       );
     } else {
@@ -31,14 +30,20 @@ function CertificationModal({ instanceId, setModal, closeModal }: Props) {
           closeModal={closeModal}
         />
       );
-      queryClient.invalidateQueries(QUERY_KEY.MY_ACTIVITY_CHALLENGES);
     }
+  };
+
+  const onErrorPostTodayCertification = (error: any) => {
+    setModal(
+      <CommonMutationErrorModal closeModal={closeModal} error={error} />
+    );
   };
   const {
     mutate: postTodayCertificationMutate,
     isLoading: postTodayCertificationLoading,
   } = usePostTodayCertification({
     onSuccess: onSuccessPostTodayCertification,
+    onError: onErrorPostTodayCertification,
   });
 
   useEffect(() => {

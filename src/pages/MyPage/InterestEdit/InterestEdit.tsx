@@ -1,16 +1,17 @@
 import BottomButton from "@/components/Common/BottomButton/BottomButton";
+import CommonModal from "@/components/Common/CommonModal/CommonModal";
 import Header from "@/components/Common/Header/Header";
 import Loading from "@/components/Common/Loading/Loading";
 import MobCard from "@/components/Common/MobCard";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
+import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import InterestHeader from "@/components/Interest/InterestHeader/InterestHeader";
-import { EditModal } from "@/components/MyPage/EditModal/EditModal";
 import InterestCheckEdit from "@/components/MyPage/InterestEdit/InterestCheckEdit/InterestCheckEdit";
 import { interestsData } from "@/data/InterestData";
 import { usePostMyProfileInterestTag } from "@/hooks/queries/useProfileQuery";
 import useModal from "@/hooks/useModal";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
-import { useState } from "react";
+import React, { useState } from "react";
 
 export type Interest = {
   id: number;
@@ -19,32 +20,39 @@ export type Interest = {
 
 const InterestEdit = () => {
   const [checkedValues, setCheckedValues] = useState<CheckboxValueType[]>([]);
-  const [editApiBoolean, setEditApiBoolean] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [modal, setModal] = useState<React.ReactNode>();
   const { isModalOpened, openModal, closeModal } = useModal();
 
   const InterestValue: Interest[] = interestsData;
   const onSuccessPostMyProfileInterestTag = () => {
-    setIsLoading(false);
-    setEditApiBoolean(true);
+    setModal(
+      <CommonModal
+        content="관심사 수정에 성공하였습니다."
+        buttonContent="확인"
+        onClick={closeModal}
+      />
+    );
+    openModal();
   };
-  const onErrorPostMyProfileInterestTag = () => {
-    setIsLoading(false);
-    setEditApiBoolean(false);
+  const onErrorPostMyProfileInterestTag = (error: any) => {
+    setModal(
+      <CommonMutationErrorModal error={error} closeModal={closeModal} />
+    );
+    openModal();
   };
-  const { mutate } = usePostMyProfileInterestTag({
+  const { mutate, isLoading } = usePostMyProfileInterestTag({
     onSuccess: onSuccessPostMyProfileInterestTag,
     onError: onErrorPostMyProfileInterestTag,
   });
 
-  const handleInterestEdit = async () => {
-    setIsLoading(true);
+  const handleInterestEdit = () => {
     mutate(checkedValues);
-    openModal();
   };
 
   return (
     <>
+      {isModalOpened && <ModalLayer onClick={closeModal}>{modal}</ModalLayer>}
+
       <MobCard>
         <Header content="관심사 수정" />
         {isLoading ? (
@@ -76,21 +84,6 @@ const InterestEdit = () => {
           </>
         )}
       </MobCard>
-
-      {isModalOpened && (
-        <ModalLayer onClick={closeModal}>
-          <EditModal
-            isLoading={isLoading}
-            editBoolean={editApiBoolean}
-            success="관심사 수정에 성공했습니다"
-            fail="관심사 수정에 실패했습니다"
-            buttonText="확인하기"
-            modalHandle={() => {
-              closeModal();
-            }}
-          />
-        </ModalLayer>
-      )}
     </>
   );
 };

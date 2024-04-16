@@ -36,7 +36,6 @@ export const usePostSignUp = ({ onError }: PostSignUpType) => {
         navigate(PATH.AUTH);
       },
       onError: () => {
-        navigate(PATH.LOGIN);
         onError();
       },
       useErrorBoundary: false,

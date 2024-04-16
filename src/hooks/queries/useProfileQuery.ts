@@ -70,7 +70,7 @@ export const useGetMyProfileInterestTag = ({
 
 interface usePostMyProfileInterestTagParams {
   onSuccess: () => void;
-  onError: () => void;
+  onError: (error: any) => void;
 }
 
 export const usePostMyProfileInterestTag = ({
@@ -82,8 +82,7 @@ export const usePostMyProfileInterestTag = ({
       postInterestEditApi({ interestEditData: checkedValues }),
     {
       onSuccess: () => onSuccess(),
-      onError: () => onError(),
-      useErrorBoundary: false,
+      onError: (error) => onError(error),
     }
   );
 
@@ -92,7 +91,7 @@ export const usePostMyProfileInterestTag = ({
 
 interface usePostMyProfileParams {
   onSuccess: () => void;
-  onError: () => void;
+  onError: (error: any) => void;
 }
 
 interface usePostMyProfileMutationParams {
@@ -117,8 +116,7 @@ export const usePostMyProfile = ({
         queryClient.invalidateQueries(QUERY_KEY.MY_PROFILE);
         navigate(PATH.MY_PAGE);
       },
-      onError: () => onError(),
-      useErrorBoundary: false,
+      onError: (error) => onError(error),
     }
   );
   return { mutate, isLoading };

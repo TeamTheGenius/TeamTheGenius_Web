@@ -6,7 +6,10 @@ import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { encrypt } from "../useCrypto";
 
-export const usePostAuthLogout = () => {
+interface PostAuthLogoutType {
+  onError: (error: any) => void;
+}
+export const usePostAuthLogout = ({ onError }: PostAuthLogoutType) => {
   const navigate = useNavigate();
 
   const { mutate } = useMutation(postAuthLogout, {
@@ -15,6 +18,7 @@ export const usePostAuthLogout = () => {
       localStorage.removeItem(FRAMEID);
       navigate(PATH.LOGIN);
     },
+    onError: (error) => onError(error),
   });
   return { mutate };
 };

@@ -28,7 +28,11 @@ export const useGetInfiniteLikedChallenges = ({
   return { fetchNextPage, hasNextPage, refetch, isLoading };
 };
 
-export const usePostLikesChallenge = () => {
+interface PostLikesChallengeType {
+  onError: (error: any) => void;
+}
+
+export const usePostLikesChallenge = ({ onError }: PostLikesChallengeType) => {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation(
@@ -37,12 +41,21 @@ export const usePostLikesChallenge = () => {
       onSuccess: () => {
         queryClient.invalidateQueries(QUERY_KEY.CHALLENGE_INSTANCE_DETAIL);
       },
+      onError: (error) => {
+        onError(error);
+      },
     }
   );
   return { mutate };
 };
 
-export const useDeleteLikesChallenge = () => {
+interface DeleteLikesChallengeType {
+  onError: (error: any) => void;
+}
+
+export const useDeleteLikesChallenge = ({
+  onError,
+}: DeleteLikesChallengeType) => {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation(
@@ -51,6 +64,9 @@ export const useDeleteLikesChallenge = () => {
       onSuccess: () => {
         queryClient.invalidateQueries(QUERY_KEY.CHALLENGE_INSTANCE_DETAIL);
         queryClient.invalidateQueries(QUERY_KEY.INFINITE_MY_LIKED_CHALLENGES);
+      },
+      onError: (error) => {
+        onError(error);
       },
     }
   );

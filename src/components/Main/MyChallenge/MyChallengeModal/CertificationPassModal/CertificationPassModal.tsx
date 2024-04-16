@@ -1,6 +1,7 @@
 import Button from "@/components/Common/Button";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import { Modal } from "@/components/Common/Modal/Modal";
+import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import { usePostCertificationPassItemUse } from "@/hooks/queries/useItemQuery";
 
 interface PassItemModalProps {
@@ -8,6 +9,7 @@ interface PassItemModalProps {
   instanceId: number;
   numOfPassItem: number;
   itemId: number;
+  setModal: React.Dispatch<React.SetStateAction<React.ReactNode>>;
 }
 
 function CertificationPassModal({
@@ -15,6 +17,7 @@ function CertificationPassModal({
   instanceId,
   numOfPassItem,
   itemId,
+  setModal,
 }: PassItemModalProps) {
   const onClickNotUse = () => {
     closeModal();
@@ -22,13 +25,19 @@ function CertificationPassModal({
   const onSuccessPostItemUse = () => {
     closeModal();
   };
+  const onErrorPostItemUse = (error: any) => {
+    setModal(
+      <CommonMutationErrorModal error={error} closeModal={closeModal} />
+    );
+  };
   const {
     mutate: certificationPassItemUse,
     isLoading: certificationPassItemUseLoading,
   } = usePostCertificationPassItemUse({
     onSuccess: onSuccessPostItemUse,
+    onError: onErrorPostItemUse,
   });
-  const onClickUsePassItem = async () => {
+  const onClickUsePassItem = () => {
     certificationPassItemUse({ instanceId, itemId });
   };
 

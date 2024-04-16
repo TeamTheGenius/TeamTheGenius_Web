@@ -13,7 +13,12 @@ import {
   TotalCertificationDataType,
   myWeekCertificationDataType,
 } from "@/types/certificationType";
-import { useInfiniteQuery, useMutation, useQuery } from "react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 
 interface PostTodayCertificationMutateType {
   instanceId: number;
@@ -22,16 +27,23 @@ interface PostTodayCertificationMutateType {
 
 interface PostTodayCertificationType {
   onSuccess: (res: CertificationDataType) => void;
+  onError: (error: any) => void;
 }
 export const usePostTodayCertification = ({
   onSuccess,
+  onError,
 }: PostTodayCertificationType) => {
+  const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation(
     ({ instanceId, targetDate }: PostTodayCertificationMutateType) =>
       postTodayCertification({ instanceId, targetDate }),
     {
       onSuccess: (res) => {
+        queryClient.invalidateQueries(QUERY_KEY.MY_ACTIVITY_CHALLENGES);
         onSuccess(res);
+      },
+      onError: (error) => {
+        onError(error);
       },
     }
   );

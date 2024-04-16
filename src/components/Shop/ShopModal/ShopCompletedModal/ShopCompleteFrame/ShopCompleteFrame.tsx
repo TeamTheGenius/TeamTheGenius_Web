@@ -1,4 +1,5 @@
 import Button from "@/components/Common/Button";
+import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import {
   usePostFrameItemEquiptment,
   usePostFrameItemUnEquiptment,
@@ -9,12 +10,34 @@ import { breakLine } from "@/utils/breakLine";
 type ShopCompleteFrameType = {
   closeModal: () => void;
   item?: shopFrameListType;
+  setModal: React.Dispatch<React.SetStateAction<React.ReactNode>>;
 };
 
-function ShopCompleteFrame({ closeModal, item }: ShopCompleteFrameType) {
+function ShopCompleteFrame({
+  closeModal,
+  item,
+  setModal,
+}: ShopCompleteFrameType) {
+  const onErrorPostFrameItemUnEquiptment = (error: any) => {
+    setModal(
+      <CommonMutationErrorModal error={error} closeModal={closeModal} />
+    );
+  };
+  const onErrorPostFrameItemEquiptment = (error: any) => {
+    setModal(
+      <CommonMutationErrorModal error={error} closeModal={closeModal} />
+    );
+  };
   const { mutateAsync: postFrameItemUnEquipmentAsync } =
-    usePostFrameItemUnEquiptment();
-  const { mutate: postFrameItemEquiptment } = usePostFrameItemEquiptment();
+    usePostFrameItemUnEquiptment({ onError: onErrorPostFrameItemUnEquiptment });
+
+  const onSuccessPostFrameItemEquipment = () => {
+    closeModal();
+  };
+  const { mutate: postFrameItemEquiptment } = usePostFrameItemEquiptment({
+    onError: onErrorPostFrameItemEquiptment,
+    onSuccess: onSuccessPostFrameItemEquipment,
+  });
 
   const mountFrameHandle = async (itemId: number | undefined) => {
     if (!itemId) return null;
@@ -24,7 +47,6 @@ function ShopCompleteFrame({ closeModal, item }: ShopCompleteFrameType) {
 
   const completeHandle = () => {
     mountFrameHandle(item?.itemId);
-    closeModal();
   };
   return (
     <>

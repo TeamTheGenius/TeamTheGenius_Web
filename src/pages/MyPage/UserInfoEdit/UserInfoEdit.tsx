@@ -16,6 +16,7 @@ import {
   useGetMyProfile,
   usePostMyProfile,
 } from "@/hooks/queries/useProfileQuery";
+import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 
 const UserInfoEdit = () => {
   const [signUpBoolean, setsignUpBoolean] = useState(true);
@@ -41,8 +42,11 @@ const UserInfoEdit = () => {
     setIsLoading(false);
   };
 
-  const onErrorPostMyProfile = () => {
-    alert("생성 실패");
+  const onErrorPostMyProfile = (error: any) => {
+    setModal(
+      <CommonMutationErrorModal error={error} closeModal={closeModal} />
+    );
+    openModal();
   };
   const { mutate } = usePostMyProfile({
     onSuccess: onSuccessPostMyProfile,
