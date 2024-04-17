@@ -38,7 +38,10 @@ export const useGetUserProfile = (decryptedUserId: number) => {
   return { data };
 };
 
-export const useDeleteUser = () => {
+interface DeleteUserType {
+  onError: (error: AxiosError<{ message: string }>) => void;
+}
+export const useDeleteUser = ({ onError }: DeleteUserType) => {
   const navigate = useNavigate();
   const { mutate } = useMutation(
     (reason: string) => deleteServiceWithdraw({ reason: reason }),
@@ -48,6 +51,7 @@ export const useDeleteUser = () => {
         localStorage.removeItem(FRAMEID);
         navigate(PATH.LOGIN);
       },
+      onError: (error: AxiosError<{ message: string }>) => onError(error),
     }
   );
   return { mutate };

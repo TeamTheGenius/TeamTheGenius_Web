@@ -50,12 +50,14 @@ export const usePostChallengeJoin = ({
 
 interface DeleteChallengeJoinType {
   onSuccess: () => void;
+  onError: (error: AxiosError<{ message: string }>) => void;
 }
 interface DeleteChallengeJoinMutateType {
   instanceId: number;
 }
 export const useDeleteChallengeJoin = ({
   onSuccess,
+  onError,
 }: DeleteChallengeJoinType) => {
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation(
@@ -66,6 +68,7 @@ export const useDeleteChallengeJoin = ({
         queryClient.invalidateQueries(QUERY_KEY.CHALLENGE_INSTANCE_DETAIL);
         onSuccess();
       },
+      onError: (error: AxiosError<{ message: string }>) => onError(error),
     }
   );
   return { mutate, isLoading };
