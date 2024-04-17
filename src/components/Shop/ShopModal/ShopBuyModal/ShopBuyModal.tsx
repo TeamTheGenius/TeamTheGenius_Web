@@ -10,6 +10,7 @@ import CommonModal from "@/components/Common/CommonModal/CommonModal";
 import { useNavigate } from "react-router-dom";
 import { PATH } from "@/constants/path";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
+import { AxiosError } from "axios";
 
 type ShopBuyModalType = {
   closeModal: () => void;
@@ -35,9 +36,10 @@ function ShopBuyModal({ item, setModal, closeModal }: ShopBuyModalType) {
       />
     );
   };
-  const onErrorPostItemBuy = (error: any) => {
+  const onErrorPostItemBuy = (error: AxiosError<{ message: string }>) => {
     if (
-      error.response.data.message === "프로필 프레임은 재구매가 불가능 합니다."
+      error?.response?.data.message ===
+      "프로필 프레임은 재구매가 불가능 합니다."
     )
       setModal(
         <CommonModal
@@ -47,7 +49,7 @@ function ShopBuyModal({ item, setModal, closeModal }: ShopBuyModalType) {
         />
       );
     else if (
-      error.response.data.message ===
+      error?.response?.data.message ===
       "사용자의 보유 포인트가 충분하지 않습니다."
     ) {
       setModal(

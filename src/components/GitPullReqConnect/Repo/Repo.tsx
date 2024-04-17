@@ -43,8 +43,10 @@ function Repo({
     setRepoState(selectedValue);
     setRepoBoolean(true);
   };
-  const onErrorGetVerifyRepository = (err: AxiosError) => {
-    setErrState(err?.response?.data?.message);
+  const onErrorGetVerifyRepository = (err: AxiosError<{ message: string }>) => {
+    if (err.response?.data.message) {
+      setErrState(err?.response?.data?.message);
+    }
     setRepoBoolean(false);
     setLoadingState(false);
     openModal();

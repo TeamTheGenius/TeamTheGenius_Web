@@ -19,7 +19,7 @@ export const useGetChallengeDetail = (decryptId: number) => {
 
 interface PostChallengeJoinType {
   onSuccess: () => void;
-  onError: (errMessage: string) => void;
+  onError: (error: AxiosError<{ message: string }>) => void;
 }
 interface PostChallengeJoinMutateType {
   instanceId: number;
@@ -40,10 +40,9 @@ export const usePostChallengeJoin = ({
         queryClient.invalidateQueries(QUERY_KEY.CHALLENGE_INSTANCE_DETAIL);
         onSuccess();
       },
-      onError: (error: AxiosError) => {
-        onError(error?.response?.data?.message);
+      onError: (error: AxiosError<{ message: string }>) => {
+        onError(error);
       },
-      useErrorBoundary: false,
     }
   );
   return { mutate };

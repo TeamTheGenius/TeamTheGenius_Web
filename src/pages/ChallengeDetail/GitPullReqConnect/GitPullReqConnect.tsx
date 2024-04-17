@@ -19,6 +19,7 @@ import {
   useGetRepositories,
   useGetTokenVerify,
 } from "@/hooks/queries/useGithubQuery";
+import { AxiosError } from "axios";
 
 const GitPullReqConnect = () => {
   const [githubBoolean, setGithubBoolean] = useState(false);
@@ -48,9 +49,11 @@ const GitPullReqConnect = () => {
   const onSuccessPostChallengeJoin = () => {
     setLoadingState(false);
   };
-  const onErrorPostChallengeJoin = (errorMessage: string) => {
+  const onErrorPostChallengeJoin = (error: AxiosError<{ message: string }>) => {
     openModal();
-    setErrState(errorMessage);
+    if (error.response?.data.message) {
+      setErrState(error.response?.data.message);
+    }
     setLoadingState(false);
   };
   const { mutate: postChallengeJoin } = usePostChallengeJoin({

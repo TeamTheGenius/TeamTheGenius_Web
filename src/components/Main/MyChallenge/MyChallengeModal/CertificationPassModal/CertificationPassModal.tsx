@@ -3,6 +3,7 @@ import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import { Modal } from "@/components/Common/Modal/Modal";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import { usePostCertificationPassItemUse } from "@/hooks/queries/useItemQuery";
+import { AxiosError } from "axios";
 
 interface PassItemModalProps {
   closeModal: () => void;
@@ -25,7 +26,7 @@ function CertificationPassModal({
   const onSuccessPostItemUse = () => {
     closeModal();
   };
-  const onErrorPostItemUse = (error: any) => {
+  const onErrorPostItemUse = (error: AxiosError<{ message: string }>) => {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );

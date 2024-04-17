@@ -3,6 +3,7 @@ import getLikeChallenges from "@/apis/getLikeChallenges";
 import postLikeChallenge from "@/apis/postLikeChallenge";
 import { QUERY_KEY } from "@/constants/queryKey";
 import { LikedChallengeDataType } from "@/types/likeType";
+import { AxiosError } from "axios";
 import { useInfiniteQuery, useMutation, useQueryClient } from "react-query";
 
 interface GetInfiniteLikedChallengesDataType {
@@ -29,7 +30,7 @@ export const useGetInfiniteLikedChallenges = ({
 };
 
 interface PostLikesChallengeType {
-  onError: (error: any) => void;
+  onError: (error: AxiosError<{ message: string }>) => void;
 }
 
 export const usePostLikesChallenge = ({ onError }: PostLikesChallengeType) => {
@@ -41,7 +42,7 @@ export const usePostLikesChallenge = ({ onError }: PostLikesChallengeType) => {
       onSuccess: () => {
         queryClient.invalidateQueries(QUERY_KEY.CHALLENGE_INSTANCE_DETAIL);
       },
-      onError: (error) => {
+      onError: (error: AxiosError<{ message: string }>) => {
         onError(error);
       },
     }
@@ -50,7 +51,7 @@ export const usePostLikesChallenge = ({ onError }: PostLikesChallengeType) => {
 };
 
 interface DeleteLikesChallengeType {
-  onError: (error: any) => void;
+  onError: (error: AxiosError<{ message: string }>) => void;
 }
 
 export const useDeleteLikesChallenge = ({
@@ -65,7 +66,7 @@ export const useDeleteLikesChallenge = ({
         queryClient.invalidateQueries(QUERY_KEY.CHALLENGE_INSTANCE_DETAIL);
         queryClient.invalidateQueries(QUERY_KEY.INFINITE_MY_LIKED_CHALLENGES);
       },
-      onError: (error) => {
+      onError: (error: AxiosError<{ message: string }>) => {
         onError(error);
       },
     }

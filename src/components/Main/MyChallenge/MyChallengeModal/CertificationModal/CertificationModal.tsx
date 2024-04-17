@@ -7,6 +7,7 @@ import React, { useEffect } from "react";
 import CertificationResultModal from "../CertificationResultModal/CertificationResultModal";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
+import { AxiosError } from "axios";
 
 interface Props {
   instanceId: number;
@@ -33,7 +34,9 @@ function CertificationModal({ instanceId, setModal, closeModal }: Props) {
     }
   };
 
-  const onErrorPostTodayCertification = (error: any) => {
+  const onErrorPostTodayCertification = (
+    error: AxiosError<{ message: string }>
+  ) => {
     setModal(
       <CommonMutationErrorModal closeModal={closeModal} error={error} />
     );

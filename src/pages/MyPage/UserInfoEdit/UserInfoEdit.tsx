@@ -17,6 +17,7 @@ import {
   usePostMyProfile,
 } from "@/hooks/queries/useProfileQuery";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
+import { AxiosError } from "axios";
 
 const UserInfoEdit = () => {
   const [signUpBoolean, setsignUpBoolean] = useState(true);
@@ -42,7 +43,7 @@ const UserInfoEdit = () => {
     setIsLoading(false);
   };
 
-  const onErrorPostMyProfile = (error: any) => {
+  const onErrorPostMyProfile = (error: AxiosError<{ message: string }>) => {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );

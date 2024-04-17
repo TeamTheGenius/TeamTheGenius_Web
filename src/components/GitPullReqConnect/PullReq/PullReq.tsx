@@ -1,8 +1,7 @@
 import Button from "@/components/Common/Button";
-import getPullRequestVerifyApi from "@/apis/getPullRequestVerifyApi";
 import checkIcon from "@/assets/icon/check-icon.svg";
 import failIcon from "@/assets/icon/sign-icon.svg";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import useModal from "@/hooks/useModal";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
@@ -28,16 +27,20 @@ function PullReq({
   const [modal, setModal] = useState<React.ReactNode>();
   const { openModal, closeModal, isModalOpened } = useModal();
 
-  const onErrorGetVerifyPullRequest = (err: AxiosError) => {
+  const onErrorGetVerifyPullRequest = (
+    err: AxiosError<{ message: string }>
+  ) => {
     setPrBoolean(false);
     setLoadingState(false);
-    setModal(
-      <GitPullReqModal
-        closeModal={closeModal}
-        messageState={err?.response?.data?.message}
-      />
-    );
-    openModal();
+    if (err.response?.data.message) {
+      setModal(
+        <GitPullReqModal
+          closeModal={closeModal}
+          messageState={err?.response?.data?.message}
+        />
+      );
+      openModal();
+    }
   };
   const onSuccessGetVerifyPullRequest = () => {
     setPrBoolean(true);

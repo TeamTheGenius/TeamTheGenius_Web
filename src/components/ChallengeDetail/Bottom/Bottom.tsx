@@ -35,14 +35,18 @@ function BottomHeart({
   const [modal, setModal] = useState<React.ReactNode>();
   const { isModalOpened, closeModal, openModal } = useModal();
 
-  const onErrorPostLikesChallenge = (error: AxiosError) => {
+  const onErrorPostLikesChallenge = (
+    error: AxiosError<{ message: string }>
+  ) => {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );
     openModal();
   };
 
-  const onErrorDeleteLikesChallenge = (error: AxiosError) => {
+  const onErrorDeleteLikesChallenge = (
+    error: AxiosError<{ message: string }>
+  ) => {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );

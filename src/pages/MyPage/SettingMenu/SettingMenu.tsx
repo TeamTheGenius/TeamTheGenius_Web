@@ -8,6 +8,7 @@ import Title from "@/components/MyPage/SettingMenu/Title/Title";
 import { PATH } from "@/constants/path";
 import { usePostAuthLogout } from "@/hooks/queries/useAuthQuery";
 import useModal from "@/hooks/useModal";
+import { AxiosError } from "axios";
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -15,7 +16,7 @@ function SettingMenu() {
   const [modal, setModal] = useState<React.ReactNode>();
   const { isModalOpened, closeModal, openModal } = useModal();
 
-  const onErrorPostAuthLogout = (error: any) => {
+  const onErrorPostAuthLogout = (error: AxiosError<{ message: string }>) => {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );

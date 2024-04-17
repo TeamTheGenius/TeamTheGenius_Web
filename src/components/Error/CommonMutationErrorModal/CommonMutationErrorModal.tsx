@@ -1,8 +1,9 @@
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
+import { AxiosError } from "axios";
 
 interface Props {
   closeModal: () => void;
-  error: any;
+  error: AxiosError<{ message: string }>;
 }
 
 function CommonMutationErrorModal({ closeModal }: Props) {

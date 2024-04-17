@@ -6,6 +6,7 @@ import {
 } from "@/hooks/queries/useItemQuery";
 import { shopFrameListType } from "@/types/shopType";
 import { breakLine } from "@/utils/breakLine";
+import { AxiosError } from "axios";
 
 type ShopCompleteFrameType = {
   closeModal: () => void;
@@ -18,12 +19,16 @@ function ShopCompleteFrame({
   item,
   setModal,
 }: ShopCompleteFrameType) {
-  const onErrorPostFrameItemUnEquiptment = (error: any) => {
+  const onErrorPostFrameItemUnEquiptment = (
+    error: AxiosError<{ message: string }>
+  ) => {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );
   };
-  const onErrorPostFrameItemEquiptment = (error: any) => {
+  const onErrorPostFrameItemEquiptment = (
+    error: AxiosError<{ message: string }>
+  ) => {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );

@@ -7,13 +7,16 @@ import {
 } from "@/hooks/queries/useItemQuery";
 import useModal from "@/hooks/useModal";
 import { shopFrameListType } from "@/types/shopType";
+import { AxiosError } from "axios";
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
 function ShopFrameButton({ item }: { item: shopFrameListType }) {
   const [modal, setModal] = useState<React.ReactNode>();
   const { isModalOpened, openModal, closeModal } = useModal();
 
-  const onErrorPostFrameItemUnEquiptment = (error: any) => {
+  const onErrorPostFrameItemUnEquiptment = (
+    error: AxiosError<{ message: string }>
+  ) => {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );
@@ -26,7 +29,9 @@ function ShopFrameButton({ item }: { item: shopFrameListType }) {
     onError: onErrorPostFrameItemUnEquiptment,
   });
 
-  const onErrorPostFrameItemEquiptment = (error: any) => {
+  const onErrorPostFrameItemEquiptment = (
+    error: AxiosError<{ message: string }>
+  ) => {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );

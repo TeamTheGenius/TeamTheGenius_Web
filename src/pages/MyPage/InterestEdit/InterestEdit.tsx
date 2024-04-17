@@ -11,6 +11,7 @@ import { interestsData } from "@/data/InterestData";
 import { usePostMyProfileInterestTag } from "@/hooks/queries/useProfileQuery";
 import useModal from "@/hooks/useModal";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
+import { AxiosError } from "axios";
 import React, { useState } from "react";
 
 export type Interest = {
@@ -34,7 +35,9 @@ const InterestEdit = () => {
     );
     openModal();
   };
-  const onErrorPostMyProfileInterestTag = (error: any) => {
+  const onErrorPostMyProfileInterestTag = (
+    error: AxiosError<{ message: string }>
+  ) => {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );

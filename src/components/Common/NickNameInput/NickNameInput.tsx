@@ -71,10 +71,12 @@ const NickNameInput: React.FC<SignUpInputProps> = ({
     setsignUpBoolean(true);
     setNickCheck(replaceData);
   };
-  const onErrorGetCheckNickName = (err: AxiosError) => {
+  const onErrorGetCheckNickName = (err: AxiosError<{ message: string }>) => {
     setIsLoading(false);
     setsignUpBoolean(false);
-    setNickCheck(err?.response?.data?.message);
+    if (err.response?.data.message) {
+      setNickCheck(err?.response?.data?.message);
+    }
   };
   const { mutate: getCheckNinkNameMutate } = useGetCheckNickName({
     onSuccess: onSuccessGetCheckNickName,

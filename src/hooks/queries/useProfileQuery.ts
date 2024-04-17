@@ -14,6 +14,7 @@ import {
   UserDataType,
 } from "@/types/profileType";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
+import { AxiosError } from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 
@@ -70,7 +71,7 @@ export const useGetMyProfileInterestTag = ({
 
 interface usePostMyProfileInterestTagParams {
   onSuccess: () => void;
-  onError: (error: any) => void;
+  onError: (error: AxiosError<{ message: string }>) => void;
 }
 
 export const usePostMyProfileInterestTag = ({
@@ -82,7 +83,7 @@ export const usePostMyProfileInterestTag = ({
       postInterestEditApi({ interestEditData: checkedValues }),
     {
       onSuccess: () => onSuccess(),
-      onError: (error) => onError(error),
+      onError: (error: AxiosError<{ message: string }>) => onError(error),
     }
   );
 
@@ -91,7 +92,7 @@ export const usePostMyProfileInterestTag = ({
 
 interface usePostMyProfileParams {
   onSuccess: () => void;
-  onError: (error: any) => void;
+  onError: (error: AxiosError<{ message: string }>) => void;
 }
 
 interface usePostMyProfileMutationParams {
@@ -116,7 +117,7 @@ export const usePostMyProfile = ({
         queryClient.invalidateQueries(QUERY_KEY.MY_PROFILE);
         navigate(PATH.MY_PAGE);
       },
-      onError: (error) => onError(error),
+      onError: (error: AxiosError<{ message: string }>) => onError(error),
     }
   );
   return { mutate, isLoading };

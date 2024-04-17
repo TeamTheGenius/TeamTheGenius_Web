@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 import { MyChallengeDoneDataType } from "@/types/myChallengeType";
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
+import { AxiosError } from "axios";
 
 interface Props {
   setModal: React.Dispatch<React.SetStateAction<React.ReactNode>>;
@@ -29,7 +30,7 @@ function GetRewardTwiceModal({
     );
   };
 
-  const onErrorPostItemUse = (error: any) => {
+  const onErrorPostItemUse = (error: AxiosError<{ message: string }>) => {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );
