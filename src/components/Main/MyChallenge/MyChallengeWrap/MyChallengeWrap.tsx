@@ -7,7 +7,7 @@ type MyChallengeWrapType = {
 const MyChallengeWrap = ({ children }: MyChallengeWrapType) => {
   return (
     <div className="w-full relative flex justify-center">
-      <div className="myChallenge-wrap mt-[1.7rem]">{children}</div>
+      <div className="w-full max-w-[48.6rem]">{children}</div>
     </div>
   );
 };

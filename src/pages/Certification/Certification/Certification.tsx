@@ -3,8 +3,11 @@ import Tabs from "@/components/Certification/Certification/Tabs/Tabs";
 import DynamicBackIcon from "@/components/Common/DynamicBackIcon/DynamicBackIcon";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import MobCard from "@/components/Common/MobCard";
+import CommonGetErrorFallback from "@/components/Error/CommonGetErrorFallback/CommonGetErrorFallback";
 import { decrypt } from "@/hooks/useCrypto";
 import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import { QueryErrorResetBoundary } from "react-query";
 import { Outlet, useParams } from "react-router-dom";
 
 function Certification() {
@@ -21,13 +24,33 @@ function Certification() {
       </div>
       <div className="flex flex-col items-center h-full">
         <div className="max-w-[54.6rem] w-full flex flex-col h-full">
-          <Suspense fallback={<LoadingBox />}>
-            <ChallengeInformation />
-          </Suspense>
+          <QueryErrorResetBoundary>
+            {({ reset }) => (
+              <ErrorBoundary
+                onReset={reset}
+                FallbackComponent={CommonGetErrorFallback}
+              >
+                <Suspense fallback={<LoadingBox />}>
+                  <ChallengeInformation />
+                </Suspense>
+              </ErrorBoundary>
+            )}
+          </QueryErrorResetBoundary>
+
           <Tabs id={decryptedInstanceId} />
-          <Suspense fallback={<LoadingBox />}>
-            <Outlet />
-          </Suspense>
+
+          <QueryErrorResetBoundary>
+            {({ reset }) => (
+              <ErrorBoundary
+                onReset={reset}
+                FallbackComponent={CommonGetErrorFallback}
+              >
+                <Suspense fallback={<LoadingBox />}>
+                  <Outlet />
+                </Suspense>
+              </ErrorBoundary>
+            )}
+          </QueryErrorResetBoundary>
         </div>
       </div>
     </MobCard>

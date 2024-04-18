@@ -4,7 +4,7 @@ import { PATH } from "./constants/path";
 import {
   QueryClient,
   QueryClientProvider,
-  useQueryErrorResetBoundary,
+  QueryErrorResetBoundary,
 } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import LogIn from "./pages/LogIn/LogIn";
@@ -52,9 +52,9 @@ import PrivateRoute from "./components/Route/PrivateRoute/PrivateRoute";
 import { ErrorBoundary } from "react-error-boundary";
 import { Suspense } from "react";
 import Loading from "./components/Common/Loading/Loading";
+import CommonGetErrorFallback from "./components/Error/CommonGetErrorFallback/CommonGetErrorFallback";
 
 function App() {
-  const { reset } = useQueryErrorResetBoundary();
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -69,140 +69,154 @@ function App() {
   });
   return (
     <QueryClientProvider client={queryClient}>
-      <ErrorBoundary
-        fallback={
-          <Error errorTxt="데이터 불러오기에 실패했어요." buttonExist={false} />
-        }
-        onReset={reset}
-      >
-        <Suspense fallback={<Loading />}>
-          <Router>
-            <Routes>
-              <Route path={PATH.LOGIN} element={<LogIn />} />
-              <Route path={PATH.SIGNUP} element={<SignUp />} />
-              <Route path={PATH.AUTH} element={<Auth />} />
-              <Route path={PATH.INTEREST} element={<Interest />} />
-              <Route path={PATH.ERROR} element={<Error />} />
-              <Route element={<PrivateRoute />}>
-                <Route path={PATH.MAIN} element={<Main />}>
-                  <Route path={PATH.MY_CHALLENGE} element={<MyChallenge />}>
+      <QueryErrorResetBoundary>
+        {({ reset }) => (
+          <ErrorBoundary
+            FallbackComponent={CommonGetErrorFallback}
+            onReset={reset}
+          >
+            <Suspense fallback={<Loading />}>
+              <Router>
+                <Routes>
+                  <Route path={PATH.LOGIN} element={<LogIn />} />
+                  <Route path={PATH.SIGNUP} element={<SignUp />} />
+                  <Route path={PATH.AUTH} element={<Auth />} />
+                  <Route path={PATH.INTEREST} element={<Interest />} />
+                  <Route path={PATH.ERROR} element={<Error />} />
+                  <Route element={<PrivateRoute />}>
+                    <Route path={PATH.MAIN} element={<Main />}>
+                      <Route path={PATH.MY_CHALLENGE} element={<MyChallenge />}>
+                        <Route
+                          path={PATH.MY_CHALLENGE_START}
+                          element={<MyChallengeStart />}
+                        />
+                        <Route
+                          path={PATH.MY_CHALLENGE_PROGRESS}
+                          element={<MyChallengeProgress />}
+                        />
+                        <Route
+                          path={PATH.MY_CHALLENGE_COMPLETED}
+                          element={<MyChallengeComplete />}
+                        />
+                      </Route>
+
+                      <Route path={PATH.SHOP} element={<Shop />} />
+                      <Route path={PATH.MY_PAGE} element={<MyPage />} />
+                      <Route path={PATH.HOME} element={<Home />} />
+                      <Route
+                        path={PATH.POPULAR_CHALLENGE}
+                        element={<PopularChallenge />}
+                      />
+                      <Route
+                        path={PATH.NEW_CHALLENGE}
+                        element={<NewChallenge />}
+                      />
+                      <Route
+                        path={PATH.SUGGESTION_CHALLENGE}
+                        element={<SuggestionChallenge />}
+                      />
+                      <Route path={PATH.SEARCH} element={<Search />}>
+                        <Route path={PATH.SEARCH_ALL} element={<AllSearch />} />
+                        <Route
+                          path={PATH.SEARCH_PREACTIVITY}
+                          element={<PreActivitySearch />}
+                        />
+                        <Route
+                          path={PATH.SEARCH_ACTIVITY}
+                          element={<ActivitySearch />}
+                        />
+                        <Route
+                          path={PATH.SEARCH_DONE}
+                          element={<DoneSearch />}
+                        />
+                      </Route>
+                    </Route>
                     <Route
-                      path={PATH.MY_CHALLENGE_START}
-                      element={<MyChallengeStart />}
+                      path={PATH.MY_PAGE_INTEREST_CHALLENGE}
+                      element={<InterestChallenge />}
                     />
                     <Route
-                      path={PATH.MY_CHALLENGE_PROGRESS}
-                      element={<MyChallengeProgress />}
+                      path={PATH.MY_PAGE_SETTING_MENU}
+                      element={<SettingMenu />}
                     />
                     <Route
-                      path={PATH.MY_CHALLENGE_COMPLETED}
-                      element={<MyChallengeComplete />}
+                      path={PATH.MY_PAGE_INTEREST_EDIT}
+                      element={<InterestEdit />}
+                    />
+                    <Route
+                      path={PATH.MY_PAGE_USERINFO_DIT}
+                      element={<UserInfoEdit />}
+                    />
+                    <Route
+                      path={PATH.MY_PAGE_GITHUB_TOKEN}
+                      element={<GithubToken />}
+                    />
+                    <Route path={PATH.MY_PAGE_RECEIPT} element={<Receipt />} />
+                    <Route
+                      path={PATH.MY_PAGE_WITHDRAW}
+                      element={<ServiceWithdraw />}
+                    />
+
+                    <Route
+                      path={PATH.CERTIFICATION}
+                      element={<Certification />}
+                    >
+                      <Route
+                        path={PATH.CERTIFICATION_MY_CURRENT}
+                        element={<MyCurrentCertification />}
+                      />
+                      <Route
+                        path={PATH.CERTIFICATION_OTHERS_CURRENT}
+                        element={<OthersCurrentCertification />}
+                      />
+                    </Route>
+                    <Route
+                      path={PATH.CERTIFICATION_MY_ALL_CURRENT}
+                      element={<MyAllCurrentCertification />}
+                    />
+                    <Route
+                      path={PATH.CERTIFICATION_OTHERS_ALL_CURRENT}
+                      element={<OthersAllCurrentCertification />}
+                    />
+                    <Route
+                      path={PATH.CERTIFICATION_REPORT}
+                      element={<Report />}
+                    />
+                    <Route
+                      path={PATH.CHALLENGE_DETAIL_ID}
+                      element={<ChallengeDetail />}
+                    />
+
+                    <Route path={PATH.PAYMENTS} element={<Payments />} />
+                    <Route path={PATH.PAYMENTS_SUCCESS} element={<Success />} />
+                    <Route path={PATH.PAYMENTS_FAIL} element={<Fail />} />
+                    <Route
+                      path={PATH.GITHUB_REPO_REGISTER}
+                      element={<GitPullReqConnect />}
+                    />
+
+                    <Route path={PATH.ADMIN} element={<AdminTopic />} />
+                    <Route
+                      path={PATH.ADMIN_INSTANCE_ID}
+                      element={<AdminInstance />}
                     />
                   </Route>
-
-                  <Route path={PATH.SHOP} element={<Shop />} />
-                  <Route path={PATH.MY_PAGE} element={<MyPage />} />
-                  <Route path={PATH.HOME} element={<Home />} />
                   <Route
-                    path={PATH.POPULAR_CHALLENGE}
-                    element={<PopularChallenge />}
+                    path="/*"
+                    element={
+                      <Error
+                        errNum={404}
+                        errorTxt="페이지 정보를 찾을 수 없습니다."
+                      />
+                    }
                   />
-                  <Route path={PATH.NEW_CHALLENGE} element={<NewChallenge />} />
-                  <Route
-                    path={PATH.SUGGESTION_CHALLENGE}
-                    element={<SuggestionChallenge />}
-                  />
-                  <Route path={PATH.SEARCH} element={<Search />}>
-                    <Route path={PATH.SEARCH_ALL} element={<AllSearch />} />
-                    <Route
-                      path={PATH.SEARCH_PREACTIVITY}
-                      element={<PreActivitySearch />}
-                    />
-                    <Route
-                      path={PATH.SEARCH_ACTIVITY}
-                      element={<ActivitySearch />}
-                    />
-                    <Route path={PATH.SEARCH_DONE} element={<DoneSearch />} />
-                  </Route>
-                </Route>
-                <Route
-                  path={PATH.MY_PAGE_INTEREST_CHALLENGE}
-                  element={<InterestChallenge />}
-                />
-                <Route
-                  path={PATH.MY_PAGE_SETTING_MENU}
-                  element={<SettingMenu />}
-                />
-                <Route
-                  path={PATH.MY_PAGE_INTEREST_EDIT}
-                  element={<InterestEdit />}
-                />
-                <Route
-                  path={PATH.MY_PAGE_USERINFO_DIT}
-                  element={<UserInfoEdit />}
-                />
-                <Route
-                  path={PATH.MY_PAGE_GITHUB_TOKEN}
-                  element={<GithubToken />}
-                />
-                <Route path={PATH.MY_PAGE_RECEIPT} element={<Receipt />} />
-                <Route
-                  path={PATH.MY_PAGE_WITHDRAW}
-                  element={<ServiceWithdraw />}
-                />
+                </Routes>
+              </Router>
+            </Suspense>
+          </ErrorBoundary>
+        )}
+      </QueryErrorResetBoundary>
 
-                <Route path={PATH.CERTIFICATION} element={<Certification />}>
-                  <Route
-                    path={PATH.CERTIFICATION_MY_CURRENT}
-                    element={<MyCurrentCertification />}
-                  />
-                  <Route
-                    path={PATH.CERTIFICATION_OTHERS_CURRENT}
-                    element={<OthersCurrentCertification />}
-                  />
-                </Route>
-                <Route
-                  path={PATH.CERTIFICATION_MY_ALL_CURRENT}
-                  element={<MyAllCurrentCertification />}
-                />
-                <Route
-                  path={PATH.CERTIFICATION_OTHERS_ALL_CURRENT}
-                  element={<OthersAllCurrentCertification />}
-                />
-                <Route path={PATH.CERTIFICATION_REPORT} element={<Report />} />
-                <Route
-                  path={PATH.CHALLENGE_DETAIL_ID}
-                  element={<ChallengeDetail />}
-                />
-
-                <Route path={PATH.PAYMENTS} element={<Payments />} />
-                <Route path={PATH.PAYMENTS_SUCCESS} element={<Success />} />
-                <Route path={PATH.PAYMENTS_FAIL} element={<Fail />} />
-                <Route
-                  path={PATH.GITHUB_REPO_REGISTER}
-                  element={<GitPullReqConnect />}
-                />
-
-                <Route path={PATH.ADMIN} element={<AdminTopic />} />
-                <Route
-                  path={PATH.ADMIN_INSTANCE_ID}
-                  element={<AdminInstance />}
-                />
-              </Route>
-
-              <Route
-                path="/*"
-                element={
-                  <Error
-                    errNum={404}
-                    errorTxt="페이지 정보를 찾을 수 없습니다."
-                  />
-                }
-              />
-            </Routes>
-          </Router>
-        </Suspense>
-      </ErrorBoundary>
       <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>
   );

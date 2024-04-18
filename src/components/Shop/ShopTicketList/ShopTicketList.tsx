@@ -10,8 +10,10 @@ import pointTwiceItem from "@/assets/image/pass_0.svg";
 import passItem from "@/assets/image/pass_1.svg";
 
 const ShopTicketList = () => {
-  const { data: passItemData } = useGetPassItems();
-  const { data: pointTwiceItemData } = useGetPointTwiceItems();
+  const { data: passItemData, isSuccess: getPassItemSuccess } =
+    useGetPassItems();
+  const { data: pointTwiceItemData, isSuccess: getPoinTwiceItemSuccess } =
+    useGetPointTwiceItems();
   const [ticketDataState, setTicketDataState] =
     useState<shopTicketListType[]>();
 
@@ -36,10 +38,10 @@ const ShopTicketList = () => {
   };
 
   useEffect(() => {
-    if (passItemData && pointTwiceItemData) {
+    if (getPassItemSuccess && getPoinTwiceItemSuccess) {
       onSuccessGetPassAndPointTwiceItem();
     }
-  }, [passItemData, pointTwiceItemData]);
+  }, [getPassItemSuccess, getPoinTwiceItemSuccess]);
 
   return (
     <>

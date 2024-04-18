@@ -22,7 +22,7 @@ function Main() {
 
   return (
     <MobCard>
-      <div className="pb-[9rem] _sm:pb-[6.1rem] relative h-full">
+      <div className="pb-[9.5rem] _sm:pb-[6.5rem] relative h-full">
         <Outlet context={{ searchQuery, setSearchQuery }} />
       </div>
       <BottomNav />
