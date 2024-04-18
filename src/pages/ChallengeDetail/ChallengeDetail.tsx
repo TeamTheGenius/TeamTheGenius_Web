@@ -5,6 +5,9 @@ import { decrypt } from "@/hooks/useCrypto";
 import ChallengeDetailContent from "@/components/ChallengeDetail/ChallengeDetailContent/ChallengeDetailContent";
 import { Suspense } from "react";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
+import { ErrorBoundary } from "react-error-boundary";
+import { QueryErrorResetBoundary } from "react-query";
+import CommonGetErrorFallback from "@/components/Error/CommonGetErrorFallback/CommonGetErrorFallback";
 
 function ChallengeDetail() {
   const { id } = useParams();
@@ -16,9 +19,18 @@ function ChallengeDetail() {
         <DynamicBackIcon />
       </div>
       <div className="pb-[13rem] flex flex-col items-center h-full">
-        <Suspense fallback={<LoadingBox />}>
-          <ChallengeDetailContent decryptId={decryptId} />
-        </Suspense>
+        <QueryErrorResetBoundary>
+          {({ reset }) => (
+            <ErrorBoundary
+              onReset={reset}
+              FallbackComponent={CommonGetErrorFallback}
+            >
+              <Suspense fallback={<LoadingBox />}>
+                <ChallengeDetailContent decryptId={decryptId} />
+              </Suspense>
+            </ErrorBoundary>
+          )}
+        </QueryErrorResetBoundary>
       </div>
     </MobCard>
   );

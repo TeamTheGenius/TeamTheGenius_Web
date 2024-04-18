@@ -5,12 +5,12 @@ const getItemPassApi = async () => {
   const data = await instance
     .get(`${requests.fetchItem}?category=certification-passer`)
     .then((res) => {
-      return res.data.dataList || {};
+      return res.data.dataList || [];
     })
     .catch((err) => {
       throw err;
     });
-  return data || {};
+  return data || [];
 };
 
 export default getItemPassApi;

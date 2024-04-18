@@ -3,6 +3,7 @@ import getLikeChallenges from "@/apis/getLikeChallenges";
 import postLikeChallenge from "@/apis/postLikeChallenge";
 import { QUERY_KEY } from "@/constants/queryKey";
 import { LikedChallengeDataType } from "@/types/likeType";
+import { AxiosError } from "axios";
 import { useInfiniteQuery, useMutation, useQueryClient } from "react-query";
 
 interface GetInfiniteLikedChallengesDataType {
@@ -28,7 +29,11 @@ export const useGetInfiniteLikedChallenges = ({
   return { fetchNextPage, hasNextPage, refetch, isLoading };
 };
 
-export const usePostLikesChallenge = () => {
+interface PostLikesChallengeType {
+  onError: (error: AxiosError<{ message?: string }>) => void;
+}
+
+export const usePostLikesChallenge = ({ onError }: PostLikesChallengeType) => {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation(
@@ -37,12 +42,21 @@ export const usePostLikesChallenge = () => {
       onSuccess: () => {
         queryClient.invalidateQueries(QUERY_KEY.CHALLENGE_INSTANCE_DETAIL);
       },
+      onError: (error: AxiosError<{ message?: string }>) => {
+        onError(error);
+      },
     }
   );
   return { mutate };
 };
 
-export const useDeleteLikesChallenge = () => {
+interface DeleteLikesChallengeType {
+  onError: (error: AxiosError<{ message?: string }>) => void;
+}
+
+export const useDeleteLikesChallenge = ({
+  onError,
+}: DeleteLikesChallengeType) => {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation(
@@ -51,6 +65,9 @@ export const useDeleteLikesChallenge = () => {
       onSuccess: () => {
         queryClient.invalidateQueries(QUERY_KEY.CHALLENGE_INSTANCE_DETAIL);
         queryClient.invalidateQueries(QUERY_KEY.INFINITE_MY_LIKED_CHALLENGES);
+      },
+      onError: (error: AxiosError<{ message?: string }>) => {
+        onError(error);
       },
     }
   );

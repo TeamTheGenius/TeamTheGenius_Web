@@ -26,5 +26,4 @@ const MyChallengeLinkWrap = ({
     </div>
   );
 };
-
 export default MyChallengeLinkWrap;

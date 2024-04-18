@@ -6,6 +6,9 @@ import { useParams } from "react-router-dom";
 import OthersTotalCertification from "@/components/Certification/OthersAllCurrentCertification/OthersProfile/OthersTotalCertification";
 import { Suspense } from "react";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
+import { ErrorBoundary } from "react-error-boundary";
+import CommonGetErrorFallback from "@/components/Error/CommonGetErrorFallback/CommonGetErrorFallback";
+import { QueryErrorResetBoundary } from "react-query";
 
 function OthersAllCurrentCertification() {
   const { id } = useParams();
@@ -20,15 +23,24 @@ function OthersAllCurrentCertification() {
         {/* <div className="absolute top-[6rem] right-[2.2rem]">
           <ReportButton />
         </div> */}
-        <Suspense fallback={<LoadingBox />}>
-          <div className="mt-[3.4rem] _sm:mt-[1.8rem]">
-            <OthersProfile decryptedUserId={decryptedUserId} />
-            <OthersTotalCertification
-              decryptedInstanceId={decryptedInstanceId}
-              decryptedUserId={decryptedUserId}
-            />
-          </div>
-        </Suspense>
+        <QueryErrorResetBoundary>
+          {({ reset }) => (
+            <ErrorBoundary
+              onReset={reset}
+              FallbackComponent={CommonGetErrorFallback}
+            >
+              <Suspense fallback={<LoadingBox />}>
+                <div className="mt-[3.4rem] _sm:mt-[1.8rem]">
+                  <OthersProfile decryptedUserId={decryptedUserId} />
+                  <OthersTotalCertification
+                    decryptedInstanceId={decryptedInstanceId}
+                    decryptedUserId={decryptedUserId}
+                  />
+                </div>
+              </Suspense>
+            </ErrorBoundary>
+          )}
+        </QueryErrorResetBoundary>
       </div>
     </MobCard>
   );
