@@ -4,7 +4,7 @@ export default (app) => {
   app.use(
     "/api",
     createProxyMiddleware({
-      target: "http://localhost:8080",
+      target: "https://gitget.co.kr",
       changeOrigin: true,
     })
   );
