@@ -43,7 +43,9 @@ function Repo({
     setRepoState(selectedValue);
     setRepoBoolean(true);
   };
-  const onErrorGetVerifyRepository = (err: AxiosError<{ message: string }>) => {
+  const onErrorGetVerifyRepository = (
+    err: AxiosError<{ message?: string }>
+  ) => {
     if (err.response?.data.message) {
       setErrState(err?.response?.data?.message);
     }

@@ -1,5 +1,5 @@
 import SubHeader from "@/components/Shop/SubHeader/SubHeader";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ShopTicketItem from "./ShopTicketItem/ShopTicketItem";
 import { shopTicketListType } from "@/types/shopType";
 import {
@@ -10,38 +10,32 @@ import pointTwiceItem from "@/assets/image/pass_0.svg";
 import passItem from "@/assets/image/pass_1.svg";
 
 const ShopTicketList = () => {
-  const { data: passItemData, isSuccess: getPassItemSuccess } =
-    useGetPassItems();
-  const { data: pointTwiceItemData, isSuccess: getPoinTwiceItemSuccess } =
-    useGetPointTwiceItems();
+  const { data: pointTwiceItemData } = useGetPointTwiceItems();
+  const { data: passItemData } = useGetPassItems();
   const [ticketDataState, setTicketDataState] =
     useState<shopTicketListType[]>();
 
-  const combinedData = useMemo(() => {
-    if (passItemData && pointTwiceItemData) {
-      return [...passItemData, ...pointTwiceItemData];
-    }
-    return [];
-  }, [passItemData, pointTwiceItemData]);
-
   const onSuccessGetPassAndPointTwiceItem = () => {
-    const updatedcombinedData = combinedData?.map((item) => ({
-      ...item,
-      imgSrc:
-        item.itemId === 3
-          ? passItem
-          : item.itemId === 4
-          ? pointTwiceItem
-          : "기본 이미지 경로",
-    }));
+    if (!passItemData || !pointTwiceItemData) return;
+    const updatedcombinedData = [...passItemData, ...pointTwiceItemData].map(
+      (item) => ({
+        ...item,
+        imgSrc:
+          item.itemId === 3
+            ? passItem
+            : item.itemId === 4
+            ? pointTwiceItem
+            : "기본 이미지 경로",
+      })
+    );
     setTicketDataState(updatedcombinedData);
   };
 
   useEffect(() => {
-    if (getPassItemSuccess && getPoinTwiceItemSuccess) {
+    if (passItemData && pointTwiceItemData) {
       onSuccessGetPassAndPointTwiceItem();
     }
-  }, [getPassItemSuccess, getPoinTwiceItemSuccess]);
+  }, [passItemData, pointTwiceItemData]);
 
   return (
     <>

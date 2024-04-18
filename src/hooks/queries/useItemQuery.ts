@@ -14,7 +14,7 @@ import { MyChallengeDoneDataType } from "@/types/myChallengeType";
 import { AxiosError } from "axios";
 
 interface PostFrameItemEquiptmentType {
-  onError: (error: AxiosError<{ message: string }>) => void;
+  onError: (error: AxiosError<{ message?: string }>) => void;
   onSuccess?: () => void;
 }
 export const usePostFrameItemEquiptment = ({
@@ -30,14 +30,14 @@ export const usePostFrameItemEquiptment = ({
         queryClient.invalidateQueries(QUERY_KEY.SHOP_FRAME_ITEMS);
         onSuccess && onSuccess();
       },
-      onError: (error: AxiosError<{ message: string }>) => onError(error),
+      onError: (error: AxiosError<{ message?: string }>) => onError(error),
     }
   );
   return { mutate };
 };
 
 interface PostFrameItemUnEquiptmentType {
-  onError: (error: AxiosError<{ message: string }>) => void;
+  onError: (error: AxiosError<{ message?: string }>) => void;
 }
 
 export const usePostFrameItemUnEquiptment = ({
@@ -49,7 +49,7 @@ export const usePostFrameItemUnEquiptment = ({
       localStorage.removeItem(FRAMEID);
       queryClient.invalidateQueries(QUERY_KEY.SHOP_FRAME_ITEMS);
     },
-    onError: (error: AxiosError<{ message: string }>) => {
+    onError: (error: AxiosError<{ message?: string }>) => {
       onError(error);
     },
   });
@@ -63,7 +63,7 @@ interface usePostItemUseMutateType {
 
 interface usePostItemUseType {
   onSuccess: () => void;
-  onError: (error: AxiosError<{ message: string }>) => void;
+  onError: (error: AxiosError<{ message?: string }>) => void;
 }
 
 export const usePostCertificationPassItemUse = ({
@@ -79,7 +79,7 @@ export const usePostCertificationPassItemUse = ({
         queryClient.invalidateQueries(QUERY_KEY.MY_ACTIVITY_CHALLENGES);
         onSuccess();
       },
-      onError: (error: AxiosError<{ message: string }>) => onError(error),
+      onError: (error: AxiosError<{ message?: string }>) => onError(error),
     }
   );
   return { mutate, isLoading };
@@ -87,7 +87,7 @@ export const usePostCertificationPassItemUse = ({
 
 interface PostPointTwiceItemUseType {
   onSuccess: (res: MyChallengeDoneDataType) => void;
-  onError: (error: AxiosError<{ message: string }>) => void;
+  onError: (error: AxiosError<{ message?: string }>) => void;
 }
 export const usePostPointTwiceItemUse = ({
   onSuccess,
@@ -102,7 +102,7 @@ export const usePostPointTwiceItemUse = ({
         queryClient.invalidateQueries(QUERY_KEY.MY_DONE_CHALLENGES);
         onSuccess(res);
       },
-      onError: (error: AxiosError<{ message: string }>) => {
+      onError: (error: AxiosError<{ message?: string }>) => {
         onError(error);
       },
     }
@@ -112,7 +112,7 @@ export const usePostPointTwiceItemUse = ({
 
 interface usePostItemBuyType {
   onSuccess: () => void;
-  onError: (error: AxiosError<{ message: string }>) => void;
+  onError: (error: AxiosError<{ message?: string }>) => void;
 }
 export const usePostItemBuy = ({
   onSuccess: onSuccess,
@@ -129,7 +129,7 @@ export const usePostItemBuy = ({
         queryClient.invalidateQueries(QUERY_KEY.MY_PROFILE);
         onSuccess();
       },
-      onError: (error: AxiosError<{ message: string }>) => {
+      onError: (error: AxiosError<{ message?: string }>) => {
         onError(error);
       },
     }

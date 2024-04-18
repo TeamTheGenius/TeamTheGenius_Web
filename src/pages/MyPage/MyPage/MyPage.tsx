@@ -21,28 +21,27 @@ function MyPage() {
               onReset={reset}
               FallbackComponent={CommonGetErrorFallback}
             >
-              <>
-                <Suspense fallback={<LoadingBox />}>
-                  <div className="flex flex-col w-full justify-center items-center">
-                    <div className="w-full max-w-[49rem]">
-                      <MyProfile />
-                    </div>
-                    <div className="w-full mt-[5.1rem] _sm:mt-[2.6rem] max-w-[53rem] _sm:max-w-[31.2rem]">
-                      <MyChallengeSummary />
-                    </div>
+              <Suspense fallback={<LoadingBox />}>
+                <div className="flex flex-col w-full justify-center items-center">
+                  <div className="w-full max-w-[49rem]">
+                    <MyProfile />
                   </div>
-                </Suspense>
-              </>
-              <div className="mt-[5.6rem] w-full">
-                <Line />
-              </div>
-              <div className="w-full px-[2.2rem] py-[2.7rem]">
-                <div className="w-full flex justify-center items-center">
-                  <div className=" w-full max-w-[53rem]">
-                    <LinkButtons />
+                  <div className="w-full mt-[5.1rem] _sm:mt-[2.6rem] max-w-[53rem] _sm:max-w-[31.2rem]">
+                    <MyChallengeSummary />
                   </div>
                 </div>
-              </div>
+
+                <div className="mt-[5.6rem] w-full">
+                  <Line />
+                </div>
+                <div className="w-full px-[2.2rem] py-[2.7rem]">
+                  <div className="w-full flex justify-center items-center">
+                    <div className=" w-full max-w-[53rem]">
+                      <LinkButtons />
+                    </div>
+                  </div>
+                </div>
+              </Suspense>
             </ErrorBoundary>
           )}
         </QueryErrorResetBoundary>

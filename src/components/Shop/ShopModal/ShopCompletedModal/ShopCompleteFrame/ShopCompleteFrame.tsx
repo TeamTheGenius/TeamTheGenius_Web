@@ -20,14 +20,14 @@ function ShopCompleteFrame({
   setModal,
 }: ShopCompleteFrameType) {
   const onErrorPostFrameItemUnEquiptment = (
-    error: AxiosError<{ message: string }>
+    error: AxiosError<{ message?: string }>
   ) => {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );
   };
   const onErrorPostFrameItemEquiptment = (
-    error: AxiosError<{ message: string }>
+    error: AxiosError<{ message?: string }>
   ) => {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />

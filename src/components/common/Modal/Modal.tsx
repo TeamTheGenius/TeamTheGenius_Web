@@ -43,11 +43,7 @@ function ModalContent({ content }: ModalContentProps) {
     </p>
   );
 }
-
-const Layer: React.ForwardRefRenderFunction<
-  HTMLDivElement,
-  ModalLayerProps
-> = ({ children, onClick }) => {
+export function ModalLayer({ children, onClick }: ModalLayerProps) {
   return (
     <div
       onClick={onClick}
@@ -56,9 +52,8 @@ const Layer: React.ForwardRefRenderFunction<
       {children}
     </div>
   );
-};
+}
 
-export const ModalLayer = React.forwardRef(Layer);
 export const Modal = {
   ModalContentBox,
   ModalContent,

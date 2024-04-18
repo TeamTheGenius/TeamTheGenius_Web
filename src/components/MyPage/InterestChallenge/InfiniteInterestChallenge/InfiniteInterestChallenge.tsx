@@ -25,7 +25,7 @@ function InfiniteInterestChallenge() {
   const navigate = useNavigate();
 
   const onErrorDeleteLikesChallenge = (
-    error: AxiosError<{ message: string }>
+    error: AxiosError<{ message?: string }>
   ) => {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />

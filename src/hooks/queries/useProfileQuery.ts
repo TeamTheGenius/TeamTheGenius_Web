@@ -39,7 +39,7 @@ export const useGetUserProfile = (decryptedUserId: number) => {
 };
 
 interface DeleteUserType {
-  onError: (error: AxiosError<{ message: string }>) => void;
+  onError: (error: AxiosError<{ message?: string }>) => void;
 }
 export const useDeleteUser = ({ onError }: DeleteUserType) => {
   const navigate = useNavigate();
@@ -51,7 +51,7 @@ export const useDeleteUser = ({ onError }: DeleteUserType) => {
         localStorage.removeItem(FRAMEID);
         navigate(PATH.LOGIN);
       },
-      onError: (error: AxiosError<{ message: string }>) => onError(error),
+      onError: (error: AxiosError<{ message?: string }>) => onError(error),
     }
   );
   return { mutate };
@@ -68,6 +68,7 @@ export const useGetMyProfileInterestTag = ({
     queryKey: [QUERY_KEY.MY_INTEREST_TAGS],
     queryFn: () => getInterestTags(),
     onSuccess: (data) => onSuccess(data),
+    suspense: true,
   });
 
   return { data };
@@ -75,7 +76,7 @@ export const useGetMyProfileInterestTag = ({
 
 interface usePostMyProfileInterestTagParams {
   onSuccess: () => void;
-  onError: (error: AxiosError<{ message: string }>) => void;
+  onError: (error: AxiosError<{ message?: string }>) => void;
 }
 
 export const usePostMyProfileInterestTag = ({
@@ -87,7 +88,7 @@ export const usePostMyProfileInterestTag = ({
       postInterestEditApi({ interestEditData: checkedValues }),
     {
       onSuccess: () => onSuccess(),
-      onError: (error: AxiosError<{ message: string }>) => onError(error),
+      onError: (error: AxiosError<{ message?: string }>) => onError(error),
     }
   );
 
@@ -96,7 +97,7 @@ export const usePostMyProfileInterestTag = ({
 
 interface usePostMyProfileParams {
   onSuccess: () => void;
-  onError: (error: AxiosError<{ message: string }>) => void;
+  onError: (error: AxiosError<{ message?: string }>) => void;
 }
 
 interface usePostMyProfileMutationParams {
@@ -121,7 +122,7 @@ export const usePostMyProfile = ({
         queryClient.invalidateQueries(QUERY_KEY.MY_PROFILE);
         navigate(PATH.MY_PAGE);
       },
-      onError: (error: AxiosError<{ message: string }>) => onError(error),
+      onError: (error: AxiosError<{ message?: string }>) => onError(error),
     }
   );
   return { mutate, isLoading };

@@ -16,7 +16,7 @@ function SettingMenu() {
   const [modal, setModal] = useState<React.ReactNode>();
   const { isModalOpened, closeModal, openModal } = useModal();
 
-  const onErrorPostAuthLogout = (error: AxiosError<{ message: string }>) => {
+  const onErrorPostAuthLogout = (error: AxiosError<{ message?: string }>) => {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );

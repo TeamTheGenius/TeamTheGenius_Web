@@ -22,7 +22,7 @@ function WithdrawButton({ selectedReason, otherReason }: Props) {
   const [modal, setModal] = useState<React.ReactNode>();
   const { isModalOpened, closeModal, openModal } = useModal();
 
-  const onErrorDeleteUser = (error: AxiosError<{ message: string }>) => {
+  const onErrorDeleteUser = (error: AxiosError<{ message?: string }>) => {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );

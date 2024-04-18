@@ -9,7 +9,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 
 interface PostTokenRegisterType {
   onSuccess: () => void;
-  onError: (err: AxiosError<{ message: string }>) => void;
+  onError: (err: AxiosError<{ message?: string }>) => void;
 }
 interface PostTokenRegisterMutateType {
   githubToken: string;
@@ -27,7 +27,7 @@ export const usePostTokenRegister = ({
         queryClient.invalidateQueries(QUERY_KEY.MY_PROFILE);
         onSuccess();
       },
-      onError: (err: AxiosError<{ message: string }>) => {
+      onError: (err: AxiosError<{ message?: string }>) => {
         onError(err);
       },
       useErrorBoundary: false,
@@ -50,7 +50,7 @@ interface GetVerifyRepositoryMutateType {
 }
 interface GetVerifyRepositoryType {
   onSuccess: (res: AxiosResponse) => void;
-  onError: (err: AxiosError<{ message: string }>) => void;
+  onError: (err: AxiosError<{ message?: string }>) => void;
 }
 export const useGetVerifyRepository = ({
   onSuccess,
@@ -62,7 +62,7 @@ export const useGetVerifyRepository = ({
       onSuccess: (res: AxiosResponse) => {
         onSuccess(res);
       },
-      onError: (err: AxiosError<{ message: string }>) => {
+      onError: (err: AxiosError<{ message?: string }>) => {
         onError(err);
       },
       useErrorBoundary: false,
@@ -76,7 +76,7 @@ interface GetVerifyPullRequestMutateType {
 }
 interface GetVerifyPullRequestType {
   onSuccess: () => void;
-  onError: (err: AxiosError<{ message: string }>) => void;
+  onError: (err: AxiosError<{ message?: string }>) => void;
 }
 export const useGetVerifyPullRequest = ({
   onSuccess,
@@ -89,7 +89,7 @@ export const useGetVerifyPullRequest = ({
       onSuccess: () => {
         onSuccess();
       },
-      onError: (err: AxiosError<{ message: string }>) => {
+      onError: (err: AxiosError<{ message?: string }>) => {
         onError(err);
       },
       useErrorBoundary: false,

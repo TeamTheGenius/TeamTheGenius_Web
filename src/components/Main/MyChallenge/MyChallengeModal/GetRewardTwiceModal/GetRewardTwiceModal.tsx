@@ -30,7 +30,7 @@ function GetRewardTwiceModal({
     );
   };
 
-  const onErrorPostItemUse = (error: AxiosError<{ message: string }>) => {
+  const onErrorPostItemUse = (error: AxiosError<{ message?: string }>) => {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );

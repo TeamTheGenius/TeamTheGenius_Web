@@ -30,7 +30,7 @@ const GithubTokenInput = ({
     setGithubBoolean(true);
   };
   const onErrorUsePostTokenRegister = (
-    error: AxiosError<{ message: string }>
+    error: AxiosError<{ message?: string }>
   ) => {
     setLoadingState(false);
     setTokenBoolean(false);

@@ -28,7 +28,7 @@ function PullReq({
   const { openModal, closeModal, isModalOpened } = useModal();
 
   const onErrorGetVerifyPullRequest = (
-    err: AxiosError<{ message: string }>
+    err: AxiosError<{ message?: string }>
   ) => {
     setPrBoolean(false);
     setLoadingState(false);

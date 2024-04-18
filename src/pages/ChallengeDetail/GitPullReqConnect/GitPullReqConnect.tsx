@@ -49,7 +49,9 @@ const GitPullReqConnect = () => {
   const onSuccessPostChallengeJoin = () => {
     setLoadingState(false);
   };
-  const onErrorPostChallengeJoin = (error: AxiosError<{ message: string }>) => {
+  const onErrorPostChallengeJoin = (
+    error: AxiosError<{ message?: string }>
+  ) => {
     openModal();
     if (error.response?.data.message) {
       setErrState(error.response?.data.message);

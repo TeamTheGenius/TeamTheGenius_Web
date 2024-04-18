@@ -36,7 +36,7 @@ function BottomHeart({
   const { isModalOpened, closeModal, openModal } = useModal();
 
   const onErrorPostLikesChallenge = (
-    error: AxiosError<{ message: string }>
+    error: AxiosError<{ message?: string }>
   ) => {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
@@ -45,7 +45,7 @@ function BottomHeart({
   };
 
   const onErrorDeleteLikesChallenge = (
-    error: AxiosError<{ message: string }>
+    error: AxiosError<{ message?: string }>
   ) => {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />

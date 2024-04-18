@@ -42,7 +42,7 @@ function UserInformationEditForm() {
     setIsLoading(false);
   };
 
-  const onErrorPostMyProfile = (error: AxiosError<{ message: string }>) => {
+  const onErrorPostMyProfile = (error: AxiosError<{ message?: string }>) => {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );

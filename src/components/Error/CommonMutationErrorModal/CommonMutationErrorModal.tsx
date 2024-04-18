@@ -3,7 +3,7 @@ import { AxiosError } from "axios";
 
 interface Props {
   closeModal: () => void;
-  error: AxiosError<{ message: string }>;
+  error: AxiosError<{ message?: string }>;
 }
 
 function CommonMutationErrorModal({ closeModal }: Props) {

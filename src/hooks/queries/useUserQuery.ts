@@ -49,7 +49,7 @@ interface GetCheckNinkNameMutateType {
 }
 interface GetCheckNinkNameType {
   onSuccess: (res: AxiosResponse) => void;
-  onError: (err: AxiosError<{ message: string }>) => void;
+  onError: (err: AxiosError<{ message?: string }>) => void;
 }
 
 export const useGetCheckNickName = ({
@@ -62,7 +62,7 @@ export const useGetCheckNickName = ({
       onSuccess: (res: AxiosResponse) => {
         onSuccess(res);
       },
-      onError: (err: AxiosError<{ message: string }>) => {
+      onError: (err: AxiosError<{ message?: string }>) => {
         onError(err);
       },
       useErrorBoundary: false,

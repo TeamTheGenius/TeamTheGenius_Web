@@ -28,7 +28,7 @@ interface PostTodayCertificationMutateType {
 
 interface PostTodayCertificationType {
   onSuccess: (res: CertificationDataType) => void;
-  onError: (error: AxiosError<{ message: string }>) => void;
+  onError: (error: AxiosError<{ message?: string }>) => void;
 }
 export const usePostTodayCertification = ({
   onSuccess,
@@ -43,7 +43,7 @@ export const usePostTodayCertification = ({
         queryClient.invalidateQueries(QUERY_KEY.MY_ACTIVITY_CHALLENGES);
         onSuccess(res);
       },
-      onError: (error: AxiosError<{ message: string }>) => {
+      onError: (error: AxiosError<{ message?: string }>) => {
         onError(error);
       },
     }

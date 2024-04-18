@@ -71,7 +71,7 @@ const NickNameInput: React.FC<SignUpInputProps> = ({
     setsignUpBoolean(true);
     setNickCheck(replaceData);
   };
-  const onErrorGetCheckNickName = (err: AxiosError<{ message: string }>) => {
+  const onErrorGetCheckNickName = (err: AxiosError<{ message?: string }>) => {
     setIsLoading(false);
     setsignUpBoolean(false);
     if (err.response?.data.message) {

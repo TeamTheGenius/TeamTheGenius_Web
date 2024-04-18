@@ -4,7 +4,6 @@ import { usePostTodayCertification } from "@/hooks/queries/useCertificationQuery
 import { CertificationDataType } from "@/types/certificationType";
 import { getToday } from "@/utils/getToday";
 import React, { useEffect } from "react";
-import CertificationResultModal from "../CertificationResultModal/CertificationResultModal";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
 import { AxiosError } from "axios";
@@ -26,16 +25,17 @@ function CertificationModal({ instanceId, setModal, closeModal }: Props) {
       );
     } else {
       setModal(
-        <CertificationResultModal
+        <CommonModal
           content="인증 갱신에 성공하셨습니다."
-          closeModal={closeModal}
+          buttonContent="확인"
+          onClick={closeModal}
         />
       );
     }
   };
 
   const onErrorPostTodayCertification = (
-    error: AxiosError<{ message: string }>
+    error: AxiosError<{ message?: string }>
   ) => {
     setModal(
       <CommonMutationErrorModal closeModal={closeModal} error={error} />

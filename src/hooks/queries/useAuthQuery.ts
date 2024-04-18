@@ -8,7 +8,7 @@ import { encrypt } from "../useCrypto";
 import { AxiosError } from "axios";
 
 interface PostAuthLogoutType {
-  onError: (error: AxiosError<{ message: string }>) => void;
+  onError: (error: AxiosError<{ message?: string }>) => void;
 }
 export const usePostAuthLogout = ({ onError }: PostAuthLogoutType) => {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ export const usePostAuthLogout = ({ onError }: PostAuthLogoutType) => {
       localStorage.removeItem(FRAMEID);
       navigate(PATH.LOGIN);
     },
-    onError: (error: AxiosError<{ message: string }>) => onError(error),
+    onError: (error: AxiosError<{ message?: string }>) => onError(error),
   });
   return { mutate };
 };

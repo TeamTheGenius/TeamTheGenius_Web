@@ -36,7 +36,7 @@ function ShopBuyModal({ item, setModal, closeModal }: ShopBuyModalType) {
       />
     );
   };
-  const onErrorPostItemBuy = (error: AxiosError<{ message: string }>) => {
+  const onErrorPostItemBuy = (error: AxiosError<{ message?: string }>) => {
     if (
       error?.response?.data.message ===
       "프로필 프레임은 재구매가 불가능 합니다."
