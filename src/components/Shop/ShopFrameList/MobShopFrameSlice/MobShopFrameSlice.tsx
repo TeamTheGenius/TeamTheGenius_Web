@@ -11,7 +11,8 @@ import { useEffect, useState } from "react";
 
 const MobShopFrameSlice = () => {
   const [frameDataState, setframeDataState] = useState<shopFrameListType[]>();
-  const { data: frameItemData } = useGetFrameItems();
+  const { data: frameItemData, isSuccess: getFrameItemSuccess } =
+    useGetFrameItems();
   const onSuccessGetFrameItem = () => {
     const updatedFrameData = frameItemData?.map((item) => ({
       ...item,
@@ -26,10 +27,10 @@ const MobShopFrameSlice = () => {
   };
 
   useEffect(() => {
-    if (frameItemData) {
+    if (getFrameItemSuccess) {
       onSuccessGetFrameItem();
     }
-  }, [frameItemData]);
+  }, [getFrameItemSuccess]);
 
   return (
     <>

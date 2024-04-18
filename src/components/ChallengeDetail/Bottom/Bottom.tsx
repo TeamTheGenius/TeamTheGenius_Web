@@ -5,6 +5,11 @@ import {
   useDeleteLikesChallenge,
   usePostLikesChallenge,
 } from "@/hooks/queries/useLikeQuery";
+import React, { useState } from "react";
+import useModal from "@/hooks/useModal";
+import { ModalLayer } from "@/components/Common/Modal/Modal";
+import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
+import { AxiosError } from "axios";
 
 interface HeartProps {
   isHearted: boolean;
@@ -27,8 +32,32 @@ function BottomHeart({
   heartCount,
   instanceId,
 }: HeartProps) {
-  const { mutate: postLikesChallenges } = usePostLikesChallenge();
-  const { mutate: deleteLikesChallenges } = useDeleteLikesChallenge();
+  const [modal, setModal] = useState<React.ReactNode>();
+  const { isModalOpened, closeModal, openModal } = useModal();
+
+  const onErrorPostLikesChallenge = (
+    error: AxiosError<{ message?: string }>
+  ) => {
+    setModal(
+      <CommonMutationErrorModal error={error} closeModal={closeModal} />
+    );
+    openModal();
+  };
+
+  const onErrorDeleteLikesChallenge = (
+    error: AxiosError<{ message?: string }>
+  ) => {
+    setModal(
+      <CommonMutationErrorModal error={error} closeModal={closeModal} />
+    );
+    openModal();
+  };
+  const { mutate: postLikesChallenges } = usePostLikesChallenge({
+    onError: onErrorPostLikesChallenge,
+  });
+  const { mutate: deleteLikesChallenges } = useDeleteLikesChallenge({
+    onError: onErrorDeleteLikesChallenge,
+  });
   const onClick = () => {
     if (isHearted) {
       deleteLikesChallenges(likesId);
@@ -37,14 +66,17 @@ function BottomHeart({
     }
   };
   return (
-    <div className="flex flex-col justify-center">
-      <div onClick={onClick} className="w-[3.4rem] h-[2.9rem] cursor-pointer">
-        <Heart isActive={isHearted} />
+    <>
+      {isModalOpened && <ModalLayer onClick={closeModal}>{modal}</ModalLayer>}
+      <div className="flex flex-col justify-center">
+        <div onClick={onClick} className="w-[3.4rem] h-[2.9rem] cursor-pointer">
+          <Heart isActive={isHearted} />
+        </div>
+        <span className="text-[1.2rem] font-medium leading-_normal text-center text-_coral-70">
+          {heartCount}
+        </span>
       </div>
-      <span className="text-[1.2rem] font-medium leading-_normal text-center text-_coral-70">
-        {heartCount}
-      </span>
-    </div>
+    </>
   );
 }
 

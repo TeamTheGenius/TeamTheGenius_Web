@@ -4,7 +4,7 @@ import React from "react";
 
 interface ModalLayerProps {
   children: React.ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 interface ModalContentBoxProps {
@@ -43,11 +43,7 @@ function ModalContent({ content }: ModalContentProps) {
     </p>
   );
 }
-
-const Layer: React.ForwardRefRenderFunction<HTMLDivElement, ModalLayerProps> = (
-  { children, onClick },
-  ref
-) => {
+export function ModalLayer({ children, onClick }: ModalLayerProps) {
   return (
     <div
       onClick={onClick}
@@ -56,9 +52,8 @@ const Layer: React.ForwardRefRenderFunction<HTMLDivElement, ModalLayerProps> = (
       {children}
     </div>
   );
-};
+}
 
-export const ModalLayer = React.forwardRef(Layer);
 export const Modal = {
   ModalContentBox,
   ModalContent,

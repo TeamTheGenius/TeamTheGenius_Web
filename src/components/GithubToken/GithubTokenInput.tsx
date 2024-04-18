@@ -8,6 +8,7 @@ import {
   useGetTokenVerify,
   usePostTokenRegister,
 } from "@/hooks/queries/useGithubQuery";
+import { AxiosError } from "axios";
 const GithubTokenInput = ({
   label,
   id,
@@ -28,10 +29,14 @@ const GithubTokenInput = ({
     setTokenBoolean(true);
     setGithubBoolean(true);
   };
-  const onErrorUsePostTokenRegister = (errMessage: string) => {
+  const onErrorUsePostTokenRegister = (
+    error: AxiosError<{ message?: string }>
+  ) => {
     setLoadingState(false);
     setTokenBoolean(false);
-    setTokenState(errMessage);
+    if (error.response?.data.message) {
+      setTokenState(error.response?.data.message);
+    }
   };
   const { mutate: postTokenRegisterMutate } = usePostTokenRegister({
     onSuccess: onSuccessUsePostTokenRegister,

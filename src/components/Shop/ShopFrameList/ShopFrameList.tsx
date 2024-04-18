@@ -28,7 +28,7 @@ const ShopFrameList = () => {
     if (getFrameItemSuccess) {
       onSuccessGetFrameItem();
     }
-  }, [getFrameItemSuccess, frameItemData]);
+  }, [getFrameItemSuccess]);
 
   return (
     <>

@@ -13,7 +13,7 @@ function Search() {
   return (
     <div className="h-full">
       <div className="max-w-[77.3rem] w-full z-10 bg-white fixed top-0">
-        <div className="my-[1.1rem]">
+        <div className="my-[1.1rem] _sm:my-[1.5rem]">
           <HomeHeader setSearchEnter={setSearchEnter} />
         </div>
         <div className="px-[3.2rem] py-[1rem]">
@@ -21,7 +21,7 @@ function Search() {
         </div>
       </div>
       <div className="px-[2.2rem] h-full">
-        <div className="pt-[11.7rem] _sm:pt-[10.8rem] h-full">
+        <div className="pt-[12.5rem] _sm:pt-[10.8rem] h-full">
           <Outlet context={{ searchQuery, searchEnter, setSearchEnter }} />
         </div>
       </div>

@@ -36,7 +36,6 @@ export const usePostSignUp = ({ onError }: PostSignUpType) => {
         navigate(PATH.AUTH);
       },
       onError: () => {
-        navigate(PATH.LOGIN);
         onError();
       },
       useErrorBoundary: false,
@@ -50,7 +49,7 @@ interface GetCheckNinkNameMutateType {
 }
 interface GetCheckNinkNameType {
   onSuccess: (res: AxiosResponse) => void;
-  onError: (err: AxiosError) => void;
+  onError: (err: AxiosError<{ message?: string }>) => void;
 }
 
 export const useGetCheckNickName = ({
@@ -63,7 +62,7 @@ export const useGetCheckNickName = ({
       onSuccess: (res: AxiosResponse) => {
         onSuccess(res);
       },
-      onError: (err: AxiosError) => {
+      onError: (err: AxiosError<{ message?: string }>) => {
         onError(err);
       },
       useErrorBoundary: false,

@@ -10,6 +10,7 @@ type ShopCompletedModalType = {
   closeModal: () => void;
   item?: shopFrameListType | shopTicketListType;
   isValidCategory?: boolean;
+  setModal: React.Dispatch<React.SetStateAction<React.ReactNode>>;
 };
 
 function ShopCompletedModal({
@@ -17,12 +18,17 @@ function ShopCompletedModal({
   item,
   err,
   isValidCategory,
+  setModal,
 }: ShopCompletedModalType) {
   return (
     <Modal.ModalContentBox width="w-[35.5rem]" height="h-[32.3rem]">
       <div className="flex flex-col justify-center relative items-center">
         {item?.itemCategory === "PROFILE_FRAME" && (
-          <ShopCompleteFrame closeModal={closeModal} item={item} />
+          <ShopCompleteFrame
+            setModal={setModal}
+            closeModal={closeModal}
+            item={item}
+          />
         )}
         {err === "사용자의 보유 포인트가 충분하지 않습니다." && (
           <ShopCompleteNonePoint />
