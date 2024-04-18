@@ -1,16 +1,16 @@
 import { instance } from "./axios/axios";
 import requests from "./axios/request";
 
-const getInterestTags = () => {
-  return instance
+const getInterestTags = async () => {
+  const data = await instance
     .get(`${requests.fetchProfileInterest}`)
     .then((response) => {
-      return response.data.data.tags || {};
+      return response.data.data.tags || [];
     })
     .catch((error) => {
       throw error;
-      return {};
     });
+  return data || [];
 };
 
 export default getInterestTags;

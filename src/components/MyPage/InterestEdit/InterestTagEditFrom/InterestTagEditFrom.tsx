@@ -1,7 +1,6 @@
 import React from "react";
 import BottomButton from "@/components/Common/BottomButton/BottomButton";
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
-import Loading from "@/components/Common/Loading/Loading";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import InterestHeader from "@/components/Interest/InterestHeader/InterestHeader";
@@ -12,6 +11,7 @@ import useModal from "@/hooks/useModal";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { AxiosError } from "axios";
 import { useState } from "react";
+import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 export type Interest = {
   id: number;
   name: string;
@@ -54,7 +54,7 @@ function InterestTagEditFrom() {
       {isModalOpened && <ModalLayer onClick={closeModal}>{modal}</ModalLayer>}
 
       {isLoading ? (
-        <Loading />
+        <LoadingBox />
       ) : (
         <>
           <div className="w-full h-full px-[15.3rem] py-[15.2rem] _sm:px-[2rem] _sm:py-[15.2rem] _md:px-[2rem] _md:py-[11.2rem]">

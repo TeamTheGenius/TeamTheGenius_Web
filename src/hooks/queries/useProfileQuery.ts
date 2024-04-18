@@ -57,17 +57,10 @@ export const useDeleteUser = ({ onError }: DeleteUserType) => {
   return { mutate };
 };
 
-interface useGetMyProfileInterestTagParams {
-  onSuccess: (check: CheckboxValueType[]) => void;
-}
-
-export const useGetMyProfileInterestTag = ({
-  onSuccess,
-}: useGetMyProfileInterestTagParams) => {
+export const useGetMyProfileInterestTag = () => {
   const { data } = useQuery<string[]>({
     queryKey: [QUERY_KEY.MY_INTEREST_TAGS],
     queryFn: () => getInterestTags(),
-    onSuccess: (data) => onSuccess(data),
     suspense: true,
   });
 
