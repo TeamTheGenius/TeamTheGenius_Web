@@ -12,7 +12,7 @@ const UserInfoEdit = () => {
     <>
       <MobCard>
         <Header content="회원 정보 수정" />
-        <div className="w-full pt-[7.8rem] px-[2.2rem] flex flex-col justify-center items-center h-full">
+        <div className="w-full pt-[7.8rem] px-[2.2rem] flex flex-col items-center h-full">
           <QueryErrorResetBoundary>
             {({ reset }) => (
               <ErrorBoundary
