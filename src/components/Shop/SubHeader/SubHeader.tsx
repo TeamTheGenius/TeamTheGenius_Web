@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 
 const SubHeader = ({ content }: { content: ReactNode }) => {
   return (

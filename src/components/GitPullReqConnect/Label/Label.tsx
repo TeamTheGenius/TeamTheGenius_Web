@@ -1,5 +1,3 @@
-import React from "react";
-
 type LabelType = {
   id: string;
   label: string;

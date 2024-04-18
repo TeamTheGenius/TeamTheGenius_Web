@@ -87,7 +87,7 @@ function MyProfile() {
         </Profile>
       </div>
       <div className="w-full max-w-[44.5rem] _sm:max-w-[27.8rem] mt-[2.9rem] mx-auto">
-        <MyPoint point={data.point} />
+        <MyPoint />
       </div>
     </>
   );

@@ -1,5 +1,4 @@
 import getPaymentReceiptApi from "@/apis/getPaymentReceiptApi";
-import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import { QUERY_KEY } from "@/constants/queryKey";
 import useNumberFormat from "@/hooks/useNumberFormat";
 import { useQuery } from "react-query";
