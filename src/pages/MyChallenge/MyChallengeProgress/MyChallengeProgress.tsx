@@ -43,6 +43,7 @@ const MyChallengeProgress = () => {
         instanceId={instanceId}
         numOfPassItem={numOfPassItem}
         itemId={itemId}
+        setModal={setModal}
       />
     );
     openModal();

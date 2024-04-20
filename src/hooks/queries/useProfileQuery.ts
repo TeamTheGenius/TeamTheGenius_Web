@@ -14,6 +14,7 @@ import {
   UserDataType,
 } from "@/types/profileType";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
+import { AxiosError } from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 
@@ -37,7 +38,10 @@ export const useGetUserProfile = (decryptedUserId: number) => {
   return { data };
 };
 
-export const useDeleteUser = () => {
+interface DeleteUserType {
+  onError: (error: AxiosError<{ message?: string }>) => void;
+}
+export const useDeleteUser = ({ onError }: DeleteUserType) => {
   const navigate = useNavigate();
   const { mutate } = useMutation(
     (reason: string) => deleteServiceWithdraw({ reason: reason }),
@@ -47,22 +51,17 @@ export const useDeleteUser = () => {
         localStorage.removeItem(FRAMEID);
         navigate(PATH.LOGIN);
       },
+      onError: (error: AxiosError<{ message?: string }>) => onError(error),
     }
   );
   return { mutate };
 };
 
-interface useGetMyProfileInterestTagParams {
-  onSuccess: (check: CheckboxValueType[]) => void;
-}
-
-export const useGetMyProfileInterestTag = ({
-  onSuccess,
-}: useGetMyProfileInterestTagParams) => {
+export const useGetMyProfileInterestTag = () => {
   const { data } = useQuery<string[]>({
     queryKey: [QUERY_KEY.MY_INTEREST_TAGS],
     queryFn: () => getInterestTags(),
-    onSuccess: (data) => onSuccess(data),
+    suspense: true,
   });
 
   return { data };
@@ -70,7 +69,7 @@ export const useGetMyProfileInterestTag = ({
 
 interface usePostMyProfileInterestTagParams {
   onSuccess: () => void;
-  onError: () => void;
+  onError: (error: AxiosError<{ message?: string }>) => void;
 }
 
 export const usePostMyProfileInterestTag = ({
@@ -82,8 +81,7 @@ export const usePostMyProfileInterestTag = ({
       postInterestEditApi({ interestEditData: checkedValues }),
     {
       onSuccess: () => onSuccess(),
-      onError: () => onError(),
-      useErrorBoundary: false,
+      onError: (error: AxiosError<{ message?: string }>) => onError(error),
     }
   );
 
@@ -92,7 +90,7 @@ export const usePostMyProfileInterestTag = ({
 
 interface usePostMyProfileParams {
   onSuccess: () => void;
-  onError: () => void;
+  onError: (error: AxiosError<{ message?: string }>) => void;
 }
 
 interface usePostMyProfileMutationParams {
@@ -117,8 +115,7 @@ export const usePostMyProfile = ({
         queryClient.invalidateQueries(QUERY_KEY.MY_PROFILE);
         navigate(PATH.MY_PAGE);
       },
-      onError: () => onError(),
-      useErrorBoundary: false,
+      onError: (error: AxiosError<{ message?: string }>) => onError(error),
     }
   );
   return { mutate, isLoading };

@@ -7,6 +7,7 @@ import "@/components/Interest/InterestCheck/antdCheckbox.css";
 import Interest from "@/pages/Interest/Interest";
 
 import { useGetMyProfileInterestTag } from "@/hooks/queries/useProfileQuery";
+import { useEffect } from "react";
 
 type InterestCheckType = {
   InterestValue: Interest[];
@@ -19,10 +20,15 @@ const InterestCheckEdit = ({
   checkedValues,
   setCheckedValues,
 }: InterestCheckType) => {
-  useGetMyProfileInterestTag({ onSuccess: setCheckedValues });
+  const { data } = useGetMyProfileInterestTag();
+
   const onChange = (check: CheckboxValueType[]) => {
     setCheckedValues(check);
   };
+
+  useEffect(() => {
+    if (data) setCheckedValues(data);
+  }, [data]);
 
   return (
     <>

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import LoginMobCard from "@/components/Common/LoginMobCard";
 import Button from "@/components/Common/Button";
@@ -13,6 +13,11 @@ import basicBlueProfileImage from "@/assets/image/basic-profile-image-blue.png";
 import basicGreenProfileImage from "@/assets/image/basic-profile-image-green.png";
 import Loading from "@/components/Common/Loading/Loading";
 import { usePostSignUp } from "@/hooks/queries/useUserQuery";
+import useModal from "@/hooks/useModal";
+import { createPortal } from "react-dom";
+import { ModalLayer } from "@/components/Common/Modal/Modal";
+import { PATH } from "@/constants/path";
+import CommonModal from "@/components/Common/CommonModal/CommonModal";
 
 type Interest = {
   id: number;
@@ -21,12 +26,27 @@ type Interest = {
 
 const Interest = () => {
   const [checkedValues, setCheckedValues] = useState<CheckboxValueType[]>([]);
+  const [modal, setModal] = useState<React.ReactNode>();
+  const { isModalOpened, closeModal, openModal } = useModal();
+
+  const navigate = useNavigate();
   const location = useLocation();
   const locationState = location.state;
   const InterestValue: Interest[] = interestsData;
 
+  const onClickMoveToSiupUpFirstStep = () => {
+    closeModal();
+    navigate(PATH.LOGIN);
+  };
   const onErrorPostSignUp = () => {
-    alert("오류가 발생했습니다.");
+    setModal(
+      <CommonModal
+        content={"오류가 발생했습니다.\n처음으로 이동합니다."}
+        buttonContent="확인"
+        onClick={onClickMoveToSiupUpFirstStep}
+      />
+    );
+    openModal();
   };
   const { mutate: postSignUpMutate, isLoading: postSignUpLoading } =
     usePostSignUp({
@@ -61,6 +81,11 @@ const Interest = () => {
   }
   return (
     <>
+      {isModalOpened &&
+        createPortal(
+          <ModalLayer onClick={closeModal}>{modal}</ModalLayer>,
+          document.body
+        )}
       <LoginMobCard>
         <div className="mb-[22rem]">
           <InterestHeader />

@@ -5,12 +5,12 @@ const getItemPointApi = async () => {
   const data = await instance
     .get(`${requests.fetchItem}?category=point-multiplier`)
     .then((res) => {
-      return res.data.dataList || {};
+      return res.data.dataList || [];
     })
     .catch((err) => {
       throw err;
     });
-  return data || {};
+  return data || [];
 };
 
 export default getItemPointApi;

@@ -3,6 +3,7 @@ import { ModalLayer } from "@/components/Common/Modal/Modal";
 import useModal from "@/hooks/useModal";
 import { createPortal } from "react-dom";
 import ParticipationCancelAskModal from "../ChallengeDetailModal/ParticipationCancelAskModal/ParticipationCancelAskModal";
+import { useState } from "react";
 
 interface Props {
   instanceId: number;
@@ -10,9 +11,18 @@ interface Props {
 }
 
 function ParticipationCancelButton({ instanceId, title }: Props) {
+  const [modal, setModal] = useState<React.ReactNode>();
   const { isModalOpened, openModal, closeModal } = useModal();
 
   const onClickParticipationCancelButton = async () => {
+    setModal(
+      <ParticipationCancelAskModal
+        closeModal={closeModal}
+        setModal={setModal}
+        instanceId={instanceId}
+        title={title}
+      />
+    );
     openModal();
   };
 
@@ -20,13 +30,7 @@ function ParticipationCancelButton({ instanceId, title }: Props) {
     <>
       {isModalOpened &&
         createPortal(
-          <ModalLayer onClick={closeModal}>
-            <ParticipationCancelAskModal
-              closeModal={closeModal}
-              instanceId={instanceId}
-              title={title}
-            />
-          </ModalLayer>,
+          <ModalLayer onClick={closeModal}>{modal}</ModalLayer>,
           document.body
         )}
 
