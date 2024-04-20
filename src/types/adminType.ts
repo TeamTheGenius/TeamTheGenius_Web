@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export type adminTopicEditApiType = {
   topicTitle: string;
   topicDesc: string;
@@ -6,11 +8,17 @@ export type adminTopicEditApiType = {
   topicPoint: number;
   topicFile?: any;
   topicId?: number;
-  setTopicEditModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setAdminList: React.Dispatch<React.SetStateAction<adminTopicDataType[]>>;
-  pageNumber: number;
 };
+export type topicCreateApiType = {
+  topicTitle: string;
+  topicDesc: string;
+  topicNotice: string;
+  topicTags: string;
+  topicPoint: string;
+  topicFile: any;
+};
+
 export type adminTopicDataType = {
   title: string;
   topicId: number;
@@ -59,6 +67,19 @@ export type instanceDeteilType = {
     encodedFile: string;
   };
 };
+export type instanceCreateApiType = {
+  instanceTitle: string;
+  instanceDesc: string;
+  instanceNotice: string;
+  instanceCertMethod: string;
+  instanceTags: string;
+  instancePoint: number;
+  instanceRangeStart: string;
+  instanceRangeEnd: string;
+  topicId: number;
+  instanceImg: any;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+};
 export type fileType = {
   file?: { fileId?: number; encodedFile?: string };
 };
@@ -80,4 +101,17 @@ export type uploadDataType = {
     size: number;
     type: string;
   };
+};
+export type editInstacneQueryType = {
+  topicIdId: number;
+  instanceId: number;
+  instanceDesc: string;
+  instanceNotice: string;
+  instancePoint: number;
+  instanceCertificationMethod: string;
+  instanceStartAt: string;
+  instanceTitle: string;
+  instanceCompletedAt: string;
+  instanceImg?: any;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 };

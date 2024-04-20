@@ -1,19 +1,6 @@
-import getAdminTopicListApi from "./getAdminTopicListApi";
-import { adminTopicDataType } from "@/types/adminType";
+import { topicCreateApiType } from "@/types/adminType";
 import { multiInstance } from "./axios/axios";
 import requests from "./axios/request";
-
-type topicCreateApiType = {
-  topicTitle: string;
-  topicDesc: string;
-  topicNotice: string;
-  topicTags: string;
-  topicPoint: string;
-  topicFile: any;
-  setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setAdminList: React.Dispatch<React.SetStateAction<adminTopicDataType[]>>;
-};
 
 const postAdminTopicApi = async ({
   topicTitle,
@@ -22,9 +9,6 @@ const postAdminTopicApi = async ({
   topicTags,
   topicPoint,
   topicFile,
-  setIsLoading,
-  setModalIsOpen,
-  setAdminList,
 }: topicCreateApiType) => {
   const topicImg = topicFile[0].originFileObj;
 
@@ -46,11 +30,7 @@ const postAdminTopicApi = async ({
 
   await multiInstance
     .post(`${requests.fetchTopic}`, formData)
-    .then(() => {
-      setIsLoading(false);
-      setModalIsOpen(false);
-      getAdminTopicListApi({ setAdminList });
-    })
+    .then(() => {})
     .catch((err) => {
       alert("생성 실패");
       throw err;

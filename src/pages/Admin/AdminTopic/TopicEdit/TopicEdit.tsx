@@ -1,19 +1,18 @@
-import patchAdminEditApi from "@/apis/patchAdminTopicEditApi";
-import { adminmodalCard } from "@/utils/modalCard";
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Form, Image, Input, Select, Upload, UploadProps } from "antd";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import Modal from "react-modal";
-import getAdminDetailTopicApi from "@/apis/getAdminDetailTopicApi";
+import { Suspense, useEffect, useState } from "react";
 
-import {
-  adminTopicDataType,
-  fileType,
-  topicDeteilType,
-  topicListType,
-  uploadDataType,
-} from "@/types/adminType";
+import { fileType, uploadDataType } from "@/types/adminType";
 import Loading from "@/components/Common/Loading/Loading";
+import { useParams } from "react-router-dom";
+import { decrypt } from "@/hooks/useCrypto";
+import {
+  usePatchTopicCreate,
+  useTopicDetailQuery,
+} from "@/hooks/queries/useAdminTopicQuery";
+import { useQueryClient } from "react-query";
+import { QUERY_KEY } from "@/constants/queryKey";
+import AdminFormLayOut from "@/components/Admin/AdminLayOut/AdminFormLayOut/AdminFormLayOut";
 
 type topicSubmitType = {
   tags: any;
@@ -24,103 +23,94 @@ type topicSubmitType = {
   pointPerPerson: number;
 };
 
-type topicEditModalType = {
-  setTopicEditModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  TopicEditModalIsOpen: boolean;
-  topicEditModalData?: topicListType;
-  setAdminList: Dispatch<SetStateAction<adminTopicDataType[]>>;
-  pageNumber: number;
-  topicDetail?: topicDeteilType;
-  topicDetailNumber?: number;
-  setTopicDetail: React.Dispatch<
-    React.SetStateAction<topicDeteilType | undefined>
-  >;
-};
+const TopicEdit = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errMessage, setErrMessage] = useState("");
+  const { id } = useParams();
+  const queryClient = useQueryClient();
+  const decryptedTopicId = decrypt(id);
+  const [form] = Form.useForm();
 
-const TopicEditModal = ({
-  setTopicEditModalIsOpen,
-  TopicEditModalIsOpen,
-  topicEditModalData,
-  setAdminList,
-  pageNumber,
-  topicDetailNumber,
-  topicDetail,
-  setTopicDetail,
-}: topicEditModalType) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { data: adminDetail } = useTopicDetailQuery({
+    topicId: decryptedTopicId,
+  });
 
-  const TopicEditModalClose = () => {
-    setTopicEditModalIsOpen(false);
+  const topicDetailId = adminDetail?.topicId;
+  const title = adminDetail?.title;
+  const description = adminDetail?.description;
+  const notice = adminDetail?.notice;
+  const file = adminDetail?.fileResponse;
+  const tags = adminDetail?.tags;
+  const tagsArray = tags ? tags.split(",") : [];
+  const point = adminDetail?.pointPerPerson;
+  const onSuccessUsePostTokenRegister = () => {
+    setIsLoading(false);
+    alert("토픽이 수정되었습니다.");
+    queryClient.invalidateQueries(QUERY_KEY.ADMIN_TOPIC_DETAIL);
   };
+  const onErrorUsePostTokenRegister = (errMessage: string) => {
+    setIsLoading(false);
+    setErrMessage(errMessage);
+  };
+  const { mutate: instancePatch } = usePatchTopicCreate({
+    onSuccess: onSuccessUsePostTokenRegister,
+    onError: onErrorUsePostTokenRegister,
+  });
   const topicSubmit = (values: topicSubmitType) => {
     const tagString = values.tags.join();
     setIsLoading(true);
     const topicData = {
       setIsLoading: setIsLoading,
-      pageNumber: pageNumber,
-      setAdminList: setAdminList,
       topicId: topicDetailId,
       topicTitle: values.title,
       topicDesc: values.description,
       topicNotice: values.notice,
       topicTags: tagString,
       topicPoint: values.pointPerPerson,
-      setTopicEditModalIsOpen: setTopicEditModalIsOpen,
       topicFile: values.fileResponse[0]?.originFileObj,
     };
     if (values.fileResponse) {
       topicData.topicFile = values.fileResponse[0]?.originFileObj;
     }
-    patchAdminEditApi(topicData);
+    instancePatch(topicData);
   };
-
-  const topicDetailId = topicEditModalData?.topicId;
-  const title = topicDetail?.title;
-  const description = topicDetail?.description;
-  const notice = topicDetail?.notice;
-  const file = topicDetail?.fileResponse;
-  const tags = topicDetail?.tags;
-  const point = topicDetail?.pointPerPerson;
   useEffect(() => {
-    const getAdminDetailTopic = async () => {
-      await getAdminDetailTopicApi({
-        topicId: topicDetailNumber,
-        setTopicDetail: setTopicDetail,
-      });
-      setIsLoading(false);
-    };
-    getAdminDetailTopic();
-  }, []);
-
+    form.setFieldsValue({
+      title: adminDetail?.title,
+      description: adminDetail?.description,
+      notice: adminDetail?.notice,
+      file: adminDetail?.fileResponse,
+      tags: tagsArray,
+      pointPerPerson: adminDetail?.pointPerPerson,
+    });
+  }, [adminDetail, form]);
   return (
-    <Modal
-      isOpen={TopicEditModalIsOpen}
-      onRequestClose={TopicEditModalClose}
-      contentLabel="sign complete message"
-      shouldCloseOnOverlayClick={true}
-      ariaHideApp={false}
-      style={adminmodalCard}
-    >
+    <>
       {isLoading ? (
         <div>
           <Loading />
         </div>
       ) : (
-        <Form
-          onFinish={topicSubmit}
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 19 }}
-          className="w-full"
-        >
-          <FormTitle title={title} />
-          <FormDesc description={description} notice={notice} />
-          <FormImg file={file} />
-          <FormInterest tags={tags} />
-          <FormPoint point={point} />
-          <SubmitButtom TopicEditModalClose={TopicEditModalClose} />
-        </Form>
+        <>
+          <AdminFormLayOut title={"토픽 수정 페이지"}>
+            <Form
+              form={form}
+              onFinish={topicSubmit}
+              // labelCol={{ span: 4 }}
+              // wrapperCol={{ span: 19 }}
+              className="w-full max-w-[1200px]"
+            >
+              <FormTitle title={title} />
+              <FormDesc description={description} notice={notice} />
+              <FormImg file={file} />
+              <FormInterest tags={tags} />
+              <FormPoint point={point} />
+              <SubmitButtom />
+            </Form>
+          </AdminFormLayOut>
+        </>
       )}
-    </Modal>
+    </>
   );
 };
 
@@ -128,7 +118,7 @@ const FormTitle = ({ title }: { title: string | undefined }) => {
   return (
     <>
       <Form.Item
-        label="제목"
+        label="토픽 제목"
         rules={[
           {
             validator: async (_, names) => {
@@ -270,11 +260,7 @@ const FormPoint = ({ point }: { point: number | undefined }) => {
     </>
   );
 };
-const SubmitButtom = ({
-  TopicEditModalClose,
-}: {
-  TopicEditModalClose: () => void;
-}) => {
+const SubmitButtom = () => {
   return (
     <>
       <div className="flex justify-center gap-32">
@@ -282,16 +268,10 @@ const SubmitButtom = ({
           htmlType="submit"
           className="w-[10rem] h-[5rem] text-white bg-_neutral-70 text-_h3 hover:opacity-65"
         >
-          생성
-        </Button>
-        <Button
-          onClick={TopicEditModalClose}
-          className="w-[10rem] h-[5rem] text-white bg-_neutral-70 text-_h3 hover:opacity-65"
-        >
-          취소
+          수정
         </Button>
       </div>
     </>
   );
 };
-export default TopicEditModal;
+export default TopicEdit;

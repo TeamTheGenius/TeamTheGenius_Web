@@ -52,6 +52,10 @@ import PrivateRoute from "./components/Route/PrivateRoute/PrivateRoute";
 import { ErrorBoundary } from "react-error-boundary";
 import { Suspense } from "react";
 import Loading from "./components/Common/Loading/Loading";
+import TopicCreate from "./pages/Admin/AdminTopic/TopicCreate/TopicCreate";
+import InstanceCreate from "./pages/Admin/AdminInstance/InstanceCreate/InstanceCreate";
+import TopicEdit from "./pages/Admin/AdminTopic/TopicEdit/TopicEdit";
+import InstanceEdit from "./pages/Admin/AdminInstance/InstanceEdit/InstanceEdit";
 
 function App() {
   const { reset } = useQueryErrorResetBoundary();
@@ -185,8 +189,24 @@ function App() {
 
                 <Route path={PATH.ADMIN} element={<AdminTopic />} />
                 <Route
+                  path={PATH.ADMIN_TOPIC_CREATE}
+                  element={<TopicCreate />}
+                />
+                <Route
+                  path={PATH.ADMIN_TOPIC_EDIT_ID}
+                  element={<TopicEdit />}
+                />
+                <Route
                   path={PATH.ADMIN_INSTANCE_ID}
                   element={<AdminInstance />}
+                />
+                <Route
+                  path={PATH.ADMIN_INSTANCE_CREATE_ID}
+                  element={<InstanceCreate />}
+                />
+                <Route
+                  path={PATH.ADMIN_INSTANCE_EDIT_ID}
+                  element={<InstanceEdit />}
                 />
               </Route>
 

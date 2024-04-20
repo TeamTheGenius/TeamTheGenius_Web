@@ -39,4 +39,12 @@ export const QUERY_KEY = {
   SHOP_FRAME_ITEMS: "shopFrameItems",
   SHOP_PASS_ITEM: "shopPassItem",
   SHOP_POINT_TWICE_ITEM: "shopPointTwiceItem",
+
+  ADMIN_TOPIC: "adminTopicList",
+  ADMIN_TOPIC_PAGE: "adminTopicPageList",
+  ADMIN_TOPIC_DETAIL: "adminTopicPageDetail",
+
+  ADMIN_INSTANCE: "adminInstanceList",
+  ADMIN_INSTANCE_PAGE: "adminInstancePageList",
+  ADMIN_INSTANCE_DETAIL: "adminInstancePageDetail",
 };

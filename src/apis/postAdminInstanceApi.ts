@@ -14,13 +14,12 @@ type instanceCreateApiType = {
   instanceRangeStart: string;
   instanceRangeEnd: string;
   topicId: number;
-  setModalIsOpen: Dispatch<SetStateAction<boolean>>;
-  instanceImg?: any | undefined;
-  setInstanceList: Dispatch<SetStateAction<instanceListDataType[]>>;
+  instanceImg: any;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 const postAdminInstanceApi = async ({
+  topicId,
   setIsLoading,
   instanceTitle,
   instanceDesc,
@@ -30,10 +29,7 @@ const postAdminInstanceApi = async ({
   instancePoint,
   instanceRangeStart,
   instanceRangeEnd,
-  topicId,
-  setModalIsOpen,
   instanceImg,
-  setInstanceList,
 }: instanceCreateApiType) => {
   const body = {
     topicId: topicId,
@@ -59,11 +55,7 @@ const postAdminInstanceApi = async ({
 
   await multiInstance
     .post(`${requests.fetchInstance}`, formData)
-    .then(() => {
-      setIsLoading(false);
-      getAdminInstanceListApi({ setInstanceList });
-      setModalIsOpen(false);
-    })
+    .then((res) => {})
     .catch((err) => {
       alert("생성 실패");
       throw err;
