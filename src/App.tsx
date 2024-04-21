@@ -52,7 +52,12 @@ import PrivateRoute from "./components/Route/PrivateRoute/PrivateRoute";
 import { ErrorBoundary } from "react-error-boundary";
 import { Suspense } from "react";
 import Loading from "./components/Common/Loading/Loading";
+import TopicCreate from "./pages/Admin/AdminTopic/TopicCreate/TopicCreate";
+import InstanceCreate from "./pages/Admin/AdminInstance/InstanceCreate/InstanceCreate";
+import TopicEdit from "./pages/Admin/AdminTopic/TopicEdit/TopicEdit";
+import InstanceEdit from "./pages/Admin/AdminInstance/InstanceEdit/InstanceEdit";
 import CommonGetErrorFallback from "./components/Error/CommonGetErrorFallback/CommonGetErrorFallback";
+
 
 function App() {
   const queryClient = new QueryClient({
@@ -216,7 +221,50 @@ function App() {
           </ErrorBoundary>
         )}
       </QueryErrorResetBoundary>
+                <Route path={PATH.PAYMENTS} element={<Payments />} />
+                <Route path={PATH.PAYMENTS_SUCCESS} element={<Success />} />
+                <Route path={PATH.PAYMENTS_FAIL} element={<Fail />} />
+                <Route
+                  path={PATH.GITHUB_REPO_REGISTER}
+                  element={<GitPullReqConnect />}
+                />
 
+                <Route path={PATH.ADMIN} element={<AdminTopic />} />
+                <Route
+                  path={PATH.ADMIN_TOPIC_CREATE}
+                  element={<TopicCreate />}
+                />
+                <Route
+                  path={PATH.ADMIN_TOPIC_EDIT_ID}
+                  element={<TopicEdit />}
+                />
+                <Route
+                  path={PATH.ADMIN_INSTANCE_ID}
+                  element={<AdminInstance />}
+                />
+                <Route
+                  path={PATH.ADMIN_INSTANCE_CREATE_ID}
+                  element={<InstanceCreate />}
+                />
+                <Route
+                  path={PATH.ADMIN_INSTANCE_EDIT_ID}
+                  element={<InstanceEdit />}
+                />
+              </Route>
+
+              <Route
+                path="/*"
+                element={
+                  <Error
+                    errNum={404}
+                    errorTxt="페이지 정보를 찾을 수 없습니다."
+                  />
+                }
+              />
+            </Routes>
+          </Router>
+        </Suspense>
+      </ErrorBoundary>
       <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>
   );

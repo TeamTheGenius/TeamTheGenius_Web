@@ -1,27 +1,20 @@
-import { instanceEditCard } from "@/utils/modalCard";
 import { Button, Form, Image, Input, Upload, UploadProps } from "antd";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
-import Modal from "react-modal";
-
 import moment from "moment";
-import getAdminDetailInstanceApi from "@/apis/getAdminDetailInstanceApi";
-import patchAdminInstanceEditApi from "@/apis/patchAdminInstanceEditApi";
 
-import {
-  fileType,
-  instanceDeteilType,
-  instanceListDataType,
-} from "@/types/adminType";
+import { fileType, instanceDeteilType } from "@/types/adminType";
 import Loading from "@/components/Common/Loading/Loading";
+import {
+  useInstanceDetailQuery,
+  usePatchInstanceCreate,
+} from "@/hooks/queries/useAdminInstanceQuery";
+import { useParams } from "react-router-dom";
+import { useQueryClient } from "react-query";
+import { decrypt } from "@/hooks/useCrypto";
+import { QUERY_KEY } from "@/constants/queryKey";
+import AdminFormLayOut from "@/components/Admin/AdminLayOut/AdminFormLayOut/AdminFormLayOut";
 
-type InstanceEditModalType = {
-  setinstanceEditModalIsOpen: Dispatch<SetStateAction<boolean>>;
-  instanceEditModalIsOpen: boolean;
-  instanceDetail?: instanceDeteilType;
-  instanceNumber: number;
-  setInstanceList: Dispatch<SetStateAction<instanceListDataType[]>>;
-};
 type InstanceEditData = {
   topicId: number;
   instanceId: number;
@@ -43,17 +36,34 @@ type InstanceEditData = {
   }[];
 };
 
-const InstanceEditModal = ({
-  setinstanceEditModalIsOpen,
-  instanceEditModalIsOpen,
-  instanceDetail,
-  instanceNumber,
-  setInstanceList,
-}: InstanceEditModalType) => {
+const InstanceEdit = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const InstanceEditModalClose = () => {
-    setinstanceEditModalIsOpen(false);
+  const [errMessage, setErrMessage] = useState("");
+  const { id } = useParams();
+  const queryClient = useQueryClient();
+  const decryptedTopicId = decrypt(id);
+  const [form] = Form.useForm();
+  const { data: instanceDetail } = useInstanceDetailQuery({
+    instanceId: decryptedTopicId,
+  });
+
+  const tags = instanceDetail?.tags;
+  const tagsArray = tags ? tags.split(",") : [];
+  const file = instanceDetail?.fileResponse;
+
+  const onSuccessUsePostTokenRegister = () => {
+    setIsLoading(false);
+    alert("인스턴스가 수정되었습니다.");
+    queryClient.invalidateQueries(QUERY_KEY.ADMIN_INSTANCE_DETAIL);
   };
+  const onErrorUsePostTokenRegister = (errMessage: string) => {
+    setIsLoading(false);
+    setErrMessage(errMessage);
+  };
+  const { mutate: instancePatch } = usePatchInstanceCreate({
+    onSuccess: onSuccessUsePostTokenRegister,
+    onError: onErrorUsePostTokenRegister,
+  });
 
   const instanceSumbit = (values: InstanceEditData) => {
     setIsLoading(true);
@@ -63,8 +73,7 @@ const InstanceEditModal = ({
     );
     const instanceData = {
       setIsLoading: setIsLoading,
-      setInstanceList: setInstanceList,
-      instanceId: instanceNumber,
+      instanceId: decryptedTopicId,
       topicIdId: values.topicId,
       instanceTitle: values.title,
       instanceDesc: values.description,
@@ -74,52 +83,45 @@ const InstanceEditModal = ({
       instanceStartAt: startedAt,
       instanceCompletedAt: completedAt,
       instanceImg: values.fileResponse[0]?.originFileObj,
-      setinstanceEditModalIsOpen: setinstanceEditModalIsOpen,
     };
     if (values.fileResponse) {
       instanceData.instanceImg = values.fileResponse[0]?.originFileObj;
     }
-    patchAdminInstanceEditApi(instanceData);
+    instancePatch(instanceData);
   };
-  const file = instanceDetail?.fileResponse;
+
   useEffect(() => {
-    const getAdminDetailInstance = async () => {
-      await getAdminDetailInstanceApi({
-        setIsLoading: setIsLoading,
-        instanceId: instanceNumber,
-        setInstanceList: setInstanceList,
-      });
-    };
-    setIsLoading(true);
-    getAdminDetailInstance();
-  }, []);
+    form.setFieldsValue({
+      description: instanceDetail?.description,
+      notice: instanceDetail?.notice,
+      file: instanceDetail?.fileResponse,
+      tags: tagsArray,
+      pointPerPerson: instanceDetail?.pointPerPerson,
+    });
+  }, [form]);
+
   return (
-    <Modal
-      isOpen={instanceEditModalIsOpen}
-      onRequestClose={InstanceEditModalClose}
-      contentLabel="sign complete message"
-      shouldCloseOnOverlayClick={true}
-      ariaHideApp={false}
-      style={instanceEditCard}
-    >
+    <>
       {isLoading ? (
         <Loading />
       ) : (
-        <Form
-          onFinish={instanceSumbit}
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 19 }}
-          initialValues={instanceDetail}
-          className="w-full"
-        >
-          <FormDesc />
-          <FormImg file={file} />
-          <FormPoint />
-          <FormRangePicker instanceDetail={instanceDetail} />
-          <SubmitButtom InstanceModalClose={InstanceEditModalClose} />
-        </Form>
+        <AdminFormLayOut title={"인스턴스 수정 페이지"} instanceTokken={true}>
+          <Form
+            onFinish={instanceSumbit}
+            // labelCol={{ span: 4 }}
+            // wrapperCol={{ span: 19 }}
+            initialValues={instanceDetail}
+            className="w-full"
+          >
+            <FormDesc />
+            <FormImg file={file} />
+            <FormPoint />
+            <FormRangePicker instanceDetail={instanceDetail} />
+            <SubmitButtom />
+          </Form>
+        </AdminFormLayOut>
       )}
-    </Modal>
+    </>
   );
 };
 const FormDesc = () => {
@@ -226,11 +228,7 @@ const FormRangePicker = ({
   );
 };
 
-const SubmitButtom = ({
-  InstanceModalClose,
-}: {
-  InstanceModalClose: () => void;
-}) => {
+const SubmitButtom = () => {
   return (
     <>
       <div className="flex justify-center gap-32">
@@ -240,14 +238,8 @@ const SubmitButtom = ({
         >
           생성
         </Button>
-        <Button
-          onClick={InstanceModalClose}
-          className="w-[10rem] h-[5rem] text-white bg-_neutral-70 text-_h3 hover:opacity-65"
-        >
-          취소
-        </Button>
       </div>
     </>
   );
 };
-export default InstanceEditModal;
+export default InstanceEdit;

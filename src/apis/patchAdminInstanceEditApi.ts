@@ -15,9 +15,7 @@ type editInstacneType = {
   instanceTitle: string;
   instanceCompletedAt: string;
   instanceImg?: any;
-  setinstanceEditModalIsOpen: Dispatch<SetStateAction<boolean>>;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
-  setInstanceList: Dispatch<SetStateAction<instanceListDataType[]>>;
 };
 
 const patchAdminInstanceEditApi = async ({
@@ -32,8 +30,6 @@ const patchAdminInstanceEditApi = async ({
   instanceCompletedAt,
   instanceImg,
   setIsLoading,
-  setinstanceEditModalIsOpen,
-  setInstanceList,
 }: editInstacneType) => {
   const body = {
     topicIdId: topicIdId,
@@ -58,8 +54,6 @@ const patchAdminInstanceEditApi = async ({
     .patch(`${requests.fetchInstance}/${instanceId}`, formData)
     .then(() => {
       setIsLoading(false);
-      setinstanceEditModalIsOpen(false);
-      getAdminInstanceListApi({ setInstanceList });
     })
     .catch((err) => {
       alert("수정 실패");

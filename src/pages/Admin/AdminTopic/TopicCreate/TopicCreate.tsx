@@ -1,7 +1,8 @@
-import postAdminTopicApi from "@/apis/postAdminTopicApi";
+import AdminFormLayOut from "@/components/Admin/AdminLayOut/AdminFormLayOut/AdminFormLayOut";
 import Loading from "@/components/Common/Loading/Loading";
+import { PATH } from "@/constants/path";
+import { usePostTopicCreate } from "@/hooks/queries/useAdminTopicQuery";
 import { adminTopicDataType } from "@/types/adminType";
-import { adminmodalCard } from "@/utils/modalCard";
 import { UploadOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -13,11 +14,8 @@ import {
   message,
 } from "antd";
 import { useState } from "react";
-import Modal from "react-modal";
 
-type TopicModalType = {
-  setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  ModalIsOpen: boolean;
+type TopicCreateType = {
   setAdminList: React.Dispatch<React.SetStateAction<adminTopicDataType[]>>;
 };
 type FormDataType = {
@@ -38,61 +36,59 @@ type FormDataType = {
   }[];
 };
 
-const TopicCreateModal = ({
-  ModalIsOpen,
-  setModalIsOpen,
-  setAdminList,
-}: TopicModalType) => {
+const TopicCreate = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const TopicModalClose = () => {
-    setModalIsOpen(false);
+  const [errMessage, setErrMessage] = useState<string>("");
+  const onSuccessUsePostTokenRegister = () => {
+    setIsLoading(false);
+    alert("토픽이 생성되었습니다");
   };
-
+  const onErrorUsePostTokenRegister = (errMessage: string) => {
+    setIsLoading(false);
+    setErrMessage(errMessage);
+  };
+  const { mutate: topicCreate } = usePostTopicCreate({
+    onSuccess: onSuccessUsePostTokenRegister,
+    onError: onErrorUsePostTokenRegister,
+  });
   const topicSubmit = (values: FormDataType) => {
     setIsLoading(true);
     const tagString = values.tags.join();
-    postAdminTopicApi({
-      setIsLoading: setIsLoading,
-      setAdminList: setAdminList,
-      setModalIsOpen: setModalIsOpen,
+    const topicCreateData = {
       topicTitle: values.title,
       topicDesc: values.description,
       topicNotice: values.notice,
       topicTags: tagString,
       topicFile: values.upload,
       topicPoint: values.pointPerPerson,
-    });
+    };
+    topicCreate(topicCreateData);
   };
 
   return (
-    <div>
-      <Modal
-        isOpen={ModalIsOpen}
-        onRequestClose={TopicModalClose}
-        contentLabel="sign complete message"
-        shouldCloseOnOverlayClick={true}
-        ariaHideApp={false}
-        style={adminmodalCard}
-      >
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <Form
-            onFinish={topicSubmit}
-            labelCol={{ span: 4 }}
-            wrapperCol={{ span: 19 }}
-            className="w-full"
-          >
-            <FormTitle />
-            <FormDesc />
-            <FormImg />
-            <FormInterest />
-            <FormPoint />
-            <SubmitButtom TopicModalClose={TopicModalClose} />
-          </Form>
-        )}
-      </Modal>
-    </div>
+    <>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <AdminFormLayOut title={"토픽 생성 페이지"}>
+            <Form
+              onFinish={topicSubmit}
+              // labelCol={{ span: 2 }}
+              // wrapperCol={{ span: 21 }}
+              className="w-full max-w-[1200px]"
+            >
+              <FormTitle />
+              <FormDesc />
+              <FormImg />
+              <FormInterest />
+              <FormPoint />
+              <SubmitButtom />
+            </Form>
+          </AdminFormLayOut>
+        </>
+      )}
+    </>
   );
 };
 
@@ -237,7 +233,7 @@ const FormPoint = () => {
   );
 };
 
-const SubmitButtom = ({ TopicModalClose }: any) => {
+const SubmitButtom = () => {
   return (
     <>
       <div className="flex justify-center gap-32">
@@ -247,15 +243,9 @@ const SubmitButtom = ({ TopicModalClose }: any) => {
         >
           생성
         </Button>
-        <Button
-          onClick={TopicModalClose}
-          className="w-[10rem] h-[5rem] text-white bg-_neutral-70 text-_h3 hover:opacity-65"
-        >
-          취소
-        </Button>
       </div>
     </>
   );
 };
 
-export default TopicCreateModal;
+export default TopicCreate;

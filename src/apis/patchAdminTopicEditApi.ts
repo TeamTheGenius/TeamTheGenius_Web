@@ -1,4 +1,3 @@
-import getAdminTopicListApi from "./getAdminTopicListApi";
 import { adminTopicEditApiType } from "@/types/adminType";
 import { multiInstance } from "./axios/axios";
 import requests from "./axios/request";
@@ -11,9 +10,6 @@ const patchAdminTopicEditApi = async ({
   topicTags,
   topicPoint,
   topicFile,
-  setTopicEditModalIsOpen,
-  setAdminList,
-  pageNumber,
   setIsLoading,
 }: adminTopicEditApiType) => {
   const body = {
@@ -36,9 +32,7 @@ const patchAdminTopicEditApi = async ({
   await multiInstance
     .patch(`${requests.fetchTopic}/${topicId}`, formData)
     .then(() => {
-      setTopicEditModalIsOpen(false);
       setIsLoading(false);
-      getAdminTopicListApi({ setAdminList, pageNumber: pageNumber - 1 });
     })
     .catch((err) => {
       alert("생성 실패");

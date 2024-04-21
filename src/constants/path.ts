@@ -52,7 +52,12 @@ export const PATH = {
 
   GITHUB_REPO_REGISTER: "/challenge-detail/:id/repo-register",
 
-  ADMIN: "/admin",
+  ADMIN: "/admin/topic",
+  ADMIN_TOPIC_CREATE: "/admin/topic/create",
+  ADMIN_TOPIC_EDIT: "/admin/topic/edit",
+  ADMIN_TOPIC_EDIT_ID: "/admin/topic/edit/:id",
   ADMIN_INSTANCE: "/admin/instance",
   ADMIN_INSTANCE_ID: "/admin/instance/:id",
+  ADMIN_INSTANCE_CREATE_ID: "/admin/instance/:id/create",
+  ADMIN_INSTANCE_EDIT_ID: "/admin/instance/:id/edit",
 };
