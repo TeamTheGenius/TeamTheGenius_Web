@@ -126,8 +126,8 @@ export const usePatchInstanceCreate = ({
       onSuccess: () => {
         onSuccess();
       },
-      onError: (err: AxiosError) => {
-        onError(err?.response?.data?.message);
+      onError: (err: AxiosError<{ message?: string }>) => {
+        err.response?.data.message && onError(err?.response?.data?.message);
       },
     }
   );
