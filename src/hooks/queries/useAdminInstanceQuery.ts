@@ -1,12 +1,9 @@
 import getAdminDetailInstanceApi from "@/apis/getAdminDetailInstanceApi";
-import getAdminDetailTopicApi from "@/apis/getAdminDetailTopicApi";
 import getAdminInstanceListPageApi from "@/apis/getAdminInstanceListApi";
 import patchAdminInstanceEditApi from "@/apis/patchAdminInstanceEditApi";
-import patchAdminTopicEditApi from "@/apis/patchAdminTopicEditApi";
 import postAdminInstanceApi from "@/apis/postAdminInstanceApi";
 import { QUERY_KEY } from "@/constants/queryKey";
 import {
-  adminTopicEditApiType,
   editInstacneQueryType,
   instanceCreateApiType,
 } from "@/types/adminType";
@@ -32,7 +29,6 @@ export const useInstanceListQuery = ({
         setTotalNumber,
       }),
     keepPreviousData: true,
-    suspense: true,
   });
   return { data };
 };
@@ -45,7 +41,6 @@ export const useInstanceDetailQuery = ({
       getAdminDetailInstanceApi({
         instanceId: instanceId,
       }),
-    suspense: true,
   });
   return { data };
 };
@@ -89,10 +84,9 @@ export const usePostInstanceCreate = ({
       onSuccess: () => {
         onSuccess();
       },
-      onError: (err: AxiosError) => {
-        onError(err?.response?.data?.message);
+      onError: (err: AxiosError<{ message?: string }>) => {
+        err.response?.data.message && onError(err?.response?.data?.message);
       },
-      useErrorBoundary: false,
     }
   );
   return { mutate, isLoading };
@@ -132,10 +126,9 @@ export const usePatchInstanceCreate = ({
       onSuccess: () => {
         onSuccess();
       },
-      onError: (err: AxiosError) => {
-        onError(err?.response?.data?.message);
+      onError: (err: AxiosError<{ message?: string }>) => {
+        err.response?.data.message && onError(err?.response?.data?.message);
       },
-      useErrorBoundary: false,
     }
   );
   return { mutate, isLoading };

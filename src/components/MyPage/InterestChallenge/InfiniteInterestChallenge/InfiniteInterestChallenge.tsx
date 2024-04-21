@@ -9,7 +9,7 @@ import {
 } from "@/hooks/queries/useLikeQuery";
 import { encrypt } from "@/hooks/useCrypto";
 import useModal from "@/hooks/useModal";
-import { LikedChallengeDataType } from "@/types/likeType";
+import { InstanceThumbnailDataType } from "@/types/homeInstance";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
@@ -19,7 +19,6 @@ import { useNavigate } from "react-router-dom";
 
 function InfiniteInterestChallenge() {
   const [ref, inView] = useInView();
-  const [challenges, setChallenges] = useState<LikedChallengeDataType[]>([]);
   const [modal, setModal] = useState<React.ReactNode>();
   const { isModalOpened, closeModal, openModal } = useModal();
   const navigate = useNavigate();
@@ -35,16 +34,14 @@ function InfiniteInterestChallenge() {
   const { mutate: deleteLikesChallenges } = useDeleteLikesChallenge({
     onError: onErrorDeleteLikesChallenge,
   });
-  const { fetchNextPage, hasNextPage, isLoading } =
-    useGetInfiniteLikedChallenges({ setChallenges: setChallenges });
+  const { fetchNextPage, hasNextPage, isLoading, data } =
+    useGetInfiniteLikedChallenges();
 
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
     }
-  }, [inView, hasNextPage, fetchNextPage]);
-
-  if (!challenges) return null;
+  }, [inView]);
 
   const onClickChallengeItem = (instanceId: number) => {
     navigate(`${PATH.CHALLENGE_DETAIL}/${encrypt(instanceId)}`);
@@ -64,30 +61,34 @@ function InfiniteInterestChallenge() {
           document.body
         )}
       <div className="pt-[9rem] _sm:pt-[7.6rem] w-full max-w-[51.5rem] _sm:max-w-[34.9rem] grid grid-cols-3 gap-x-[1rem] _sm:grid-cols-2">
-        {challenges.map((item, index) => (
-          <div className="pb-[1.8rem]" key={index}>
-            <ChallengeItem
-              onClick={() => onClickChallengeItem(item.instanceId)}
-            >
-              <ChallengeItem.Image
-                imgSrc={makeBase64IncodedImage({
-                  uri: item.fileResponse.encodedFile,
-                  format: "jpg",
-                })}
-                alt={"챌린지 이미지"}
-                direction="vertical"
-                maxWidth="max-w-[16.5rem]"
-                paddingBottom="pb-[72.7%]"
-              >
-                <ChallengeItem.Heart
-                  onClick={(e) => onClickHeart(e, item.likesId)}
-                />
-              </ChallengeItem.Image>
-              <ChallengeItem.Title title={item.title} />
-              <ChallengeItem.Reward point={item.pointPerPerson} />
-            </ChallengeItem>
-          </div>
-        ))}
+        {data?.pages.map((page, pageIndex) =>
+          page.posts.map(
+            (post: InstanceThumbnailDataType, postIndex: number) => (
+              <div className="pb-[1.8rem]" key={`${pageIndex}-${postIndex}`}>
+                <ChallengeItem
+                  onClick={() => onClickChallengeItem(post.instanceId)}
+                >
+                  <ChallengeItem.Image
+                    imgSrc={makeBase64IncodedImage({
+                      uri: post.fileResponse.encodedFile,
+                      format: "jpg",
+                    })}
+                    alt={"챌린지 이미지"}
+                    direction="vertical"
+                    maxWidth="max-w-[16.5rem]"
+                    paddingBottom="pb-[72.7%]"
+                  >
+                    <ChallengeItem.Heart
+                      onClick={(e) => onClickHeart(e, post.likesId)}
+                    />
+                  </ChallengeItem.Image>
+                  <ChallengeItem.Title title={post.title} />
+                  <ChallengeItem.Reward point={post.pointPerPerson} />
+                </ChallengeItem>
+              </div>
+            )
+          )
+        )}
         <div ref={ref} style={{ height: "10px", background: "transparent" }} />
       </div>
     </>

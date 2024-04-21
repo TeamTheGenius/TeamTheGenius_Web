@@ -38,7 +38,6 @@ type InstanceEditData = {
 
 const InstanceEdit = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errMessage, setErrMessage] = useState("");
   const { id } = useParams();
   const queryClient = useQueryClient();
   const decryptedTopicId = decrypt(id);
@@ -58,7 +57,7 @@ const InstanceEdit = () => {
   };
   const onErrorUsePostTokenRegister = (errMessage: string) => {
     setIsLoading(false);
-    setErrMessage(errMessage);
+    alert(errMessage);
   };
   const { mutate: instancePatch } = usePatchInstanceCreate({
     onSuccess: onSuccessUsePostTokenRegister,

@@ -22,7 +22,6 @@ export const useGetMyProfile = () => {
   const { data, isLoading } = useQuery<MyProfileDataType>({
     queryKey: [QUERY_KEY.MY_PROFILE],
     queryFn: () => getMyPageProfile(),
-    suspense: true,
   });
 
   return { data, isLoading };
@@ -32,7 +31,6 @@ export const useGetUserProfile = (decryptedUserId: number) => {
   const { data } = useQuery<UserDataType>({
     queryKey: [QUERY_KEY.CERTIFICATION_USER_PROFILE, { decryptedUserId }],
     queryFn: () => postUserProfile({ userId: decryptedUserId }),
-    suspense: true,
   });
 
   return { data };
@@ -61,7 +59,6 @@ export const useGetMyProfileInterestTag = () => {
   const { data } = useQuery<string[]>({
     queryKey: [QUERY_KEY.MY_INTEREST_TAGS],
     queryFn: () => getInterestTags(),
-    suspense: true,
   });
 
   return { data };
@@ -111,7 +108,6 @@ export const useGetMyAllChallengesStatistics = () => {
   const { data } = useQuery<MyAllChallengesStatisticsDataType>({
     queryKey: [QUERY_KEY.MY_ALL_CHALLENGES_STATUS],
     queryFn: () => getMyPageChallengesStatus(),
-    suspense: true,
   });
   return { data };
 };

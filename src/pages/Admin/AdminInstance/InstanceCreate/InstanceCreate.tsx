@@ -34,7 +34,6 @@ type instanceCreateData = {
 
 const InstanceCreate = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errMessage, setErrMessage] = useState<string>("");
   const { id } = useParams();
   const [form] = Form.useForm();
   const decryptTopicId = decrypt(id);
@@ -51,19 +50,19 @@ const InstanceCreate = () => {
   const file = adminDetail?.fileResponse;
   const point = adminDetail?.pointPerPerson;
 
-  const onSuccessUsePostTokenRegister = () => {
+  const onSuccessUsePostInstanceCreate = () => {
     setIsLoading(false);
     alert("인스턴스가 생성되었습니다");
   };
 
-  const onErrorUsePostTokenRegister = (errMessage: string) => {
+  const onErrorUsePostInstanceCreate = (errMessage: string) => {
     setIsLoading(false);
-    setErrMessage(errMessage);
+    alert(errMessage);
   };
 
   const { mutate: instanceCreate } = usePostInstanceCreate({
-    onSuccess: onSuccessUsePostTokenRegister,
-    onError: onErrorUsePostTokenRegister,
+    onSuccess: onSuccessUsePostInstanceCreate,
+    onError: onErrorUsePostInstanceCreate,
   });
 
   const instanceSumbit = (values: instanceCreateData) => {

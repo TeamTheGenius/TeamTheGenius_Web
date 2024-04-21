@@ -6,7 +6,6 @@ import getTotalCertification from "@/apis/getTotalCertification";
 import postTodayCertification from "@/apis/postTodayCertification";
 import { QUERY_KEY } from "@/constants/queryKey";
 import {
-  AllWeekCertificationDataType,
   CertificationDataType,
   CertificationInstnaceDetailDataType,
   CertificationStatisticsType,
@@ -66,7 +65,6 @@ export const useGetCertificationInstanceDetail = ({
       getCertificationInstanceDetail({
         instanceId: decryptedInstanceId,
       }),
-    suspense: true,
   });
   return { data, isLoading };
 };
@@ -86,23 +84,18 @@ export const useGetMyCertificationWeek = ({
       getMyWeekCertification({
         instanceId: decryptedInstanceId,
       }),
-    suspense: true,
   });
   return { data };
 };
 
 interface GetAllCertificationWeekType {
-  setcertifications: React.Dispatch<
-    React.SetStateAction<AllWeekCertificationDataType[]>
-  >;
   decryptedInstanceId: number;
 }
 
 export const useGetAllCertificationWeek = ({
   decryptedInstanceId,
-  setcertifications,
 }: GetAllCertificationWeekType) => {
-  const { fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
+  const { fetchNextPage, hasNextPage, isLoading, data } = useInfiniteQuery({
     queryKey: [
       QUERY_KEY.INFINITE_OTHERS_WEEK_CERTIFICATIONS_OF_INSTANCE,
       { decryptedInstanceId },
@@ -116,13 +109,8 @@ export const useGetAllCertificationWeek = ({
     getNextPageParam: (lastPage) => {
       return !lastPage.isLast ? lastPage.page + 1 : undefined;
     },
-    onSuccess: (res) => {
-      const certifications = res.pages.map((page) => page.posts).flat();
-      setcertifications(certifications);
-    },
-    cacheTime: 0,
   });
-  return { fetchNextPage, hasNextPage, isLoading };
+  return { fetchNextPage, hasNextPage, isLoading, data };
 };
 
 interface GetTotalCertificationsType {
@@ -145,7 +133,6 @@ export const useGetTotalCertifications = ({
         instanceId: decryptedInstanceId,
         userId: decryptedUserId,
       }),
-    suspense: true,
   });
   return { data };
 };
@@ -165,7 +152,6 @@ export const useGetCertificationStatistics = ({
       getCertificationInformation({
         instanceId: decryptedInstanceId,
       }),
-    suspense: true,
   });
   return { data };
 };

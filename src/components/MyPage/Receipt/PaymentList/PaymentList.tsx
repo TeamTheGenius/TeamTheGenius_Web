@@ -20,7 +20,6 @@ function PaymentList() {
   const { data } = useQuery<receiptType[]>({
     queryKey: [QUERY_KEY.MY_PAYMENT_RECEIPT],
     queryFn: () => getPaymentReceiptApi(),
-    suspense: true,
   });
 
   const monthlyOrders: MonthlyOrders =

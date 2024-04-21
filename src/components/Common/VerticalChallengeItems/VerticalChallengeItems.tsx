@@ -24,7 +24,7 @@ function VerticalChallengeItems({ data }: Props) {
     navigate(`${PATH.CHALLENGE_DETAIL}/${instanceId}`);
   };
   return (
-    <div className="w-full max-w-[72.2rem] grid grid-cols-4 gap-x-[2.2rem] gap-y-[0.3rem] _md:grid-cols-3 _sm:grid-cols-2">
+    <>
       {data.map((item, index) => (
         <div key={index} className="my-[0.4rem] ">
           <ChallengeItem
@@ -48,7 +48,7 @@ function VerticalChallengeItems({ data }: Props) {
           </ChallengeItem>
         </div>
       ))}
-    </div>
+    </>
   );
 }
 

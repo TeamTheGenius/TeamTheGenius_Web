@@ -8,198 +8,129 @@ import getLatestChallenge from "@/apis/getLatestChallenge";
 
 interface GetSearchInfiniteActivityInstanceType {
   searchQuery: string;
-  setChallenges: React.Dispatch<
-    React.SetStateAction<InstanceThumbnailDataType[]>
-  >;
 }
 export const useGetSearchInfiniteActivityInstance = ({
   searchQuery,
-  setChallenges,
 }: GetSearchInfiniteActivityInstanceType) => {
-  const { fetchNextPage, hasNextPage, refetch, isLoading } = useInfiniteQuery({
-    queryKey: [QUERY_KEY.INFINITE_SEARCHED_ACTIVITY_CHALLENGES],
-    queryFn: ({ pageParam = 0 }) =>
-      getSearchedChallengeItem({
-        pageParams: pageParam,
-        size: 20,
-        keyword: searchQuery,
-        progress: "ACTIVITY",
-      }),
-    getNextPageParam: (lastPage) => {
-      return lastPage.isLast ? undefined : lastPage.page + 1;
-    },
-    onSuccess: (res) => {
-      const newChallenges = res.pages.map((page) => page.posts).flat();
-      setChallenges(newChallenges);
-    },
-    cacheTime: 0,
-  });
-  return { fetchNextPage, hasNextPage, refetch, isLoading };
+  const { fetchNextPage, hasNextPage, refetch, isLoading, data } =
+    useInfiniteQuery({
+      queryKey: [QUERY_KEY.INFINITE_SEARCHED_ACTIVITY_CHALLENGES],
+      queryFn: ({ pageParam = 0 }) =>
+        getSearchedChallengeItem({
+          pageParams: pageParam,
+          size: 20,
+          keyword: searchQuery,
+          progress: "ACTIVITY",
+        }),
+      getNextPageParam: (lastPage) => {
+        return lastPage.isLast ? undefined : lastPage.page + 1;
+      },
+    });
+  return { fetchNextPage, hasNextPage, refetch, isLoading, data };
 };
 
 interface GetSearchInfiniteAllInstanceType {
   searchQuery: string;
-  setChallenges: React.Dispatch<
-    React.SetStateAction<InstanceThumbnailDataType[]>
-  >;
 }
 export const useGetSearchInfiniteAllInstance = ({
   searchQuery,
-  setChallenges,
 }: GetSearchInfiniteAllInstanceType) => {
-  const { fetchNextPage, hasNextPage, refetch, isLoading } = useInfiniteQuery({
-    queryKey: [QUERY_KEY.INFINITE_SEARCHED_ACTIVITY_CHALLENGES],
-    queryFn: ({ pageParam = 0 }) =>
-      getSearchedChallengeItem({
-        pageParams: pageParam,
-        size: 20,
-        keyword: searchQuery,
-      }),
-    getNextPageParam: (lastPage) => {
-      return lastPage.isLast ? undefined : lastPage.page + 1;
-    },
-    onSuccess: (res) => {
-      const newChallenges = res.pages.map((page) => page.posts).flat();
-      setChallenges(newChallenges);
-    },
-    cacheTime: 0,
-  });
-  return { fetchNextPage, hasNextPage, refetch, isLoading };
+  const { fetchNextPage, hasNextPage, refetch, isLoading, data } =
+    useInfiniteQuery({
+      queryKey: [QUERY_KEY.INFINITE_SEARCHED_ACTIVITY_CHALLENGES],
+      queryFn: ({ pageParam = 0 }) =>
+        getSearchedChallengeItem({
+          pageParams: pageParam,
+          size: 20,
+          keyword: searchQuery,
+        }),
+      getNextPageParam: (lastPage) => {
+        return lastPage.isLast ? undefined : lastPage.page + 1;
+      },
+    });
+  return { fetchNextPage, hasNextPage, refetch, isLoading, data };
 };
 
 interface GetSearchInfiniteDoneInstanceType {
   searchQuery: string;
-  setChallenges: React.Dispatch<
-    React.SetStateAction<InstanceThumbnailDataType[]>
-  >;
 }
 export const useGetSearchInfiniteDoneInstance = ({
   searchQuery,
-  setChallenges,
 }: GetSearchInfiniteDoneInstanceType) => {
-  const { fetchNextPage, hasNextPage, refetch, isLoading } = useInfiniteQuery({
-    queryKey: [QUERY_KEY.INFINITE_SEARCHED_ACTIVITY_CHALLENGES],
-    queryFn: ({ pageParam = 0 }) =>
-      getSearchedChallengeItem({
-        pageParams: pageParam,
-        size: 20,
-        keyword: searchQuery,
-        progress: "DONE",
-      }),
-    getNextPageParam: (lastPage) => {
-      return lastPage.isLast ? undefined : lastPage.page + 1;
-    },
-    onSuccess: (res) => {
-      const newChallenges = res.pages.map((page) => page.posts).flat();
-      setChallenges(newChallenges);
-    },
-    cacheTime: 0,
-  });
-  return { fetchNextPage, hasNextPage, refetch, isLoading };
+  const { fetchNextPage, hasNextPage, refetch, isLoading, data } =
+    useInfiniteQuery({
+      queryKey: [QUERY_KEY.INFINITE_SEARCHED_ACTIVITY_CHALLENGES],
+      queryFn: ({ pageParam = 0 }) =>
+        getSearchedChallengeItem({
+          pageParams: pageParam,
+          size: 20,
+          keyword: searchQuery,
+          progress: "DONE",
+        }),
+      getNextPageParam: (lastPage) => {
+        return lastPage.isLast ? undefined : lastPage.page + 1;
+      },
+    });
+  return { fetchNextPage, hasNextPage, refetch, isLoading, data };
 };
 
 interface GetSearchInfinitePreActivityInstanceType {
   searchQuery: string;
-  setChallenges: React.Dispatch<
-    React.SetStateAction<InstanceThumbnailDataType[]>
-  >;
 }
 export const useGetSearchInfinitePreActivityInstance = ({
   searchQuery,
-  setChallenges,
 }: GetSearchInfinitePreActivityInstanceType) => {
-  const { fetchNextPage, hasNextPage, refetch, isLoading } = useInfiniteQuery({
-    queryKey: [QUERY_KEY.INFINITE_SEARCHED_ACTIVITY_CHALLENGES],
-    queryFn: ({ pageParam = 0 }) =>
-      getSearchedChallengeItem({
-        pageParams: pageParam,
-        size: 20,
-        keyword: searchQuery,
-        progress: "PREACTIVITY",
-      }),
-    getNextPageParam: (lastPage) => {
-      return lastPage.isLast ? undefined : lastPage.page + 1;
-    },
-    onSuccess: (res) => {
-      const newChallenges = res.pages.map((page) => page.posts).flat();
-      setChallenges(newChallenges);
-    },
-    cacheTime: 0,
-  });
-  return { fetchNextPage, hasNextPage, refetch, isLoading };
+  const { fetchNextPage, hasNextPage, refetch, isLoading, data } =
+    useInfiniteQuery({
+      queryKey: [QUERY_KEY.INFINITE_SEARCHED_ACTIVITY_CHALLENGES],
+      queryFn: ({ pageParam = 0 }) =>
+        getSearchedChallengeItem({
+          pageParams: pageParam,
+          size: 20,
+          keyword: searchQuery,
+          progress: "PREACTIVITY",
+        }),
+      getNextPageParam: (lastPage) => {
+        return lastPage.isLast ? undefined : lastPage.page + 1;
+      },
+    });
+  return { fetchNextPage, hasNextPage, refetch, isLoading, data };
 };
 
-interface GetInfiniteRecommendInstanceType {
-  setChallenges: React.Dispatch<
-    React.SetStateAction<InstanceThumbnailDataType[]>
-  >;
-}
-export const useGetInfiniteRecommendInstance = ({
-  setChallenges,
-}: GetInfiniteRecommendInstanceType) => {
-  const { fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
+export const useGetInfiniteRecommendInstance = () => {
+  const { fetchNextPage, hasNextPage, isLoading, data } = useInfiniteQuery({
     queryKey: [QUERY_KEY.INFINITE_RECOMMENDED_CHALLENGES],
     queryFn: ({ pageParam = 0 }) =>
       getRecommendChallenge({ pageParams: pageParam, size: 20 }),
     getNextPageParam: (lastPage) => {
       return lastPage.isLast ? undefined : lastPage.page + 1;
     },
-    onSuccess: (res) => {
-      const challenges = res.pages.map((page) => page.posts).flat();
-      setChallenges(challenges);
-    },
-    cacheTime: 0,
   });
-  return { fetchNextPage, hasNextPage, isLoading };
+  return { fetchNextPage, hasNextPage, isLoading, data };
 };
 
-interface GetInfinitePopularInstanceType {
-  setChallenges: React.Dispatch<
-    React.SetStateAction<InstanceThumbnailDataType[]>
-  >;
-}
-export const useGetInfinitePopularInstance = ({
-  setChallenges,
-}: GetInfinitePopularInstanceType) => {
-  const { fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
+export const useGetInfinitePopularInstance = () => {
+  const { fetchNextPage, hasNextPage, isLoading, data } = useInfiniteQuery({
     queryKey: [QUERY_KEY.INFINITE_POPULAR_CHALLENGES],
     queryFn: ({ pageParam = 0 }) =>
-      getPopularChallenge({ pageParams: pageParam, size: 10 }),
+      getPopularChallenge({ pageParams: pageParam, size: 20 }),
     getNextPageParam: (lastPage) => {
       return lastPage.isLast ? undefined : lastPage.page + 1;
     },
-    onSuccess: (res) => {
-      const challenges = res.pages.map((page) => page.posts).flat();
-      setChallenges(challenges);
-    },
-    cacheTime: 0,
   });
-  return { fetchNextPage, hasNextPage, isLoading };
+  return { fetchNextPage, hasNextPage, isLoading, data };
 };
 
-interface GetInfiniteLastestInstanceType {
-  setChallenges: React.Dispatch<
-    React.SetStateAction<InstanceThumbnailDataType[]>
-  >;
-}
-
-export const useGetInfiniteLastestInstance = ({
-  setChallenges,
-}: GetInfiniteLastestInstanceType) => {
-  const { fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery({
+export const useGetInfiniteLastestInstance = () => {
+  const { fetchNextPage, isLoading, hasNextPage, data } = useInfiniteQuery({
     queryKey: [QUERY_KEY.INFINITE_LASTEST_CHALLENGES],
     queryFn: ({ pageParam = 0 }) =>
       getLatestChallenge({ pageParams: pageParam, size: 20 }),
     getNextPageParam: (lastPage) => {
       return lastPage.isLast ? undefined : lastPage.page + 1;
     },
-    onSuccess: (res) => {
-      const newChallenges = res.pages.map((page) => page.posts).flat();
-      setChallenges(newChallenges);
-    },
-    cacheTime: 0,
   });
-  return { fetchNextPage, hasNextPage, isLoading };
+  return { fetchNextPage, hasNextPage, isLoading, data };
 };
 
 interface GetRecommendInstanceDataType {
@@ -209,7 +140,6 @@ export const useGetRecommendInstance = () => {
   const { data } = useQuery<GetRecommendInstanceDataType>({
     queryKey: [QUERY_KEY.RECOMMENDED_CHALLENGES],
     queryFn: () => getRecommendChallenge({ pageParams: 0, size: 7 }),
-    suspense: true,
   });
   return { data };
 };
@@ -222,7 +152,6 @@ export const useGetPopularInstance = () => {
   const { data } = useQuery<GetPopularInstanceDataType>({
     queryKey: [QUERY_KEY.POPULAR_CHALLENGES],
     queryFn: () => getPopularChallenge({ pageParams: 0, size: 7 }),
-    suspense: true,
   });
   return { data };
 };
