@@ -23,7 +23,10 @@ function CommonGetErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   };
 
   useEffect(() => {
-    if (error.response.data.message === "JWT가 유효하지 않습니다.") {
+    if (
+      error?.response?.data?.message === "JWT가 유효하지 않습니다." ||
+      error?.response?.data?.message === "Cookie에 토큰이 존재하지 않습니다."
+    ) {
       setModal(
         <CommonModal
           content="재로그인이 필요합니다."

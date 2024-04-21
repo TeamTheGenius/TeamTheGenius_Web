@@ -62,6 +62,7 @@ function App() {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
+        suspense: true,
         useErrorBoundary: true,
         retry: 0,
       },
@@ -205,15 +206,6 @@ function App() {
                       element={<AdminInstance />}
                     />
                   </Route>
-                  <Route
-                    path="/*"
-                    element={
-                      <Error
-                        errNum={404}
-                        errorTxt="페이지 정보를 찾을 수 없습니다."
-                      />
-                    }
-                  />
 
                   <Route path={PATH.PAYMENTS} element={<Payments />} />
                   <Route path={PATH.PAYMENTS_SUCCESS} element={<Success />} />

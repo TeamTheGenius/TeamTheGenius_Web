@@ -27,7 +27,6 @@ export const useTopicListQuery = ({
         setTotalNumber,
       }),
     keepPreviousData: true,
-    suspense: true,
   });
   return { data };
 };
@@ -38,7 +37,6 @@ export const useTopicDetailQuery = ({ topicId }: useTopicDetailQueryType) => {
       getAdminDetailTopicApi({
         topicId: topicId,
       }),
-    suspense: true,
   });
   return { data };
 };
@@ -72,7 +70,6 @@ export const usePostTopicCreate = ({ onSuccess, onError }: useMutateType) => {
       onError: (err: AxiosError) => {
         onError(err?.response?.data?.message);
       },
-      useErrorBoundary: false,
     }
   );
   return { mutate, isLoading };
@@ -106,7 +103,6 @@ export const usePatchTopicCreate = ({ onSuccess, onError }: useMutateType) => {
       onError: (err: AxiosError) => {
         onError(err?.response?.data?.message);
       },
-      useErrorBoundary: false,
     }
   );
   return { mutate, isLoading };
