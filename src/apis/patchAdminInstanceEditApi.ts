@@ -1,6 +1,4 @@
 import { Dispatch, SetStateAction } from "react";
-import getAdminInstanceListApi from "./getAdminInstanceListApi";
-import { instanceListDataType } from "@/types/adminType";
 import requests from "./axios/request";
 import { multiInstance } from "./axios/axios";
 

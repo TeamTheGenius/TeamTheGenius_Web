@@ -1,6 +1,4 @@
 import { Dispatch, SetStateAction } from "react";
-import getAdminInstanceListApi from "./getAdminInstanceListApi";
-import { instanceListDataType } from "@/types/adminType";
 import { multiInstance } from "./axios/axios";
 import requests from "./axios/request";
 
@@ -20,7 +18,6 @@ type instanceCreateApiType = {
 
 const postAdminInstanceApi = async ({
   topicId,
-  setIsLoading,
   instanceTitle,
   instanceDesc,
   instanceNotice,
@@ -55,7 +52,7 @@ const postAdminInstanceApi = async ({
 
   await multiInstance
     .post(`${requests.fetchInstance}`, formData)
-    .then((res) => {})
+    .then(() => {})
     .catch((err) => {
       alert("생성 실패");
       throw err;
