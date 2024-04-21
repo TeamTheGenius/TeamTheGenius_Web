@@ -6,6 +6,7 @@ import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { encrypt } from "../useCrypto";
 import { AxiosError } from "axios";
+import { AuthDataType } from "@/types/authType";
 
 interface PostAuthLogoutType {
   onError: (error: AxiosError<{ message?: string }>) => void;
@@ -26,17 +27,12 @@ export const usePostAuthLogout = ({ onError }: PostAuthLogoutType) => {
 
 export const usePostAuth = () => {
   const navigate = useNavigate();
-  const { mutate, isLoading } = useMutation(postJWTApi, {
-    onSuccess: (data) => {
+  const { mutate, isLoading, mutateAsync } = useMutation(postJWTApi, {
+    onSuccess: (data: AuthDataType) => {
       if (data.frameId) {
         localStorage.setItem(FRAMEID, encrypt(data.frameId));
       } else {
         localStorage.setItem(FRAMEID, "");
-      }
-      if (data.role === "ADMIN") {
-        navigate(PATH.ADMIN);
-      } else {
-        navigate(PATH.HOME);
       }
     },
     onError: () => {
@@ -44,9 +40,8 @@ export const usePostAuth = () => {
       localStorage.removeItem(FRAMEID);
       navigate(PATH.LOGIN);
     },
-    useErrorBoundary: false,
   });
-  return { mutate, isLoading };
+  return { mutate, isLoading, mutateAsync };
 };
 
 export const useOnlyAdminPermit = () => {

@@ -4,8 +4,6 @@ import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { AxiosError, AxiosResponse } from "axios";
 import { useMutation } from "react-query";
 import { encrypt } from "../useCrypto";
-import { useNavigate } from "react-router-dom";
-import { PATH } from "@/constants/path";
 import { getCheckNicknameApi } from "@/apis/getCheckNicknameApi";
 
 interface PostSignUpMutateType {
@@ -13,35 +11,25 @@ interface PostSignUpMutateType {
   nickname: string;
   information: string;
   interest: CheckboxValueType[];
-  files: string;
 }
 interface PostSignUpType {
   onError: () => void;
 }
 export const usePostSignUp = ({ onError }: PostSignUpType) => {
-  const navigate = useNavigate();
-  const { mutate, isLoading } = useMutation(
-    ({
-      identifier,
-      nickname,
-      information,
-      interest,
-      files,
-    }: PostSignUpMutateType) =>
-      signUpApi({ identifier, nickname, information, interest, files }),
+  const { mutate, isLoading, mutateAsync, data } = useMutation(
+    ({ identifier, nickname, information, interest }: PostSignUpMutateType) =>
+      signUpApi({ identifier, nickname, information, interest }),
     {
       onSuccess: (res: AxiosResponse) => {
         const identifier = res.data.data.identifier;
         localStorage.setItem(IDENTIFIER, encrypt(identifier));
-        navigate(PATH.AUTH);
       },
       onError: () => {
         onError();
       },
-      useErrorBoundary: false,
     }
   );
-  return { mutate, isLoading };
+  return { mutate, isLoading, mutateAsync, data };
 };
 
 interface GetCheckNinkNameMutateType {
