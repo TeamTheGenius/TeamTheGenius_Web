@@ -15,7 +15,7 @@ import {
 } from "@/types/profileType";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { AxiosError } from "axios";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 
 export const useGetMyProfile = () => {
