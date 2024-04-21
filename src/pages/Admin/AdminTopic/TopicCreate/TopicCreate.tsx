@@ -1,8 +1,6 @@
 import AdminFormLayOut from "@/components/Admin/AdminLayOut/AdminFormLayOut/AdminFormLayOut";
 import Loading from "@/components/Common/Loading/Loading";
-import { PATH } from "@/constants/path";
 import { usePostTopicCreate } from "@/hooks/queries/useAdminTopicQuery";
-import { adminTopicDataType } from "@/types/adminType";
 import { UploadOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -15,9 +13,6 @@ import {
 } from "antd";
 import { useState } from "react";
 
-type TopicCreateType = {
-  setAdminList: React.Dispatch<React.SetStateAction<adminTopicDataType[]>>;
-};
 type FormDataType = {
   description: string;
   notice: string;
@@ -38,14 +33,13 @@ type FormDataType = {
 
 const TopicCreate = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errMessage, setErrMessage] = useState<string>("");
   const onSuccessUsePostTokenRegister = () => {
     setIsLoading(false);
     alert("토픽이 생성되었습니다");
   };
   const onErrorUsePostTokenRegister = (errMessage: string) => {
     setIsLoading(false);
-    setErrMessage(errMessage);
+    alert(errMessage);
   };
   const { mutate: topicCreate } = usePostTopicCreate({
     onSuccess: onSuccessUsePostTokenRegister,

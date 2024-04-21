@@ -67,8 +67,8 @@ export const usePostTopicCreate = ({ onSuccess, onError }: useMutateType) => {
       onSuccess: () => {
         onSuccess();
       },
-      onError: (err: AxiosError) => {
-        onError(err?.response?.data?.message);
+      onError: (err: AxiosError<{ message?: string }>) => {
+        err.response?.data.message && onError(err?.response?.data?.message);
       },
     }
   );
@@ -100,8 +100,8 @@ export const usePatchTopicCreate = ({ onSuccess, onError }: useMutateType) => {
       onSuccess: () => {
         onSuccess();
       },
-      onError: (err: AxiosError) => {
-        onError(err?.response?.data?.message);
+      onError: (err: AxiosError<{ message?: string }>) => {
+        err.response?.data.message && onError(err?.response?.data?.message);
       },
     }
   );

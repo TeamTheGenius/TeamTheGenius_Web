@@ -1,6 +1,6 @@
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Form, Image, Input, Select, Upload, UploadProps } from "antd";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { fileType, uploadDataType } from "@/types/adminType";
 import Loading from "@/components/Common/Loading/Loading";
@@ -25,7 +25,6 @@ type topicSubmitType = {
 
 const TopicEdit = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [errMessage, setErrMessage] = useState("");
   const { id } = useParams();
   const queryClient = useQueryClient();
   const decryptedTopicId = decrypt(id);
@@ -50,7 +49,7 @@ const TopicEdit = () => {
   };
   const onErrorUsePostTokenRegister = (errMessage: string) => {
     setIsLoading(false);
-    setErrMessage(errMessage);
+    alert(errMessage);
   };
   const { mutate: instancePatch } = usePatchTopicCreate({
     onSuccess: onSuccessUsePostTokenRegister,
