@@ -1,4 +1,5 @@
 export interface MyProfileDataType {
+  userId: number;
   identifier: string;
   nickname: string;
   information: string;
