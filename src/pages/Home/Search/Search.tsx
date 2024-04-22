@@ -21,7 +21,7 @@ function Search() {
         </div>
       </div>
       <div className="px-[2.2rem] h-full">
-        <div className="pt-[12.5rem] _sm:pt-[10.8rem] h-full">
+        <div className="pt-[12.5rem]  h-full">
           <Outlet context={{ searchQuery, searchEnter, setSearchEnter }} />
         </div>
       </div>

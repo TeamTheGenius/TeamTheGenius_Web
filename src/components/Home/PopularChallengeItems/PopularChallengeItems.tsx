@@ -8,6 +8,7 @@ import { useState } from "react";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { encrypt } from "@/hooks/useCrypto";
 import { useGetPopularInstance } from "@/hooks/queries/useHomeInstanceQuery";
+import EmptyDataComponent from "../EmptyDataComponent/EmptyDataComponent";
 
 function PopularChallengeItems() {
   const [clickPossible, setClickPossible] = useState<boolean>(true);
@@ -29,7 +30,11 @@ function PopularChallengeItems() {
         <Title content="인기 챌린지" />
         <MoreButton path={PATH.POPULAR_CHALLENGE} />
       </div>
-
+      {!data?.posts.length && (
+        <div className="pr-[2.2rem]">
+          <EmptyDataComponent title="현재 인기있는 챌린지가 없어요" />
+        </div>
+      )}
       <HorizontalScroll setClickPossible={setClickPossible}>
         <div className="max-w-[18.8rem] flex gap-[2.2rem]">
           {Array.isArray(data?.posts) &&

@@ -11,6 +11,7 @@ import useModal from "@/hooks/useModal";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
+import { EmptyDataView } from "@/components/Common/EmptyDataView/EmptyDataView";
 
 const MyChallengeComplete = () => {
   const { isModalOpened, closeModal, openModal } = useModal();
@@ -61,6 +62,16 @@ const MyChallengeComplete = () => {
           <ModalLayer onClick={closeModal}>{modal}</ModalLayer>,
           document.body
         )}
+
+      {!data.length && (
+        <div className="mt-[5rem]">
+          <EmptyDataView>
+            <EmptyDataView.FireHatchIcon />
+            <EmptyDataView.Title title="완료한 챌린지가 없습니다" />
+            <EmptyDataView.SubTitle subTitle="챌린지에 참여해 끝까지 힘내봐요!" />
+          </EmptyDataView>
+        </div>
+      )}
 
       <MyChallengeWrap>
         {data.map((item, index) => {
