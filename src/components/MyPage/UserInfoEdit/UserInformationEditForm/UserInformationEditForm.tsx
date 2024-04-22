@@ -66,6 +66,7 @@ function UserInformationEditForm() {
       setInfoShow(0);
       setNickNameShow(0);
       setIsLoading(false);
+      closeModal();
       navigate(PATH.MY_PAGE);
     } catch (error: any) {
       setModal(

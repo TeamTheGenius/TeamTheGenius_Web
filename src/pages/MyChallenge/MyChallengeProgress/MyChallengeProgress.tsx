@@ -13,6 +13,8 @@ import CertificationPassModal from "@/components/Main/MyChallenge/MyChallengeMod
 import { useGetMyActivityChallenges } from "@/hooks/queries/useMyChallengeQuery";
 import { createPortal } from "react-dom";
 import CertificationModal from "@/components/Main/MyChallenge/MyChallengeModal/CertificationModal/CertificationModal";
+import { EmptyDataView } from "@/components/Common/EmptyDataView/EmptyDataView";
+import { PATH } from "@/constants/path";
 
 interface PassItemModal {
   e: React.MouseEvent;
@@ -72,7 +74,16 @@ const MyChallengeProgress = () => {
           <ModalLayer onClick={closeModal}>{modal}</ModalLayer>,
           document.body
         )}
-
+      {!data.length && (
+        <div className="mt-[5rem]">
+          <EmptyDataView>
+            <EmptyDataView.FireHatchIcon />
+            <EmptyDataView.Title title="진행 중인 챌린지가 없습니다" />
+            <EmptyDataView.SubTitle subTitle="새로운 챌린지에 참여해보세요" />
+            <EmptyDataView.Button label="챌린지 구경가기" path={PATH.HOME} />
+          </EmptyDataView>
+        </div>
+      )}
       <MyChallengeWrap>
         {data.map((item, index) => {
           return (

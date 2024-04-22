@@ -8,6 +8,7 @@ import { useState } from "react";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { encrypt } from "@/hooks/useCrypto";
 import { useGetRecommendInstance } from "@/hooks/queries/useHomeInstanceQuery";
+import EmptyDataComponent from "../EmptyDataComponent/EmptyDataComponent";
 
 function SuggestionChallengeItems() {
   const [clickPossible, setClickPossible] = useState<boolean>(true);
@@ -27,6 +28,11 @@ function SuggestionChallengeItems() {
         <Title content="추천 챌린지" />
         <MoreButton path={PATH.SUGGESTION_CHALLENGE} />
       </div>
+      {!data?.posts.length && (
+        <div className="pr-[2.2rem]">
+          <EmptyDataComponent title="콘텐츠 준비중입니다" />
+        </div>
+      )}
       <HorizontalScroll setClickPossible={setClickPossible}>
         <div className="max-w-[18.8rem] flex gap-[2.2rem]">
           {Array.isArray(data?.posts) &&

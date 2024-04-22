@@ -15,7 +15,7 @@ const MyChallenge = () => {
         <MyChallengeTabs />
       </div>
 
-      <div className="px-[2.2rem] pt-[12.5rem] h-full">
+      <div className="px-[2.2rem] pt-[12.5rem] h-full pb-[2rem]">
         <QueryErrorResetBoundary>
           {({ reset }) => (
             <ErrorBoundary

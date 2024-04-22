@@ -1,4 +1,5 @@
 import getPaymentReceiptApi from "@/apis/getPaymentReceiptApi";
+import { EmptyDataView } from "@/components/Common/EmptyDataView/EmptyDataView";
 import { QUERY_KEY } from "@/constants/queryKey";
 import useNumberFormat from "@/hooks/useNumberFormat";
 import { useQuery } from "react-query";
@@ -48,6 +49,15 @@ function PaymentList() {
 
   return (
     <>
+      {!data?.length && (
+        <div className="mt-[6rem]">
+          <EmptyDataView>
+            <EmptyDataView.WindFallenLeavesIcon />
+            <EmptyDataView.Title title="결제 내역이 없습니다" />
+            <EmptyDataView.SubTitle subTitle="마음에 드는 상품을 구매해보세요!" />
+          </EmptyDataView>
+        </div>
+      )}
       {Object.entries(monthlyOrders).map(([month, orders]) => {
         const formattedMonth = formatMonth(month);
         return (

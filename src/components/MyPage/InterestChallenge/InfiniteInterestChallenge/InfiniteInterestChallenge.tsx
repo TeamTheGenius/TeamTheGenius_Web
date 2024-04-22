@@ -1,4 +1,5 @@
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
+import { EmptyDataView } from "@/components/Common/EmptyDataView/EmptyDataView";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
@@ -60,36 +61,56 @@ function InfiniteInterestChallenge() {
           <ModalLayer onClick={closeModal}>{modal}</ModalLayer>,
           document.body
         )}
-      <div className="pt-[9rem] _sm:pt-[7.6rem] w-full max-w-[51.5rem] _sm:max-w-[34.9rem] grid grid-cols-3 gap-x-[1rem] _sm:grid-cols-2">
-        {data?.pages.map((page, pageIndex) =>
-          page.posts.map(
-            (post: InstanceThumbnailDataType, postIndex: number) => (
-              <div className="pb-[1.8rem]" key={`${pageIndex}-${postIndex}`}>
-                <ChallengeItem
-                  onClick={() => onClickChallengeItem(post.instanceId)}
-                >
-                  <ChallengeItem.Image
-                    imgSrc={makeBase64IncodedImage({
-                      uri: post.fileResponse.encodedFile,
-                      format: "jpg",
-                    })}
-                    alt={"챌린지 이미지"}
-                    direction="vertical"
-                    maxWidth="max-w-[16.5rem]"
-                    paddingBottom="pb-[72.7%]"
-                  >
-                    <ChallengeItem.Heart
-                      onClick={(e) => onClickHeart(e, post.likesId)}
-                    />
-                  </ChallengeItem.Image>
-                  <ChallengeItem.Title title={post.title} />
-                  <ChallengeItem.Reward point={post.pointPerPerson} />
-                </ChallengeItem>
-              </div>
-            )
-          )
+      <div className="pt-[6rem] pb-[2rem]">
+        {!data?.pages[0].posts.length && (
+          <div className="mt-[8rem]">
+            <EmptyDataView>
+              <EmptyDataView.HeartHatchIcon />
+              <EmptyDataView.Title title="관심목록이 비었어요" />
+              <EmptyDataView.SubTitle subTitle="좋아하는 챌린지에 ♥를 눌러주세요." />
+              <EmptyDataView.Button label="챌린지 구경가기" path={PATH.HOME} />
+            </EmptyDataView>
+          </div>
         )}
-        <div ref={ref} style={{ height: "10px", background: "transparent" }} />
+        {!!data?.pages[0].posts.length && (
+          <div className="pt-[3rem] _sm:pt-[1.6rem] w-full max-w-[51.5rem] _sm:max-w-[34.9rem] grid grid-cols-3 gap-x-[1rem] _sm:grid-cols-2">
+            {data?.pages.map((page, pageIndex) =>
+              page.posts.map(
+                (post: InstanceThumbnailDataType, postIndex: number) => (
+                  <div
+                    className="pb-[1.8rem]"
+                    key={`${pageIndex}-${postIndex}`}
+                  >
+                    <ChallengeItem
+                      onClick={() => onClickChallengeItem(post.instanceId)}
+                    >
+                      <ChallengeItem.Image
+                        imgSrc={makeBase64IncodedImage({
+                          uri: post.fileResponse.encodedFile,
+                          format: "jpg",
+                        })}
+                        alt={"챌린지 이미지"}
+                        direction="vertical"
+                        maxWidth="max-w-[16.5rem]"
+                        paddingBottom="pb-[72.7%]"
+                      >
+                        <ChallengeItem.Heart
+                          onClick={(e) => onClickHeart(e, post.likesId)}
+                        />
+                      </ChallengeItem.Image>
+                      <ChallengeItem.Title title={post.title} />
+                      <ChallengeItem.Reward point={post.pointPerPerson} />
+                    </ChallengeItem>
+                  </div>
+                )
+              )
+            )}
+            <div
+              ref={ref}
+              style={{ height: "10px", background: "transparent" }}
+            />
+          </div>
+        )}
       </div>
     </>
   );
