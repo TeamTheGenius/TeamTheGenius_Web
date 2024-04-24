@@ -111,7 +111,6 @@ export const usePostInstanceFileCreate = ({
     {
       onSuccess: (res) => {
         onSuccess(res);
-        console.log("res", res);
       },
       onError: (err: AxiosError<{ message?: string }>) => {
         err.response?.data.message && onError(err?.response?.data?.message);

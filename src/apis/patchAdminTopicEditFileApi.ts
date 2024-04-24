@@ -10,7 +10,7 @@ const patchAdminTopicEditFileApi = async ({
   topicFile,
   topicId,
 }: patchAdminTopicEditFileApiType) => {
-  console.log("topicFile", topicFile);
+  
 
   if (!topicFile) {
     return;

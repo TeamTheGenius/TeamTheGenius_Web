@@ -113,7 +113,6 @@ const InstanceEdit = () => {
       instanceStartAt: startedAt,
       instanceCompletedAt: completedAt,
     };
-    console.log("dfdfd", values.fileResponse[0]?.originFileObj);
 
     instancePatch(instanceData);
   };
