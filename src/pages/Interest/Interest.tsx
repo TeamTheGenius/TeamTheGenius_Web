@@ -18,8 +18,9 @@ import { createPortal } from "react-dom";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import { PATH } from "@/constants/path";
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
-import { usePostProfileImage } from "@/hooks/queries/useFileQuery";
+
 import { usePostAuth } from "@/hooks/queries/useAuthQuery";
+import { usePostProfileImage } from "@/hooks/queries/useFileQuery";
 
 type Interest = {
   id: number;
@@ -40,6 +41,7 @@ const Interest = () => {
     closeModal();
     navigate(PATH.LOGIN);
   };
+
   const onErrorPostSignUp = () => {
     setModal(
       <CommonModal
@@ -50,16 +52,19 @@ const Interest = () => {
     );
     openModal();
   };
+
   const { mutateAsync: postSignUpMutateAsync, isLoading: postSignUpLoading } =
     usePostSignUp({
       onError: onErrorPostSignUp,
     });
+
   const onSuccessPostSignUpProfileImage = () => {
     navigate(PATH.AUTH);
   };
   const onErrorPostSignUpProfileImage = () => {
     navigate(PATH.AUTH);
   };
+
   const {
     mutate: postSignUpProfileImageMutate,
     isLoading: postSignUpProfileImageLoading,

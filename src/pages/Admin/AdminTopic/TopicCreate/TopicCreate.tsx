@@ -1,6 +1,9 @@
 import AdminFormLayOut from "@/components/Admin/AdminLayOut/AdminFormLayOut/AdminFormLayOut";
-import Loading from "@/components/Common/Loading/Loading";
-import { usePostTopicCreate } from "@/hooks/queries/useAdminTopicQuery";
+import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
+import {
+  usePostTopicCreate,
+  usePostTopicFileCreate,
+} from "@/hooks/queries/useAdminTopicQuery";
 import { UploadOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -11,7 +14,7 @@ import {
   UploadProps,
   message,
 } from "antd";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 type FormDataType = {
   description: string;
@@ -33,36 +36,58 @@ type FormDataType = {
 
 const TopicCreate = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const onSuccessUsePostTokenRegister = () => {
-    setIsLoading(false);
-    alert("토픽이 생성되었습니다");
+  const valuesRef = useRef<FormDataType | null>(null);
+
+  const onSuccessPostTopic = (res: any) => {
+    if (valuesRef.current) {
+      const topicFile = { topicFile: valuesRef.current.upload, topicId: res };
+      topicFileCreate(topicFile);
+    }
   };
-  const onErrorUsePostTokenRegister = (errMessage: string) => {
+
+  const onErrorPostTopic = (errMessage: string) => {
     setIsLoading(false);
     alert(errMessage);
   };
+
+  const onSuccessPostFileTopic = (res: any) => {
+    setIsLoading(false);
+    alert("토픽이 생성되었습니다");
+  };
+
+  const onErrorPostFileTopic = (errMessage: string) => {
+    setIsLoading(false);
+    alert(errMessage);
+  };
+
   const { mutate: topicCreate } = usePostTopicCreate({
-    onSuccess: onSuccessUsePostTokenRegister,
-    onError: onErrorUsePostTokenRegister,
+    onSuccess: onSuccessPostTopic,
+    onError: onErrorPostTopic,
   });
-  const topicSubmit = (values: FormDataType) => {
+
+  const { mutate: topicFileCreate } = usePostTopicFileCreate({
+    onSuccess: onSuccessPostFileTopic,
+    onError: onErrorPostFileTopic,
+  });
+
+  const topicSubmit = async (values: FormDataType) => {
     setIsLoading(true);
+    valuesRef.current = values;
     const tagString = values.tags.join();
     const topicCreateData = {
       topicTitle: values.title,
       topicDesc: values.description,
       topicNotice: values.notice,
       topicTags: tagString,
-      topicFile: values.upload,
       topicPoint: values.pointPerPerson,
     };
-    topicCreate(topicCreateData);
+    await topicCreate(topicCreateData);
   };
 
   return (
     <>
       {isLoading ? (
-        <Loading />
+        <LoadingBox />
       ) : (
         <>
           <AdminFormLayOut title={"토픽 생성 페이지"}>

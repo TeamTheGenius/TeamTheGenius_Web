@@ -1,13 +1,14 @@
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Form, Image, Input, Select, Upload, UploadProps } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { fileType, uploadDataType } from "@/types/adminType";
 import Loading from "@/components/Common/Loading/Loading";
 import { useParams } from "react-router-dom";
 import { decrypt } from "@/hooks/useCrypto";
 import {
-  usePatchTopicCreate,
+  usePatchTopicEdit,
+  usePatchTopicFileEdit,
   useTopicDetailQuery,
 } from "@/hooks/queries/useAdminTopicQuery";
 import { useQueryClient } from "react-query";
@@ -29,7 +30,7 @@ const TopicEdit = () => {
   const queryClient = useQueryClient();
   const decryptedTopicId = decrypt(id);
   const [form] = Form.useForm();
-
+  const valuesRef = useRef<topicSubmitType | null>(null);
   const { data: adminDetail } = useTopicDetailQuery({
     topicId: decryptedTopicId,
   });
@@ -42,18 +43,33 @@ const TopicEdit = () => {
   const tags = adminDetail?.tags;
   const tagsArray = tags ? tags.split(",") : [];
   const point = adminDetail?.pointPerPerson;
-  const onSuccessUsePostTokenRegister = () => {
+
+  const onSuccessUsePatchTopicEdit = (res: any) => {
     setIsLoading(false);
     alert("토픽이 수정되었습니다.");
+    instanceFilePatch(res);
     queryClient.invalidateQueries(QUERY_KEY.ADMIN_TOPIC_DETAIL);
   };
-  const onErrorUsePostTokenRegister = (errMessage: string) => {
+  const onErrorUsePatchTopicEdit = (errMessage: string) => {
     setIsLoading(false);
     alert(errMessage);
   };
-  const { mutate: instancePatch } = usePatchTopicCreate({
-    onSuccess: onSuccessUsePostTokenRegister,
-    onError: onErrorUsePostTokenRegister,
+  const onSuccessUsePatchTopicFileEdit = () => {
+    setIsLoading(false);
+    alert("사진 수정되었습니다.");
+    queryClient.invalidateQueries(QUERY_KEY.ADMIN_TOPIC_DETAIL);
+  };
+  const onErrorUsePatchTopicFileEdit = (errMessage: string) => {
+    setIsLoading(false);
+    alert(errMessage);
+  };
+  const { mutate: instancePatch } = usePatchTopicEdit({
+    onSuccess: onSuccessUsePatchTopicEdit,
+    onError: onErrorUsePatchTopicEdit,
+  });
+  const { mutate: instanceFilePatch } = usePatchTopicFileEdit({
+    onSuccess: onSuccessUsePatchTopicFileEdit,
+    onError: onErrorUsePatchTopicFileEdit,
   });
   const topicSubmit = (values: topicSubmitType) => {
     const tagString = values.tags.join();
@@ -68,11 +84,16 @@ const TopicEdit = () => {
       topicPoint: values.pointPerPerson,
       topicFile: values.fileResponse[0]?.originFileObj,
     };
+    const topicFileData = {
+      topicId: topicDetailId,
+      topicFile: values.fileResponse[0]?.originFileObj,
+    };
     if (values.fileResponse) {
       topicData.topicFile = values.fileResponse[0]?.originFileObj;
     }
     instancePatch(topicData);
   };
+
   useEffect(() => {
     form.setFieldsValue({
       title: adminDetail?.title,

@@ -17,10 +17,11 @@ const AdminTopic = () => {
 
   const { mutate: checkAdmin } = useOnlyAdminPermit();
 
-  const { data: adminList } = useTopicListQuery({
+  const { data: adminData } = useTopicListQuery({
     pageNumber: pageNumber - 1,
     setTotalNumber,
   });
+  const adminList = adminData.content;
 
   const handlePageChange = (page: number) => {
     setPageNumber(page);
@@ -29,7 +30,7 @@ const AdminTopic = () => {
   useEffect(() => {
     checkAdmin();
     queryClient.invalidateQueries(QUERY_KEY.ADMIN_TOPIC_PAGE);
-  }, []);
+  }, [pageNumber]);
 
   return (
     <>

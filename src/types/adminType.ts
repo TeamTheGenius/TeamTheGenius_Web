@@ -16,6 +16,9 @@ export type topicCreateApiType = {
   topicNotice: string;
   topicTags: string;
   topicPoint: string;
+};
+export type topicFileApiType = {
+  topicId?: number;
   topicFile: any;
 };
 

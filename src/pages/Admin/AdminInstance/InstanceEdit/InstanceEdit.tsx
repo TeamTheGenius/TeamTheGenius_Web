@@ -50,18 +50,18 @@ const InstanceEdit = () => {
   const tagsArray = tags ? tags.split(",") : [];
   const file = instanceDetail?.fileResponse;
 
-  const onSuccessUsePostTokenRegister = () => {
+  const onSuccessUsePatchInstance = () => {
     setIsLoading(false);
     alert("인스턴스가 수정되었습니다.");
     queryClient.invalidateQueries(QUERY_KEY.ADMIN_INSTANCE_DETAIL);
   };
-  const onErrorUsePostTokenRegister = (errMessage: string) => {
+  const onErrorUsePatchInstance = (errMessage: string) => {
     setIsLoading(false);
     alert(errMessage);
   };
   const { mutate: instancePatch } = usePatchInstanceCreate({
-    onSuccess: onSuccessUsePostTokenRegister,
-    onError: onErrorUsePostTokenRegister,
+    onSuccess: onSuccessUsePatchInstance,
+    onError: onErrorUsePatchInstance,
   });
 
   const instanceSumbit = (values: InstanceEditData) => {

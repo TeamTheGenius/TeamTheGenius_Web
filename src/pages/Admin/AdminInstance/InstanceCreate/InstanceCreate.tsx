@@ -50,19 +50,19 @@ const InstanceCreate = () => {
   const file = adminDetail?.fileResponse;
   const point = adminDetail?.pointPerPerson;
 
-  const onSuccessUsePostInstanceCreate = () => {
+  const onSuccessUsePostInstance = () => {
     setIsLoading(false);
     alert("인스턴스가 생성되었습니다");
   };
 
-  const onErrorUsePostInstanceCreate = (errMessage: string) => {
+  const onErrorUsePostInstance = (errMessage: string) => {
     setIsLoading(false);
     alert(errMessage);
   };
 
   const { mutate: instanceCreate } = usePostInstanceCreate({
-    onSuccess: onSuccessUsePostInstanceCreate,
-    onError: onErrorUsePostInstanceCreate,
+    onSuccess: onSuccessUsePostInstance,
+    onError: onErrorUsePostInstance,
   });
 
   const instanceSumbit = (values: instanceCreateData) => {
