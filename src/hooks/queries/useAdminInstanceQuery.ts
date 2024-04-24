@@ -1,11 +1,15 @@
 import getAdminDetailInstanceApi from "@/apis/getAdminDetailInstanceApi";
 import getAdminInstanceListPageApi from "@/apis/getAdminInstanceListApi";
 import patchAdminInstanceEditApi from "@/apis/patchAdminInstanceEditApi";
+import patchAdminInstanceFileEditApi from "@/apis/patchAdminInstanceFileEditApi";
 import postAdminInstanceApi from "@/apis/postAdminInstanceApi";
+import postAdminInstanceFileApi from "@/apis/postAdminInstanceFileApi";
 import { QUERY_KEY } from "@/constants/queryKey";
 import {
-  editInstacneQueryType,
+  editInstacneApiType,
+  editInstacneFileApiType,
   instanceCreateApiType,
+  instanceCreateFileApiType,
 } from "@/types/adminType";
 import { AxiosError } from "axios";
 import { useMutation, useQuery } from "react-query";
@@ -26,9 +30,14 @@ export const useInstanceListQuery = ({
     queryFn: () =>
       getAdminInstanceListPageApi({
         pageNumber: pageNumber,
-        setTotalNumber,
       }),
+    onSuccess: (data) => {
+      if (setTotalNumber) {
+        setTotalNumber(data.totalElements);
+      }
+    },
     keepPreviousData: true,
+    suspense: true,
   });
   return { data };
 };
@@ -46,7 +55,7 @@ export const useInstanceDetailQuery = ({
 };
 
 interface useMutateType {
-  onSuccess: () => void;
+  onSuccess: (res: any) => void;
   onError: (errorMessage: string) => void;
 }
 export const usePostInstanceCreate = ({
@@ -61,7 +70,6 @@ export const usePostInstanceCreate = ({
       instanceDesc,
       instanceCertMethod,
       instanceTags,
-      instanceImg,
       instancePoint,
       topicId,
       instanceRangeStart,
@@ -75,14 +83,35 @@ export const usePostInstanceCreate = ({
         instanceNotice: instanceNotice,
         instanceCertMethod: instanceCertMethod,
         instanceTags: instanceTags,
-        instanceImg: instanceImg,
         instancePoint: instancePoint,
         instanceRangeStart: instanceRangeStart,
         instanceRangeEnd: instanceRangeEnd,
       }),
     {
-      onSuccess: () => {
-        onSuccess();
+      onSuccess: (res: any) => {
+        onSuccess(res);
+      },
+      onError: (err: AxiosError<{ message?: string }>) => {
+        err.response?.data.message && onError(err?.response?.data?.message);
+      },
+    }
+  );
+  return { mutate, isLoading };
+};
+export const usePostInstanceFileCreate = ({
+  onSuccess,
+  onError,
+}: useMutateType) => {
+  const { mutate, isLoading } = useMutation(
+    ({ instanceImg, instanceId }: instanceCreateFileApiType) =>
+      postAdminInstanceFileApi({
+        instanceId: instanceId,
+        instanceImg: instanceImg,
+      }),
+    {
+      onSuccess: (res) => {
+        onSuccess(res);
+        console.log("res", res);
       },
       onError: (err: AxiosError<{ message?: string }>) => {
         err.response?.data.message && onError(err?.response?.data?.message);
@@ -108,7 +137,7 @@ export const usePatchInstanceCreate = ({
       instanceCompletedAt,
       instanceImg,
       setIsLoading,
-    }: editInstacneQueryType) =>
+    }: editInstacneApiType) =>
       patchAdminInstanceEditApi({
         setIsLoading: setIsLoading,
         topicIdId: topicIdId,
@@ -123,8 +152,29 @@ export const usePatchInstanceCreate = ({
         instanceImg: instanceImg,
       }),
     {
-      onSuccess: () => {
-        onSuccess();
+      onSuccess: (res) => {
+        onSuccess(res);
+      },
+      onError: (err: AxiosError<{ message?: string }>) => {
+        err.response?.data.message && onError(err?.response?.data?.message);
+      },
+    }
+  );
+  return { mutate, isLoading };
+};
+export const usePatchInstanceFileCreate = ({
+  onSuccess,
+  onError,
+}: useMutateType) => {
+  const { mutate, isLoading } = useMutation(
+    ({ instanceId, instanceImg }: editInstacneFileApiType) =>
+      patchAdminInstanceFileEditApi({
+        instanceId: instanceId,
+        instanceImg: instanceImg,
+      }),
+    {
+      onSuccess: (res) => {
+        onSuccess(res);
       },
       onError: (err: AxiosError<{ message?: string }>) => {
         err.response?.data.message && onError(err?.response?.data?.message);

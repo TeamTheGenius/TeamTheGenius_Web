@@ -5,15 +5,11 @@ import { Pagination } from "antd";
 import { useOnlyAdminPermit } from "@/hooks/queries/useAuthQuery";
 import { useTopicListQuery } from "@/hooks/queries/useAdminTopicQuery";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
-import { useQueryClient } from "react-query";
-import { QUERY_KEY } from "@/constants/queryKey";
 import AdminListLayOut from "@/components/Admin/AdminLayOut/AdminListLayOut/AdminListLayOut";
 
 const AdminTopic = () => {
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [totalNumber, setTotalNumber] = useState<number>(0);
-
-  const queryClient = useQueryClient();
 
   const { mutate: checkAdmin } = useOnlyAdminPermit();
 
@@ -29,8 +25,7 @@ const AdminTopic = () => {
 
   useEffect(() => {
     checkAdmin();
-    queryClient.invalidateQueries(QUERY_KEY.ADMIN_TOPIC_PAGE);
-  }, [pageNumber]);
+  }, []);
 
   return (
     <>

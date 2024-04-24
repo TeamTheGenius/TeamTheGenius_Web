@@ -1,7 +1,8 @@
 import requests from "./axios/request";
 import { multiInstance } from "./axios/axios";
+import { uploadFileTye } from "@/types/adminType";
 type postAdminTopicFileApiTpye = {
-  topicFile: any;
+  topicFile: uploadFileTye[];
   topicId?: number;
 };
 
@@ -13,8 +14,7 @@ const postAdminTopicFileApi = async ({
 
   const topicImg = topicFile[0].originFileObj;
 
-  const imageFile = await fetch(topicImg).then((res) => res.blob());
-  formData.append("files", imageFile, `${topicId}.jpg`);
+  formData.append("files", topicImg, `${topicId}.jpg`);
 
   const data = await multiInstance
     .post(`${requests.fetchFile}/${topicId}?type=topic`, formData)

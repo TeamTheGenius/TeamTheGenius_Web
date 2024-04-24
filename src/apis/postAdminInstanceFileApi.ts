@@ -1,19 +1,18 @@
 import requests from "./axios/request";
 import { acceptInstance } from "./axios/axios";
 type PostSignUpProfileImageParams = {
-  files: string;
+  instanceImg: File;
   instanceId: number;
 };
 
 const postAdminInstanceFileApi = async ({
-  files,
+  instanceImg,
   instanceId,
 }: PostSignUpProfileImageParams) => {
   const formData = new FormData();
 
-  if (files) {
-    const imageFile = await fetch(files).then((res) => res.blob());
-    formData.append("files", imageFile);
+  if (instanceImg) {
+    formData.append("files", instanceImg, `${instanceId}.jpg`);
   }
 
   const data = await acceptInstance

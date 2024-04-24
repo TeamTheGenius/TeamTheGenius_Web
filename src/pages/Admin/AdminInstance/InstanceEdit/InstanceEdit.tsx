@@ -1,5 +1,5 @@
 import { Button, Form, Image, Input, Upload, UploadProps } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
 import moment from "moment";
 
@@ -8,6 +8,7 @@ import Loading from "@/components/Common/Loading/Loading";
 import {
   useInstanceDetailQuery,
   usePatchInstanceCreate,
+  usePatchInstanceFileCreate,
 } from "@/hooks/queries/useAdminInstanceQuery";
 import { useParams } from "react-router-dom";
 import { useQueryClient } from "react-query";
@@ -21,7 +22,7 @@ type InstanceEditData = {
   title: string;
   description: string;
   pointPerPerson: number;
-  certificationMethod: string;
+  certMethod: string;
   tags: string;
   notice: string;
   startedAt: string;
@@ -42,6 +43,8 @@ const InstanceEdit = () => {
   const queryClient = useQueryClient();
   const decryptedTopicId = decrypt(id);
   const [form] = Form.useForm();
+  const valuesRef = useRef<InstanceEditData | null>(null);
+
   const { data: instanceDetail } = useInstanceDetailQuery({
     instanceId: decryptedTopicId,
   });
@@ -50,8 +53,23 @@ const InstanceEdit = () => {
   const tagsArray = tags ? tags.split(",") : [];
   const file = instanceDetail?.fileResponse;
 
+  const initData = {
+    description: instanceDetail?.description,
+    notice: instanceDetail?.notice,
+    tags: tagsArray,
+    certMethod: instanceDetail?.certificationMethod,
+    pointPerPerson: instanceDetail?.pointPerPerson,
+  };
+
   const onSuccessUsePatchInstance = () => {
     setIsLoading(false);
+    if (valuesRef.current) {
+      const instanceData = {
+        instanceId: decryptedTopicId,
+        instanceImg: valuesRef.current.fileResponse[0]?.originFileObj,
+      };
+      instanceFilePatch(instanceData);
+    }
     alert("인스턴스가 수정되었습니다.");
     queryClient.invalidateQueries(QUERY_KEY.ADMIN_INSTANCE_DETAIL);
   };
@@ -59,13 +77,26 @@ const InstanceEdit = () => {
     setIsLoading(false);
     alert(errMessage);
   };
+
+  const onSuccessUsePatchFileInstance = () => {
+    setIsLoading(false);
+  };
+  const onErrorUsePatchFileInstance = (errMessage: string) => {
+    setIsLoading(false);
+    alert(errMessage);
+  };
   const { mutate: instancePatch } = usePatchInstanceCreate({
     onSuccess: onSuccessUsePatchInstance,
     onError: onErrorUsePatchInstance,
   });
+  const { mutate: instanceFilePatch } = usePatchInstanceFileCreate({
+    onSuccess: onSuccessUsePatchFileInstance,
+    onError: onErrorUsePatchFileInstance,
+  });
 
   const instanceSumbit = (values: InstanceEditData) => {
     setIsLoading(true);
+    valuesRef.current = values;
     const startedAt = moment(values.ranger[0]._d).format("YYYY-MM-DDTHH:mm:ss");
     const completedAt = moment(values.completedAt).format(
       "YYYY-MM-DDTHH:mm:ss"
@@ -76,16 +107,14 @@ const InstanceEdit = () => {
       topicIdId: values.topicId,
       instanceTitle: values.title,
       instanceDesc: values.description,
-      instanceCertificationMethod: values.certificationMethod,
+      instanceCertificationMethod: values.certMethod,
       instanceNotice: values.notice,
       instancePoint: values.pointPerPerson,
       instanceStartAt: startedAt,
       instanceCompletedAt: completedAt,
-      instanceImg: values.fileResponse[0]?.originFileObj,
     };
-    if (values.fileResponse) {
-      instanceData.instanceImg = values.fileResponse[0]?.originFileObj;
-    }
+    console.log("dfdfd", values.fileResponse[0]?.originFileObj);
+
     instancePatch(instanceData);
   };
 
@@ -93,11 +122,11 @@ const InstanceEdit = () => {
     form.setFieldsValue({
       description: instanceDetail?.description,
       notice: instanceDetail?.notice,
-      file: instanceDetail?.fileResponse,
       tags: tagsArray,
+      certMethod: instanceDetail?.certificationMethod,
       pointPerPerson: instanceDetail?.pointPerPerson,
     });
-  }, [form]);
+  }, [instanceDetail, form]);
 
   return (
     <>
@@ -106,10 +135,11 @@ const InstanceEdit = () => {
       ) : (
         <AdminFormLayOut title={"인스턴스 수정 페이지"} instanceTokken={true}>
           <Form
+            form={form}
             onFinish={instanceSumbit}
             // labelCol={{ span: 4 }}
             // wrapperCol={{ span: 19 }}
-            initialValues={instanceDetail}
+            initialValues={initData}
             className="w-full"
           >
             <FormDesc />
@@ -132,7 +162,7 @@ const FormDesc = () => {
       <Form.Item label="유의사항" name="notice">
         <Input.TextArea allowClear showCount />
       </Form.Item>
-      <Form.Item label="인증 방법" name="certificationMethod">
+      <Form.Item label="인증 방법" name="certMethod">
         <Input.TextArea allowClear showCount />
       </Form.Item>
     </>
@@ -150,7 +180,6 @@ const FormImg = ({ file }: fileType) => {
     return e?.fileList;
   };
   const props: UploadProps = {
-    name: "fileResponse",
     beforeUpload: () => {
       return false;
     },

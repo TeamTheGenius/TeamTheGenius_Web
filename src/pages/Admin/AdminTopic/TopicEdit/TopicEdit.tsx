@@ -14,6 +14,7 @@ import {
 import { useQueryClient } from "react-query";
 import { QUERY_KEY } from "@/constants/queryKey";
 import AdminFormLayOut from "@/components/Admin/AdminLayOut/AdminFormLayOut/AdminFormLayOut";
+import { interestsOption } from "@/data/InterestData";
 
 type topicSubmitType = {
   tags: any;
@@ -31,11 +32,11 @@ const TopicEdit = () => {
   const decryptedTopicId = decrypt(id);
   const [form] = Form.useForm();
   const valuesRef = useRef<topicSubmitType | null>(null);
+
   const { data: adminDetail } = useTopicDetailQuery({
     topicId: decryptedTopicId,
   });
 
-  const topicDetailId = adminDetail?.topicId;
   const title = adminDetail?.title;
   const description = adminDetail?.description;
   const notice = adminDetail?.notice;
@@ -46,9 +47,13 @@ const TopicEdit = () => {
 
   const onSuccessUsePatchTopicEdit = (res: any) => {
     setIsLoading(false);
-    alert("토픽이 수정되었습니다.");
-    instanceFilePatch(res);
-    queryClient.invalidateQueries(QUERY_KEY.ADMIN_TOPIC_DETAIL);
+    if (valuesRef.current) {
+      const topicFileData = {
+        topicId: decryptedTopicId,
+        topicFile: valuesRef.current.fileResponse[0]?.originFileObj,
+      };
+      instanceFilePatch(topicFileData);
+    }
   };
   const onErrorUsePatchTopicEdit = (errMessage: string) => {
     setIsLoading(false);
@@ -56,7 +61,7 @@ const TopicEdit = () => {
   };
   const onSuccessUsePatchTopicFileEdit = () => {
     setIsLoading(false);
-    alert("사진 수정되었습니다.");
+    alert("토픽이 수정되었습니다.");
     queryClient.invalidateQueries(QUERY_KEY.ADMIN_TOPIC_DETAIL);
   };
   const onErrorUsePatchTopicFileEdit = (errMessage: string) => {
@@ -71,27 +76,21 @@ const TopicEdit = () => {
     onSuccess: onSuccessUsePatchTopicFileEdit,
     onError: onErrorUsePatchTopicFileEdit,
   });
-  const topicSubmit = (values: topicSubmitType) => {
-    const tagString = values.tags.join();
+  const topicSubmit = async (values: topicSubmitType) => {
     setIsLoading(true);
+    valuesRef.current = values;
+    const tagString = values.tags.join();
     const topicData = {
       setIsLoading: setIsLoading,
-      topicId: topicDetailId,
+      topicId: decryptedTopicId,
       topicTitle: values.title,
       topicDesc: values.description,
       topicNotice: values.notice,
       topicTags: tagString,
       topicPoint: values.pointPerPerson,
-      topicFile: values.fileResponse[0]?.originFileObj,
     };
-    const topicFileData = {
-      topicId: topicDetailId,
-      topicFile: values.fileResponse[0]?.originFileObj,
-    };
-    if (values.fileResponse) {
-      topicData.topicFile = values.fileResponse[0]?.originFileObj;
-    }
-    instancePatch(topicData);
+
+    await instancePatch(topicData);
   };
 
   useEffect(() => {
@@ -235,11 +234,6 @@ const FormImg = ({ file }: fileType) => {
 };
 const FormInterest = ({ tags }: { tags: string | undefined }) => {
   const tagsArray = tags ? tags.split(",") : [];
-  const options = [
-    { value: "javascript", label: "javascript" },
-    { value: "java", label: "java" },
-    { value: "react", label: "react" },
-  ];
 
   return (
     <>
@@ -248,7 +242,7 @@ const FormInterest = ({ tags }: { tags: string | undefined }) => {
           mode="multiple"
           placeholder="챌린지에 해당되는 관심사를 선택하세요"
         >
-          {options.map((option) => (
+          {interestsOption.map((option) => (
             <Select.Option key={option.value} value={option.value}>
               {option.label}
             </Select.Option>

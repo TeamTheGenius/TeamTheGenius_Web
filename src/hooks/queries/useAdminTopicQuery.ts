@@ -9,6 +9,7 @@ import {
   adminTopicEditApiType,
   topicCreateApiType,
   topicFileApiType,
+  topicPatchFileApiType,
 } from "@/types/adminType";
 import { AxiosError } from "axios";
 import { useMutation, useQuery } from "react-query";
@@ -29,9 +30,9 @@ export const useTopicListQuery = ({
     queryFn: () =>
       getAdminTopicListPageApi({
         pageNumber: pageNumber,
-        setTotalNumber,
       }),
     keepPreviousData: true,
+    suspense: true,
     onSuccess: (data) => {
       if (setTotalNumber) {
         setTotalNumber(data.totalElements);
@@ -47,12 +48,14 @@ export const useTopicDetailQuery = ({ topicId }: useTopicDetailQueryType) => {
       getAdminDetailTopicApi({
         topicId: topicId,
       }),
+    suspense: true,
   });
+
   return { data };
 };
 
 interface useMutateType {
-  onSuccess: (res: string) => void;
+  onSuccess: (res: any) => void;
   onError: (errorMessage: string) => void;
 }
 export const usePostTopicCreate = ({ onSuccess, onError }: useMutateType) => {
@@ -89,11 +92,11 @@ export const usePostTopicFileCreate = ({
   const { mutate, isLoading } = useMutation(
     ({ topicFile, topicId }: topicFileApiType) =>
       postAdminTopicFileApi({
-        topicFile: topicFile,
         topicId: topicId,
+        topicFile: topicFile,
       }),
     {
-      onSuccess: (res: any) => {
+      onSuccess: (res) => {
         onSuccess(res);
       },
       onError: (err: AxiosError<{ message?: string }>) => {
@@ -139,7 +142,7 @@ export const usePatchTopicFileEdit = ({
   onError,
 }: useMutateType) => {
   const { mutate, isLoading } = useMutation(
-    ({ topicFile, topicId }: topicFileApiType) =>
+    ({ topicFile, topicId }: topicPatchFileApiType) =>
       patchAdminTopicEditFileApi({
         topicId: topicId,
         topicFile: topicFile,

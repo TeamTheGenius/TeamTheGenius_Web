@@ -1,5 +1,6 @@
 import AdminFormLayOut from "@/components/Admin/AdminLayOut/AdminFormLayOut/AdminFormLayOut";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
+import { interestsOption } from "@/data/InterestData";
 import {
   usePostTopicCreate,
   usePostTopicFileCreate,
@@ -38,7 +39,7 @@ const TopicCreate = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const valuesRef = useRef<FormDataType | null>(null);
 
-  const onSuccessPostTopic = (res: any) => {
+  const onSuccessPostTopic = (res: number) => {
     if (valuesRef.current) {
       const topicFile = { topicFile: valuesRef.current.upload, topicId: res };
       topicFileCreate(topicFile);
@@ -50,7 +51,7 @@ const TopicCreate = () => {
     alert(errMessage);
   };
 
-  const onSuccessPostFileTopic = (res: any) => {
+  const onSuccessPostFileTopic = () => {
     setIsLoading(false);
     alert("토픽이 생성되었습니다");
   };
@@ -206,12 +207,6 @@ const FormImg = () => {
 };
 
 const FormInterest = () => {
-  const options = [
-    { value: "javascript", label: "javascript" },
-    { value: "java", label: "java" },
-    { value: "react", label: "react" },
-  ];
-
   return (
     <>
       <Form.Item name="tags" label="관심사 선택">
@@ -219,7 +214,7 @@ const FormInterest = () => {
           mode="multiple"
           placeholder="챌린지에 해당되는 관심사를 선택하세요"
         >
-          {options.map((option) => (
+          {interestsOption.map((option) => (
             <Select.Option key={option.value} value={option.value}>
               {option.label}
             </Select.Option>

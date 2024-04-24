@@ -18,10 +18,23 @@ export type topicCreateApiType = {
   topicPoint: string;
 };
 export type topicFileApiType = {
-  topicId?: number;
+  topicFile: uploadFileTye[];
+  topicId: number;
+};
+export type topicPatchFileApiType = {
+  topicId: number;
   topicFile: any;
 };
-
+export type uploadFileTye = {
+  lastModified: number;
+  lastModifiedDate?: Date;
+  name: string;
+  originFileObj: File;
+  percent: number;
+  size: number;
+  type: string;
+  uid: string;
+};
 export type adminTopicDataType = {
   title: string;
   topicId: number;
@@ -80,8 +93,11 @@ export type instanceCreateApiType = {
   instanceRangeStart: string;
   instanceRangeEnd: string;
   topicId: number;
-  instanceImg: any;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
+};
+export type instanceCreateFileApiType = {
+  instanceId: number;
+  instanceImg: File;
 };
 export type fileType = {
   file?: { fileId?: number; encodedFile?: string };
@@ -94,6 +110,15 @@ export type fileDataType = {
   uid: string;
   webkitRelativePath?: string;
 };
+export type uploadType = {
+  uid: string;
+  lastModified: number;
+  name: string;
+  originFileObj: fileDataType;
+  percent: number;
+  size: number;
+  type: string;
+};
 export type uploadDataType = {
   [index: number]: {
     uid: string;
@@ -105,7 +130,7 @@ export type uploadDataType = {
     type: string;
   };
 };
-export type editInstacneQueryType = {
+export type editInstacneApiType = {
   topicIdId: number;
   instanceId: number;
   instanceDesc: string;
@@ -115,6 +140,10 @@ export type editInstacneQueryType = {
   instanceStartAt: string;
   instanceTitle: string;
   instanceCompletedAt: string;
-  instanceImg?: any;
+  instanceImg?: File;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
+};
+export type editInstacneFileApiType = {
+  instanceId: number;
+  instanceImg?: File;
 };

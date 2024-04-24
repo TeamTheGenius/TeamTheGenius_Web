@@ -3,7 +3,6 @@ import requests from "./axios/request";
 
 type adminTopicListApiType = {
   pageNumber?: number;
-  setTotalNumber?: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const getAdminTopicListPageApi = async ({
