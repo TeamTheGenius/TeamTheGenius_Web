@@ -106,7 +106,12 @@ export const usePostTopicFileCreate = ({
   );
   return { mutate, isLoading };
 };
-export const usePatchTopicEdit = ({ onSuccess, onError }: useMutateType) => {
+type useMutatePatchTopicEditType = {
+  onSuccess: () => void;
+  onError: (err: string) => void;
+};
+
+export const usePatchTopicEdit = ({ onError }: useMutatePatchTopicEditType) => {
   const { mutate, isLoading } = useMutation(
     ({
       setIsLoading,
@@ -127,9 +132,7 @@ export const usePatchTopicEdit = ({ onSuccess, onError }: useMutateType) => {
         topicPoint: topicPoint,
       }),
     {
-      onSuccess: (res: any) => {
-        onSuccess(res);
-      },
+      onSuccess: () => {},
       onError: (err: AxiosError<{ message?: string }>) => {
         err.response?.data.message && onError(err?.response?.data?.message);
       },

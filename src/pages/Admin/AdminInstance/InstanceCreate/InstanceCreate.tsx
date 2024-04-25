@@ -81,7 +81,7 @@ const InstanceCreate = () => {
     alert(errMessage);
   };
 
-  const onSuccessUsePostFileInstance = (res: any) => {
+  const onSuccessUsePostFileInstance = () => {
     setIsLoading(false);
   };
 

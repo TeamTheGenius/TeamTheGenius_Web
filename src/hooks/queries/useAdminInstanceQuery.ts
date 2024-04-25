@@ -21,6 +21,10 @@ type useInstanceListQueryType = {
 type useInstanceDetailQueryType = {
   instanceId?: number;
 };
+type useMutateType = {
+  onSuccess: (res: any) => void;
+  onError: (errorMessage: string) => void;
+};
 export const useInstanceListQuery = ({
   pageNumber,
   setTotalNumber,
@@ -54,10 +58,6 @@ export const useInstanceDetailQuery = ({
   return { data };
 };
 
-interface useMutateType {
-  onSuccess: (res: any) => void;
-  onError: (errorMessage: string) => void;
-}
 export const usePostInstanceCreate = ({
   onSuccess,
   onError,
@@ -98,10 +98,13 @@ export const usePostInstanceCreate = ({
   );
   return { mutate, isLoading };
 };
+type useMutatePostInstanceFileCreateType = {
+  onSuccess: () => void;
+  onError: (errorMessage: string) => void;
+};
 export const usePostInstanceFileCreate = ({
-  onSuccess,
   onError,
-}: useMutateType) => {
+}: useMutatePostInstanceFileCreateType) => {
   const { mutate, isLoading } = useMutation(
     ({ instanceImg, instanceId }: instanceCreateFileApiType) =>
       postAdminInstanceFileApi({
@@ -109,9 +112,7 @@ export const usePostInstanceFileCreate = ({
         instanceImg: instanceImg,
       }),
     {
-      onSuccess: (res) => {
-        onSuccess(res);
-      },
+      onSuccess: () => {},
       onError: (err: AxiosError<{ message?: string }>) => {
         err.response?.data.message && onError(err?.response?.data?.message);
       },

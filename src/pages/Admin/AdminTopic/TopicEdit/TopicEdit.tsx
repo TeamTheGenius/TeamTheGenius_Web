@@ -45,7 +45,7 @@ const TopicEdit = () => {
   const tagsArray = tags ? tags.split(",") : [];
   const point = adminDetail?.pointPerPerson;
 
-  const onSuccessUsePatchTopicEdit = (res: any) => {
+  const onSuccessUsePatchTopicEdit = () => {
     setIsLoading(false);
     if (valuesRef.current) {
       const topicFileData = {
