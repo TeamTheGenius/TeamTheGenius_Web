@@ -3,21 +3,15 @@ import requests from "./axios/request";
 
 type adminTopicListApiType = {
   pageNumber?: number;
-  setTotalNumber?: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const getAdminTopicListPageApi = async ({
   pageNumber,
-  setTotalNumber,
 }: adminTopicListApiType) => {
   const data = await instance
     .get(`${requests.fetchTopic}?page=${pageNumber}&size=5`)
     .then((res) => {
-      const list = res.data.data.content;
-      const listNumber = res.data.data.totalElements;
-      if (setTotalNumber) {
-        setTotalNumber(listNumber);
-      }
+      const list = res.data.data;
       return list || {};
     })
     .catch((err) => {

@@ -1,5 +1,5 @@
 import { topicCreateApiType } from "@/types/adminType";
-import { multiInstance } from "./axios/axios";
+import { acceptInstance } from "./axios/axios";
 import requests from "./axios/request";
 
 const postAdminTopicApi = async ({
@@ -8,10 +8,7 @@ const postAdminTopicApi = async ({
   topicNotice,
   topicTags,
   topicPoint,
-  topicFile,
 }: topicCreateApiType) => {
-  const topicImg = topicFile[0].originFileObj;
-
   const body = {
     title: topicTitle,
     description: topicDesc,
@@ -20,21 +17,16 @@ const postAdminTopicApi = async ({
     pointPerPerson: topicPoint,
   };
 
-  const formData = new FormData();
-  formData.append(
-    "data",
-    new Blob([JSON.stringify(body)], { type: "application/json" })
-  );
-  formData.append("files", topicImg);
-  formData.append("type", "topic");
-
-  await multiInstance
-    .post(`${requests.fetchTopic}`, formData)
-    .then(() => {})
+  const data = await acceptInstance
+    .post(`${requests.fetchTopic}`, body)
+    .then((res) => {
+      return res.data.data.topicId;
+    })
     .catch((err) => {
       alert("생성 실패");
       throw err;
     });
+  return data || {};
 };
 
 export default postAdminTopicApi;

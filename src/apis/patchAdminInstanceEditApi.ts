@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import requests from "./axios/request";
-import { multiInstance } from "./axios/axios";
+import { acceptInstance } from "./axios/axios";
 
 type editInstacneType = {
   topicIdId: number;
@@ -26,7 +26,6 @@ const patchAdminInstanceEditApi = async ({
   instanceCertificationMethod,
   instanceStartAt,
   instanceCompletedAt,
-  instanceImg,
   setIsLoading,
 }: editInstacneType) => {
   const body = {
@@ -39,17 +38,9 @@ const patchAdminInstanceEditApi = async ({
     completedAt: instanceCompletedAt,
     certificationMethod: instanceCertificationMethod,
   };
-  const formData = new FormData();
-  formData.append(
-    "data",
-    new Blob([JSON.stringify(body)], { type: "application/json" })
-  );
-  if (instanceImg) {
-    formData.append("files", instanceImg);
-  }
-  formData.append("type", "instance");
-  await multiInstance
-    .patch(`${requests.fetchInstance}/${instanceId}`, formData)
+
+  await acceptInstance
+    .patch(`${requests.fetchInstance}/${instanceId}`, body)
     .then(() => {
       setIsLoading(false);
     })

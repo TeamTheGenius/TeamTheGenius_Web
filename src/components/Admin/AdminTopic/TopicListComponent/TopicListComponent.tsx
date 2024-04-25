@@ -24,7 +24,7 @@ const TopicListComponent = ({ adminList }: adminProps) => {
       <ul className="flex flex-col gap-10 rounded-xl">
         <>
           {adminList?.map((item: adminTopicDataType) => {
-            const imageData = `data:image/png;base64,${item.fileResponse.encodedFile}`;
+            const imageData = `data:image/jpeg;base64,${item.fileResponse.encodedFile}`;
             const InstanceLink = (i: number) => {
               const cryptoNumber = encrypt(i);
               const topicCryptoId = encrypt(item.topicId);

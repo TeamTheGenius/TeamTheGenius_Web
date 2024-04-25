@@ -7,8 +7,6 @@ import { decrypt } from "@/hooks/useCrypto";
 import { useOnlyAdminPermit } from "@/hooks/queries/useAuthQuery";
 import { useTopicDetailQuery } from "@/hooks/queries/useAdminTopicQuery";
 import { useInstanceListQuery } from "@/hooks/queries/useAdminInstanceQuery";
-import { QUERY_KEY } from "@/constants/queryKey";
-import { useQueryClient } from "react-query";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import AdminListLayOut from "@/components/Admin/AdminLayOut/AdminListLayOut/AdminListLayOut";
 
@@ -16,7 +14,6 @@ const AdminInstance = () => {
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [totalNumber, setTotalNumber] = useState<number>(0);
   const location = useLocation();
-  const queryClient = useQueryClient();
   const { mutate: checkAdmin } = useOnlyAdminPermit();
 
   const topicId = location.state.topicId;
@@ -25,17 +22,16 @@ const AdminInstance = () => {
   const { data: topicDetail } = useTopicDetailQuery({
     topicId: decryptTopicId,
   });
-  const { data: instanceList } = useInstanceListQuery({
+  const { data: instanceContent } = useInstanceListQuery({
     pageNumber: pageNumber - 1,
     setTotalNumber,
   });
-
+  const instanceList = instanceContent.content;
   const handlePageChange = (page: number) => {
     setPageNumber(page);
   };
   useEffect(() => {
     checkAdmin();
-    queryClient.invalidateQueries(QUERY_KEY.ADMIN_INSTANCE_PAGE);
   }, []);
 
   return (

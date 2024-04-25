@@ -2,10 +2,13 @@ import { Button, DatePicker, Form, Image, Input, Select, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import "@/utils/antdCheck.module.css";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { fileType } from "@/types/adminType";
 import Loading from "@/components/Common/Loading/Loading";
-import { usePostInstanceCreate } from "@/hooks/queries/useAdminInstanceQuery";
+import {
+  usePostInstanceCreate,
+  usePostInstanceFileCreate,
+} from "@/hooks/queries/useAdminInstanceQuery";
 import { useParams } from "react-router-dom";
 import { decrypt } from "@/hooks/useCrypto";
 import { useTopicDetailQuery } from "@/hooks/queries/useAdminTopicQuery";
@@ -37,6 +40,7 @@ const InstanceCreate = () => {
   const { id } = useParams();
   const [form] = Form.useForm();
   const decryptTopicId = decrypt(id);
+  const valuesRef = useRef<instanceCreateData | null>(null);
 
   const { data: adminDetail } = useTopicDetailQuery({
     topicId: decryptTopicId,
@@ -50,23 +54,54 @@ const InstanceCreate = () => {
   const file = adminDetail?.fileResponse;
   const point = adminDetail?.pointPerPerson;
 
-  const onSuccessUsePostInstanceCreate = () => {
+  const onSuccessUsePostInstance = (res: any) => {
     setIsLoading(false);
-    alert("인스턴스가 생성되었습니다");
+
+    if (valuesRef.current) {
+      const instanceFile = {
+        instanceImg: valuesRef.current.fileResponse[0]?.originFileObj,
+        instanceId: res,
+      };
+      instanceFileCreate(instanceFile);
+      alert("인스턴스가 생성되었습니다.");
+    }
+    form.setFieldsValue({
+      title: adminDetail?.title,
+      description: adminDetail?.description,
+      notice: adminDetail?.notice,
+      tags: tagsArray,
+      point: adminDetail?.pointPerPerson,
+      certMethod: "",
+      ranger: "",
+    });
   };
 
-  const onErrorUsePostInstanceCreate = (errMessage: string) => {
+  const onErrorUsePostInstance = (errMessage: string) => {
+    setIsLoading(false);
+    alert(errMessage);
+  };
+
+  const onSuccessUsePostFileInstance = () => {
+    setIsLoading(false);
+  };
+
+  const onErrorUsePostFileInstance = (errMessage: string) => {
     setIsLoading(false);
     alert(errMessage);
   };
 
   const { mutate: instanceCreate } = usePostInstanceCreate({
-    onSuccess: onSuccessUsePostInstanceCreate,
-    onError: onErrorUsePostInstanceCreate,
+    onSuccess: onSuccessUsePostInstance,
+    onError: onErrorUsePostInstance,
+  });
+  const { mutate: instanceFileCreate } = usePostInstanceFileCreate({
+    onSuccess: onSuccessUsePostFileInstance,
+    onError: onErrorUsePostFileInstance,
   });
 
-  const instanceSumbit = (values: instanceCreateData) => {
+  const instanceSumbit = async (values: instanceCreateData) => {
     setIsLoading(true);
+    valuesRef.current = values;
     const tagString = values.tags.join();
     const formmatStartDate = moment(values.ranger[0].$d).format(
       "YYYY-MM-DDT00:00:00"
@@ -83,15 +118,12 @@ const InstanceCreate = () => {
       instanceNotice: values.notice,
       instanceCertMethod: values.certMethod,
       instanceTags: tagString,
-      instanceImg: values.fileResponse[0]?.originFileObj,
       instancePoint: values.pointPerPerson,
       instanceRangeStart: formmatStartDate,
       instanceRangeEnd: formmatEndDate,
     };
-    if (values.fileResponse) {
-      instanceData.instanceImg = values.fileResponse[0]?.originFileObj;
-    }
-    instanceCreate(instanceData);
+
+    await instanceCreate(instanceData);
   };
 
   useEffect(() => {
@@ -100,7 +132,6 @@ const InstanceCreate = () => {
       description: adminDetail?.description,
       notice: adminDetail?.notice,
       tags: tagsArray,
-      file: adminDetail?.fileResponse,
       point: adminDetail?.pointPerPerson,
     });
   }, [adminDetail, form]);
@@ -121,7 +152,7 @@ const InstanceCreate = () => {
             <FormTitle title={title} />
             <FormDesc description={description} notice={notice} />
             <FormImg file={file} />
-            <FormInterest tags={tags} />
+            <FormInterest tags={tagsArray} />
             <FormPoint point={point} />
             <FormRangePicker />
             <SubmitButtom />
@@ -227,13 +258,12 @@ const FormImg = ({ file }: fileType) => {
     </>
   );
 };
-const FormInterest = ({ tags }: { tags: string | undefined }) => {
-  const tagArr = tags?.split(",");
+const FormInterest = ({ tags }: { tags: string[] | undefined }) => {
   return (
     <>
       <Form.Item name="tags" label="관심사 선택" initialValue={tags}>
         <Select mode="multiple" disabled>
-          {tagArr?.map((option: string, i: number) => (
+          {tags?.map((option: string, i: number) => (
             <Select.Option key={i} value={option}>
               {option}
             </Select.Option>

@@ -1,18 +1,20 @@
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Form, Image, Input, Select, Upload, UploadProps } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { fileType, uploadDataType } from "@/types/adminType";
 import Loading from "@/components/Common/Loading/Loading";
 import { useParams } from "react-router-dom";
 import { decrypt } from "@/hooks/useCrypto";
 import {
-  usePatchTopicCreate,
+  usePatchTopicEdit,
+  usePatchTopicFileEdit,
   useTopicDetailQuery,
 } from "@/hooks/queries/useAdminTopicQuery";
 import { useQueryClient } from "react-query";
 import { QUERY_KEY } from "@/constants/queryKey";
 import AdminFormLayOut from "@/components/Admin/AdminLayOut/AdminFormLayOut/AdminFormLayOut";
+import { interestsOption } from "@/data/InterestData";
 
 type topicSubmitType = {
   tags: any;
@@ -29,12 +31,12 @@ const TopicEdit = () => {
   const queryClient = useQueryClient();
   const decryptedTopicId = decrypt(id);
   const [form] = Form.useForm();
+  const valuesRef = useRef<topicSubmitType | null>(null);
 
   const { data: adminDetail } = useTopicDetailQuery({
     topicId: decryptedTopicId,
   });
 
-  const topicDetailId = adminDetail?.topicId;
   const title = adminDetail?.title;
   const description = adminDetail?.description;
   const notice = adminDetail?.notice;
@@ -42,37 +44,55 @@ const TopicEdit = () => {
   const tags = adminDetail?.tags;
   const tagsArray = tags ? tags.split(",") : [];
   const point = adminDetail?.pointPerPerson;
-  const onSuccessUsePostTokenRegister = () => {
+
+  const onSuccessUsePatchTopicEdit = () => {
+    setIsLoading(false);
+    if (valuesRef.current) {
+      const topicFileData = {
+        topicId: decryptedTopicId,
+        topicFile: valuesRef.current.fileResponse[0]?.originFileObj,
+      };
+      instanceFilePatch(topicFileData);
+    }
+  };
+  const onErrorUsePatchTopicEdit = (errMessage: string) => {
+    setIsLoading(false);
+    alert(errMessage);
+  };
+  const onSuccessUsePatchTopicFileEdit = () => {
     setIsLoading(false);
     alert("토픽이 수정되었습니다.");
     queryClient.invalidateQueries(QUERY_KEY.ADMIN_TOPIC_DETAIL);
   };
-  const onErrorUsePostTokenRegister = (errMessage: string) => {
+  const onErrorUsePatchTopicFileEdit = (errMessage: string) => {
     setIsLoading(false);
     alert(errMessage);
   };
-  const { mutate: instancePatch } = usePatchTopicCreate({
-    onSuccess: onSuccessUsePostTokenRegister,
-    onError: onErrorUsePostTokenRegister,
+  const { mutate: instancePatch } = usePatchTopicEdit({
+    onSuccess: onSuccessUsePatchTopicEdit,
+    onError: onErrorUsePatchTopicEdit,
   });
-  const topicSubmit = (values: topicSubmitType) => {
-    const tagString = values.tags.join();
+  const { mutate: instanceFilePatch } = usePatchTopicFileEdit({
+    onSuccess: onSuccessUsePatchTopicFileEdit,
+    onError: onErrorUsePatchTopicFileEdit,
+  });
+  const topicSubmit = async (values: topicSubmitType) => {
     setIsLoading(true);
+    valuesRef.current = values;
+    const tagString = values.tags.join();
     const topicData = {
       setIsLoading: setIsLoading,
-      topicId: topicDetailId,
+      topicId: decryptedTopicId,
       topicTitle: values.title,
       topicDesc: values.description,
       topicNotice: values.notice,
       topicTags: tagString,
       topicPoint: values.pointPerPerson,
-      topicFile: values.fileResponse[0]?.originFileObj,
     };
-    if (values.fileResponse) {
-      topicData.topicFile = values.fileResponse[0]?.originFileObj;
-    }
-    instancePatch(topicData);
+
+    await instancePatch(topicData);
   };
+
   useEffect(() => {
     form.setFieldsValue({
       title: adminDetail?.title,
@@ -214,11 +234,6 @@ const FormImg = ({ file }: fileType) => {
 };
 const FormInterest = ({ tags }: { tags: string | undefined }) => {
   const tagsArray = tags ? tags.split(",") : [];
-  const options = [
-    { value: "javascript", label: "javascript" },
-    { value: "java", label: "java" },
-    { value: "react", label: "react" },
-  ];
 
   return (
     <>
@@ -227,7 +242,7 @@ const FormInterest = ({ tags }: { tags: string | undefined }) => {
           mode="multiple"
           placeholder="챌린지에 해당되는 관심사를 선택하세요"
         >
-          {options.map((option) => (
+          {interestsOption.map((option) => (
             <Select.Option key={option.value} value={option.value}>
               {option.label}
             </Select.Option>

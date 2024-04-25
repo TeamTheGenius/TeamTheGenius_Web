@@ -2,23 +2,16 @@ import { instance } from "./axios/axios";
 import requests from "./axios/request";
 
 type adminInstanceListApiType = {
-  setTotalNumber?: React.Dispatch<React.SetStateAction<number>>;
-
   pageNumber?: number;
 };
 
 const getAdminInstanceListPageApi = async ({
-  setTotalNumber,
   pageNumber,
 }: adminInstanceListApiType) => {
   const data = await instance
     .get(`${requests.fetchInstance}?page=${pageNumber}&size=5`)
     .then((res) => {
-      const list = res.data.data.content;
-      const listNumber = res.data.data.totalElements;
-      if (setTotalNumber) {
-        setTotalNumber(listNumber);
-      }
+      const list = res.data.data;
       return list || {};
     })
     .catch((err) => {

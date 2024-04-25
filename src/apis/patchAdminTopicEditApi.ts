@@ -1,5 +1,5 @@
 import { adminTopicEditApiType } from "@/types/adminType";
-import { multiInstance } from "./axios/axios";
+import { acceptInstance } from "./axios/axios";
 import requests from "./axios/request";
 
 const patchAdminTopicEditApi = async ({
@@ -9,7 +9,6 @@ const patchAdminTopicEditApi = async ({
   topicNotice,
   topicTags,
   topicPoint,
-  topicFile,
   setIsLoading,
 }: adminTopicEditApiType) => {
   const body = {
@@ -19,18 +18,9 @@ const patchAdminTopicEditApi = async ({
     tags: topicTags,
     pointPerPerson: topicPoint,
   };
-  const formData = new FormData();
-  formData.append(
-    "data",
-    new Blob([JSON.stringify(body)], { type: "application/json" })
-  );
-  if (topicFile) {
-    formData.append("files", topicFile);
-  }
-  formData.append("type", "topic");
 
-  await multiInstance
-    .patch(`${requests.fetchTopic}/${topicId}`, formData)
+  await acceptInstance
+    .patch(`${requests.fetchTopic}/${topicId}`, body)
     .then(() => {
       setIsLoading(false);
     })
