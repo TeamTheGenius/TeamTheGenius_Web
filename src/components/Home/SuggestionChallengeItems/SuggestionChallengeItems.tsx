@@ -30,7 +30,7 @@ function SuggestionChallengeItems() {
       </div>
       {!data?.posts.length && (
         <div className="pr-[2.2rem]">
-          <EmptyDataComponent title="콘텐츠 준비중입니다" />
+          <EmptyDataComponent title="현재 추천하는 챌린지가 없어요" />
         </div>
       )}
       <HorizontalScroll setClickPossible={setClickPossible}>
