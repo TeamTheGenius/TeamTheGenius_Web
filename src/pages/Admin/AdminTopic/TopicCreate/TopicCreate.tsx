@@ -1,7 +1,10 @@
-import postAdminTopicApi from "@/apis/postAdminTopicApi";
-import Loading from "@/components/Common/Loading/Loading";
-import { adminTopicDataType } from "@/types/adminType";
-import { adminmodalCard } from "@/utils/modalCard";
+import AdminFormLayOut from "@/components/Admin/AdminLayOut/AdminFormLayOut/AdminFormLayOut";
+import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
+import { interestsOption } from "@/data/InterestData";
+import {
+  usePostTopicCreate,
+  usePostTopicFileCreate,
+} from "@/hooks/queries/useAdminTopicQuery";
 import { UploadOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -12,14 +15,8 @@ import {
   UploadProps,
   message,
 } from "antd";
-import { useState } from "react";
-import Modal from "react-modal";
+import { useRef, useState } from "react";
 
-type TopicModalType = {
-  setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  ModalIsOpen: boolean;
-  setAdminList: React.Dispatch<React.SetStateAction<adminTopicDataType[]>>;
-};
 type FormDataType = {
   description: string;
   notice: string;
@@ -38,61 +35,80 @@ type FormDataType = {
   }[];
 };
 
-const TopicCreateModal = ({
-  ModalIsOpen,
-  setModalIsOpen,
-  setAdminList,
-}: TopicModalType) => {
+const TopicCreate = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const TopicModalClose = () => {
-    setModalIsOpen(false);
+  const valuesRef = useRef<FormDataType | null>(null);
+
+  const onSuccessPostTopic = (res: number) => {
+    if (valuesRef.current) {
+      const topicFile = { topicFile: valuesRef.current.upload, topicId: res };
+      topicFileCreate(topicFile);
+    }
   };
 
-  const topicSubmit = (values: FormDataType) => {
+  const onErrorPostTopic = (errMessage: string) => {
+    setIsLoading(false);
+    alert(errMessage);
+  };
+
+  const onSuccessPostFileTopic = () => {
+    setIsLoading(false);
+    alert("토픽이 생성되었습니다");
+  };
+
+  const onErrorPostFileTopic = (errMessage: string) => {
+    setIsLoading(false);
+    alert(errMessage);
+  };
+
+  const { mutate: topicCreate } = usePostTopicCreate({
+    onSuccess: onSuccessPostTopic,
+    onError: onErrorPostTopic,
+  });
+
+  const { mutate: topicFileCreate } = usePostTopicFileCreate({
+    onSuccess: onSuccessPostFileTopic,
+    onError: onErrorPostFileTopic,
+  });
+
+  const topicSubmit = async (values: FormDataType) => {
     setIsLoading(true);
+    valuesRef.current = values;
     const tagString = values.tags.join();
-    postAdminTopicApi({
-      setIsLoading: setIsLoading,
-      setAdminList: setAdminList,
-      setModalIsOpen: setModalIsOpen,
+    const topicCreateData = {
       topicTitle: values.title,
       topicDesc: values.description,
       topicNotice: values.notice,
       topicTags: tagString,
-      topicFile: values.upload,
       topicPoint: values.pointPerPerson,
-    });
+    };
+    await topicCreate(topicCreateData);
   };
 
   return (
-    <div>
-      <Modal
-        isOpen={ModalIsOpen}
-        onRequestClose={TopicModalClose}
-        contentLabel="sign complete message"
-        shouldCloseOnOverlayClick={true}
-        ariaHideApp={false}
-        style={adminmodalCard}
-      >
-        {isLoading ? (
-          <Loading />
-        ) : (
-          <Form
-            onFinish={topicSubmit}
-            labelCol={{ span: 4 }}
-            wrapperCol={{ span: 19 }}
-            className="w-full"
-          >
-            <FormTitle />
-            <FormDesc />
-            <FormImg />
-            <FormInterest />
-            <FormPoint />
-            <SubmitButtom TopicModalClose={TopicModalClose} />
-          </Form>
-        )}
-      </Modal>
-    </div>
+    <>
+      {isLoading ? (
+        <LoadingBox />
+      ) : (
+        <>
+          <AdminFormLayOut title={"토픽 생성 페이지"}>
+            <Form
+              onFinish={topicSubmit}
+              // labelCol={{ span: 2 }}
+              // wrapperCol={{ span: 21 }}
+              className="w-full max-w-[1200px]"
+            >
+              <FormTitle />
+              <FormDesc />
+              <FormImg />
+              <FormInterest />
+              <FormPoint />
+              <SubmitButtom />
+            </Form>
+          </AdminFormLayOut>
+        </>
+      )}
+    </>
   );
 };
 
@@ -191,12 +207,6 @@ const FormImg = () => {
 };
 
 const FormInterest = () => {
-  const options = [
-    { value: "javascript", label: "javascript" },
-    { value: "java", label: "java" },
-    { value: "react", label: "react" },
-  ];
-
   return (
     <>
       <Form.Item name="tags" label="관심사 선택">
@@ -204,7 +214,7 @@ const FormInterest = () => {
           mode="multiple"
           placeholder="챌린지에 해당되는 관심사를 선택하세요"
         >
-          {options.map((option) => (
+          {interestsOption.map((option) => (
             <Select.Option key={option.value} value={option.value}>
               {option.label}
             </Select.Option>
@@ -237,7 +247,7 @@ const FormPoint = () => {
   );
 };
 
-const SubmitButtom = ({ TopicModalClose }: any) => {
+const SubmitButtom = () => {
   return (
     <>
       <div className="flex justify-center gap-32">
@@ -247,15 +257,9 @@ const SubmitButtom = ({ TopicModalClose }: any) => {
         >
           생성
         </Button>
-        <Button
-          onClick={TopicModalClose}
-          className="w-[10rem] h-[5rem] text-white bg-_neutral-70 text-_h3 hover:opacity-65"
-        >
-          취소
-        </Button>
       </div>
     </>
   );
 };
 
-export default TopicCreateModal;
+export default TopicCreate;

@@ -11,7 +11,7 @@ const Receipt = () => {
   return (
     <MobCard>
       <Header content="결제 내역" />
-      <div className="pt-[6rem] px-[2.2rem] flex justify-center items-center h-full">
+      <div className="pt-[6rem] px-[2.2rem] flex justify-center h-full">
         <QueryErrorResetBoundary>
           {({ reset }) => (
             <ErrorBoundary

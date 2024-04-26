@@ -12,7 +12,6 @@ export const useGetChallengeDetail = (decryptId: number) => {
   const { data, refetch, isLoading } = useQuery<ChallengeDetailDataType>({
     queryKey: [QUERY_KEY.CHALLENGE_INSTANCE_DETAIL, { decryptId }],
     queryFn: () => getInstanceDetail({ instanceId: decryptId }),
-    suspense: true,
   });
   return { data, refetch, isLoading };
 };

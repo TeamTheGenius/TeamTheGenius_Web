@@ -1,25 +1,19 @@
-import { instancePostCard } from "@/utils/modalCard";
 import { Button, DatePicker, Form, Image, Input, Select, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import "@/components/Admin/AdminInstance/InstanceCreateModal/antdCheck.module.css";
-import Modal from "react-modal";
-import postAdminInstanceApi from "@/apis/postAdminInstanceApi";
+import "@/utils/antdCheck.module.css";
 import moment from "moment";
-import { Dispatch, SetStateAction, useState } from "react";
-import {
-  fileType,
-  instanceListDataType,
-  topicDeteilType,
-} from "@/types/adminType";
+import { useEffect, useRef, useState } from "react";
+import { fileType } from "@/types/adminType";
 import Loading from "@/components/Common/Loading/Loading";
+import {
+  usePostInstanceCreate,
+  usePostInstanceFileCreate,
+} from "@/hooks/queries/useAdminInstanceQuery";
+import { useParams } from "react-router-dom";
+import { decrypt } from "@/hooks/useCrypto";
+import { useTopicDetailQuery } from "@/hooks/queries/useAdminTopicQuery";
+import AdminFormLayOut from "@/components/Admin/AdminLayOut/AdminFormLayOut/AdminFormLayOut";
 
-type TopicModalType = {
-  setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  ModalIsOpen: boolean;
-  topicDetail?: topicDeteilType;
-  topicId: number;
-  setInstanceList: Dispatch<SetStateAction<instanceListDataType[]>>;
-};
 type instanceCreateData = {
   topicId: number;
   instanceId: number;
@@ -27,7 +21,7 @@ type instanceCreateData = {
   description: string;
   certMethod: string;
   pointPerPerson: number;
-  tags: string;
+  tags: string[];
   notice: string;
   startedAt: string;
   completedAt: string;
@@ -41,20 +35,74 @@ type instanceCreateData = {
   }[];
 };
 
-const InstanceCreateModal = ({
-  setModalIsOpen,
-  ModalIsOpen,
-  topicDetail,
-  topicId,
-  setInstanceList,
-}: TopicModalType) => {
+const InstanceCreate = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const InstanceModalClose = () => {
-    setModalIsOpen(false);
+  const { id } = useParams();
+  const [form] = Form.useForm();
+  const decryptTopicId = decrypt(id);
+  const valuesRef = useRef<instanceCreateData | null>(null);
+
+  const { data: adminDetail } = useTopicDetailQuery({
+    topicId: decryptTopicId,
+  });
+
+  const title = adminDetail?.title;
+  const description = adminDetail?.description;
+  const notice = adminDetail?.notice;
+  const tags = adminDetail?.tags;
+  const tagsArray = tags ? tags.split(",") : [];
+  const file = adminDetail?.fileResponse;
+  const point = adminDetail?.pointPerPerson;
+
+  const onSuccessUsePostInstance = (res: any) => {
+    setIsLoading(false);
+
+    if (valuesRef.current) {
+      const instanceFile = {
+        instanceImg: valuesRef.current.fileResponse[0]?.originFileObj,
+        instanceId: res,
+      };
+      instanceFileCreate(instanceFile);
+      alert("인스턴스가 생성되었습니다.");
+    }
+    form.setFieldsValue({
+      title: adminDetail?.title,
+      description: adminDetail?.description,
+      notice: adminDetail?.notice,
+      tags: tagsArray,
+      point: adminDetail?.pointPerPerson,
+      certMethod: "",
+      ranger: "",
+    });
   };
 
-  const instanceSumbit = (values: instanceCreateData) => {
+  const onErrorUsePostInstance = (errMessage: string) => {
+    setIsLoading(false);
+    alert(errMessage);
+  };
+
+  const onSuccessUsePostFileInstance = () => {
+    setIsLoading(false);
+  };
+
+  const onErrorUsePostFileInstance = (errMessage: string) => {
+    setIsLoading(false);
+    alert(errMessage);
+  };
+
+  const { mutate: instanceCreate } = usePostInstanceCreate({
+    onSuccess: onSuccessUsePostInstance,
+    onError: onErrorUsePostInstance,
+  });
+  const { mutate: instanceFileCreate } = usePostInstanceFileCreate({
+    onSuccess: onSuccessUsePostFileInstance,
+    onError: onErrorUsePostFileInstance,
+  });
+
+  const instanceSumbit = async (values: instanceCreateData) => {
     setIsLoading(true);
+    valuesRef.current = values;
+    const tagString = values.tags.join();
     const formmatStartDate = moment(values.ranger[0].$d).format(
       "YYYY-MM-DDT00:00:00"
     );
@@ -62,65 +110,55 @@ const InstanceCreateModal = ({
     const formmatEndDate = moment(values.ranger[1].$d).format(
       "YYYY-MM-DDT23:59:59"
     );
-
     const instanceData = {
       setIsLoading: setIsLoading,
-      setModalIsOpen: setModalIsOpen,
-      setInstanceList: setInstanceList,
+      topicId: decryptTopicId,
       instanceTitle: values.title,
       instanceDesc: values.description,
       instanceNotice: values.notice,
       instanceCertMethod: values.certMethod,
-      instanceTags: values.tags,
+      instanceTags: tagString,
       instancePoint: values.pointPerPerson,
       instanceRangeStart: formmatStartDate,
       instanceRangeEnd: formmatEndDate,
-      topicId: topicId,
-      instanceImg: values.fileResponse[0]?.originFileObj,
     };
 
-    if (values.fileResponse) {
-      instanceData.instanceImg = values.fileResponse[0]?.originFileObj;
-    }
-    postAdminInstanceApi(instanceData);
+    await instanceCreate(instanceData);
   };
 
-  const title = topicDetail?.title;
-  const description = topicDetail?.description;
-  const notice = topicDetail?.notice;
-  const tags = topicDetail?.tags;
-  const file = topicDetail?.fileResponse;
-  const point = topicDetail?.pointPerPerson;
+  useEffect(() => {
+    form.setFieldsValue({
+      title: adminDetail?.title,
+      description: adminDetail?.description,
+      notice: adminDetail?.notice,
+      tags: tagsArray,
+      point: adminDetail?.pointPerPerson,
+    });
+  }, [adminDetail, form]);
 
   return (
     <div>
-      <Modal
-        isOpen={ModalIsOpen}
-        onRequestClose={InstanceModalClose}
-        contentLabel="sign complete message"
-        shouldCloseOnOverlayClick={true}
-        ariaHideApp={false}
-        style={instancePostCard}
-      >
-        {isLoading ? (
-          <Loading />
-        ) : (
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <AdminFormLayOut title={"인스턴스 생성 페이지"} instanceTokken={true}>
           <Form
+            form={form}
             onFinish={instanceSumbit}
-            labelCol={{ span: 4 }}
-            wrapperCol={{ span: 19 }}
-            className="w-full"
+            // labelCol={{ span: 4 }}
+            // wrapperCol={{ span: 19 }}
+            className="w-full max-w-[1200px]"
           >
             <FormTitle title={title} />
             <FormDesc description={description} notice={notice} />
             <FormImg file={file} />
-            <FormInterest tags={tags} />
+            <FormInterest tags={tagsArray} />
             <FormPoint point={point} />
             <FormRangePicker />
-            <SubmitButtom InstanceModalClose={InstanceModalClose} />
+            <SubmitButtom />
           </Form>
-        )}
-      </Modal>
+        </AdminFormLayOut>
+      )}
     </div>
   );
 };
@@ -220,13 +258,12 @@ const FormImg = ({ file }: fileType) => {
     </>
   );
 };
-const FormInterest = ({ tags }: { tags: string | undefined }) => {
-  const tagArr = tags?.split(",");
+const FormInterest = ({ tags }: { tags: string[] | undefined }) => {
   return (
     <>
       <Form.Item name="tags" label="관심사 선택" initialValue={tags}>
         <Select mode="multiple" disabled>
-          {tagArr?.map((option: string, i: number) => (
+          {tags?.map((option: string, i: number) => (
             <Select.Option key={i} value={option}>
               {option}
             </Select.Option>
@@ -258,11 +295,7 @@ const FormRangePicker = () => {
     </>
   );
 };
-const SubmitButtom = ({
-  InstanceModalClose,
-}: {
-  InstanceModalClose: () => void;
-}) => {
+const SubmitButtom = () => {
   return (
     <>
       <div className="flex justify-center gap-32">
@@ -272,14 +305,8 @@ const SubmitButtom = ({
         >
           생성
         </Button>
-        <Button
-          onClick={InstanceModalClose}
-          className="w-[10rem] h-[5rem] text-white bg-_neutral-70 text-_h3 hover:opacity-65"
-        >
-          취소
-        </Button>
       </div>
     </>
   );
 };
-export default InstanceCreateModal;
+export default InstanceCreate;

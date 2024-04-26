@@ -1,7 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import getAdminInstanceListApi from "./getAdminInstanceListApi";
-import { instanceListDataType } from "@/types/adminType";
-import { multiInstance } from "./axios/axios";
+import { acceptInstance } from "./axios/axios";
 import requests from "./axios/request";
 
 type instanceCreateApiType = {
@@ -14,14 +12,11 @@ type instanceCreateApiType = {
   instanceRangeStart: string;
   instanceRangeEnd: string;
   topicId: number;
-  setModalIsOpen: Dispatch<SetStateAction<boolean>>;
-  instanceImg?: any | undefined;
-  setInstanceList: Dispatch<SetStateAction<instanceListDataType[]>>;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 const postAdminInstanceApi = async ({
-  setIsLoading,
+  topicId,
   instanceTitle,
   instanceDesc,
   instanceNotice,
@@ -30,10 +25,6 @@ const postAdminInstanceApi = async ({
   instancePoint,
   instanceRangeStart,
   instanceRangeEnd,
-  topicId,
-  setModalIsOpen,
-  instanceImg,
-  setInstanceList,
 }: instanceCreateApiType) => {
   const body = {
     topicId: topicId,
@@ -47,27 +38,16 @@ const postAdminInstanceApi = async ({
     completedAt: instanceRangeEnd,
   };
 
-  const formData = new FormData();
-  formData.append(
-    "data",
-    new Blob([JSON.stringify(body)], { type: "application/json" })
-  );
-  if (instanceImg) {
-    formData.append("files", instanceImg);
-  }
-  formData.append("type", "instance");
-
-  await multiInstance
-    .post(`${requests.fetchInstance}`, formData)
-    .then(() => {
-      setIsLoading(false);
-      getAdminInstanceListApi({ setInstanceList });
-      setModalIsOpen(false);
+  const data = await acceptInstance
+    .post(`${requests.fetchInstance}`, body)
+    .then((res) => {
+      return res.data.data.instanceId;
     })
     .catch((err) => {
       alert("생성 실패");
       throw err;
     });
+  return data || {};
 };
 
 export default postAdminInstanceApi;

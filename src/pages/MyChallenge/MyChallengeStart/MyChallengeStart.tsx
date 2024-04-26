@@ -5,12 +5,24 @@ import MyChallengeLabel from "@/components/Main/MyChallenge/MyChallengeLabel/MyC
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useGetMyPreActivityChallenges } from "@/hooks/queries/useMyChallengeQuery";
+import { EmptyDataView } from "@/components/Common/EmptyDataView/EmptyDataView";
+import { PATH } from "@/constants/path";
 
 const MyChallengeStart = () => {
   const { data } = useGetMyPreActivityChallenges();
 
   return (
     <>
+      {!data?.length && (
+        <div className="mt-[5rem]">
+          <EmptyDataView>
+            <EmptyDataView.FireHatchIcon />
+            <EmptyDataView.Title title="시작 전인 챌린지가 없습니다" />
+            <EmptyDataView.SubTitle subTitle="새로운 챌린지에 참여해보세요" />
+            <EmptyDataView.Button label="챌린지 구경가기" path={PATH.HOME} />
+          </EmptyDataView>
+        </div>
+      )}
       <MyChallengeWrap>
         {data?.map((item, index) => {
           return (

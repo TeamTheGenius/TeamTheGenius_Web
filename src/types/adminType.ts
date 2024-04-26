@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export type adminTopicEditApiType = {
   topicTitle: string;
   topicDesc: string;
@@ -6,10 +8,32 @@ export type adminTopicEditApiType = {
   topicPoint: number;
   topicFile?: any;
   topicId?: number;
-  setTopicEditModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setAdminList: React.Dispatch<React.SetStateAction<adminTopicDataType[]>>;
-  pageNumber: number;
+};
+export type topicCreateApiType = {
+  topicTitle: string;
+  topicDesc: string;
+  topicNotice: string;
+  topicTags: string;
+  topicPoint: string;
+};
+export type topicFileApiType = {
+  topicFile: uploadFileTye[];
+  topicId: number;
+};
+export type topicPatchFileApiType = {
+  topicId: number;
+  topicFile: any;
+};
+export type uploadFileTye = {
+  lastModified: number;
+  lastModifiedDate?: Date;
+  name: string;
+  originFileObj: File;
+  percent: number;
+  size: number;
+  type: string;
+  uid: string;
 };
 export type adminTopicDataType = {
   title: string;
@@ -59,6 +83,22 @@ export type instanceDeteilType = {
     encodedFile: string;
   };
 };
+export type instanceCreateApiType = {
+  instanceTitle: string;
+  instanceDesc: string;
+  instanceNotice: string;
+  instanceCertMethod: string;
+  instanceTags: string;
+  instancePoint: number;
+  instanceRangeStart: string;
+  instanceRangeEnd: string;
+  topicId: number;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+};
+export type instanceCreateFileApiType = {
+  instanceId: number;
+  instanceImg: File;
+};
 export type fileType = {
   file?: { fileId?: number; encodedFile?: string };
 };
@@ -70,6 +110,15 @@ export type fileDataType = {
   uid: string;
   webkitRelativePath?: string;
 };
+export type uploadType = {
+  uid: string;
+  lastModified: number;
+  name: string;
+  originFileObj: fileDataType;
+  percent: number;
+  size: number;
+  type: string;
+};
 export type uploadDataType = {
   [index: number]: {
     uid: string;
@@ -80,4 +129,21 @@ export type uploadDataType = {
     size: number;
     type: string;
   };
+};
+export type editInstacneApiType = {
+  topicIdId: number;
+  instanceId: number;
+  instanceDesc: string;
+  instanceNotice: string;
+  instancePoint: number;
+  instanceCertificationMethod: string;
+  instanceStartAt: string;
+  instanceTitle: string;
+  instanceCompletedAt: string;
+  instanceImg?: File;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+};
+export type editInstacneFileApiType = {
+  instanceId: number;
+  instanceImg?: File;
 };

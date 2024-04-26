@@ -141,7 +141,6 @@ export const useGetFrameItems = () => {
   const { data, isLoading, isSuccess } = useQuery<shopFrameListType[]>({
     queryKey: [QUERY_KEY.SHOP_FRAME_ITEMS],
     queryFn: () => getItemFrameApi(),
-    suspense: true,
   });
   return { data, isLoading, isSuccess };
 };
@@ -150,7 +149,6 @@ export const useGetPassItems = () => {
   const { data, isLoading, isSuccess } = useQuery<shopTicketListType[]>({
     queryKey: [QUERY_KEY.SHOP_PASS_ITEM],
     queryFn: () => getItemPassApi(),
-    suspense: true,
   });
   return { data, isLoading, isSuccess };
 };
@@ -159,7 +157,6 @@ export const useGetPointTwiceItems = () => {
   const { data, isLoading, isSuccess } = useQuery<shopTicketListType[]>({
     queryKey: [QUERY_KEY.SHOP_POINT_TWICE_ITEM],
     queryFn: () => getItemPointApi(),
-    suspense: true,
   });
   return { data, isLoading, isSuccess };
 };

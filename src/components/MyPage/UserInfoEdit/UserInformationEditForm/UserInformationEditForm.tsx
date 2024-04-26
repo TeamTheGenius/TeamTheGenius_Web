@@ -15,8 +15,12 @@ import {
   usePostMyProfile,
 } from "@/hooks/queries/useProfileQuery";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
-import { AxiosError } from "axios";
 import { createPortal } from "react-dom";
+import { usePatchProfileImage } from "@/hooks/queries/useFileQuery";
+import { useQueryClient } from "react-query";
+import { useNavigate } from "react-router-dom";
+import { QUERY_KEY } from "@/constants/queryKey";
+import { PATH } from "@/constants/path";
 
 function UserInformationEditForm() {
   const [signUpBoolean, setsignUpBoolean] = useState(true);
@@ -31,27 +35,46 @@ function UserInformationEditForm() {
 
   const [modal, setModal] = useState(<></>);
 
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
   const { data } = useGetMyProfile();
   const { formik } = formikUtil();
 
-  const onSuccessPostMyProfile = () => {
-    setNickCheck("");
-    setNickName("");
-    setInfoShow(0);
-    setNickNameShow(0);
-    setIsLoading(false);
-  };
+  const { mutateAsync: postMyProfileMutate } = usePostMyProfile();
 
-  const onErrorPostMyProfile = (error: AxiosError<{ message?: string }>) => {
-    setModal(
-      <CommonMutationErrorModal error={error} closeModal={closeModal} />
-    );
-    openModal();
+  const { mutateAsync: patchProfileImage } = usePatchProfileImage();
+  const changeMyInformation = async ({
+    file,
+    userId,
+    myInfo,
+    nickName,
+  }: {
+    file: string;
+    userId: number;
+    myInfo: string;
+    nickName: string;
+  }) => {
+    try {
+      await Promise.all([
+        postMyProfileMutate({ myInfo, nickName }),
+        patchProfileImage({ userId, file }),
+      ]);
+      queryClient.invalidateQueries(QUERY_KEY.MY_PROFILE);
+      setNickCheck("");
+      setNickName("");
+      setInfoShow(0);
+      setNickNameShow(0);
+      setIsLoading(false);
+      closeModal();
+      navigate(PATH.MY_PAGE);
+    } catch (error: any) {
+      setModal(
+        <CommonMutationErrorModal error={error} closeModal={closeModal} />
+      );
+      openModal();
+    }
   };
-  const { mutate } = usePostMyProfile({
-    onSuccess: onSuccessPostMyProfile,
-    onError: onErrorPostMyProfile,
-  });
 
   const handleNickNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     formik.handleChange(e);
@@ -97,10 +120,17 @@ function UserInformationEditForm() {
         );
       }
     }
-    if (signUpBoolean && finalMyinfo && finalNickName) {
-      mutate({ myInfo: finalMyinfo, nickName: finalNickName, files: imageUrl });
+    if (signUpBoolean && finalMyinfo && finalNickName && data) {
+      changeMyInformation({
+        file: imageUrl,
+        userId: data.userId,
+        myInfo: finalMyinfo,
+        nickName: finalNickName,
+      });
+      postMyProfileMutate({ myInfo: finalMyinfo, nickName: finalNickName });
     }
     setIsLoading(false);
+
     if (!signUpBoolean && finalNickName !== data?.nickname) {
       openModal();
       setModal(

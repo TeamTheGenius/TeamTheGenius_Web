@@ -15,14 +15,13 @@ import {
 } from "@/types/profileType";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { AxiosError } from "axios";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 
 export const useGetMyProfile = () => {
   const { data, isLoading } = useQuery<MyProfileDataType>({
     queryKey: [QUERY_KEY.MY_PROFILE],
     queryFn: () => getMyPageProfile(),
-    suspense: true,
   });
 
   return { data, isLoading };
@@ -32,7 +31,6 @@ export const useGetUserProfile = (decryptedUserId: number) => {
   const { data } = useQuery<UserDataType>({
     queryKey: [QUERY_KEY.CERTIFICATION_USER_PROFILE, { decryptedUserId }],
     queryFn: () => postUserProfile({ userId: decryptedUserId }),
-    suspense: true,
   });
 
   return { data };
@@ -61,7 +59,6 @@ export const useGetMyProfileInterestTag = () => {
   const { data } = useQuery<string[]>({
     queryKey: [QUERY_KEY.MY_INTEREST_TAGS],
     queryFn: () => getInterestTags(),
-    suspense: true,
   });
 
   return { data };
@@ -88,44 +85,29 @@ export const usePostMyProfileInterestTag = ({
   return { mutate, isLoading };
 };
 
-interface usePostMyProfileParams {
-  onSuccess: () => void;
-  onError: (error: AxiosError<{ message?: string }>) => void;
-}
-
 interface usePostMyProfileMutationParams {
   myInfo: string;
   nickName: string;
-  files: string;
 }
 
-export const usePostMyProfile = ({
-  onSuccess,
-  onError,
-}: usePostMyProfileParams) => {
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
-
-  const { mutate, isLoading } = useMutation(
-    ({ myInfo, nickName, files }: usePostMyProfileMutationParams) =>
-      postUserInfoEdit({ myInfo, nickName, files }),
+export const usePostMyProfile = () => {
+  const { mutate, isLoading, mutateAsync } = useMutation(
+    ({ myInfo, nickName }: usePostMyProfileMutationParams) =>
+      postUserInfoEdit({ myInfo, nickName }),
     {
-      onSuccess: () => {
-        onSuccess();
-        queryClient.invalidateQueries(QUERY_KEY.MY_PROFILE);
-        navigate(PATH.MY_PAGE);
+      onSuccess: () => {},
+      onError: (error) => {
+        throw error;
       },
-      onError: (error: AxiosError<{ message?: string }>) => onError(error),
     }
   );
-  return { mutate, isLoading };
+  return { mutate, isLoading, mutateAsync };
 };
 
 export const useGetMyAllChallengesStatistics = () => {
   const { data } = useQuery<MyAllChallengesStatisticsDataType>({
     queryKey: [QUERY_KEY.MY_ALL_CHALLENGES_STATUS],
     queryFn: () => getMyPageChallengesStatus(),
-    suspense: true,
   });
   return { data };
 };

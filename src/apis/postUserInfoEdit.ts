@@ -1,22 +1,17 @@
-import { multiInstance } from "./axios/axios";
+import { acceptInstance } from "./axios/axios";
 import requests from "./axios/request";
 
 type postUserInfoEditType = {
   nickName?: string;
   myInfo?: string;
-  files?: any;
 };
 
-const postUserInfoEdit = async ({
-  nickName,
-  myInfo,
-  files,
-}: postUserInfoEditType) => {
+const postUserInfoEdit = async ({ nickName, myInfo }: postUserInfoEditType) => {
   const body = {
     nickname: nickName,
     information: myInfo,
   };
-
+  /*
   const posFile = files?.file?.originFileObj;
   const formData = new FormData();
   formData.append(
@@ -27,9 +22,9 @@ const postUserInfoEdit = async ({
     formData.append("files", posFile);
   }
   formData.append("type", "profile");
-
-  await multiInstance
-    .post(`${requests.fetchProfileInfo}`, formData)
+*/
+  await acceptInstance
+    .post(`${requests.fetchProfileInfo}`, body)
     .then(() => {})
     .catch((err) => {
       alert("생성 실패");

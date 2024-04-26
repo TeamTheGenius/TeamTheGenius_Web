@@ -6,4 +6,5 @@ export interface InstanceThumbnailDataType {
   fileResponse: {
     encodedFile: string;
   };
+  likesId: number;
 }

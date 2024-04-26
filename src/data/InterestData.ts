@@ -11,3 +11,16 @@ export const interestsData = [
   { id: 10, name: "기획" },
   { id: 11, name: "Spring" },
 ];
+export const interestsOption = [
+  { value: "Javascript", label: "Javascript" },
+  { value: "Java", label: "Java" },
+  { value: "Spring", label: "Spring" },
+  { value: "react", label: "react" },
+  { value: "Kotlin", label: "Kotlin" },
+  { value: "Vue", label: "Vue" },
+  { value: "Svelt", label: "Svelt" },
+  { value: "프론트엔드", label: "프론트엔드" },
+  { value: "백엔드", label: "백엔드" },
+  { value: "알고리즘", label: "알고리즘" },
+  { value: "기획", label: "기획" },
+];

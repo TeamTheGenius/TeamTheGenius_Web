@@ -1,26 +1,21 @@
-import getAdminTopicListApi from "./getAdminTopicListApi";
-import { adminTopicDataType } from "@/types/adminType";
+import { QueryClient } from "react-query";
 import { instance } from "./axios/axios";
 import requests from "./axios/request";
+import { QUERY_KEY } from "@/constants/queryKey";
 
 type topicDeleteType = {
   topicId: number;
-  setAdminList: React.Dispatch<React.SetStateAction<adminTopicDataType[]>>;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  pageNumber: number;
+  queryClient: QueryClient;
 };
 
 const deleteAdminTopicApi = async ({
   topicId,
-  setAdminList,
-  pageNumber,
-  setIsLoading,
+  queryClient,
 }: topicDeleteType) => {
   await instance
     .delete(`${requests.fetchTopic}/${topicId}`)
     .then(() => {
-      setIsLoading(false);
-      getAdminTopicListApi({ setAdminList, pageNumber: pageNumber - 1 });
+      queryClient.invalidateQueries(QUERY_KEY.ADMIN_TOPIC_PAGE);
     })
     .catch((err) => {
       throw err;

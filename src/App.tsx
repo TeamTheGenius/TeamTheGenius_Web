@@ -52,12 +52,17 @@ import PrivateRoute from "./components/Route/PrivateRoute/PrivateRoute";
 import { ErrorBoundary } from "react-error-boundary";
 import { Suspense } from "react";
 import Loading from "./components/Common/Loading/Loading";
+import TopicCreate from "./pages/Admin/AdminTopic/TopicCreate/TopicCreate";
+import InstanceCreate from "./pages/Admin/AdminInstance/InstanceCreate/InstanceCreate";
+import TopicEdit from "./pages/Admin/AdminTopic/TopicEdit/TopicEdit";
+import InstanceEdit from "./pages/Admin/AdminInstance/InstanceEdit/InstanceEdit";
 import CommonGetErrorFallback from "./components/Error/CommonGetErrorFallback/CommonGetErrorFallback";
 
 function App() {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
+        suspense: true,
         useErrorBoundary: true,
         retry: 0,
       },
@@ -201,6 +206,37 @@ function App() {
                       element={<AdminInstance />}
                     />
                   </Route>
+
+                  <Route path={PATH.PAYMENTS} element={<Payments />} />
+                  <Route path={PATH.PAYMENTS_SUCCESS} element={<Success />} />
+                  <Route path={PATH.PAYMENTS_FAIL} element={<Fail />} />
+                  <Route
+                    path={PATH.GITHUB_REPO_REGISTER}
+                    element={<GitPullReqConnect />}
+                  />
+
+                  <Route path={PATH.ADMIN} element={<AdminTopic />} />
+                  <Route
+                    path={PATH.ADMIN_TOPIC_CREATE}
+                    element={<TopicCreate />}
+                  />
+                  <Route
+                    path={PATH.ADMIN_TOPIC_EDIT_ID}
+                    element={<TopicEdit />}
+                  />
+                  <Route
+                    path={PATH.ADMIN_INSTANCE_ID}
+                    element={<AdminInstance />}
+                  />
+                  <Route
+                    path={PATH.ADMIN_INSTANCE_CREATE_ID}
+                    element={<InstanceCreate />}
+                  />
+                  <Route
+                    path={PATH.ADMIN_INSTANCE_EDIT_ID}
+                    element={<InstanceEdit />}
+                  />
+
                   <Route
                     path="/*"
                     element={
@@ -216,7 +252,6 @@ function App() {
           </ErrorBoundary>
         )}
       </QueryErrorResetBoundary>
-
       <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>
   );

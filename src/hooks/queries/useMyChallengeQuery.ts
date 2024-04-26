@@ -14,7 +14,6 @@ export const useGetMyPreActivityChallenges = () => {
   const { data } = useQuery<MyChallengePreActivityDataType[]>({
     queryKey: [QUERY_KEY.MY_PRE_ACTIVITY_CHALLENGES],
     queryFn: () => getMyChallengePreActivity(),
-    suspense: true,
   });
   return { data };
 };
@@ -23,7 +22,6 @@ export const useGetMyDoneChallenges = () => {
   const { data } = useQuery<MyChallengeDoneDataType[]>({
     queryKey: [QUERY_KEY.MY_DONE_CHALLENGES],
     queryFn: () => getMyChallengeDone(),
-    suspense: true,
   });
   return { data };
 };
@@ -32,7 +30,6 @@ export const useGetMyActivityChallenges = () => {
   const { data } = useQuery<MyChallengeActivityDataType[]>({
     queryKey: [QUERY_KEY.MY_ACTIVITY_CHALLENGES],
     queryFn: () => getMyChallengeActivity(),
-    suspense: true,
   });
   return { data };
 };

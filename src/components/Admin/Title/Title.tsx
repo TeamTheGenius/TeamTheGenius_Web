@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
 import { PATH } from "@/constants/path";
+import { Link } from "react-router-dom";
 
 type titleType = {
   title: string;

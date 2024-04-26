@@ -19,6 +19,9 @@ import { ModalLayer } from "@/components/Common/Modal/Modal";
 import { PATH } from "@/constants/path";
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
 
+import { usePostAuth } from "@/hooks/queries/useAuthQuery";
+import { usePostProfileImage } from "@/hooks/queries/useFileQuery";
+
 type Interest = {
   id: number;
   name: string;
@@ -38,6 +41,7 @@ const Interest = () => {
     closeModal();
     navigate(PATH.LOGIN);
   };
+
   const onErrorPostSignUp = () => {
     setModal(
       <CommonModal
@@ -48,10 +52,28 @@ const Interest = () => {
     );
     openModal();
   };
-  const { mutate: postSignUpMutate, isLoading: postSignUpLoading } =
+
+  const { mutateAsync: postSignUpMutateAsync, isLoading: postSignUpLoading } =
     usePostSignUp({
       onError: onErrorPostSignUp,
     });
+
+  const onSuccessPostSignUpProfileImage = () => {
+    navigate(PATH.AUTH);
+  };
+  const onErrorPostSignUpProfileImage = () => {
+    navigate(PATH.AUTH);
+  };
+
+  const {
+    mutate: postSignUpProfileImageMutate,
+    isLoading: postSignUpProfileImageLoading,
+  } = usePostProfileImage({
+    onError: onErrorPostSignUpProfileImage,
+    onSuccess: onSuccessPostSignUpProfileImage,
+  });
+
+  const { mutateAsync } = usePostAuth();
 
   const getRandomProfileImage = () => {
     const imagePaths = [
@@ -66,17 +88,21 @@ const Interest = () => {
     return imagePaths[randomIndex];
   };
 
-  const handleSignUp = () => {
-    postSignUpMutate({
+  const handleSignUp = async () => {
+    const data = await postSignUpMutateAsync({
       identifier: locationState.gitNickName,
       nickname: locationState.nickName,
       information: locationState.myInfo,
       interest: checkedValues,
-      files: getRandomProfileImage(),
+    });
+    await mutateAsync();
+    postSignUpProfileImageMutate({
+      userId: data.data.data.userId,
+      file: getRandomProfileImage(),
     });
   };
 
-  if (postSignUpLoading) {
+  if (postSignUpLoading || postSignUpProfileImageLoading) {
     return <Loading />;
   }
   return (

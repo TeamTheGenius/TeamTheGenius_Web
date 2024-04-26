@@ -1,10 +1,21 @@
 import Button from "@/components/Common/Button";
-type CreateBtnType = {
-  setModal: React.Dispatch<React.SetStateAction<boolean>>;
-};
-const CreateBtn = ({ setModal }: CreateBtnType) => {
+import { PATH } from "@/constants/path";
+import { useNavigate } from "react-router-dom";
+
+type CreateBtnType = { tokken: string; topicId?: string };
+const CreateBtn = ({ tokken, topicId }: CreateBtnType) => {
+  const navigate = useNavigate();
   const createBtnOpen = () => {
-    setModal(true);
+    if (tokken === "topic") {
+      navigate(PATH.ADMIN_TOPIC_CREATE);
+    }
+    if (tokken === "instance") {
+      if (topicId) {
+        navigate(`${PATH.ADMIN_INSTANCE}/${topicId}/create`, {
+          state: { topicId },
+        });
+      }
+    }
   };
   return (
     <div className="flex justify-end mb-10">

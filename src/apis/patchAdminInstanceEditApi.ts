@@ -1,8 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
-import getAdminInstanceListApi from "./getAdminInstanceListApi";
-import { instanceListDataType } from "@/types/adminType";
 import requests from "./axios/request";
-import { multiInstance } from "./axios/axios";
+import { acceptInstance } from "./axios/axios";
 
 type editInstacneType = {
   topicIdId: number;
@@ -15,9 +13,7 @@ type editInstacneType = {
   instanceTitle: string;
   instanceCompletedAt: string;
   instanceImg?: any;
-  setinstanceEditModalIsOpen: Dispatch<SetStateAction<boolean>>;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
-  setInstanceList: Dispatch<SetStateAction<instanceListDataType[]>>;
 };
 
 const patchAdminInstanceEditApi = async ({
@@ -30,10 +26,7 @@ const patchAdminInstanceEditApi = async ({
   instanceCertificationMethod,
   instanceStartAt,
   instanceCompletedAt,
-  instanceImg,
   setIsLoading,
-  setinstanceEditModalIsOpen,
-  setInstanceList,
 }: editInstacneType) => {
   const body = {
     topicIdId: topicIdId,
@@ -45,21 +38,11 @@ const patchAdminInstanceEditApi = async ({
     completedAt: instanceCompletedAt,
     certificationMethod: instanceCertificationMethod,
   };
-  const formData = new FormData();
-  formData.append(
-    "data",
-    new Blob([JSON.stringify(body)], { type: "application/json" })
-  );
-  if (instanceImg) {
-    formData.append("files", instanceImg);
-  }
-  formData.append("type", "instance");
-  await multiInstance
-    .patch(`${requests.fetchInstance}/${instanceId}`, formData)
+
+  await acceptInstance
+    .patch(`${requests.fetchInstance}/${instanceId}`, body)
     .then(() => {
       setIsLoading(false);
-      setinstanceEditModalIsOpen(false);
-      getAdminInstanceListApi({ setInstanceList });
     })
     .catch((err) => {
       alert("수정 실패");
