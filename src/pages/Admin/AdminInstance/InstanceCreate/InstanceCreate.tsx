@@ -36,7 +36,6 @@ type instanceCreateData = {
 };
 
 const InstanceCreate = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { id } = useParams();
   const [form] = Form.useForm();
   const decryptTopicId = decrypt(id);
@@ -55,8 +54,6 @@ const InstanceCreate = () => {
   const point = adminDetail?.pointPerPerson;
 
   const onSuccessUsePostInstance = (res: any) => {
-    setIsLoading(false);
-
     if (valuesRef.current) {
       const instanceFile = {
         instanceImg: valuesRef.current.fileResponse[0]?.originFileObj,
@@ -77,30 +74,26 @@ const InstanceCreate = () => {
   };
 
   const onErrorUsePostInstance = (errMessage: string) => {
-    setIsLoading(false);
     alert(errMessage);
-  };
-
-  const onSuccessUsePostFileInstance = () => {
-    setIsLoading(false);
   };
 
   const onErrorUsePostFileInstance = (errMessage: string) => {
-    setIsLoading(false);
     alert(errMessage);
   };
 
-  const { mutate: instanceCreate } = usePostInstanceCreate({
-    onSuccess: onSuccessUsePostInstance,
-    onError: onErrorUsePostInstance,
-  });
-  const { mutate: instanceFileCreate } = usePostInstanceFileCreate({
-    onSuccess: onSuccessUsePostFileInstance,
-    onError: onErrorUsePostFileInstance,
-  });
+  const { mutate: instanceCreate, isLoading: instanceCreateLoading } =
+    usePostInstanceCreate({
+      onSuccess: onSuccessUsePostInstance,
+      onError: onErrorUsePostInstance,
+    });
+  const { mutate: instanceFileCreate, isLoading: instanceFileCreateLoading } =
+    usePostInstanceFileCreate({
+      onError: onErrorUsePostFileInstance,
+    });
 
-  const instanceSumbit = async (values: instanceCreateData) => {
-    setIsLoading(true);
+  const isLoading = instanceCreateLoading || instanceFileCreateLoading;
+
+  const instanceSumbit = (values: instanceCreateData) => {
     valuesRef.current = values;
     const tagString = values.tags.join();
     const formmatStartDate = moment(values.ranger[0].$d).format(
@@ -111,7 +104,6 @@ const InstanceCreate = () => {
       "YYYY-MM-DDT23:59:59"
     );
     const instanceData = {
-      setIsLoading: setIsLoading,
       topicId: decryptTopicId,
       instanceTitle: values.title,
       instanceDesc: values.description,
@@ -123,7 +115,7 @@ const InstanceCreate = () => {
       instanceRangeEnd: formmatEndDate,
     };
 
-    await instanceCreate(instanceData);
+    instanceCreate(instanceData);
   };
 
   useEffect(() => {
@@ -145,8 +137,6 @@ const InstanceCreate = () => {
           <Form
             form={form}
             onFinish={instanceSumbit}
-            // labelCol={{ span: 4 }}
-            // wrapperCol={{ span: 19 }}
             className="w-full max-w-[1200px]"
           >
             <FormTitle title={title} />

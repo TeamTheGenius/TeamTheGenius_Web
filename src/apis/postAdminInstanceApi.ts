@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 import { acceptInstance } from "./axios/axios";
 import requests from "./axios/request";
 
@@ -12,7 +11,6 @@ type instanceCreateApiType = {
   instanceRangeStart: string;
   instanceRangeEnd: string;
   topicId: number;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 const postAdminInstanceApi = async ({

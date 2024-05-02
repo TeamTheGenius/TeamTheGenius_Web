@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 import requests from "./axios/request";
 import { acceptInstance } from "./axios/axios";
 
@@ -13,7 +12,6 @@ type editInstacneType = {
   instanceTitle: string;
   instanceCompletedAt: string;
   instanceImg?: any;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 const patchAdminInstanceEditApi = async ({
@@ -26,7 +24,6 @@ const patchAdminInstanceEditApi = async ({
   instanceCertificationMethod,
   instanceStartAt,
   instanceCompletedAt,
-  setIsLoading,
 }: editInstacneType) => {
   const body = {
     topicIdId: topicIdId,
@@ -41,9 +38,7 @@ const patchAdminInstanceEditApi = async ({
 
   await acceptInstance
     .patch(`${requests.fetchInstance}/${instanceId}`, body)
-    .then(() => {
-      setIsLoading(false);
-    })
+    .then(() => {})
     .catch((err) => {
       alert("수정 실패");
       throw err;

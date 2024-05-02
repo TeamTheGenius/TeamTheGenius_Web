@@ -26,7 +26,6 @@ type topicSubmitType = {
 };
 
 const TopicEdit = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { id } = useParams();
   const queryClient = useQueryClient();
   const decryptedTopicId = decrypt(id);
@@ -46,7 +45,6 @@ const TopicEdit = () => {
   const point = adminDetail?.pointPerPerson;
 
   const onSuccessUsePatchTopicEdit = () => {
-    setIsLoading(false);
     if (valuesRef.current) {
       const topicFileData = {
         topicId: decryptedTopicId,
@@ -56,32 +54,31 @@ const TopicEdit = () => {
     }
   };
   const onErrorUsePatchTopicEdit = (errMessage: string) => {
-    setIsLoading(false);
     alert(errMessage);
   };
   const onSuccessUsePatchTopicFileEdit = () => {
-    setIsLoading(false);
     alert("토픽이 수정되었습니다.");
     queryClient.invalidateQueries(QUERY_KEY.ADMIN_TOPIC_DETAIL);
   };
   const onErrorUsePatchTopicFileEdit = (errMessage: string) => {
-    setIsLoading(false);
     alert(errMessage);
   };
-  const { mutate: instancePatch } = usePatchTopicEdit({
-    onSuccess: onSuccessUsePatchTopicEdit,
-    onError: onErrorUsePatchTopicEdit,
-  });
-  const { mutate: instanceFilePatch } = usePatchTopicFileEdit({
-    onSuccess: onSuccessUsePatchTopicFileEdit,
-    onError: onErrorUsePatchTopicFileEdit,
-  });
-  const topicSubmit = async (values: topicSubmitType) => {
-    setIsLoading(true);
+  const { mutate: instancePatch, isLoading: instancePatchIsLoading } =
+    usePatchTopicEdit({
+      onSuccess: onSuccessUsePatchTopicEdit,
+      onError: onErrorUsePatchTopicEdit,
+    });
+  const { mutate: instanceFilePatch, isLoading: instanceFilePatchIsLoading } =
+    usePatchTopicFileEdit({
+      onSuccess: onSuccessUsePatchTopicFileEdit,
+      onError: onErrorUsePatchTopicFileEdit,
+    });
+  const isLoading = instancePatchIsLoading || instanceFilePatchIsLoading;
+
+  const topicSubmit = (values: topicSubmitType) => {
     valuesRef.current = values;
     const tagString = values.tags.join();
     const topicData = {
-      setIsLoading: setIsLoading,
       topicId: decryptedTopicId,
       topicTitle: values.title,
       topicDesc: values.description,
@@ -90,7 +87,7 @@ const TopicEdit = () => {
       topicPoint: values.pointPerPerson,
     };
 
-    await instancePatch(topicData);
+    instancePatch(topicData);
   };
 
   useEffect(() => {
@@ -106,17 +103,13 @@ const TopicEdit = () => {
   return (
     <>
       {isLoading ? (
-        <div>
-          <Loading />
-        </div>
+        <Loading />
       ) : (
         <>
           <AdminFormLayOut title={"토픽 수정 페이지"}>
             <Form
               form={form}
               onFinish={topicSubmit}
-              // labelCol={{ span: 4 }}
-              // wrapperCol={{ span: 19 }}
               className="w-full max-w-[1200px]"
             >
               <FormTitle title={title} />

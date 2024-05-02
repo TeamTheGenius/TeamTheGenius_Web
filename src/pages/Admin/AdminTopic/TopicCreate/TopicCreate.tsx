@@ -36,7 +36,6 @@ type FormDataType = {
 };
 
 const TopicCreate = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const valuesRef = useRef<FormDataType | null>(null);
 
   const onSuccessPostTopic = (res: number) => {
@@ -47,32 +46,32 @@ const TopicCreate = () => {
   };
 
   const onErrorPostTopic = (errMessage: string) => {
-    setIsLoading(false);
     alert(errMessage);
   };
 
   const onSuccessPostFileTopic = () => {
-    setIsLoading(false);
     alert("토픽이 생성되었습니다");
   };
 
   const onErrorPostFileTopic = (errMessage: string) => {
-    setIsLoading(false);
     alert(errMessage);
   };
 
-  const { mutate: topicCreate } = usePostTopicCreate({
-    onSuccess: onSuccessPostTopic,
-    onError: onErrorPostTopic,
-  });
+  const { mutate: topicCreate, isLoading: topicCreateIsLoading } =
+    usePostTopicCreate({
+      onSuccess: onSuccessPostTopic,
+      onError: onErrorPostTopic,
+    });
 
-  const { mutate: topicFileCreate } = usePostTopicFileCreate({
-    onSuccess: onSuccessPostFileTopic,
-    onError: onErrorPostFileTopic,
-  });
+  const { mutate: topicFileCreate, isLoading: topicFileCreateIsLoading } =
+    usePostTopicFileCreate({
+      onSuccess: onSuccessPostFileTopic,
+      onError: onErrorPostFileTopic,
+    });
 
-  const topicSubmit = async (values: FormDataType) => {
-    setIsLoading(true);
+  const isLoading = topicCreateIsLoading || topicFileCreateIsLoading;
+
+  const topicSubmit = (values: FormDataType) => {
     valuesRef.current = values;
     const tagString = values.tags.join();
     const topicCreateData = {
@@ -82,7 +81,7 @@ const TopicCreate = () => {
       topicTags: tagString,
       topicPoint: values.pointPerPerson,
     };
-    await topicCreate(topicCreateData);
+    topicCreate(topicCreateData);
   };
 
   return (
@@ -92,12 +91,7 @@ const TopicCreate = () => {
       ) : (
         <>
           <AdminFormLayOut title={"토픽 생성 페이지"}>
-            <Form
-              onFinish={topicSubmit}
-              // labelCol={{ span: 2 }}
-              // wrapperCol={{ span: 21 }}
-              className="w-full max-w-[1200px]"
-            >
+            <Form onFinish={topicSubmit} className="w-full max-w-[1200px]">
               <FormTitle />
               <FormDesc />
               <FormImg />

@@ -114,7 +114,6 @@ type useMutatePatchTopicEditType = {
 export const usePatchTopicEdit = ({ onError }: useMutatePatchTopicEditType) => {
   const { mutate, isLoading } = useMutation(
     ({
-      setIsLoading,
       topicId,
       topicTitle,
       topicNotice,
@@ -123,7 +122,6 @@ export const usePatchTopicEdit = ({ onError }: useMutatePatchTopicEditType) => {
       topicPoint,
     }: adminTopicEditApiType) =>
       patchAdminTopicEditApi({
-        setIsLoading: setIsLoading,
         topicId: topicId,
         topicTitle: topicTitle,
         topicDesc: topicDesc,
