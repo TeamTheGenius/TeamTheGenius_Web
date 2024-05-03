@@ -9,7 +9,6 @@ const patchAdminTopicEditApi = async ({
   topicNotice,
   topicTags,
   topicPoint,
-  setIsLoading,
 }: adminTopicEditApiType) => {
   const body = {
     title: topicTitle,
@@ -21,9 +20,7 @@ const patchAdminTopicEditApi = async ({
 
   await acceptInstance
     .patch(`${requests.fetchTopic}/${topicId}`, body)
-    .then(() => {
-      setIsLoading(false);
-    })
+    .then(() => {})
     .catch((err) => {
       alert("생성 실패");
       throw err;
