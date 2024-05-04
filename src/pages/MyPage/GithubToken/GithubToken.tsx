@@ -3,19 +3,19 @@ import GithubTokenInput from "@/components/GithubToken/GithubTokenInput";
 import { useState } from "react";
 import "@/pages/MyPage/GithubToken/githubTokenStyle.css";
 import Button from "@/components/Common/Button";
-import { useNavigate } from "react-router-dom";
 import MobCard from "@/components/Common/MobCard";
 const GithubToken = () => {
   const [githubBoolean, setGithubBoolean] = useState(false);
   const [nickName, setNickName] = useState("");
 
-  const navigate = useNavigate();
-
   const handleNickNameChange = (e: any) => {
     setNickName(e.target.value);
   };
   const notionUrl = () => {
-    navigate("notionUrl");
+    window.open(
+      "https://sparkly-nut-a48.notion.site/Github-Token-PR-66de4fa6298b4ab286053c68ce3db61e?pvs=4",
+      "_blank"
+    );
   };
   return (
     <MobCard>

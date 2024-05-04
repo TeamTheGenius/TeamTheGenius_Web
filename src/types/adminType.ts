@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
-
 export type adminTopicEditApiType = {
   topicTitle: string;
   topicDesc: string;
@@ -8,7 +6,6 @@ export type adminTopicEditApiType = {
   topicPoint: number;
   topicFile?: any;
   topicId?: number;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export type topicCreateApiType = {
   topicTitle: string;
@@ -93,7 +90,6 @@ export type instanceCreateApiType = {
   instanceRangeStart: string;
   instanceRangeEnd: string;
   topicId: number;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 export type instanceCreateFileApiType = {
   instanceId: number;
@@ -141,7 +137,6 @@ export type editInstacneApiType = {
   instanceTitle: string;
   instanceCompletedAt: string;
   instanceImg?: File;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 export type editInstacneFileApiType = {
   instanceId: number;
