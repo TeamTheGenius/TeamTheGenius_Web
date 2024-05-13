@@ -19,7 +19,7 @@ export const usePostTokenRegister = ({
   onError,
 }: PostTokenRegisterType) => {
   const queryClient = useQueryClient();
-  const { mutate } = useMutation(
+  const { mutate, isLoading } = useMutation(
     ({ githubToken }: PostTokenRegisterMutateType) =>
       postGithubTokenRegi({ githubToken }),
     {
@@ -33,7 +33,7 @@ export const usePostTokenRegister = ({
       useErrorBoundary: false,
     }
   );
-  return { mutate };
+  return { mutate, isLoading };
 };
 
 export const useGetTokenVerify = () => {

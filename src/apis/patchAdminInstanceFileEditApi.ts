@@ -1,5 +1,5 @@
 import requests from "./axios/request";
-import { acceptInstance } from "./axios/axios";
+import { multiInstance } from "./axios/axios";
 
 type editInstacneType = {
   instanceId: number;
@@ -18,7 +18,7 @@ const patchAdminInstanceFileEditApi = async ({
 
   formData.append("files", instanceImg, `${instanceId}.jpg`);
 
-  const data = await acceptInstance
+  const data = await multiInstance
     .patch(`${requests.fetchFile}/${instanceId}?type=instance`, formData)
     .then((res) => {
       return res;

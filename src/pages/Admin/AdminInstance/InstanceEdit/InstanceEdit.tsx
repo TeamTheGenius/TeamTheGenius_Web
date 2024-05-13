@@ -38,7 +38,6 @@ type InstanceEditData = {
 };
 
 const InstanceEdit = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { id } = useParams();
   const queryClient = useQueryClient();
   const decryptedTopicId = decrypt(id);
@@ -62,7 +61,6 @@ const InstanceEdit = () => {
   };
 
   const onSuccessUsePatchInstance = () => {
-    setIsLoading(false);
     if (valuesRef.current) {
       const instanceData = {
         instanceId: decryptedTopicId,
@@ -74,35 +72,29 @@ const InstanceEdit = () => {
     queryClient.invalidateQueries(QUERY_KEY.ADMIN_INSTANCE_DETAIL);
   };
   const onErrorUsePatchInstance = (errMessage: string) => {
-    setIsLoading(false);
     alert(errMessage);
   };
 
-  const onSuccessUsePatchFileInstance = () => {
-    setIsLoading(false);
-  };
   const onErrorUsePatchFileInstance = (errMessage: string) => {
-    setIsLoading(false);
     alert(errMessage);
   };
-  const { mutate: instancePatch } = usePatchInstanceCreate({
-    onSuccess: onSuccessUsePatchInstance,
-    onError: onErrorUsePatchInstance,
-  });
-  const { mutate: instanceFilePatch } = usePatchInstanceFileCreate({
-    onSuccess: onSuccessUsePatchFileInstance,
-    onError: onErrorUsePatchFileInstance,
-  });
-
+  const { mutate: instancePatch, isLoading: instancePatchIsLoading } =
+    usePatchInstanceCreate({
+      onSuccess: onSuccessUsePatchInstance,
+      onError: onErrorUsePatchInstance,
+    });
+  const { mutate: instanceFilePatch, isLoading: instanceFilePatchIsLoading } =
+    usePatchInstanceFileCreate({
+      onError: onErrorUsePatchFileInstance,
+    });
+  const isLoading = instancePatchIsLoading || instanceFilePatchIsLoading;
   const instanceSumbit = (values: InstanceEditData) => {
-    setIsLoading(true);
     valuesRef.current = values;
     const startedAt = moment(values.ranger[0]._d).format("YYYY-MM-DDTHH:mm:ss");
     const completedAt = moment(values.completedAt).format(
       "YYYY-MM-DDTHH:mm:ss"
     );
     const instanceData = {
-      setIsLoading: setIsLoading,
       instanceId: decryptedTopicId,
       topicIdId: values.topicId,
       instanceTitle: values.title,
@@ -136,8 +128,6 @@ const InstanceEdit = () => {
           <Form
             form={form}
             onFinish={instanceSumbit}
-            // labelCol={{ span: 4 }}
-            // wrapperCol={{ span: 19 }}
             initialValues={initData}
             className="w-full"
           >

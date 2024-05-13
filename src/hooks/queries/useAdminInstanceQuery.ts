@@ -25,6 +25,9 @@ type useMutateType = {
   onSuccess: (res: any) => void;
   onError: (errorMessage: string) => void;
 };
+type useMutatePatchType = {
+  onError: (errorMessage: string) => void;
+};
 export const useInstanceListQuery = ({
   pageNumber,
   setTotalNumber,
@@ -64,7 +67,6 @@ export const usePostInstanceCreate = ({
 }: useMutateType) => {
   const { mutate, isLoading } = useMutation(
     ({
-      setIsLoading,
       instanceTitle,
       instanceNotice,
       instanceDesc,
@@ -76,7 +78,6 @@ export const usePostInstanceCreate = ({
       instanceRangeEnd,
     }: instanceCreateApiType) =>
       postAdminInstanceApi({
-        setIsLoading: setIsLoading,
         topicId: topicId,
         instanceTitle: instanceTitle,
         instanceDesc: instanceDesc,
@@ -99,7 +100,6 @@ export const usePostInstanceCreate = ({
   return { mutate, isLoading };
 };
 type useMutatePostInstanceFileCreateType = {
-  onSuccess: () => void;
   onError: (errorMessage: string) => void;
 };
 export const usePostInstanceFileCreate = ({
@@ -136,10 +136,8 @@ export const usePatchInstanceCreate = ({
       instanceStartAt,
       instanceCompletedAt,
       instanceImg,
-      setIsLoading,
     }: editInstacneApiType) =>
       patchAdminInstanceEditApi({
-        setIsLoading: setIsLoading,
         topicIdId: topicIdId,
         instanceId: instanceId,
         instanceTitle: instanceTitle,
@@ -162,10 +160,7 @@ export const usePatchInstanceCreate = ({
   );
   return { mutate, isLoading };
 };
-export const usePatchInstanceFileCreate = ({
-  onSuccess,
-  onError,
-}: useMutateType) => {
+export const usePatchInstanceFileCreate = ({ onError }: useMutatePatchType) => {
   const { mutate, isLoading } = useMutation(
     ({ instanceId, instanceImg }: editInstacneFileApiType) =>
       patchAdminInstanceFileEditApi({
@@ -173,9 +168,6 @@ export const usePatchInstanceFileCreate = ({
         instanceImg: instanceImg,
       }),
     {
-      onSuccess: (res) => {
-        onSuccess(res);
-      },
       onError: (err: AxiosError<{ message?: string }>) => {
         err.response?.data.message && onError(err?.response?.data?.message);
       },

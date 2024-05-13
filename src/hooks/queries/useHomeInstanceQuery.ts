@@ -37,7 +37,7 @@ export const useGetSearchInfiniteAllInstance = ({
 }: GetSearchInfiniteAllInstanceType) => {
   const { fetchNextPage, hasNextPage, refetch, isLoading, data } =
     useInfiniteQuery({
-      queryKey: [QUERY_KEY.INFINITE_SEARCHED_ACTIVITY_CHALLENGES],
+      queryKey: [QUERY_KEY.INFINITE_SEARCHED_ALL_CHALLENGES],
       queryFn: ({ pageParam = 0 }) =>
         getSearchedChallengeItem({
           pageParams: pageParam,
@@ -59,7 +59,7 @@ export const useGetSearchInfiniteDoneInstance = ({
 }: GetSearchInfiniteDoneInstanceType) => {
   const { fetchNextPage, hasNextPage, refetch, isLoading, data } =
     useInfiniteQuery({
-      queryKey: [QUERY_KEY.INFINITE_SEARCHED_ACTIVITY_CHALLENGES],
+      queryKey: [QUERY_KEY.INFINITE_SEARCHED_DONE_CHALLENGES],
       queryFn: ({ pageParam = 0 }) =>
         getSearchedChallengeItem({
           pageParams: pageParam,
@@ -82,7 +82,7 @@ export const useGetSearchInfinitePreActivityInstance = ({
 }: GetSearchInfinitePreActivityInstanceType) => {
   const { fetchNextPage, hasNextPage, refetch, isLoading, data } =
     useInfiniteQuery({
-      queryKey: [QUERY_KEY.INFINITE_SEARCHED_ACTIVITY_CHALLENGES],
+      queryKey: [QUERY_KEY.INFINITE_SEARCHED_PRE_ACTIVITY_CHALLENGES],
       queryFn: ({ pageParam = 0 }) =>
         getSearchedChallengeItem({
           pageParams: pageParam,
