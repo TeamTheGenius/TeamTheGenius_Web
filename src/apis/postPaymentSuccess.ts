@@ -21,7 +21,7 @@ const postPaymentSuccess = async ({
   };
 
   await instance
-    .post("http://localhost:8080//api/payment/toss/success", body, {
+    .post("https://api.gitget.co.kr//api/payment/toss/success", body, {
       headers: {
         Authorization: encryptedSecretKey,
       },
