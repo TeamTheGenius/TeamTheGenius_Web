@@ -61,7 +61,7 @@ function InfiniteInterestChallenge() {
           <ModalLayer onClick={closeModal}>{modal}</ModalLayer>,
           document.body
         )}
-      <div className="pt-[6rem] pb-[2rem]">
+      <div className="pt-[6rem] pb-[2rem] w-full">
         {!data?.pages[0].posts.length && (
           <div className="mt-[8rem]">
             <EmptyDataView>

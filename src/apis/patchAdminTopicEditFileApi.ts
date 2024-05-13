@@ -1,5 +1,5 @@
 import requests from "./axios/request";
-import { acceptInstance } from "./axios/axios";
+import { multiInstance } from "./axios/axios";
 
 type patchAdminTopicEditFileApiType = {
   topicFile: any;
@@ -10,8 +10,6 @@ const patchAdminTopicEditFileApi = async ({
   topicFile,
   topicId,
 }: patchAdminTopicEditFileApiType) => {
-  
-
   if (!topicFile) {
     return;
   }
@@ -20,7 +18,7 @@ const patchAdminTopicEditFileApi = async ({
 
   formData.append("files", topicFile);
 
-  const data = await acceptInstance
+  const data = await multiInstance
     .patch(`${requests.fetchFile}/${topicId}?type=topic`, formData)
     .then((res) => {
       return res;
