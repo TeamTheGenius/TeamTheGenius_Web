@@ -1,5 +1,5 @@
 import requests from "./axios/request";
-import { acceptInstance } from "./axios/axios";
+import { multiInstance } from "./axios/axios";
 type PostSignUpProfileImageParams = {
   files: any;
   userId: number;
@@ -15,7 +15,7 @@ const patchProfileImage = async ({
   const blob = new Blob([realFile], { type: files?.file?.type });
   formData.append("files", blob, `profile-image.jpg`);
 
-  const data = await acceptInstance
+  const data = await multiInstance
     .patch(`${requests.fetchFile}/${userId}?type=profile`, formData)
     .then((res) => {
       return res;
