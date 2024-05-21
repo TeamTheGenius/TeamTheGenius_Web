@@ -1,26 +1,20 @@
 import Header from "@/components/Common/Header/Header";
 import Line from "@/components/Common/Line/Line";
 import MobCard from "@/components/Common/MobCard";
-import { ModalLayer } from "@/components/Common/Modal/Modal";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import LinkButton from "@/components/MyPage/SettingMenu/LinkButton/LinkButton";
 import Title from "@/components/MyPage/SettingMenu/Title/Title";
 import { PATH } from "@/constants/path";
 import { usePostAuthLogout } from "@/hooks/queries/useAuthQuery";
-import useModal from "@/hooks/useModal";
+import { useModalStore } from "@/stores/modalStore";
 import { AxiosError } from "axios";
-import React, { useState } from "react";
-import { createPortal } from "react-dom";
 
 function SettingMenu() {
-  const [modal, setModal] = useState<React.ReactNode>();
-  const { isModalOpened, closeModal, openModal } = useModal();
-
+  const { setModal, closeModal } = useModalStore();
   const onErrorPostAuthLogout = (error: AxiosError<{ message?: string }>) => {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );
-    openModal();
   };
   const { mutate } = usePostAuthLogout({ onError: onErrorPostAuthLogout });
   const onClickLogOut = () => {
@@ -29,11 +23,6 @@ function SettingMenu() {
 
   return (
     <>
-      {isModalOpened &&
-        createPortal(
-          <ModalLayer onClick={closeModal}>{modal}</ModalLayer>,
-          document.body
-        )}
       <MobCard>
         <Header content="설정" />
         <div className="pt-[6rem] px-[2.2rem] flex justify-center items-center">
