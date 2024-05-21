@@ -5,11 +5,10 @@ import {
   useDeleteLikesChallenge,
   usePostLikesChallenge,
 } from "@/hooks/queries/useLikeQuery";
-import React, { useState } from "react";
-import useModal from "@/hooks/useModal";
-import { ModalLayer } from "@/components/Common/Modal/Modal";
+import React from "react";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import { AxiosError } from "axios";
+import { useModalStore } from "@/stores/modalStore";
 
 interface HeartProps {
   isHearted: boolean;
@@ -32,8 +31,7 @@ function BottomHeart({
   heartCount,
   instanceId,
 }: HeartProps) {
-  const [modal, setModal] = useState<React.ReactNode>();
-  const { isModalOpened, closeModal, openModal } = useModal();
+  const { setModal, closeModal } = useModalStore();
 
   const onErrorPostLikesChallenge = (
     error: AxiosError<{ message?: string }>
@@ -41,7 +39,6 @@ function BottomHeart({
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );
-    openModal();
   };
 
   const onErrorDeleteLikesChallenge = (
@@ -50,7 +47,6 @@ function BottomHeart({
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );
-    openModal();
   };
   const { mutate: postLikesChallenges } = usePostLikesChallenge({
     onError: onErrorPostLikesChallenge,
@@ -67,7 +63,6 @@ function BottomHeart({
   };
   return (
     <>
-      {isModalOpened && <ModalLayer onClick={closeModal}>{modal}</ModalLayer>}
       <div className="flex flex-col justify-center">
         <div onClick={onClick} className="w-[3.4rem] h-[2.9rem] cursor-pointer">
           <Heart isActive={isHearted} />

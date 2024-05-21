@@ -1,9 +1,6 @@
 import participationCancelIcon from "@/assets/icon/gray-next-arrow.svg";
-import { ModalLayer } from "@/components/Common/Modal/Modal";
-import useModal from "@/hooks/useModal";
-import { createPortal } from "react-dom";
 import ParticipationCancelAskModal from "../ChallengeDetailModal/ParticipationCancelAskModal/ParticipationCancelAskModal";
-import { useState } from "react";
+import { useModalStore } from "@/stores/modalStore";
 
 interface Props {
   instanceId: number;
@@ -11,29 +8,16 @@ interface Props {
 }
 
 function ParticipationCancelButton({ instanceId, title }: Props) {
-  const [modal, setModal] = useState<React.ReactNode>();
-  const { isModalOpened, openModal, closeModal } = useModal();
+  const { setModal } = useModalStore();
 
   const onClickParticipationCancelButton = async () => {
     setModal(
-      <ParticipationCancelAskModal
-        closeModal={closeModal}
-        setModal={setModal}
-        instanceId={instanceId}
-        title={title}
-      />
+      <ParticipationCancelAskModal instanceId={instanceId} title={title} />
     );
-    openModal();
   };
 
   return (
     <>
-      {isModalOpened &&
-        createPortal(
-          <ModalLayer onClick={closeModal}>{modal}</ModalLayer>,
-          document.body
-        )}
-
       <div className="px-[1rem] bg-[#FFF8E5] w-full h-[3.8rem] flex justify-between items-center">
         <div className="flex gap-[1.3rem] pl-[0.3rem]">
           <div className="bg-[#7384A6] w-[2rem] h-[2rem] rounded-[0.4rem]" />
