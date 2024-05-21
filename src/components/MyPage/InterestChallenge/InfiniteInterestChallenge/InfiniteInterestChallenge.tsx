@@ -1,7 +1,6 @@
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import { EmptyDataView } from "@/components/Common/EmptyDataView/EmptyDataView";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
-import { ModalLayer } from "@/components/Common/Modal/Modal";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import { PATH } from "@/constants/path";
 import {
@@ -9,19 +8,17 @@ import {
   useGetInfiniteLikedChallenges,
 } from "@/hooks/queries/useLikeQuery";
 import { encrypt } from "@/hooks/useCrypto";
-import useModal from "@/hooks/useModal";
+import { useModalStore } from "@/stores/modalStore";
 import { InstanceThumbnailDataType } from "@/types/homeInstance";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { AxiosError } from "axios";
-import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
+import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useNavigate } from "react-router-dom";
 
 function InfiniteInterestChallenge() {
   const [ref, inView] = useInView();
-  const [modal, setModal] = useState<React.ReactNode>();
-  const { isModalOpened, closeModal, openModal } = useModal();
+  const { setModal, closeModal } = useModalStore();
   const navigate = useNavigate();
 
   const onErrorDeleteLikesChallenge = (
@@ -30,7 +27,6 @@ function InfiniteInterestChallenge() {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );
-    openModal();
   };
   const { mutate: deleteLikesChallenges } = useDeleteLikesChallenge({
     onError: onErrorDeleteLikesChallenge,
@@ -56,11 +52,6 @@ function InfiniteInterestChallenge() {
   if (isLoading) return <LoadingBox />;
   return (
     <>
-      {isModalOpened &&
-        createPortal(
-          <ModalLayer onClick={closeModal}>{modal}</ModalLayer>,
-          document.body
-        )}
       <div className="pt-[6rem] pb-[2rem] w-full">
         {!data?.pages[0].posts.length && (
           <div className="mt-[8rem]">
