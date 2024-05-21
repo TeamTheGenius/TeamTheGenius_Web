@@ -6,15 +6,12 @@ import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyCha
 import successStamp from "@/assets/icon/success-stamp.svg";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import MyChallengePassItem from "@/components/Main/MyChallenge/MyChallengePass/MyChallengePassItem";
-import useModal from "@/hooks/useModal";
-import { useState } from "react";
-import { ModalLayer } from "@/components/Common/Modal/Modal";
 import CertificationPassModal from "@/components/Main/MyChallenge/MyChallengeModal/CertificationPassModal/CertificationPassModal";
 import { useGetMyActivityChallenges } from "@/hooks/queries/useMyChallengeQuery";
-import { createPortal } from "react-dom";
 import CertificationModal from "@/components/Main/MyChallenge/MyChallengeModal/CertificationModal/CertificationModal";
 import { EmptyDataView } from "@/components/Common/EmptyDataView/EmptyDataView";
 import { PATH } from "@/constants/path";
+import { useModalStore } from "@/stores/modalStore";
 
 interface PassItemModal {
   e: React.MouseEvent;
@@ -24,9 +21,7 @@ interface PassItemModal {
 }
 
 const MyChallengeProgress = () => {
-  const { isModalOpened, openModal, closeModal } = useModal();
-  const [modal, setModal] = useState<React.ReactNode>();
-
+  const { setModal } = useModalStore();
   const { data } = useGetMyActivityChallenges();
   if (!data) {
     return;
@@ -41,14 +36,11 @@ const MyChallengeProgress = () => {
     e.stopPropagation();
     setModal(
       <CertificationPassModal
-        closeModal={closeModal}
         instanceId={instanceId}
         numOfPassItem={numOfPassItem}
         itemId={itemId}
-        setModal={setModal}
       />
     );
-    openModal();
   };
 
   const reNewCertification = async (
@@ -56,24 +48,11 @@ const MyChallengeProgress = () => {
     instanceId: number
   ) => {
     e.stopPropagation();
-    setModal(
-      <CertificationModal
-        instanceId={instanceId}
-        closeModal={closeModal}
-        setModal={setModal}
-      />
-    );
-    openModal();
+    setModal(<CertificationModal instanceId={instanceId} />);
   };
 
   return (
     <>
-      {modal &&
-        isModalOpened &&
-        createPortal(
-          <ModalLayer onClick={closeModal}>{modal}</ModalLayer>,
-          document.body
-        )}
       {!data.length && (
         <div className="mt-[5rem]">
           <EmptyDataView>

@@ -1,5 +1,4 @@
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
-import { ModalLayer } from "@/components/Common/Modal/Modal";
 import MyChallengeLabel from "@/components/Main/MyChallenge/MyChallengeLabel/MyChallengeLabel";
 import MyChallengeLinkWrap from "@/components/Main/MyChallenge/MyChallengeLinkWrap/MyChallengeLinkWrap";
 import GetRewardModal from "@/components/Main/MyChallenge/MyChallengeModal/GetRewardModal/GetRewardModal";
@@ -7,16 +6,13 @@ import AskGetRewardTwiceModal from "@/components/Main/MyChallenge/MyChallengeMod
 import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyChallengeTitle";
 import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyChallengeWrap";
 import { useGetMyDoneChallenges } from "@/hooks/queries/useMyChallengeQuery";
-import useModal from "@/hooks/useModal";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
-import React, { useState } from "react";
-import { createPortal } from "react-dom";
+import React from "react";
 import { EmptyDataView } from "@/components/Common/EmptyDataView/EmptyDataView";
+import { useModalStore } from "@/stores/modalStore";
 
 const MyChallengeComplete = () => {
-  const { isModalOpened, closeModal, openModal } = useModal();
-  const [modal, setModal] = useState<React.ReactNode>();
-
+  const { setModal } = useModalStore();
   const { data } = useGetMyDoneChallenges();
 
   if (!data) {
@@ -28,14 +24,7 @@ const MyChallengeComplete = () => {
     instanceId: number
   ) => {
     e.stopPropagation();
-    setModal(
-      <GetRewardModal
-        setModal={setModal}
-        instanceId={instanceId}
-        closeModal={closeModal}
-      />
-    );
-    openModal();
+    setModal(<GetRewardModal instanceId={instanceId} />);
   };
   const onClickGetRewardTwiceButton = (
     e: React.MouseEvent,
@@ -48,21 +37,12 @@ const MyChallengeComplete = () => {
       <AskGetRewardTwiceModal
         numOfPointItem={numOfPointItem}
         instanceId={instanceId}
-        closeModal={closeModal}
-        setModal={setModal}
         itemId={itemId}
       />
     );
-    openModal();
   };
   return (
     <>
-      {isModalOpened &&
-        createPortal(
-          <ModalLayer onClick={closeModal}>{modal}</ModalLayer>,
-          document.body
-        )}
-
       {!data.length && (
         <div className="mt-[5rem]">
           <EmptyDataView>
