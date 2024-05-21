@@ -82,8 +82,8 @@ function App() {
             onReset={reset}
           >
             <Suspense fallback={<Loading />}>
-              <Modal />
               <Router>
+                <Modal />
                 <Routes>
                   <Route path={PATH.LOGIN} element={<LogIn />} />
                   <Route path={PATH.SIGNUP} element={<SignUp />} />
