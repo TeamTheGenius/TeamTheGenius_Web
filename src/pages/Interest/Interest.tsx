@@ -13,14 +13,12 @@ import basicBlueProfileImage from "@/assets/image/basic-profile-image-blue.png";
 import basicGreenProfileImage from "@/assets/image/basic-profile-image-green.png";
 import Loading from "@/components/Common/Loading/Loading";
 import { usePostSignUp } from "@/hooks/queries/useUserQuery";
-import useModal from "@/hooks/useModal";
-import { createPortal } from "react-dom";
-import { ModalLayer } from "@/components/Common/Modal/Modal";
 import { PATH } from "@/constants/path";
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
 
 import { usePostAuth } from "@/hooks/queries/useAuthQuery";
 import { usePostProfileImage } from "@/hooks/queries/useFileQuery";
+import { useModalStore } from "@/stores/modalStore";
 
 type Interest = {
   id: number;
@@ -28,9 +26,8 @@ type Interest = {
 };
 
 const Interest = () => {
+  const { setModal, closeModal } = useModalStore();
   const [checkedValues, setCheckedValues] = useState<CheckboxValueType[]>([]);
-  const [modal, setModal] = useState<React.ReactNode>();
-  const { isModalOpened, closeModal, openModal } = useModal();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -50,7 +47,6 @@ const Interest = () => {
         onClick={onClickMoveToSiupUpFirstStep}
       />
     );
-    openModal();
   };
 
   const { mutateAsync: postSignUpMutateAsync, isLoading: postSignUpLoading } =
@@ -107,11 +103,6 @@ const Interest = () => {
   }
   return (
     <>
-      {isModalOpened &&
-        createPortal(
-          <ModalLayer onClick={closeModal}>{modal}</ModalLayer>,
-          document.body
-        )}
       <LoginMobCard>
         <div className="mb-[22rem]">
           <InterestHeader />
