@@ -1,16 +1,13 @@
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
-import { ModalLayer } from "@/components/Common/Modal/Modal";
 import { PATH } from "@/constants/path";
-import useModal from "@/hooks/useModal";
-import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
+import { useEffect } from "react";
 import { FallbackProps } from "react-error-boundary";
 import { useNavigate } from "react-router-dom";
 import errorIcon from "@/assets/icon/error-icon.svg";
+import { useModalStore } from "@/stores/modalStore";
 
 function CommonGetErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
-  const [modal, setModal] = useState<React.ReactNode>();
-  const { isModalOpened, closeModal, openModal } = useModal();
+  const { setModal, closeModal, isModalOpen } = useModalStore();
   const navigate = useNavigate();
 
   const onClickReTry = () => {
@@ -34,16 +31,12 @@ function CommonGetErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
           onClick={onCliclMoveToLogin}
         />
       );
-      openModal();
     }
   }, []);
 
   return (
     <>
-      {isModalOpened &&
-        createPortal(<ModalLayer> {modal}</ModalLayer>, document.body)}
-
-      {!isModalOpened && (
+      {!isModalOpen && (
         <div className="w-full h-full flex flex-col justify-center items-center">
           <img src={errorIcon} alt="error 아이콘" className="mb-[0.3rem]" />
           <p className="text-center font-medium text-[1.8rem] text-black mb-[0.9rem]">
