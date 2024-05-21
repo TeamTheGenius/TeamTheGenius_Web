@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "proxy": "https://api.gitget.co.kr",
+  "proxy": "http://localhost:8080",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -43,7 +43,8 @@
     "react-router-dom": "^6.21.1",
     "swiper": "^11.0.7",
     "tailwind-scrollbar-hide": "^1.1.7",
-    "yup": "^1.3.3"
+    "yup": "^1.3.3",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "7.6.6",
