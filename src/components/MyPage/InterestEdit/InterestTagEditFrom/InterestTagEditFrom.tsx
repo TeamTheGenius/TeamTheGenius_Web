@@ -1,7 +1,5 @@
-import React from "react";
 import BottomButton from "@/components/Common/BottomButton/BottomButton";
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
-import { ModalLayer } from "@/components/Common/Modal/Modal";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import InterestHeader from "@/components/Interest/InterestHeader/InterestHeader";
 import InterestCheckEdit from "@/components/MyPage/InterestEdit/InterestCheckEdit/InterestCheckEdit";

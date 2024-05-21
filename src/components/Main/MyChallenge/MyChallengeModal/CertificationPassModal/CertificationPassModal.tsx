@@ -3,23 +3,21 @@ import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import { Modal } from "@/components/Common/Modal/Modal";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import { usePostCertificationPassItemUse } from "@/hooks/queries/useItemQuery";
+import { useModalStore } from "@/stores/modalStore";
 import { AxiosError } from "axios";
 
 interface PassItemModalProps {
-  closeModal: () => void;
   instanceId: number;
   numOfPassItem: number;
   itemId: number;
-  setModal: React.Dispatch<React.SetStateAction<React.ReactNode>>;
 }
 
 function CertificationPassModal({
-  closeModal,
   instanceId,
   numOfPassItem,
   itemId,
-  setModal,
 }: PassItemModalProps) {
+  const { setModal, closeModal } = useModalStore();
   const onClickNotUse = () => {
     closeModal();
   };
