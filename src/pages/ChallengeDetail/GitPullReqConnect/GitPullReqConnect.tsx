@@ -11,8 +11,6 @@ import PullReqExp from "@/components/GitPullReqConnect/PullReqExp/PullReqExp";
 import BottomButton from "@/components/Common/BottomButton/BottomButton";
 import { decrypt } from "@/hooks/useCrypto";
 import Loading from "@/components/Common/Loading/Loading";
-import { ModalLayer } from "@/components/Common/Modal/Modal";
-import useModal from "@/hooks/useModal";
 import GitPullReqModal from "@/components/GitPullReqConnect/GitPullReqModal/GitPullReqModal";
 import { usePostChallengeJoin } from "@/hooks/queries/useInstanceDetailQuery";
 import {
@@ -20,17 +18,16 @@ import {
   useGetTokenVerify,
 } from "@/hooks/queries/useGithubQuery";
 import { AxiosError } from "axios";
+import { useModalStore } from "@/stores/modalStore";
 
 const GitPullReqConnect = () => {
+  const { setModal, closeModal } = useModalStore();
   const [githubBoolean, setGithubBoolean] = useState(false);
   const [repoBoolean, setRepoBoolean] = useState(false);
   const [prBoolean, setPrBoolean] = useState(false);
   const [loadingState, setLoadingState] = useState(false);
   const [repoState, setRepoState] = useState("");
   const [nickName, setNickName] = useState("");
-  const [errState, setErrState] = useState("");
-  const [modal, setModal] = useState<React.ReactNode>();
-  const { openModal, closeModal, isModalOpened } = useModal();
   const [repoOk, setRepoOk] = useState("ready");
 
   const param = useParams();
@@ -52,9 +49,13 @@ const GitPullReqConnect = () => {
   const onErrorPostChallengeJoin = (
     error: AxiosError<{ message?: string }>
   ) => {
-    openModal();
     if (error.response?.data.message) {
-      setErrState(error.response?.data.message);
+      setModal(
+        <GitPullReqModal
+          closeModal={closeModal}
+          messageState={error.response?.data.message}
+        />
+      );
     }
     setLoadingState(false);
   };
@@ -69,12 +70,8 @@ const GitPullReqConnect = () => {
   const challengeRegiHandle = () => {
     setLoadingState(true);
     postChallengeJoin({ instanceId: decryptNumber, repo: repoState });
-    setModal(
-      <GitPullReqModal closeModal={closeModal} messageState={errState} />
-    );
   };
   const challengeRegiFalseHandle = () => {
-    openModal();
     setModal(
       <GitPullReqModal
         closeModal={closeModal}
@@ -88,9 +85,6 @@ const GitPullReqConnect = () => {
   }
   return (
     <>
-      {modal && isModalOpened && (
-        <ModalLayer onClick={closeModal}>{modal}</ModalLayer>
-      )}
       <MobCard>
         <Header content="Github 연결 설정" />
         <div className="pt-[8.5rem] px-[2.2rem] flex justify-center items-center flex-col">

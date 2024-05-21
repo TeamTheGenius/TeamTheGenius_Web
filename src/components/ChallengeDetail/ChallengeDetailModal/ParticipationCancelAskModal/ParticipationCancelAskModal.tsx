@@ -3,21 +3,16 @@ import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import { Modal } from "@/components/Common/Modal/Modal";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import { useDeleteChallengeJoin } from "@/hooks/queries/useInstanceDetailQuery";
+import { useModalStore } from "@/stores/modalStore";
 import { AxiosError } from "axios";
 
 interface Props {
-  closeModal: () => void;
   instanceId: number;
   title: string;
-  setModal: React.Dispatch<React.SetStateAction<React.ReactNode>>;
 }
 
-function ParticipationCancelAskModal({
-  closeModal,
-  instanceId,
-  title,
-  setModal,
-}: Props) {
+function ParticipationCancelAskModal({ instanceId, title }: Props) {
+  const { setModal, closeModal } = useModalStore();
   const onSuccessDeleteChallengeJoin = () => {
     closeModal();
   };

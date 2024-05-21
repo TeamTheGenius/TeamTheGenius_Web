@@ -3,11 +3,10 @@ import checkIcon from "@/assets/icon/check-icon.svg";
 import failIcon from "@/assets/icon/sign-icon.svg";
 import { useState } from "react";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
-import useModal from "@/hooks/useModal";
-import { ModalLayer } from "@/components/Common/Modal/Modal";
 import GitPullReqModal from "../GitPullReqModal/GitPullReqModal";
 import { useGetVerifyPullRequest } from "@/hooks/queries/useGithubQuery";
 import { AxiosError } from "axios";
+import { useModalStore } from "@/stores/modalStore";
 type PullReqType = {
   label: string;
   repoState: string;
@@ -24,8 +23,7 @@ function PullReq({
   prBoolean,
 }: PullReqType) {
   const [loadingState, setLoadingState] = useState(false);
-  const [modal, setModal] = useState<React.ReactNode>();
-  const { openModal, closeModal, isModalOpened } = useModal();
+  const { setModal, closeModal } = useModalStore();
 
   const onErrorGetVerifyPullRequest = (
     err: AxiosError<{ message?: string }>
@@ -39,7 +37,6 @@ function PullReq({
           messageState={err?.response?.data?.message}
         />
       );
-      openModal();
     }
   };
   const onSuccessGetVerifyPullRequest = () => {
@@ -69,13 +66,9 @@ function PullReq({
         messageState={"레포지토리 선택을 먼저 진행해주세요."}
       />
     );
-    openModal();
   };
   return (
     <>
-      {modal && isModalOpened && (
-        <ModalLayer onClick={closeModal}>{modal}</ModalLayer>
-      )}
       <div className={`flex flex-col w-full`}>
         <div className="flex items-center mb-[1.5rem] ml-[6.5rem] _md:ml-0 _sm:ml-0">
           <span className={`text-[1.8rem] font-bold relative mr-[1.2rem]`}>
