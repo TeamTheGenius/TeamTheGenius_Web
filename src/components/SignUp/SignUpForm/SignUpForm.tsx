@@ -6,11 +6,11 @@ import { PATH } from "@/constants/path";
 import SignUpDesc from "./SignUpInput/SignUpDesc";
 import { useState } from "react";
 import NickNameInput from "@/components/Common/NickNameInput/NickNameInput";
-import useModal from "@/hooks/useModal";
 import { SignUpModal } from "./SignUpModal/SignUpModal";
-import { ModalLayer } from "@/components/Common/Modal/Modal";
+import { useModalStore } from "@/stores/modalStore";
 
 const SignUpForm = () => {
+  const { setModal, closeModal } = useModalStore();
   const [signUpBoolean, setsignUpBoolean] = useState(false);
   const [nickName, setNickName] = useState("");
   const [nickCheck, setNickCheck] = useState("");
@@ -19,9 +19,6 @@ const SignUpForm = () => {
   const searchParams = new URLSearchParams(location.search);
   const gitName = searchParams.get("identifier");
   const [isLoading, setIsLoading] = useState(false);
-  const { openModal, closeModal, isModalOpened } = useModal();
-
-  const [modal, setModal] = useState(<></>);
   const validationSchema = Yup.object().shape({
     nickName: Yup.string()
       .required("닉네임을 입력해주세요.")
@@ -53,7 +50,6 @@ const SignUpForm = () => {
     if (formik.values.nickName && signUpBoolean) {
       if (/[^ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-Z0-9]/.test(formik.values.nickName)) {
         setIsLoading(false);
-        openModal();
         setModal(
           <SignUpModal
             modalHandle={closeModal}
@@ -75,7 +71,6 @@ const SignUpForm = () => {
       }
     } else if (!formik.values.nickName) {
       setIsLoading(false);
-      openModal();
       setModal(
         <SignUpModal
           modalHandle={closeModal}
@@ -88,7 +83,6 @@ const SignUpForm = () => {
       );
     } else if (!signUpBoolean) {
       setIsLoading(false);
-      openModal();
       setModal(
         <SignUpModal
           modalHandle={closeModal}
@@ -104,7 +98,6 @@ const SignUpForm = () => {
 
   return (
     <>
-      {isModalOpened && <ModalLayer onClick={closeModal}>{modal}</ModalLayer>}
       <form onSubmit={formik.handleSubmit}>
         <ul className="mb-[15rem]">
           <NickNameInput
@@ -115,9 +108,6 @@ const SignUpForm = () => {
             name="nickName"
             placeholder="2 ~ 15자 입력 가능합니다."
             maxLength={15}
-            closeModal={closeModal}
-            openModal={openModal}
-            setModal={setModal}
             formikNickName={formik.values.nickName}
             signUpBoolean={signUpBoolean}
             setsignUpBoolean={setsignUpBoolean}

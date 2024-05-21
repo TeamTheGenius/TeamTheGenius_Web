@@ -6,8 +6,6 @@ import InfoInput from "@/components/MyPage/MyPage/UserEdit/InfoInput/InfoInput";
 import formikUtil from "@/utils/useEditFormik";
 import UserInfo from "@/components/MyPage/MyPage/UserEdit/UserImg/UserImg";
 import UserName from "@/components/MyPage/MyPage/UserEdit/UserName/UserName";
-import useModal from "@/hooks/useModal";
-import { ModalLayer } from "@/components/Common/Modal/Modal";
 import NickNameInput from "@/components/Common/NickNameInput/NickNameInput";
 import { EditModal } from "@/components/MyPage/EditModal/EditModal";
 import {
@@ -15,14 +13,15 @@ import {
   usePostMyProfile,
 } from "@/hooks/queries/useProfileQuery";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
-import { createPortal } from "react-dom";
 import { usePatchProfileImage } from "@/hooks/queries/useFileQuery";
 import { useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { QUERY_KEY } from "@/constants/queryKey";
 import { PATH } from "@/constants/path";
+import { useModalStore } from "@/stores/modalStore";
 
 function UserInformationEditForm() {
+  const { setModal, closeModal } = useModalStore();
   const [signUpBoolean, setsignUpBoolean] = useState(true);
   const [nickCheck, setNickCheck] = useState("");
   const [nickName, setNickName] = useState("");
@@ -31,9 +30,6 @@ function UserInformationEditForm() {
   const [nickNameShow, setNickNameShow] = useState(0);
   const [imageUrl, setImageUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { openModal, closeModal, isModalOpened } = useModal();
-
-  const [modal, setModal] = useState(<></>);
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -72,7 +68,6 @@ function UserInformationEditForm() {
       setModal(
         <CommonMutationErrorModal error={error} closeModal={closeModal} />
       );
-      openModal();
     }
   };
 
@@ -86,7 +81,6 @@ function UserInformationEditForm() {
   };
   const editModalOpen = () => {
     setIsLoading(false);
-    openModal();
     setModal(
       <EditModal
         modalHandle={editHandle}
@@ -107,7 +101,6 @@ function UserInformationEditForm() {
 
     if (finalNickName && signUpBoolean) {
       if (/[^ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-Z0-9]/.test(finalNickName)) {
-        openModal();
         setModal(
           <EditModal
             modalHandle={closeModal}
@@ -132,7 +125,6 @@ function UserInformationEditForm() {
     setIsLoading(false);
 
     if (!signUpBoolean && finalNickName !== data?.nickname) {
-      openModal();
       setModal(
         <EditModal
           modalHandle={closeModal}
@@ -150,12 +142,6 @@ function UserInformationEditForm() {
   };
   return (
     <>
-      {isModalOpened &&
-        createPortal(
-          <ModalLayer onClick={closeModal}>{modal}</ModalLayer>,
-          document.body
-        )}
-
       <Form>
         <UserInfo data={data} setImageUrl={setImageUrl} imageUrl={imageUrl} />
       </Form>
@@ -181,9 +167,6 @@ function UserInformationEditForm() {
               id="nickName"
               name="nickName"
               placeholder="2 ~ 15자 입력 가능합니다."
-              closeModal={closeModal}
-              openModal={openModal}
-              setModal={setModal}
               formikNickName={formik.values.nickName}
               userValue={data?.nickname}
               maxLength={15}
