@@ -12,6 +12,7 @@ import { EditModal } from "@/components/MyPage/EditModal/EditModal";
 import { SignUpModal } from "@/components/SignUp/SignUpForm/SignUpModal/SignUpModal";
 import { useGetCheckNickName } from "@/hooks/queries/useUserQuery";
 import { AxiosError, AxiosResponse } from "axios";
+import { useModalStore } from "@/stores/modalStore";
 
 type SignUpInputProps = {
   label: string;
@@ -31,9 +32,6 @@ type SignUpInputProps = {
   signUpBoolean: boolean;
   setsignUpBoolean: Dispatch<SetStateAction<boolean>>;
   userValue?: string;
-  openModal: () => void;
-  closeModal: () => void;
-  setModal: React.Dispatch<React.SetStateAction<JSX.Element>>;
   formikNickName: string;
 };
 
@@ -55,11 +53,9 @@ const NickNameInput: React.FC<SignUpInputProps> = ({
   signUpBoolean,
   setsignUpBoolean,
   userValue,
-  openModal,
-  setModal,
-  closeModal,
   formikNickName,
 }) => {
+  const { setModal, closeModal } = useModalStore();
   const [isLoading, setIsLoading] = useState(false);
 
   const onSuccessGetCheckNickName = (res: AxiosResponse) => {
@@ -84,7 +80,6 @@ const NickNameInput: React.FC<SignUpInputProps> = ({
   });
 
   const sameNickCheck = () => {
-    openModal();
     setModal(
       <EditModal
         modalHandle={closeModal}
@@ -101,7 +96,6 @@ const NickNameInput: React.FC<SignUpInputProps> = ({
     if (formikNickName) {
       if (/[^ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-Z0-9]/.test(formikNickName)) {
         setIsLoading(false);
-        openModal();
         setModal(
           <SignUpModal
             modalHandle={closeModal}
@@ -117,7 +111,6 @@ const NickNameInput: React.FC<SignUpInputProps> = ({
       }
     } else if (!formikNickName) {
       setIsLoading(false);
-      openModal();
       setModal(
         <SignUpModal
           modalHandle={closeModal}
