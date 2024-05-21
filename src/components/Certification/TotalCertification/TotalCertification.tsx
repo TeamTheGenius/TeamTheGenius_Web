@@ -1,11 +1,8 @@
 import { CertificationResult } from "@/components/Common/CertificationResult/CertificationResult";
-import useModal from "@/hooks/useModal";
 import { getIsToday } from "@/utils/getIsToday";
 import { getSlashDate } from "@/utils/getSlashDate";
-import { useState } from "react";
 import CertificationPRLinkModal from "../CertificationModal/CertificationPRLinkModal/CertificationPRLinkModal";
-import { createPortal } from "react-dom";
-import { Modal, ModalLayer } from "@/components/Common/Modal/Modal";
+import { useModalStore } from "@/stores/modalStore";
 
 interface Data {
   data: {
@@ -40,9 +37,7 @@ interface CertificationModal {
 }
 
 function TotalCertification({ data }: Data) {
-  const { openModal, closeModal, isModalOpened } = useModal();
-  const [modal, setModal] = useState(<></>);
-
+  const { setModal } = useModalStore();
   const LAST_ATTEMPT = data.certifications[data.certifications.length - 1]
     ? data.certifications[data.certifications.length - 1].certificationAttempt
     : 0;
@@ -63,21 +58,10 @@ function TotalCertification({ data }: Data) {
         certificationAttempt={certificationAttempt}
       />
     );
-    openModal();
   };
 
   return (
     <>
-      {isModalOpened &&
-        createPortal(
-          <ModalLayer onClick={closeModal}>
-            <Modal.ModalContentBox width="w-[46.2rem]" height="h-[39.5rem]">
-              {modal}
-            </Modal.ModalContentBox>
-          </ModalLayer>,
-          document.body
-        )}
-
       {data.certifications.map((item, index) => {
         const isToday = getIsToday({ date: item.certificatedAt });
         const TODAY_NOT_YET = isToday && item.certificateStatus === "NOT_YET";
