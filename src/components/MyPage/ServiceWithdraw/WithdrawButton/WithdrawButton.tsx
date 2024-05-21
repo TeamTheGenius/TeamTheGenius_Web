@@ -1,11 +1,9 @@
 import Button from "@/components/Common/Button";
-import { ModalLayer } from "@/components/Common/Modal/Modal";
+import CommonModal from "@/components/Common/CommonModal/CommonModal";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import { useDeleteUser } from "@/hooks/queries/useProfileQuery";
-import useModal from "@/hooks/useModal";
+import { useModalStore } from "@/stores/modalStore";
 import { AxiosError } from "axios";
-import { useState } from "react";
-import { createPortal } from "react-dom";
 
 type Reason =
   | "앱 사용이 불편해요"
@@ -19,30 +17,32 @@ interface Props {
 }
 
 function WithdrawButton({ selectedReason, otherReason }: Props) {
-  const [modal, setModal] = useState<React.ReactNode>();
-  const { isModalOpened, closeModal, openModal } = useModal();
+  const { setModal, closeModal } = useModalStore();
 
   const onErrorDeleteUser = (error: AxiosError<{ message?: string }>) => {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );
-    openModal();
   };
   const { mutate } = useDeleteUser({ onError: onErrorDeleteUser });
 
-  const onClick = async () => {
+  const onClickWithdrawButton = () => {
+    setModal(
+      <CommonModal
+        content="정말 탈퇴하시겠습니까?"
+        buttonContent="예"
+        onClick={onClickWithdrawYes}
+      />
+    );
+  };
+  const onClickWithdrawYes = async () => {
     const reason = selectedReason == "기타" ? otherReason : selectedReason;
     mutate(reason);
+    closeModal();
   };
 
   return (
     <>
-      {isModalOpened &&
-        createPortal(
-          <ModalLayer onClick={closeModal}>{modal}</ModalLayer>,
-          document.body
-        )}
-
       <Button
         content="탈퇴하기"
         width="w-full max-w-[46.7rem] _sm:max-w-[16.4rem]"
@@ -51,7 +51,7 @@ function WithdrawButton({ selectedReason, otherReason }: Props) {
         textSize="text-[1.5rem]"
         fontWeight="font-[500]"
         textColor="text-white"
-        handleClick={onClick}
+        handleClick={onClickWithdrawButton}
       />
     </>
   );
