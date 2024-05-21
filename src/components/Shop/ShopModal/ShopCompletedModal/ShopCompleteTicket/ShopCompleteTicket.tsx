@@ -1,13 +1,14 @@
 import Button from "@/components/Common/Button";
+import { useModalStore } from "@/stores/modalStore";
 import { shopFrameListType } from "@/types/shopType";
 import { breakLine } from "@/utils/breakLine";
 
 type ShopCompleteTicketType = {
-  closeModal: () => void;
   item?: shopFrameListType;
 };
 
-function ShopCompleteTicket({ closeModal, item }: ShopCompleteTicketType) {
+function ShopCompleteTicket({ item }: ShopCompleteTicketType) {
+  const { closeModal } = useModalStore();
   const completeHandle = () => {
     closeModal();
   };

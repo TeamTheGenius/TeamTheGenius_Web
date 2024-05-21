@@ -1,7 +1,9 @@
 import Button from "@/components/Common/Button";
 import { Modal } from "@/components/Common/Modal/Modal";
+import { useModalStore } from "@/stores/modalStore";
 
-function ShopCompleteEquip({ closeModal }: { closeModal: () => void }) {
+function ShopCompleteEquip() {
+  const { closeModal } = useModalStore();
   const completeHandle = () => {
     closeModal();
   };

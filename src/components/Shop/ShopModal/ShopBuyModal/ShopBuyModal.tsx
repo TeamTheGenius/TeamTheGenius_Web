@@ -11,14 +11,14 @@ import { useNavigate } from "react-router-dom";
 import { PATH } from "@/constants/path";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import { AxiosError } from "axios";
+import { useModalStore } from "@/stores/modalStore";
 
 type ShopBuyModalType = {
-  closeModal: () => void;
-  setModal: React.Dispatch<React.SetStateAction<React.ReactNode>>;
   item?: shopFrameListType | shopTicketListType;
 };
 
-function ShopBuyModal({ item, setModal, closeModal }: ShopBuyModalType) {
+function ShopBuyModal({ item }: ShopBuyModalType) {
+  const { setModal, closeModal } = useModalStore();
   const navigate = useNavigate();
 
   const onClickMoveToCharge = () => {
@@ -28,12 +28,7 @@ function ShopBuyModal({ item, setModal, closeModal }: ShopBuyModalType) {
 
   const onSuccessPostItemBuy = () => {
     setModal(
-      <ShopCompletedModal
-        item={item}
-        isValidCategory={isValidCategory}
-        closeModal={closeModal}
-        setModal={setModal}
-      />
+      <ShopCompletedModal item={item} isValidCategory={isValidCategory} />
     );
   };
   const onErrorPostItemBuy = (error: AxiosError<{ message?: string }>) => {

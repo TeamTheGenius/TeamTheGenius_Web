@@ -1,18 +1,15 @@
 import pointBigIcon from "@/assets/icon/point-big-icon.svg";
-import { ModalLayer } from "@/components/Common/Modal/Modal";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import {
   usePostFrameItemEquiptment,
   usePostFrameItemUnEquiptment,
 } from "@/hooks/queries/useItemQuery";
-import useModal from "@/hooks/useModal";
+import { useModalStore } from "@/stores/modalStore";
 import { shopFrameListType } from "@/types/shopType";
 import { AxiosError } from "axios";
-import React, { useState } from "react";
-import { createPortal } from "react-dom";
+
 function ShopFrameButton({ item }: { item: shopFrameListType }) {
-  const [modal, setModal] = useState<React.ReactNode>();
-  const { isModalOpened, openModal, closeModal } = useModal();
+  const { setModal, closeModal } = useModalStore();
 
   const onErrorPostFrameItemUnEquiptment = (
     error: AxiosError<{ message?: string }>
@@ -20,8 +17,8 @@ function ShopFrameButton({ item }: { item: shopFrameListType }) {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );
-    openModal();
   };
+
   const {
     mutate: postFrameItemUnEquipment,
     mutateAsync: postFrameItemUnEquipmentAsync,
@@ -35,7 +32,6 @@ function ShopFrameButton({ item }: { item: shopFrameListType }) {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );
-    openModal();
   };
   const { mutate: postFrameItemEquiptment } = usePostFrameItemEquiptment({
     onError: onErrorPostFrameItemEquiptment,
@@ -52,12 +48,6 @@ function ShopFrameButton({ item }: { item: shopFrameListType }) {
 
   return (
     <>
-      {isModalOpened &&
-        createPortal(
-          <ModalLayer onClick={closeModal}>{modal}</ModalLayer>,
-          document.body
-        )}
-
       <div className="flex justify-center items-center">
         {item.equipStatus === "장착 중" && (
           <button
