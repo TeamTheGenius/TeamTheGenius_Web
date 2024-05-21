@@ -3,7 +3,7 @@ import { Modal } from "@/components/Common/Modal/Modal";
 import { usePostTodayCertification } from "@/hooks/queries/useCertificationQuery";
 import { CertificationDataType } from "@/types/certificationType";
 import { getToday } from "@/utils/getToday";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
 import { AxiosError } from "axios";
