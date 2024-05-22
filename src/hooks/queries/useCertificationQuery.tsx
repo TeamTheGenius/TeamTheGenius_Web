@@ -4,7 +4,9 @@ import getMyWeekCertification from "@/apis/getMyWeekCertification";
 import getOthersWeekCertification from "@/apis/getOthersWeekCertification";
 import getTotalCertification from "@/apis/getTotalCertification";
 import postTodayCertification from "@/apis/postTodayCertification";
+import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import { QUERY_KEY } from "@/constants/queryKey";
+import { useModalStore } from "@/stores/modalStore";
 import {
   CertificationDataType,
   CertificationInstnaceDetailDataType,
@@ -27,13 +29,13 @@ interface PostTodayCertificationMutateType {
 
 interface PostTodayCertificationType {
   onSuccess: (res: CertificationDataType) => void;
-  onError: (error: AxiosError<{ message?: string }>) => void;
 }
 export const usePostTodayCertification = ({
   onSuccess,
-  onError,
 }: PostTodayCertificationType) => {
+  const { setModal, closeModal } = useModalStore();
   const queryClient = useQueryClient();
+
   const { mutate, isLoading } = useMutation(
     ({ instanceId, targetDate }: PostTodayCertificationMutateType) =>
       postTodayCertification({ instanceId, targetDate }),
@@ -43,7 +45,9 @@ export const usePostTodayCertification = ({
         onSuccess(res);
       },
       onError: (error: AxiosError<{ message?: string }>) => {
-        onError(error);
+        setModal(
+          <CommonMutationErrorModal closeModal={closeModal} error={error} />
+        );
       },
     }
   );
