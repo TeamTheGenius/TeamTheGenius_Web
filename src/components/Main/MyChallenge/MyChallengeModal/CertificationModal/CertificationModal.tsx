@@ -1,13 +1,11 @@
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import { Modal } from "@/components/Common/Modal/Modal";
-import { usePostTodayCertification } from "@/hooks/queries/useCertificationQuery";
 import { CertificationDataType } from "@/types/certificationType";
 import { getToday } from "@/utils/getToday";
 import { useEffect } from "react";
-import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
-import { AxiosError } from "axios";
 import { useModalStore } from "@/stores/modalStore";
+import { usePostTodayCertification } from "@/hooks/queries/useCertificationQuery";
 
 interface Props {
   instanceId: number;
@@ -35,19 +33,11 @@ function CertificationModal({ instanceId }: Props) {
     }
   };
 
-  const onErrorPostTodayCertification = (
-    error: AxiosError<{ message?: string }>
-  ) => {
-    setModal(
-      <CommonMutationErrorModal closeModal={closeModal} error={error} />
-    );
-  };
   const {
     mutate: postTodayCertificationMutate,
     isLoading: postTodayCertificationLoading,
   } = usePostTodayCertification({
     onSuccess: onSuccessPostTodayCertification,
-    onError: onErrorPostTodayCertification,
   });
 
   useEffect(() => {

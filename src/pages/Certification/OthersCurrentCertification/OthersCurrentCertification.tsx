@@ -9,8 +9,8 @@ import { useInView } from "react-intersection-observer";
 import { useParams } from "react-router-dom";
 import basicProfileImage from "@/assets/image/basic-profile-image-gray.png";
 import { AllWeekCertificationDataType } from "@/types/certificationType";
-import { useGetAllCertificationWeek } from "@/hooks/queries/useCertificationQuery";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
+import { useGetAllCertificationWeek } from "@/hooks/queries/useCertificationQuery";
 
 function OthersCurrentCertification() {
   const { id } = useParams();
