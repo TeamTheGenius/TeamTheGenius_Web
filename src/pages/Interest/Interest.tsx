@@ -16,9 +16,9 @@ import { usePostSignUp } from "@/hooks/queries/useUserQuery";
 import { PATH } from "@/constants/path";
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
 
-import { usePostAuth } from "@/hooks/queries/useAuthQuery";
 import { usePostProfileImage } from "@/hooks/queries/useFileQuery";
 import { useModalStore } from "@/stores/modalStore";
+import { usePostAuth } from "@/hooks/queries/useAuthQuery";
 
 type Interest = {
   id: number;

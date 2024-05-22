@@ -4,11 +4,11 @@ import { Pagination } from "antd";
 import { Suspense, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { decrypt } from "@/hooks/useCrypto";
-import { useOnlyAdminPermit } from "@/hooks/queries/useAuthQuery";
 import { useTopicDetailQuery } from "@/hooks/queries/useAdminTopicQuery";
 import { useInstanceListQuery } from "@/hooks/queries/useAdminInstanceQuery";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import AdminListLayOut from "@/components/Admin/AdminLayOut/AdminListLayOut/AdminListLayOut";
+import { useOnlyAdminPermit } from "@/hooks/queries/useAuthQuery";
 
 const AdminInstance = () => {
   const [pageNumber, setPageNumber] = useState<number>(0);

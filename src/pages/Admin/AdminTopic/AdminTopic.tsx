@@ -2,10 +2,10 @@ import TopicListComponents from "@/components/Admin/AdminTopic/TopicListComponen
 import CreateBtn from "@/components/Admin/CreateBtn/CreateBtn";
 import { Suspense, useEffect, useState } from "react";
 import { Pagination } from "antd";
-import { useOnlyAdminPermit } from "@/hooks/queries/useAuthQuery";
 import { useTopicListQuery } from "@/hooks/queries/useAdminTopicQuery";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import AdminListLayOut from "@/components/Admin/AdminLayOut/AdminListLayOut/AdminListLayOut";
+import { useOnlyAdminPermit } from "@/hooks/queries/useAuthQuery";
 
 const AdminTopic = () => {
   const [pageNumber, setPageNumber] = useState<number>(0);
