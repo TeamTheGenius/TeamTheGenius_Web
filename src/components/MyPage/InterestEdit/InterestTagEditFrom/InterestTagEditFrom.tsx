@@ -4,12 +4,12 @@ import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModa
 import InterestHeader from "@/components/Interest/InterestHeader/InterestHeader";
 import InterestCheckEdit from "@/components/MyPage/InterestEdit/InterestCheckEdit/InterestCheckEdit";
 import { interestsData } from "@/data/InterestData";
-import { usePostMyProfileInterestTag } from "@/hooks/queries/useProfileQuery";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { AxiosError } from "axios";
 import { useState } from "react";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import { useModalStore } from "@/stores/modalStore";
+import { usePostMyProfileInterestTag } from "@/hooks/queries/useProfileQuery";
 export type Interest = {
   id: number;
   name: string;

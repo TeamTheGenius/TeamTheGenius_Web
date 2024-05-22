@@ -16,9 +16,9 @@ import { usePostSignUp } from "@/hooks/queries/useUserQuery";
 import { PATH } from "@/constants/path";
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
 
-import { usePostProfileImage } from "@/hooks/queries/useFileQuery";
 import { useModalStore } from "@/stores/modalStore";
 import { usePostAuth } from "@/hooks/queries/useAuthQuery";
+import { usePostProfileImage } from "@/hooks/queries/useFileQuery";
 
 type Interest = {
   id: number;
@@ -54,20 +54,10 @@ const Interest = () => {
       onError: onErrorPostSignUp,
     });
 
-  const onSuccessPostSignUpProfileImage = () => {
-    navigate(PATH.AUTH);
-  };
-  const onErrorPostSignUpProfileImage = () => {
-    navigate(PATH.AUTH);
-  };
-
   const {
     mutate: postSignUpProfileImageMutate,
     isLoading: postSignUpProfileImageLoading,
-  } = usePostProfileImage({
-    onError: onErrorPostSignUpProfileImage,
-    onSuccess: onSuccessPostSignUpProfileImage,
-  });
+  } = usePostProfileImage();
 
   const { mutateAsync } = usePostAuth();
 

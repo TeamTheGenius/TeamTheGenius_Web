@@ -6,8 +6,8 @@ import { CheckboxValueType } from "antd/es/checkbox/Group";
 import "@/components/Interest/InterestCheck/antdCheckbox.css";
 import Interest from "@/pages/Interest/Interest";
 
-import { useGetMyProfileInterestTag } from "@/hooks/queries/useProfileQuery";
 import { useEffect } from "react";
+import { useGetMyProfileInterestTag } from "@/hooks/queries/useProfileQuery";
 
 type InterestCheckType = {
   InterestValue: Interest[];
