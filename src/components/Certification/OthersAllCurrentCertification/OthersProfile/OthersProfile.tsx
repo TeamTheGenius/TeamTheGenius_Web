@@ -1,7 +1,7 @@
 import { Profile } from "@/components/Common/Profile/Profile";
-import { useGetUserProfile } from "@/hooks/queries/useProfileQuery";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import basicProfileImage from "@/assets/image/basic-profile-image-gray.png";
+import { useGetUserProfile } from "@/hooks/queries/useProfileQuery";
 
 interface Props {
   decryptedUserId: number;
