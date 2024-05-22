@@ -4,18 +4,14 @@ import GetRewardResultModal from "../GetRewardResultModal/GetRewardResultModal";
 import { useGetChallengeSuccessReward } from "@/hooks/queries/useMyChallengeQuery";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import { MyChallengeDoneDataType } from "@/types/myChallengeType";
+import { useModalStore } from "@/stores/modalStore";
 
 interface RewardModalProps {
-  setModal: React.Dispatch<React.SetStateAction<React.ReactNode>>;
-  closeModal: () => void;
   instanceId: number;
 }
 
-function GetRewardModal({
-  closeModal,
-  setModal,
-  instanceId,
-}: RewardModalProps) {
+function GetRewardModal({ instanceId }: RewardModalProps) {
+  const { setModal, closeModal } = useModalStore();
   const onSuccessGetChallengeSuccessReward = (res: MyChallengeDoneDataType) => {
     setModal(
       <GetRewardResultModal

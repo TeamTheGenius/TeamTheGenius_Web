@@ -3,11 +3,9 @@ import HorizontalScroll from "@/components/Home/HorizontalScroll/HorizontalScrol
 import { getSlashDate } from "@/utils/getSlashDate";
 import { getIsToday } from "@/utils/getIsToday";
 import { useState } from "react";
-import useModal from "@/hooks/useModal";
-import { createPortal } from "react-dom";
-import { Modal, ModalLayer } from "@/components/Common/Modal/Modal";
 import CertificationPRLinkModal from "../CertificationModal/CertificationPRLinkModal/CertificationPRLinkModal";
 import { cls } from "@/utils/mergeTailwind";
+import { useModalStore } from "@/stores/modalStore";
 
 interface Props {
   data: {
@@ -48,8 +46,7 @@ interface CertificationModal {
 
 function ThisWeekCertification({ data, paddingLeft }: Props) {
   const [clickPossible, setClickPossible] = useState<boolean>(true);
-  const { openModal, closeModal, isModalOpened } = useModal();
-  const [modal, setModal] = useState(<></>);
+  const { setModal } = useModalStore();
 
   const onClickSuccessCertification = ({
     prLinks,
@@ -64,7 +61,6 @@ function ThisWeekCertification({ data, paddingLeft }: Props) {
         certificationAttempt={certificationAttempt}
       />
     );
-    openModal();
   };
 
   const DayOfWeek = {
@@ -92,16 +88,6 @@ function ThisWeekCertification({ data, paddingLeft }: Props) {
     : 0;
   return (
     <>
-      {isModalOpened &&
-        createPortal(
-          <ModalLayer onClick={closeModal}>
-            <Modal.ModalContentBox width="w-[46.2rem]" height="h-[39.5rem]">
-              {modal}
-            </Modal.ModalContentBox>
-          </ModalLayer>,
-          document.body
-        )}
-
       <HorizontalScroll setClickPossible={setClickPossible}>
         <div
           className={cls(

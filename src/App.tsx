@@ -57,6 +57,7 @@ import InstanceCreate from "./pages/Admin/AdminInstance/InstanceCreate/InstanceC
 import TopicEdit from "./pages/Admin/AdminTopic/TopicEdit/TopicEdit";
 import InstanceEdit from "./pages/Admin/AdminInstance/InstanceEdit/InstanceEdit";
 import CommonGetErrorFallback from "./components/Error/CommonGetErrorFallback/CommonGetErrorFallback";
+import Modal from "./pages/Modal/Modal";
 
 function App() {
   const queryClient = new QueryClient({
@@ -82,6 +83,7 @@ function App() {
           >
             <Suspense fallback={<Loading />}>
               <Router>
+                <Modal />
                 <Routes>
                   <Route path={PATH.LOGIN} element={<LogIn />} />
                   <Route path={PATH.SIGNUP} element={<SignUp />} />

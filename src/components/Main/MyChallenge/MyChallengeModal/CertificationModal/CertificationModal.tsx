@@ -3,17 +3,18 @@ import { Modal } from "@/components/Common/Modal/Modal";
 import { usePostTodayCertification } from "@/hooks/queries/useCertificationQuery";
 import { CertificationDataType } from "@/types/certificationType";
 import { getToday } from "@/utils/getToday";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
 import { AxiosError } from "axios";
+import { useModalStore } from "@/stores/modalStore";
 
 interface Props {
   instanceId: number;
-  setModal: React.Dispatch<React.SetStateAction<React.ReactNode>>;
-  closeModal: () => void;
 }
-function CertificationModal({ instanceId, setModal, closeModal }: Props) {
+function CertificationModal({ instanceId }: Props) {
+  const { setModal, closeModal } = useModalStore();
+
   const onSuccessPostTodayCertification = (res: CertificationDataType) => {
     if (res.certificateStatus === "NOT_YET") {
       setModal(

@@ -4,11 +4,10 @@ import DropDownIcon from "@/assets/icon/arrow-down.svg";
 import GitTokenCheckIcon from "../GitTokenCheckIcon/GitTokenCheckIcon";
 import Label from "../Label/Label";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
-import useModal from "@/hooks/useModal";
 import GitPullReqModal from "../GitPullReqModal/GitPullReqModal";
-import { ModalLayer } from "@/components/Common/Modal/Modal";
 import { useGetVerifyRepository } from "@/hooks/queries/useGithubQuery";
 import { AxiosError, AxiosResponse } from "axios";
+import { useModalStore } from "@/stores/modalStore";
 type repoType = {
   label: string;
   value: string;
@@ -31,11 +30,9 @@ function Repo({
   repoOk,
   setRepoOk,
 }: repoType) {
+  const { setModal, closeModal } = useModalStore();
   const [selectedValue, setSelectedValue] = useState("");
   const [loadingState, setLoadingState] = useState(false);
-  const [modal, setModal] = useState<React.ReactNode>();
-  const [errState, setErrState] = useState("");
-  const { openModal, closeModal, isModalOpened } = useModal();
 
   const onSuccessGetVerifyRepository = (res: AxiosResponse) => {
     setRepoOk(res.data.code);
@@ -47,11 +44,16 @@ function Repo({
     err: AxiosError<{ message?: string }>
   ) => {
     if (err.response?.data.message) {
-      setErrState(err?.response?.data?.message);
+      setModal(
+        <GitPullReqModal
+          closeModal={closeModal}
+          messageState={err.response?.data.message}
+        />
+      );
     }
+
     setRepoBoolean(false);
     setLoadingState(false);
-    openModal();
   };
   const { mutate: getVerifyRepositoryMutate } = useGetVerifyRepository({
     onSuccess: onSuccessGetVerifyRepository,
@@ -60,9 +62,6 @@ function Repo({
   const gitRepoCheck = () => {
     setLoadingState(true);
     getVerifyRepositoryMutate({ repo: selectedValue });
-    setModal(
-      <GitPullReqModal closeModal={closeModal} messageState={errState} />
-    );
   };
   const gitRepoFlase = () => {
     alert("깃허브 토큰 등록을 먼저 진행해주세요.");
@@ -74,9 +73,6 @@ function Repo({
 
   return (
     <>
-      {modal && isModalOpened && (
-        <ModalLayer onClick={closeModal}>{modal}</ModalLayer>
-      )}
       <div className={`flex flex-col w-full`}>
         <div className="flex items-center ml-[6.5rem] _md:ml-0 _sm:ml-0">
           <Label id={id} label={label} />

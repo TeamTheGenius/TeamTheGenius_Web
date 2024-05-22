@@ -1,9 +1,6 @@
-import { ModalLayer } from "@/components/Common/Modal/Modal";
 import ShopBuyModal from "@/components/Shop/ShopModal/ShopBuyModal/ShopBuyModal";
-import useModal from "@/hooks/useModal";
+import { useModalStore } from "@/stores/modalStore";
 import { shopFrameListType } from "@/types/shopType";
-import { useState } from "react";
-import { createPortal } from "react-dom";
 
 type ShopFrameImgProps = {
   imgSrc?: string;
@@ -12,21 +9,12 @@ type ShopFrameImgProps = {
 };
 
 function ShopFrameImg({ imgSrc, item, equip }: ShopFrameImgProps) {
-  const [modal, setModal] = useState<React.ReactNode>();
-  const { openModal, closeModal, isModalOpened } = useModal();
+  const { setModal } = useModalStore();
   const buyItem = (item: shopFrameListType | undefined) => {
-    setModal(
-      <ShopBuyModal closeModal={closeModal} setModal={setModal} item={item} />
-    );
-    openModal();
+    setModal(<ShopBuyModal item={item} />);
   };
   return (
     <>
-      {isModalOpened &&
-        createPortal(
-          <ModalLayer onClick={closeModal}>{modal}</ModalLayer>,
-          document.body
-        )}
       <button
         className={`flex justify-center w-full h-[9.9rem] rounded-[0.5rem] mb-[1.1rem] border-[0.1rem] ${
           equip === "장착 불가"

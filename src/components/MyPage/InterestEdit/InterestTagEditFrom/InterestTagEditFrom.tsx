@@ -1,26 +1,23 @@
-import React from "react";
 import BottomButton from "@/components/Common/BottomButton/BottomButton";
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
-import { ModalLayer } from "@/components/Common/Modal/Modal";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import InterestHeader from "@/components/Interest/InterestHeader/InterestHeader";
 import InterestCheckEdit from "@/components/MyPage/InterestEdit/InterestCheckEdit/InterestCheckEdit";
 import { interestsData } from "@/data/InterestData";
 import { usePostMyProfileInterestTag } from "@/hooks/queries/useProfileQuery";
-import useModal from "@/hooks/useModal";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { AxiosError } from "axios";
 import { useState } from "react";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
+import { useModalStore } from "@/stores/modalStore";
 export type Interest = {
   id: number;
   name: string;
 };
 
 function InterestTagEditFrom() {
+  const { setModal, closeModal } = useModalStore();
   const [checkedValues, setCheckedValues] = useState<CheckboxValueType[]>([]);
-  const [modal, setModal] = useState<React.ReactNode>();
-  const { isModalOpened, openModal, closeModal } = useModal();
 
   const InterestValue: Interest[] = interestsData;
   const onSuccessPostMyProfileInterestTag = () => {
@@ -31,7 +28,6 @@ function InterestTagEditFrom() {
         onClick={closeModal}
       />
     );
-    openModal();
   };
   const onErrorPostMyProfileInterestTag = (
     error: AxiosError<{ message?: string }>
@@ -39,7 +35,6 @@ function InterestTagEditFrom() {
     setModal(
       <CommonMutationErrorModal error={error} closeModal={closeModal} />
     );
-    openModal();
   };
   const { mutate, isLoading } = usePostMyProfileInterestTag({
     onSuccess: onSuccessPostMyProfileInterestTag,
@@ -51,8 +46,6 @@ function InterestTagEditFrom() {
   };
   return (
     <>
-      {isModalOpened && <ModalLayer onClick={closeModal}>{modal}</ModalLayer>}
-
       {isLoading ? (
         <LoadingBox />
       ) : (

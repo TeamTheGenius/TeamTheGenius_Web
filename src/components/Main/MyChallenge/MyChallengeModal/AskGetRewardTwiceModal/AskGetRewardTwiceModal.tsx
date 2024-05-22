@@ -2,41 +2,26 @@ import Button from "@/components/Common/Button";
 import { Modal } from "@/components/Common/Modal/Modal";
 import GetRewardModal from "../GetRewardModal/GetRewardModal";
 import GetRewardTwiceModal from "../GetRewardTwiceModal/GetRewardTwiceModal";
+import { useModalStore } from "@/stores/modalStore";
 
 interface TwiceRewardModalProps {
-  closeModal: () => void;
   instanceId: number;
   numOfPointItem: number;
   itemId: number;
-  setModal: React.Dispatch<React.SetStateAction<React.ReactNode>>;
 }
 
 function AskGetRewardTwiceModal({
-  closeModal,
   instanceId,
   numOfPointItem,
-  setModal,
   itemId,
 }: TwiceRewardModalProps) {
+  const { setModal } = useModalStore();
   const onClickUse = async () => {
-    setModal(
-      <GetRewardTwiceModal
-        setModal={setModal}
-        instanceId={instanceId}
-        closeModal={closeModal}
-        itemId={itemId}
-      />
-    );
+    setModal(<GetRewardTwiceModal instanceId={instanceId} itemId={itemId} />);
   };
 
   const onClickNotUse = () => {
-    setModal(
-      <GetRewardModal
-        setModal={setModal}
-        instanceId={instanceId}
-        closeModal={closeModal}
-      />
-    );
+    setModal(<GetRewardModal instanceId={instanceId} />);
   };
 
   return (

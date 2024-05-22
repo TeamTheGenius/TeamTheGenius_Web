@@ -1,25 +1,20 @@
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import { Modal } from "@/components/Common/Modal/Modal";
 import { usePostPointTwiceItemUse } from "@/hooks/queries/useItemQuery";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { MyChallengeDoneDataType } from "@/types/myChallengeType";
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import { AxiosError } from "axios";
+import { useModalStore } from "@/stores/modalStore";
 
 interface Props {
-  setModal: React.Dispatch<React.SetStateAction<React.ReactNode>>;
   instanceId: number;
-  closeModal: () => void;
   itemId: number;
 }
 
-function GetRewardTwiceModal({
-  setModal,
-  instanceId,
-  itemId,
-  closeModal,
-}: Props) {
+function GetRewardTwiceModal({ instanceId, itemId }: Props) {
+  const { closeModal, setModal } = useModalStore();
   const onSuccessPostItemUse = (res: MyChallengeDoneDataType) => {
     setModal(
       <CommonModal

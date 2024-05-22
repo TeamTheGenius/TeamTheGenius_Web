@@ -7,38 +7,28 @@ import ShopCompleteTicket from "./ShopCompleteTicket/ShopCompleteTicket";
 
 type ShopCompletedModalType = {
   err?: string;
-  closeModal: () => void;
   item?: shopFrameListType | shopTicketListType;
   isValidCategory?: boolean;
-  setModal: React.Dispatch<React.SetStateAction<React.ReactNode>>;
 };
 
 function ShopCompletedModal({
-  closeModal,
   item,
   err,
   isValidCategory,
-  setModal,
 }: ShopCompletedModalType) {
   return (
     <Modal.ModalContentBox width="w-[35.5rem]" height="h-[32.3rem]">
       <div className="flex flex-col justify-center relative items-center">
         {item?.itemCategory === "PROFILE_FRAME" && (
-          <ShopCompleteFrame
-            setModal={setModal}
-            closeModal={closeModal}
-            item={item}
-          />
+          <ShopCompleteFrame item={item} />
         )}
         {err === "사용자의 보유 포인트가 충분하지 않습니다." && (
           <ShopCompleteNonePoint />
         )}
         {err === "프로필 프레임은 재구매가 불가능 합니다." && (
-          <ShopCompleteEquip closeModal={closeModal} />
+          <ShopCompleteEquip />
         )}
-        {isValidCategory && (
-          <ShopCompleteTicket closeModal={closeModal} item={item} />
-        )}
+        {isValidCategory && <ShopCompleteTicket item={item} />}
       </div>
     </Modal.ModalContentBox>
   );

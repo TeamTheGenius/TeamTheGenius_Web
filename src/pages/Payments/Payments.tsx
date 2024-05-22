@@ -12,15 +12,13 @@ import {
 import { nanoid } from "nanoid";
 
 import postPaymentData from "@/apis/postPaymentData";
-import { ModalLayer } from "@/components/Common/Modal/Modal";
-import useModal from "@/hooks/useModal";
 import { PaymentsModal } from "@/components/Payments/PaymentsModal/PaymentsModal";
+import { useModalStore } from "@/stores/modalStore";
 
 const Payments = () => {
+  const { setModal, closeModal } = useModalStore();
   const [selectedPoint, setSelectedPoint] = useState<string>("");
   const [amount, setAmount] = useState(0);
-  const [modal, setModal] = useState(<></>);
-  const { openModal, closeModal, isModalOpened } = useModal();
   const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
   const customerKey = nanoid();
 
@@ -48,7 +46,6 @@ const Payments = () => {
         buttonText="닫기"
       />
     );
-    openModal();
     (async () => {
       const paymentWidget = await loadPaymentWidget(clientKey, customerKey);
 
@@ -80,7 +77,6 @@ const Payments = () => {
   }, [amount]);
   return (
     <>
-      {isModalOpened && <ModalLayer onClick={closeModal}>{modal}</ModalLayer>}
       <MobCard>
         <Header content="충전하기" />
         <div className="flex justify-center py-[6rem] w-full">
