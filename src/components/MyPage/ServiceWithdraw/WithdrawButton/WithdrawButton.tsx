@@ -1,9 +1,7 @@
 import Button from "@/components/Common/Button";
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
-import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import { useDeleteUser } from "@/hooks/queries/useProfileQuery";
 import { useModalStore } from "@/stores/modalStore";
-import { AxiosError } from "axios";
 
 type Reason =
   | "앱 사용이 불편해요"
@@ -18,13 +16,7 @@ interface Props {
 
 function WithdrawButton({ selectedReason, otherReason }: Props) {
   const { setModal, closeModal } = useModalStore();
-
-  const onErrorDeleteUser = (error: AxiosError<{ message?: string }>) => {
-    setModal(
-      <CommonMutationErrorModal error={error} closeModal={closeModal} />
-    );
-  };
-  const { mutate } = useDeleteUser({ onError: onErrorDeleteUser });
+  const { mutate } = useDeleteUser();
 
   const onClickWithdrawButton = () => {
     setModal(
@@ -35,6 +27,7 @@ function WithdrawButton({ selectedReason, otherReason }: Props) {
       />
     );
   };
+
   const onClickWithdrawYes = async () => {
     const reason = selectedReason == "기타" ? otherReason : selectedReason;
     mutate(reason);

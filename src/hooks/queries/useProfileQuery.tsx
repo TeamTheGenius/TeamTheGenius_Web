@@ -5,9 +5,11 @@ import getMyPageProfile from "@/apis/getMyPageProfile";
 import postInterestEditApi from "@/apis/postInterestEditApi";
 import postUserInfoEdit from "@/apis/postUserInfoEdit";
 import postUserProfile from "@/apis/postUserProfile";
+import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import { FRAMEID, IDENTIFIER } from "@/constants/localStorageKey";
 import { PATH } from "@/constants/path";
 import { QUERY_KEY } from "@/constants/queryKey";
+import { useModalStore } from "@/stores/modalStore";
 import {
   MyAllChallengesStatisticsDataType,
   MyProfileDataType,
@@ -36,10 +38,8 @@ export const useGetUserProfile = (decryptedUserId: number) => {
   return { data };
 };
 
-interface DeleteUserType {
-  onError: (error: AxiosError<{ message?: string }>) => void;
-}
-export const useDeleteUser = ({ onError }: DeleteUserType) => {
+export const useDeleteUser = () => {
+  const { setModal, closeModal } = useModalStore();
   const navigate = useNavigate();
   const { mutate } = useMutation(
     (reason: string) => deleteServiceWithdraw({ reason: reason }),
@@ -49,7 +49,11 @@ export const useDeleteUser = ({ onError }: DeleteUserType) => {
         localStorage.removeItem(FRAMEID);
         navigate(PATH.LOGIN);
       },
-      onError: (error: AxiosError<{ message?: string }>) => onError(error),
+      onError: (error: AxiosError<{ message?: string }>) => {
+        setModal(
+          <CommonMutationErrorModal error={error} closeModal={closeModal} />
+        );
+      },
     }
   );
   return { mutate };
@@ -66,19 +70,22 @@ export const useGetMyProfileInterestTag = () => {
 
 interface usePostMyProfileInterestTagParams {
   onSuccess: () => void;
-  onError: (error: AxiosError<{ message?: string }>) => void;
 }
 
 export const usePostMyProfileInterestTag = ({
   onSuccess,
-  onError,
 }: usePostMyProfileInterestTagParams) => {
+  const { setModal, closeModal } = useModalStore();
   const { mutate, isLoading } = useMutation(
     (checkedValues: CheckboxValueType[]) =>
       postInterestEditApi({ interestEditData: checkedValues }),
     {
       onSuccess: () => onSuccess(),
-      onError: (error: AxiosError<{ message?: string }>) => onError(error),
+      onError: (error: AxiosError<{ message?: string }>) => {
+        setModal(
+          <CommonMutationErrorModal error={error} closeModal={closeModal} />
+        );
+      },
     }
   );
 
