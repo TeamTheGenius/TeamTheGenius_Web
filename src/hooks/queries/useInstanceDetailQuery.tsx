@@ -34,7 +34,9 @@ export const usePostChallengeJoin = () => {
       onSuccess: (_, variables) => {
         const { instanceId } = variables;
         const encryptedInstanceId = encrypt(instanceId);
-        navigate(`${PATH.CHALLENGE_DETAIL}/${encryptedInstanceId}`);
+        navigate(`${PATH.CHALLENGE_DETAIL}/${encryptedInstanceId}`, {
+          replace: true,
+        });
         queryClient.invalidateQueries(QUERY_KEY.CHALLENGE_INSTANCE_DETAIL);
       },
       onError: (error: AxiosError<{ message?: string }>) => {

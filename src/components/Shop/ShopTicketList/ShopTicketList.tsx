@@ -2,12 +2,13 @@ import SubHeader from "@/components/Shop/SubHeader/SubHeader";
 import React, { useEffect, useState } from "react";
 import ShopTicketItem from "./ShopTicketItem/ShopTicketItem";
 import { shopTicketListType } from "@/types/shopType";
+
+import pointTwiceItem from "@/assets/image/pass_0.svg";
+import passItem from "@/assets/image/pass_1.svg";
 import {
   useGetPassItems,
   useGetPointTwiceItems,
 } from "@/hooks/queries/useItemQuery";
-import pointTwiceItem from "@/assets/image/pass_0.svg";
-import passItem from "@/assets/image/pass_1.svg";
 
 const ShopTicketList = () => {
   const { data: pointTwiceItemData } = useGetPointTwiceItems();
