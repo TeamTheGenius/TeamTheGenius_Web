@@ -1,12 +1,10 @@
 import Button from "@/components/Common/Button";
 import checkIcon from "@/assets/icon/check-icon.svg";
 import failIcon from "@/assets/icon/sign-icon.svg";
-import { useState } from "react";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
-import GitPullReqModal from "../GitPullReqModal/GitPullReqModal";
-import { useGetVerifyPullRequest } from "@/hooks/queries/useGithubQuery";
-import { AxiosError } from "axios";
 import { useModalStore } from "@/stores/modalStore";
+import { useGetVerifyPullRequest } from "@/hooks/queries/useGithubQuery";
+import CommonModal from "@/components/Common/CommonModal/CommonModal";
 type PullReqType = {
   label: string;
   repoState: string;
@@ -22,51 +20,38 @@ function PullReq({
   repoBoolean,
   prBoolean,
 }: PullReqType) {
-  const [loadingState, setLoadingState] = useState(false);
   const { setModal, closeModal } = useModalStore();
 
-  const onErrorGetVerifyPullRequest = (
-    err: AxiosError<{ message?: string }>
-  ) => {
+  const onErrorGetVerifyPullRequest = () => {
     setPrBoolean(false);
-    setLoadingState(false);
-    if (err.response?.data.message) {
-      setModal(
-        <GitPullReqModal
-          closeModal={closeModal}
-          messageState={err?.response?.data?.message}
-        />
-      );
-    }
   };
+
   const onSuccessGetVerifyPullRequest = () => {
     setPrBoolean(true);
-    setLoadingState(false);
-    setModal(
-      <GitPullReqModal
-        closeModal={closeModal}
-        messageState={"PR연결이 확인되었습니다."}
-      />
-    );
   };
-  const { mutate: getVerifyPullRequestMutate } = useGetVerifyPullRequest({
+
+  const {
+    mutate: getVerifyPullRequestMutate,
+    isLoading: getVerifyPullRequestLoading,
+  } = useGetVerifyPullRequest({
     onSuccess: onSuccessGetVerifyPullRequest,
     onError: onErrorGetVerifyPullRequest,
   });
 
   const pullReqCheck = () => {
-    setLoadingState(true);
     getVerifyPullRequestMutate({ repo: repoState });
   };
 
   const pullReqFalse = () => {
     setModal(
-      <GitPullReqModal
-        closeModal={closeModal}
-        messageState={"레포지토리 선택을 먼저 진행해주세요."}
+      <CommonModal
+        buttonContent="확인"
+        onClick={closeModal}
+        content={"레포지토리 선택을 먼저 진행해주세요."}
       />
     );
   };
+
   return (
     <>
       <div className={`flex flex-col w-full`}>
@@ -76,19 +61,15 @@ function PullReq({
           </span>
           <div>
             {prBoolean === true ? (
-              <>
-                <img src={checkIcon} alt="Icon" />
-              </>
+              <img src={checkIcon} alt="Icon" />
             ) : (
-              <>
-                <img src={failIcon} alt="Icon" />
-              </>
+              <img src={failIcon} alt="Icon" />
             )}
           </div>
         </div>
-        {loadingState ? (
-          <LoadingBox />
-        ) : (
+
+        {getVerifyPullRequestLoading && <LoadingBox />}
+        {!getVerifyPullRequestLoading && (
           <div className="flex items-center ml-[8.5rem] _md:ml-[2rem] _sm:ml-[2rem] pt-[0.6rem] ">
             {repoBoolean === true ? (
               <Button
