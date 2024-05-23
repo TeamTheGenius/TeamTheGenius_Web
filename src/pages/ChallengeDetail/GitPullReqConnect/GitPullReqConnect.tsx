@@ -13,12 +13,13 @@ import { decrypt } from "@/hooks/useCrypto";
 import Loading from "@/components/Common/Loading/Loading";
 import GitPullReqModal from "@/components/GitPullReqConnect/GitPullReqModal/GitPullReqModal";
 import { usePostChallengeJoin } from "@/hooks/queries/useInstanceDetailQuery";
+
+import { AxiosError } from "axios";
+import { useModalStore } from "@/stores/modalStore";
 import {
   useGetRepositories,
   useGetTokenVerify,
 } from "@/hooks/queries/useGithubQuery";
-import { AxiosError } from "axios";
-import { useModalStore } from "@/stores/modalStore";
 
 const GitPullReqConnect = () => {
   const { setModal, closeModal } = useModalStore();
@@ -125,6 +126,7 @@ const GitPullReqConnect = () => {
               setRepoState={setRepoState}
               setRepoBoolean={setRepoBoolean}
               githubTokenOk={githubTokenOk}
+              setPrBoolean={setPrBoolean}
             />
           </div>
 

@@ -17,7 +17,7 @@ function CommonMutationErrorModal({ closeModal, error }: Props) {
 
   return (
     <>
-      {error.response?.data.message === "JWT가 유효하지 않습니다." ? (
+      {error?.response?.data?.message === "JWT가 유효하지 않습니다." ? (
         <CommonModal
           content="재로그인이 필요합니다."
           buttonContent="로그인하기"
