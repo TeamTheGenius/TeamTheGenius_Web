@@ -4,15 +4,12 @@ import React, {
   Dispatch,
   FocusEvent,
   SetStateAction,
-  useState,
 } from "react";
 import nickname_X from "@/assets/icon/nickname_X.svg";
-import Loading from "../Loading/Loading";
-import { EditModal } from "@/components/MyPage/EditModal/EditModal";
-import { SignUpModal } from "@/components/SignUp/SignUpForm/SignUpModal/SignUpModal";
-import { useGetCheckNickName } from "@/hooks/queries/useUserQuery";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { useModalStore } from "@/stores/modalStore";
+import { useGetCheckNickName } from "@/hooks/queries/useUserQuery";
+import CommonModal from "../CommonModal/CommonModal";
 
 type SignUpInputProps = {
   label: string;
@@ -56,23 +53,17 @@ const NickNameInput: React.FC<SignUpInputProps> = ({
   formikNickName,
 }) => {
   const { setModal, closeModal } = useModalStore();
-  const [isLoading, setIsLoading] = useState(false);
 
   const onSuccessGetCheckNickName = (res: AxiosResponse) => {
     const replaceData = (res.data.message = res.data.message.replace(
       "요청이 정상적으로 처리되었습니다",
       "사용 가능한 닉네임입니다"
     ));
-    setIsLoading(false);
     setsignUpBoolean(true);
     setNickCheck(replaceData);
   };
-  const onErrorGetCheckNickName = (err: AxiosError<{ message?: string }>) => {
-    setIsLoading(false);
+  const onErrorGetCheckNickName = () => {
     setsignUpBoolean(false);
-    if (err.response?.data.message) {
-      setNickCheck(err?.response?.data?.message);
-    }
   };
   const { mutate: getCheckNinkNameMutate } = useGetCheckNickName({
     onSuccess: onSuccessGetCheckNickName,
@@ -81,48 +72,36 @@ const NickNameInput: React.FC<SignUpInputProps> = ({
 
   const sameNickCheck = () => {
     setModal(
-      <EditModal
-        modalHandle={closeModal}
-        isLoading={isLoading}
-        editBoolean={true}
-        success="닉네임 변경 후 시도해주세요"
-        fail="Error"
-        buttonText="확인하기"
+      <CommonModal
+        content="닉네임 변경 후 시도해주세요"
+        buttonContent="확인"
+        onClick={closeModal}
       />
     );
   };
+
   const nickNameCheck = () => {
-    setIsLoading(true);
     if (formikNickName) {
       if (/[^ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-Z0-9]/.test(formikNickName)) {
-        setIsLoading(false);
         setModal(
-          <SignUpModal
-            modalHandle={closeModal}
-            isLoading={isLoading}
-            editBoolean={true}
-            success="닉네임에는 특수문자를 사용할 수 없습니다."
-            fail="Error"
-            buttonText="확인하기"
+          <CommonModal
+            content="닉네임에는 특수문자를 사용할 수 없습니다."
+            buttonContent="확인"
+            onClick={closeModal}
           />
         );
       } else {
         getCheckNinkNameMutate({ value });
       }
     } else if (!formikNickName) {
-      setIsLoading(false);
       setModal(
-        <SignUpModal
-          modalHandle={closeModal}
-          isLoading={isLoading}
-          editBoolean={true}
-          success="닉네임을 입력해주세요."
-          fail="Error"
-          buttonText="확인하기"
+        <CommonModal
+          content="닉네임을 입력해주세요."
+          buttonContent="확인"
+          onClick={closeModal}
         />
       );
     }
-    setIsLoading(false);
   };
 
   const resetValue = () => {
@@ -135,10 +114,6 @@ const NickNameInput: React.FC<SignUpInputProps> = ({
     }
     onChange(event);
   };
-
-  if (isLoading) {
-    return <Loading />;
-  }
 
   return (
     <li className={`flex flex-col ${margin}`}>
