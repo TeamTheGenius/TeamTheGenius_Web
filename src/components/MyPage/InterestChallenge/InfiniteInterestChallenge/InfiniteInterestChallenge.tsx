@@ -1,36 +1,24 @@
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import { EmptyDataView } from "@/components/Common/EmptyDataView/EmptyDataView";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
-import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import { PATH } from "@/constants/path";
 import {
   useDeleteLikesChallenge,
   useGetInfiniteLikedChallenges,
 } from "@/hooks/queries/useLikeQuery";
+
 import { encrypt } from "@/hooks/useCrypto";
-import { useModalStore } from "@/stores/modalStore";
 import { InstanceThumbnailDataType } from "@/types/homeInstance";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
-import { AxiosError } from "axios";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useNavigate } from "react-router-dom";
 
 function InfiniteInterestChallenge() {
   const [ref, inView] = useInView();
-  const { setModal, closeModal } = useModalStore();
   const navigate = useNavigate();
 
-  const onErrorDeleteLikesChallenge = (
-    error: AxiosError<{ message?: string }>
-  ) => {
-    setModal(
-      <CommonMutationErrorModal error={error} closeModal={closeModal} />
-    );
-  };
-  const { mutate: deleteLikesChallenges } = useDeleteLikesChallenge({
-    onError: onErrorDeleteLikesChallenge,
-  });
+  const { mutate: deleteLikesChallenges } = useDeleteLikesChallenge();
   const { fetchNextPage, hasNextPage, isLoading, data } =
     useGetInfiniteLikedChallenges();
 
