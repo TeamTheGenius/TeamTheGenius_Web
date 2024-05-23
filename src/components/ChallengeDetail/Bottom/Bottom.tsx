@@ -86,7 +86,7 @@ function BottomMain({ children }: MainProps) {
 function BottomButton({ status }: ButtonProps) {
   const navigate = useNavigate();
   const onClickParticipation = () => {
-    navigate("repo-register");
+    navigate("repo-register", { replace: true });
   };
   const joinStatusVariants = {
     참가하기: {

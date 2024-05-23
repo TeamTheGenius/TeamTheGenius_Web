@@ -4,67 +4,25 @@ import { shopFrameListType, shopTicketListType } from "@/types/shopType";
 import { cls } from "@/utils/mergeTailwind";
 import ShopCompletedModal from "@/components/Shop/ShopModal/ShopCompletedModal/ShopCompletedModal";
 import ShopTicketCount from "@/components/Shop/ShopTicketList/ShopTicketItem/ShopTicketCount/ShopTicketCount";
-import { usePostItemBuy } from "@/hooks/queries/useItemQuery";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
-import CommonModal from "@/components/Common/CommonModal/CommonModal";
-import { useNavigate } from "react-router-dom";
-import { PATH } from "@/constants/path";
-import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
-import { AxiosError } from "axios";
 import { useModalStore } from "@/stores/modalStore";
+import { usePostItemBuy } from "@/hooks/queries/useItemQuery";
 
 type ShopBuyModalType = {
   item?: shopFrameListType | shopTicketListType;
 };
 
 function ShopBuyModal({ item }: ShopBuyModalType) {
-  const { setModal, closeModal } = useModalStore();
-  const navigate = useNavigate();
-
-  const onClickMoveToCharge = () => {
-    closeModal();
-    navigate(PATH.PAYMENTS);
-  };
+  const { setModal } = useModalStore();
 
   const onSuccessPostItemBuy = () => {
     setModal(
       <ShopCompletedModal item={item} isValidCategory={isValidCategory} />
     );
   };
-  const onErrorPostItemBuy = (error: AxiosError<{ message?: string }>) => {
-    if (
-      error?.response?.data.message ===
-      "프로필 프레임은 재구매가 불가능 합니다."
-    )
-      setModal(
-        <CommonModal
-          content={"이미 소지하고 있는 아이템입니다!"}
-          buttonContent="확인"
-          onClick={closeModal}
-        />
-      );
-    else if (
-      error?.response?.data.message ===
-      "사용자의 보유 포인트가 충분하지 않습니다."
-    ) {
-      setModal(
-        <CommonModal
-          content={"포인트 잔액이 부족해요\n충전하시겠어요?"}
-          buttonContent="충전하러 가기"
-          onClick={onClickMoveToCharge}
-        />
-      );
-    } else {
-      setModal(
-        <CommonMutationErrorModal error={error} closeModal={closeModal} />
-      );
-    }
-  };
+
   const { mutate: postItemBuy, isLoading: postItemBuyLoading } = usePostItemBuy(
-    {
-      onSuccess: onSuccessPostItemBuy,
-      onError: onErrorPostItemBuy,
-    }
+    { onSuccess: onSuccessPostItemBuy }
   );
 
   const isValidCategory = ["CERTIFICATION_PASSER", "POINT_MULTIPLIER"].includes(

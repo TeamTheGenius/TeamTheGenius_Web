@@ -4,10 +4,10 @@ import "swiper/css/pagination";
 import SubHeader from "@/components/Shop/SubHeader/SubHeader";
 import { shopFrameListType } from "@/types/shopType";
 import ShopFrameItem from "../ShopFrameItem/ShopFrameItem";
-import { useGetFrameItems } from "@/hooks/queries/useItemQuery";
 import christmasFrame from "@/assets/icon/profile-frame-christmas.svg";
 import powerOfDarkFrame from "@/assets/icon/profile-frame-power-of-dark.svg";
 import { useEffect, useState } from "react";
+import { useGetFrameItems } from "@/hooks/queries/useItemQuery";
 
 const MobShopFrameSlice = () => {
   const [frameDataState, setframeDataState] = useState<shopFrameListType[]>();

@@ -1,10 +1,8 @@
 import Button from "@/components/Common/Button";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import { Modal } from "@/components/Common/Modal/Modal";
-import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import { usePostCertificationPassItemUse } from "@/hooks/queries/useItemQuery";
 import { useModalStore } from "@/stores/modalStore";
-import { AxiosError } from "axios";
 
 interface PassItemModalProps {
   instanceId: number;
@@ -17,24 +15,20 @@ function CertificationPassModal({
   numOfPassItem,
   itemId,
 }: PassItemModalProps) {
-  const { setModal, closeModal } = useModalStore();
+  const { closeModal } = useModalStore();
+
   const onClickNotUse = () => {
     closeModal();
   };
   const onSuccessPostItemUse = () => {
     closeModal();
   };
-  const onErrorPostItemUse = (error: AxiosError<{ message?: string }>) => {
-    setModal(
-      <CommonMutationErrorModal error={error} closeModal={closeModal} />
-    );
-  };
+
   const {
     mutate: certificationPassItemUse,
     isLoading: certificationPassItemUseLoading,
   } = usePostCertificationPassItemUse({
     onSuccess: onSuccessPostItemUse,
-    onError: onErrorPostItemUse,
   });
   const onClickUsePassItem = () => {
     certificationPassItemUse({ instanceId, itemId });
