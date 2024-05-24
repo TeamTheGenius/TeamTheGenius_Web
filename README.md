@@ -1,6 +1,6 @@
 # GIT-GET
 
-## 🖥️ : 프로젝트 소개
+## 🖥️ 프로젝트 소개
 IT 업계 종사자를 위한 규칙적인 공부 습관 서비스
 ### 타겟
 IT 업계 종사자 및 프로그래밍 공부에 관심있는 사람
@@ -12,7 +12,7 @@ IT 업계 종사자 및 프로그래밍 공부에 관심있는 사람
 ### 배포 링크
 https://gitget.co.kr
 
-## 🧑‍🤝‍🧑: 맴버구성
+## 🧑‍🤝‍🧑 맴버구성
 <table align="center">
 <tbody>
 <tr>
@@ -62,7 +62,7 @@ https://gitget.co.kr
 |API|<img src="https://img.shields.io/badge/swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=white">
 <br/>
 
-##  📌 주요 기능
+## 📌 주요 기능
 
 #### 메인 홈
 원하는 챌린지를 골라서 도전해보세요!
@@ -77,7 +77,7 @@ https://gitget.co.kr
 #### github 등록
 github 연동으로 챌린지를 더욱 전문성있게 관리해보세요!
 
-## 개발 화면
+## 💻 개발 화면
 #### 메인 홈
 #### 마이 챌린지
 #### 포인트 샵
