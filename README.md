@@ -79,22 +79,16 @@ github 연동으로 챌린지를 더욱 전문성있게 관리해보세요!
 
 ## 개발 화면
 #### 메인 홈
-원하는 챌린지를 골라서 도전해보세요!
 #### 마이 챌린지
-자신이 선택한 챌린지를 관리해보세요!
 #### 포인트 샵
-챌린지 달성 보상으로 얻은 포인트를 사용해보세요!
-<img width="290" alt="image" src="https://github.com/TeamTheGenius/TeamTheGenius_Web/assets/52223965/e5beda28-4556-432f-9f57-5f999834cd2a">
+<img width="1280" alt="image" src="https://github.com/TeamTheGenius/TeamTheGenius_Web/assets/52223965/e9d7faec-e887-42c9-b6f3-11dc8ece531e">
 
 #### 마이 페이지
-자신의 프로필을 꾸미고 관리해보세요!
 <img width="1277" alt="image" src="https://github.com/TeamTheGenius/TeamTheGenius_Web/assets/52223965/34db2397-cb17-42a2-babc-8e20bc0216ea">
 
 #### 인증 페이지
-다른 사용자의 인증 기록을 확인하고 동기부여를 받아보세요!
 
 #### github 등록
-github 연동으로 챌린지를 더욱 전문성있게 관리해보세요!
 
 
 ## 👥 역할
