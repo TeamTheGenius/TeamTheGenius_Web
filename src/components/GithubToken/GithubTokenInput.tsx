@@ -4,11 +4,12 @@ import { ChangeEvent, useState } from "react";
 import GitTokenCheckIcon from "../GitPullReqConnect/GitTokenCheckIcon/GitTokenCheckIcon";
 import Label from "../GitPullReqConnect/Label/Label";
 import LoadingBox from "../Common/Loading/LoadingBox/LoadingBox";
+
+import { AxiosError } from "axios";
 import {
   useGetTokenVerify,
   usePostTokenRegister,
 } from "@/hooks/queries/useGithubQuery";
-import { AxiosError } from "axios";
 const GithubTokenInput = ({
   label,
   id,
@@ -20,31 +21,32 @@ const GithubTokenInput = ({
   setGithubBoolean,
 }: GithubTokenInputType) => {
   const [tokenState, setTokenState] = useState("");
-  const [loadingState, setLoadingState] = useState(false);
   const [tokenBoolean, setTokenBoolean] = useState(false);
   const { data: githubTokenInputOk } = useGetTokenVerify();
 
   const onSuccessUsePostTokenRegister = () => {
-    setLoadingState(false);
     setTokenBoolean(true);
     setGithubBoolean(true);
   };
+
   const onErrorUsePostTokenRegister = (
     error: AxiosError<{ message?: string }>
   ) => {
-    setLoadingState(false);
     setTokenBoolean(false);
-    if (error.response?.data.message) {
-      setTokenState(error.response?.data.message);
+    if (error.response?.data.message === "Github 연결이 실패했습니다.") {
+      setTokenState("Github 연결에 실패했습니다. 유효한 Token을 등록해주세요");
     }
   };
-  const { mutate: postTokenRegisterMutate } = usePostTokenRegister({
+
+  const {
+    mutate: postTokenRegisterMutate,
+    isLoading: postTokenRegisterLoading,
+  } = usePostTokenRegister({
     onSuccess: onSuccessUsePostTokenRegister,
     onError: onErrorUsePostTokenRegister,
   });
 
   const gitTokenCheck = () => {
-    setLoadingState(true);
     postTokenRegisterMutate({ githubToken: value });
   };
 
@@ -61,7 +63,7 @@ const GithubTokenInput = ({
         <Label id={id} label={label} />
         <GitTokenCheckIcon githubTokenInputOk={githubTokenInputOk} />
       </div>
-      {loadingState ? (
+      {postTokenRegisterLoading ? (
         <LoadingBox />
       ) : (
         <>

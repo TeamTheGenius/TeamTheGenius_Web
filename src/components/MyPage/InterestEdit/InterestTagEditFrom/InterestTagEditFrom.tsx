@@ -1,15 +1,13 @@
 import BottomButton from "@/components/Common/BottomButton/BottomButton";
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
-import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import InterestHeader from "@/components/Interest/InterestHeader/InterestHeader";
 import InterestCheckEdit from "@/components/MyPage/InterestEdit/InterestCheckEdit/InterestCheckEdit";
 import { interestsData } from "@/data/InterestData";
-import { usePostMyProfileInterestTag } from "@/hooks/queries/useProfileQuery";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
-import { AxiosError } from "axios";
 import { useState } from "react";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import { useModalStore } from "@/stores/modalStore";
+import { usePostMyProfileInterestTag } from "@/hooks/queries/useProfileQuery";
 export type Interest = {
   id: number;
   name: string;
@@ -29,21 +27,15 @@ function InterestTagEditFrom() {
       />
     );
   };
-  const onErrorPostMyProfileInterestTag = (
-    error: AxiosError<{ message?: string }>
-  ) => {
-    setModal(
-      <CommonMutationErrorModal error={error} closeModal={closeModal} />
-    );
-  };
+
   const { mutate, isLoading } = usePostMyProfileInterestTag({
     onSuccess: onSuccessPostMyProfileInterestTag,
-    onError: onErrorPostMyProfileInterestTag,
   });
 
   const handleInterestEdit = () => {
     mutate(checkedValues);
   };
+
   return (
     <>
       {isLoading ? (

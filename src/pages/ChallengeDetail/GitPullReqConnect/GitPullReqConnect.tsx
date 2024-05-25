@@ -12,20 +12,19 @@ import BottomButton from "@/components/Common/BottomButton/BottomButton";
 import { decrypt } from "@/hooks/useCrypto";
 import Loading from "@/components/Common/Loading/Loading";
 import GitPullReqModal from "@/components/GitPullReqConnect/GitPullReqModal/GitPullReqModal";
-import { usePostChallengeJoin } from "@/hooks/queries/useInstanceDetailQuery";
+
+import { useModalStore } from "@/stores/modalStore";
 import {
   useGetRepositories,
   useGetTokenVerify,
 } from "@/hooks/queries/useGithubQuery";
-import { AxiosError } from "axios";
-import { useModalStore } from "@/stores/modalStore";
+import { usePostChallengeJoin } from "@/hooks/queries/useInstanceDetailQuery";
 
 const GitPullReqConnect = () => {
   const { setModal, closeModal } = useModalStore();
   const [githubBoolean, setGithubBoolean] = useState(false);
   const [repoBoolean, setRepoBoolean] = useState(false);
   const [prBoolean, setPrBoolean] = useState(false);
-  const [loadingState, setLoadingState] = useState(false);
   const [repoState, setRepoState] = useState("");
   const [nickName, setNickName] = useState("");
   const [repoOk, setRepoOk] = useState("ready");
@@ -43,34 +42,16 @@ const GitPullReqConnect = () => {
     );
   };
 
-  const onSuccessPostChallengeJoin = () => {
-    setLoadingState(false);
-  };
-  const onErrorPostChallengeJoin = (
-    error: AxiosError<{ message?: string }>
-  ) => {
-    if (error.response?.data.message) {
-      setModal(
-        <GitPullReqModal
-          closeModal={closeModal}
-          messageState={error.response?.data.message}
-        />
-      );
-    }
-    setLoadingState(false);
-  };
-  const { mutate: postChallengeJoin } = usePostChallengeJoin({
-    onSuccess: onSuccessPostChallengeJoin,
-    onError: onErrorPostChallengeJoin,
-  });
+  const { mutate: postChallengeJoin, isLoading: postChallengeJoinLoading } =
+    usePostChallengeJoin();
 
   const { data: githubTokenOk } = useGetTokenVerify();
   const { data: repoList } = useGetRepositories({ githubTokenOk });
 
   const challengeRegiHandle = () => {
-    setLoadingState(true);
     postChallengeJoin({ instanceId: decryptNumber, repo: repoState });
   };
+
   const challengeRegiFalseHandle = () => {
     setModal(
       <GitPullReqModal
@@ -80,9 +61,10 @@ const GitPullReqConnect = () => {
     );
   };
 
-  if (loadingState) {
+  if (postChallengeJoinLoading) {
     return <Loading />;
   }
+
   return (
     <>
       <MobCard>
@@ -125,6 +107,7 @@ const GitPullReqConnect = () => {
               setRepoState={setRepoState}
               setRepoBoolean={setRepoBoolean}
               githubTokenOk={githubTokenOk}
+              setPrBoolean={setPrBoolean}
             />
           </div>
 

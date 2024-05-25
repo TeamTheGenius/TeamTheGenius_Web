@@ -1,30 +1,26 @@
 import patchProfileImage from "@/apis/patchProfileImage";
 import postProfileImage from "@/apis/postProfileImage";
-import { AxiosError } from "axios";
+import { PATH } from "@/constants/path";
 import { useMutation } from "react-query";
+import { useNavigate } from "react-router-dom";
 
 interface PostProfileImageMutationType {
   file: string;
   userId: number;
 }
 
-interface PostProfileImageType {
-  onSuccess: () => void;
-  onError: (error: AxiosError<{ message?: string }>) => void | (() => void);
-}
-
-export const usePostProfileImage = ({
-  onError,
-  onSuccess,
-}: PostProfileImageType) => {
+export const usePostProfileImage = () => {
+  const navigate = useNavigate();
   const { mutate, isLoading } = useMutation(
     ({ file, userId }: PostProfileImageMutationType) =>
       postProfileImage({ files: file, userId }),
     {
-      onError: (error: AxiosError<{ message?: string }>) => {
-        onError(error);
+      onError: () => {
+        navigate(PATH.AUTH);
       },
-      onSuccess: () => onSuccess(),
+      onSuccess: () => {
+        navigate(PATH.AUTH);
+      },
     }
   );
   return { mutate, isLoading };

@@ -4,10 +4,9 @@ import DropDownIcon from "@/assets/icon/arrow-down.svg";
 import GitTokenCheckIcon from "../GitTokenCheckIcon/GitTokenCheckIcon";
 import Label from "../Label/Label";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
-import GitPullReqModal from "../GitPullReqModal/GitPullReqModal";
-import { useGetVerifyRepository } from "@/hooks/queries/useGithubQuery";
-import { AxiosError, AxiosResponse } from "axios";
 import { useModalStore } from "@/stores/modalStore";
+import { useGetVerifyRepository } from "@/hooks/queries/useGithubQuery";
+import CommonModal from "@/components/Common/CommonModal/CommonModal";
 type repoType = {
   label: string;
   value: string;
@@ -18,6 +17,7 @@ type repoType = {
   setRepoBoolean: Dispatch<SetStateAction<boolean>>;
   repoOk: string;
   setRepoOk: Dispatch<SetStateAction<string>>;
+  setPrBoolean: React.Dispatch<React.SetStateAction<boolean>>;
 };
 function Repo({
   label,
@@ -29,46 +29,48 @@ function Repo({
   setRepoBoolean,
   repoOk,
   setRepoOk,
+  setPrBoolean,
 }: repoType) {
   const { setModal, closeModal } = useModalStore();
   const [selectedValue, setSelectedValue] = useState("");
-  const [loadingState, setLoadingState] = useState(false);
 
-  const onSuccessGetVerifyRepository = (res: AxiosResponse) => {
-    setRepoOk(res.data.code);
-    setLoadingState(false);
+  const onSuccessGetVerifyRepository = () => {
+    setRepoOk("OK");
     setRepoState(selectedValue);
     setRepoBoolean(true);
   };
-  const onErrorGetVerifyRepository = (
-    err: AxiosError<{ message?: string }>
-  ) => {
-    if (err.response?.data.message) {
-      setModal(
-        <GitPullReqModal
-          closeModal={closeModal}
-          messageState={err.response?.data.message}
-        />
-      );
-    }
 
+  const onErrorGetVerifyRepository = () => {
     setRepoBoolean(false);
-    setLoadingState(false);
   };
-  const { mutate: getVerifyRepositoryMutate } = useGetVerifyRepository({
+
+  const {
+    mutate: getVerifyRepositoryMutate,
+    isLoading: getVerifyRepositoryLoading,
+  } = useGetVerifyRepository({
     onSuccess: onSuccessGetVerifyRepository,
     onError: onErrorGetVerifyRepository,
   });
+
   const gitRepoCheck = () => {
-    setLoadingState(true);
     getVerifyRepositoryMutate({ repo: selectedValue });
   };
+
   const gitRepoFlase = () => {
-    alert("깃허브 토큰 등록을 먼저 진행해주세요.");
+    setModal(
+      <CommonModal
+        content="깃허브 토큰 등록을 먼저 등록해주세요."
+        buttonContent="확인"
+        onClick={closeModal}
+      />
+    );
   };
 
   const handleDropdownChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setSelectedValue(event.target.value);
+    setRepoBoolean(false);
+    setPrBoolean(false);
+    setRepoOk("FAIL");
   };
 
   return (
@@ -81,7 +83,7 @@ function Repo({
         <div className="flex items-center ml-[6.5rem] _md:ml-0 _sm:ml-0 pt-[0.6rem] text-[#F64C4C]">
           <span>한번 지정된 Repository는 다시 변경될 수 없습니다</span>
         </div>
-        {loadingState ? (
+        {getVerifyRepositoryLoading ? (
           <LoadingBox />
         ) : (
           <div className="flex items-end justify-center pt-[2.8rem]">

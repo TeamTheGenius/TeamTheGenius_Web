@@ -1,7 +1,9 @@
 import deleteLikeChallenge from "@/apis/deleteLikeChallenge";
 import getLikeChallenges from "@/apis/getLikeChallenges";
 import postLikeChallenge from "@/apis/postLikeChallenge";
+import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import { QUERY_KEY } from "@/constants/queryKey";
+import { useModalStore } from "@/stores/modalStore";
 import { AxiosError } from "axios";
 import { useInfiniteQuery, useMutation, useQueryClient } from "react-query";
 
@@ -18,11 +20,8 @@ export const useGetInfiniteLikedChallenges = () => {
   return { fetchNextPage, hasNextPage, refetch, isLoading, data };
 };
 
-interface PostLikesChallengeType {
-  onError: (error: AxiosError<{ message?: string }>) => void;
-}
-
-export const usePostLikesChallenge = ({ onError }: PostLikesChallengeType) => {
+export const usePostLikesChallenge = () => {
+  const { setModal, closeModal } = useModalStore();
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation(
@@ -32,20 +31,17 @@ export const usePostLikesChallenge = ({ onError }: PostLikesChallengeType) => {
         queryClient.invalidateQueries(QUERY_KEY.CHALLENGE_INSTANCE_DETAIL);
       },
       onError: (error: AxiosError<{ message?: string }>) => {
-        onError(error);
+        setModal(
+          <CommonMutationErrorModal error={error} closeModal={closeModal} />
+        );
       },
     }
   );
   return { mutate };
 };
 
-interface DeleteLikesChallengeType {
-  onError: (error: AxiosError<{ message?: string }>) => void;
-}
-
-export const useDeleteLikesChallenge = ({
-  onError,
-}: DeleteLikesChallengeType) => {
+export const useDeleteLikesChallenge = () => {
+  const { setModal, closeModal } = useModalStore();
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation(
@@ -56,7 +52,9 @@ export const useDeleteLikesChallenge = ({
         queryClient.invalidateQueries(QUERY_KEY.INFINITE_MY_LIKED_CHALLENGES);
       },
       onError: (error: AxiosError<{ message?: string }>) => {
-        onError(error);
+        setModal(
+          <CommonMutationErrorModal error={error} closeModal={closeModal} />
+        );
       },
     }
   );

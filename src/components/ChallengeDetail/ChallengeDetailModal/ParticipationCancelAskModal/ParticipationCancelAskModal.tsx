@@ -1,10 +1,8 @@
 import Button from "@/components/Common/Button";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import { Modal } from "@/components/Common/Modal/Modal";
-import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import { useDeleteChallengeJoin } from "@/hooks/queries/useInstanceDetailQuery";
 import { useModalStore } from "@/stores/modalStore";
-import { AxiosError } from "axios";
 
 interface Props {
   instanceId: number;
@@ -12,21 +10,14 @@ interface Props {
 }
 
 function ParticipationCancelAskModal({ instanceId, title }: Props) {
-  const { setModal, closeModal } = useModalStore();
+  const { closeModal } = useModalStore();
   const onSuccessDeleteChallengeJoin = () => {
     closeModal();
   };
-  const onErrorDeleteChallengeJoin = (
-    error: AxiosError<{ message?: string }>
-  ) => {
-    setModal(
-      <CommonMutationErrorModal error={error} closeModal={closeModal} />
-    );
-  };
+
   const { mutate: deleteChallengeJoin, isLoading: deleteChallengeJoinLoading } =
     useDeleteChallengeJoin({
       onSuccess: onSuccessDeleteChallengeJoin,
-      onError: onErrorDeleteChallengeJoin,
     });
   const onClickParticipationCancelYesButton = () => {
     deleteChallengeJoin({ instanceId });

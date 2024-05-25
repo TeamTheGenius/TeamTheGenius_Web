@@ -1,14 +1,12 @@
 import Button from "@/components/Common/Button";
 import Heart from "../Heart/Heart";
 import { useNavigate } from "react-router-dom";
+
+import React from "react";
 import {
   useDeleteLikesChallenge,
   usePostLikesChallenge,
 } from "@/hooks/queries/useLikeQuery";
-import React from "react";
-import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
-import { AxiosError } from "axios";
-import { useModalStore } from "@/stores/modalStore";
 
 interface HeartProps {
   isHearted: boolean;
@@ -31,29 +29,8 @@ function BottomHeart({
   heartCount,
   instanceId,
 }: HeartProps) {
-  const { setModal, closeModal } = useModalStore();
-
-  const onErrorPostLikesChallenge = (
-    error: AxiosError<{ message?: string }>
-  ) => {
-    setModal(
-      <CommonMutationErrorModal error={error} closeModal={closeModal} />
-    );
-  };
-
-  const onErrorDeleteLikesChallenge = (
-    error: AxiosError<{ message?: string }>
-  ) => {
-    setModal(
-      <CommonMutationErrorModal error={error} closeModal={closeModal} />
-    );
-  };
-  const { mutate: postLikesChallenges } = usePostLikesChallenge({
-    onError: onErrorPostLikesChallenge,
-  });
-  const { mutate: deleteLikesChallenges } = useDeleteLikesChallenge({
-    onError: onErrorDeleteLikesChallenge,
-  });
+  const { mutate: postLikesChallenges } = usePostLikesChallenge();
+  const { mutate: deleteLikesChallenges } = useDeleteLikesChallenge();
   const onClick = () => {
     if (isHearted) {
       deleteLikesChallenges(likesId);
@@ -86,7 +63,7 @@ function BottomMain({ children }: MainProps) {
 function BottomButton({ status }: ButtonProps) {
   const navigate = useNavigate();
   const onClickParticipation = () => {
-    navigate("repo-register");
+    navigate("repo-register", { replace: true });
   };
   const joinStatusVariants = {
     참가하기: {

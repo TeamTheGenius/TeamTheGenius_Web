@@ -7,12 +7,12 @@ import { useNavigate } from "react-router-dom";
 import { encrypt } from "../useCrypto";
 import { AxiosError } from "axios";
 import { AuthDataType } from "@/types/authType";
+import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
+import { useModalStore } from "@/stores/modalStore";
 
-interface PostAuthLogoutType {
-  onError: (error: AxiosError<{ message?: string }>) => void;
-}
-export const usePostAuthLogout = ({ onError }: PostAuthLogoutType) => {
+export const usePostAuthLogout = () => {
   const navigate = useNavigate();
+  const { setModal, closeModal } = useModalStore();
 
   const { mutate } = useMutation(postAuthLogout, {
     onSuccess: () => {
@@ -20,7 +20,11 @@ export const usePostAuthLogout = ({ onError }: PostAuthLogoutType) => {
       localStorage.removeItem(FRAMEID);
       navigate(PATH.LOGIN);
     },
-    onError: (error: AxiosError<{ message?: string }>) => onError(error),
+    onError: (error: AxiosError<{ message?: string }>) => {
+      setModal(
+        <CommonMutationErrorModal error={error} closeModal={closeModal} />
+      );
+    },
   });
   return { mutate };
 };

@@ -1,42 +1,28 @@
 import Button from "@/components/Common/Button";
-import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import {
   usePostFrameItemEquiptment,
   usePostFrameItemUnEquiptment,
 } from "@/hooks/queries/useItemQuery";
+
 import { useModalStore } from "@/stores/modalStore";
 import { shopFrameListType } from "@/types/shopType";
 import { breakLine } from "@/utils/breakLine";
-import { AxiosError } from "axios";
 
 type ShopCompleteFrameType = {
   item?: shopFrameListType;
 };
 
 function ShopCompleteFrame({ item }: ShopCompleteFrameType) {
-  const { setModal, closeModal } = useModalStore();
-  const onErrorPostFrameItemUnEquiptment = (
-    error: AxiosError<{ message?: string }>
-  ) => {
-    setModal(
-      <CommonMutationErrorModal error={error} closeModal={closeModal} />
-    );
-  };
-  const onErrorPostFrameItemEquiptment = (
-    error: AxiosError<{ message?: string }>
-  ) => {
-    setModal(
-      <CommonMutationErrorModal error={error} closeModal={closeModal} />
-    );
-  };
+  const { closeModal } = useModalStore();
+
   const { mutateAsync: postFrameItemUnEquipmentAsync } =
-    usePostFrameItemUnEquiptment({ onError: onErrorPostFrameItemUnEquiptment });
+    usePostFrameItemUnEquiptment();
 
   const onSuccessPostFrameItemEquipment = () => {
     closeModal();
   };
+
   const { mutate: postFrameItemEquiptment } = usePostFrameItemEquiptment({
-    onError: onErrorPostFrameItemEquiptment,
     onSuccess: onSuccessPostFrameItemEquipment,
   });
 

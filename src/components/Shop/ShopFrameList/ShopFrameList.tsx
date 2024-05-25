@@ -2,15 +2,14 @@ import { useState, useEffect } from "react";
 import { shopFrameListType } from "@/types/shopType";
 import ShopFrameItem from "./ShopFrameItem/ShopFrameItem";
 import SubHeader from "../SubHeader/SubHeader";
-import { useGetFrameItems } from "@/hooks/queries/useItemQuery";
 import christmasFrame from "@/assets/icon/profile-frame-christmas.svg";
 import powerOfDarkFrame from "@/assets/icon/profile-frame-power-of-dark.svg";
+import { useGetFrameItems } from "@/hooks/queries/useItemQuery";
 
 const ShopFrameList = () => {
   const [frameDataState, setframeDataState] = useState<shopFrameListType[]>();
 
-  const { data: frameItemData, isSuccess: getFrameItemSuccess } =
-    useGetFrameItems();
+  const { data: frameItemData } = useGetFrameItems();
   const onSuccessGetFrameItem = () => {
     const updatedFrameData = frameItemData?.map((item) => ({
       ...item,
@@ -25,10 +24,10 @@ const ShopFrameList = () => {
   };
 
   useEffect(() => {
-    if (getFrameItemSuccess) {
+    if (frameItemData) {
       onSuccessGetFrameItem();
     }
-  }, [getFrameItemSuccess]);
+  }, [frameItemData]);
 
   return (
     <>

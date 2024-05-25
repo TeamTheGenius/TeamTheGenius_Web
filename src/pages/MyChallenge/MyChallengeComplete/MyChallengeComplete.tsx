@@ -5,11 +5,11 @@ import GetRewardModal from "@/components/Main/MyChallenge/MyChallengeModal/GetRe
 import AskGetRewardTwiceModal from "@/components/Main/MyChallenge/MyChallengeModal/AskGetRewardTwiceModal/AskGetRewardTwiceModal";
 import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyChallengeTitle";
 import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyChallengeWrap";
-import { useGetMyDoneChallenges } from "@/hooks/queries/useMyChallengeQuery";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import React from "react";
 import { EmptyDataView } from "@/components/Common/EmptyDataView/EmptyDataView";
 import { useModalStore } from "@/stores/modalStore";
+import { useGetMyDoneChallenges } from "@/hooks/queries/useMyChallengeQuery";
 
 const MyChallengeComplete = () => {
   const { setModal } = useModalStore();

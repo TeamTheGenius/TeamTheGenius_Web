@@ -1,40 +1,25 @@
 import pointBigIcon from "@/assets/icon/point-big-icon.svg";
-import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import {
   usePostFrameItemEquiptment,
   usePostFrameItemUnEquiptment,
 } from "@/hooks/queries/useItemQuery";
 import { useModalStore } from "@/stores/modalStore";
 import { shopFrameListType } from "@/types/shopType";
-import { AxiosError } from "axios";
 
 function ShopFrameButton({ item }: { item: shopFrameListType }) {
-  const { setModal, closeModal } = useModalStore();
-
-  const onErrorPostFrameItemUnEquiptment = (
-    error: AxiosError<{ message?: string }>
-  ) => {
-    setModal(
-      <CommonMutationErrorModal error={error} closeModal={closeModal} />
-    );
-  };
+  const { closeModal } = useModalStore();
 
   const {
     mutate: postFrameItemUnEquipment,
     mutateAsync: postFrameItemUnEquipmentAsync,
-  } = usePostFrameItemUnEquiptment({
-    onError: onErrorPostFrameItemUnEquiptment,
-  });
+  } = usePostFrameItemUnEquiptment();
 
-  const onErrorPostFrameItemEquiptment = (
-    error: AxiosError<{ message?: string }>
-  ) => {
-    setModal(
-      <CommonMutationErrorModal error={error} closeModal={closeModal} />
-    );
+  const onSuccessPostFrameItemEquiptment = () => {
+    closeModal();
   };
+
   const { mutate: postFrameItemEquiptment } = usePostFrameItemEquiptment({
-    onError: onErrorPostFrameItemEquiptment,
+    onSuccess: onSuccessPostFrameItemEquiptment,
   });
 
   const mountFrameHandle = async (itemId: number | undefined) => {
@@ -42,6 +27,7 @@ function ShopFrameButton({ item }: { item: shopFrameListType }) {
     await postFrameItemUnEquipmentAsync();
     postFrameItemEquiptment(itemId);
   };
+
   const unMountFrameHandle = () => {
     postFrameItemUnEquipment();
   };
@@ -52,9 +38,7 @@ function ShopFrameButton({ item }: { item: shopFrameListType }) {
         {item.equipStatus === "장착 중" && (
           <button
             className="bg-white border-2 border-[#ff4356] rounded-[1rem]"
-            onClick={() => {
-              unMountFrameHandle();
-            }}
+            onClick={unMountFrameHandle}
           >
             <span className="mx-[0.8rem] my-[0.4rem] font-bold text-[#ff4356] text-[1.2rem]">
               장착중

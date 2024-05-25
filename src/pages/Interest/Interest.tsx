@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import LoginMobCard from "@/components/Common/LoginMobCard";
 import Button from "@/components/Common/Button";
@@ -12,13 +12,9 @@ import basicPinkProfileImage from "@/assets/image/basic-profile-image-pink.png";
 import basicBlueProfileImage from "@/assets/image/basic-profile-image-blue.png";
 import basicGreenProfileImage from "@/assets/image/basic-profile-image-green.png";
 import Loading from "@/components/Common/Loading/Loading";
-import { usePostSignUp } from "@/hooks/queries/useUserQuery";
-import { PATH } from "@/constants/path";
-import CommonModal from "@/components/Common/CommonModal/CommonModal";
-
 import { usePostAuth } from "@/hooks/queries/useAuthQuery";
 import { usePostProfileImage } from "@/hooks/queries/useFileQuery";
-import { useModalStore } from "@/stores/modalStore";
+import { usePostSignUp } from "@/hooks/queries/useUserQuery";
 
 type Interest = {
   id: number;
@@ -26,48 +22,17 @@ type Interest = {
 };
 
 const Interest = () => {
-  const { setModal, closeModal } = useModalStore();
   const [checkedValues, setCheckedValues] = useState<CheckboxValueType[]>([]);
-
-  const navigate = useNavigate();
   const location = useLocation();
   const locationState = location.state;
   const InterestValue: Interest[] = interestsData;
-
-  const onClickMoveToSiupUpFirstStep = () => {
-    closeModal();
-    navigate(PATH.LOGIN);
-  };
-
-  const onErrorPostSignUp = () => {
-    setModal(
-      <CommonModal
-        content={"오류가 발생했습니다.\n처음으로 이동합니다."}
-        buttonContent="확인"
-        onClick={onClickMoveToSiupUpFirstStep}
-      />
-    );
-  };
-
   const { mutateAsync: postSignUpMutateAsync, isLoading: postSignUpLoading } =
-    usePostSignUp({
-      onError: onErrorPostSignUp,
-    });
-
-  const onSuccessPostSignUpProfileImage = () => {
-    navigate(PATH.AUTH);
-  };
-  const onErrorPostSignUpProfileImage = () => {
-    navigate(PATH.AUTH);
-  };
+    usePostSignUp();
 
   const {
     mutate: postSignUpProfileImageMutate,
     isLoading: postSignUpProfileImageLoading,
-  } = usePostProfileImage({
-    onError: onErrorPostSignUpProfileImage,
-    onSuccess: onSuccessPostSignUpProfileImage,
-  });
+  } = usePostProfileImage();
 
   const { mutateAsync } = usePostAuth();
 

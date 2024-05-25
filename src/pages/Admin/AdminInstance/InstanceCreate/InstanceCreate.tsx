@@ -5,14 +5,15 @@ import moment from "moment";
 import { useEffect, useRef, useState } from "react";
 import { fileType } from "@/types/adminType";
 import Loading from "@/components/Common/Loading/Loading";
+
+import { useParams } from "react-router-dom";
+import { decrypt } from "@/hooks/useCrypto";
+import AdminFormLayOut from "@/components/Admin/AdminLayOut/AdminFormLayOut/AdminFormLayOut";
 import {
   usePostInstanceCreate,
   usePostInstanceFileCreate,
 } from "@/hooks/queries/useAdminInstanceQuery";
-import { useParams } from "react-router-dom";
-import { decrypt } from "@/hooks/useCrypto";
 import { useTopicDetailQuery } from "@/hooks/queries/useAdminTopicQuery";
-import AdminFormLayOut from "@/components/Admin/AdminLayOut/AdminFormLayOut/AdminFormLayOut";
 
 type instanceCreateData = {
   topicId: number;
@@ -73,23 +74,12 @@ const InstanceCreate = () => {
     });
   };
 
-  const onErrorUsePostInstance = (errMessage: string) => {
-    alert(errMessage);
-  };
-
-  const onErrorUsePostFileInstance = (errMessage: string) => {
-    alert(errMessage);
-  };
-
   const { mutate: instanceCreate, isLoading: instanceCreateLoading } =
     usePostInstanceCreate({
       onSuccess: onSuccessUsePostInstance,
-      onError: onErrorUsePostInstance,
     });
   const { mutate: instanceFileCreate, isLoading: instanceFileCreateLoading } =
-    usePostInstanceFileCreate({
-      onError: onErrorUsePostFileInstance,
-    });
+    usePostInstanceFileCreate();
 
   const isLoading = instanceCreateLoading || instanceFileCreateLoading;
 

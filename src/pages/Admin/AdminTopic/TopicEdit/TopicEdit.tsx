@@ -1,20 +1,19 @@
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Form, Image, Input, Select, Upload, UploadProps } from "antd";
 import { useEffect, useRef, useState } from "react";
-
 import { fileType, uploadDataType } from "@/types/adminType";
 import Loading from "@/components/Common/Loading/Loading";
 import { useParams } from "react-router-dom";
 import { decrypt } from "@/hooks/useCrypto";
+import { useQueryClient } from "react-query";
+import { QUERY_KEY } from "@/constants/queryKey";
+import AdminFormLayOut from "@/components/Admin/AdminLayOut/AdminFormLayOut/AdminFormLayOut";
+import { interestsOption } from "@/data/InterestData";
 import {
   usePatchTopicEdit,
   usePatchTopicFileEdit,
   useTopicDetailQuery,
 } from "@/hooks/queries/useAdminTopicQuery";
-import { useQueryClient } from "react-query";
-import { QUERY_KEY } from "@/constants/queryKey";
-import AdminFormLayOut from "@/components/Admin/AdminLayOut/AdminFormLayOut/AdminFormLayOut";
-import { interestsOption } from "@/data/InterestData";
 
 type topicSubmitType = {
   tags: any;
@@ -53,26 +52,22 @@ const TopicEdit = () => {
       instanceFilePatch(topicFileData);
     }
   };
-  const onErrorUsePatchTopicEdit = (errMessage: string) => {
-    alert(errMessage);
-  };
+
   const onSuccessUsePatchTopicFileEdit = () => {
     alert("토픽이 수정되었습니다.");
     queryClient.invalidateQueries(QUERY_KEY.ADMIN_TOPIC_DETAIL);
   };
-  const onErrorUsePatchTopicFileEdit = (errMessage: string) => {
-    alert(errMessage);
-  };
+
   const { mutate: instancePatch, isLoading: instancePatchIsLoading } =
     usePatchTopicEdit({
       onSuccess: onSuccessUsePatchTopicEdit,
-      onError: onErrorUsePatchTopicEdit,
     });
+
   const { mutate: instanceFilePatch, isLoading: instanceFilePatchIsLoading } =
     usePatchTopicFileEdit({
       onSuccess: onSuccessUsePatchTopicFileEdit,
-      onError: onErrorUsePatchTopicFileEdit,
     });
+
   const isLoading = instancePatchIsLoading || instanceFilePatchIsLoading;
 
   const topicSubmit = (values: topicSubmitType) => {
