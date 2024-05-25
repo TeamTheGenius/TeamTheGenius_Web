@@ -32,7 +32,7 @@ const InstanceListComponent = ({
 
   return (
     <>
-      <ul className="flex flex-col gap-10 rounded-xl">
+      <ul className="flex flex-col gap-10 rounded-xl h-full">
         <>
           {instanceFilterList.map((item: instanceListDataType) => {
             const imageData = `data:image/png;base64,${item.fileResponse.encodedFile}`;
