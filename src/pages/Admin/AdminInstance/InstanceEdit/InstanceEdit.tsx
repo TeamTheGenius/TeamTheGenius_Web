@@ -5,16 +5,17 @@ import moment from "moment";
 
 import { fileType, instanceDeteilType } from "@/types/adminType";
 import Loading from "@/components/Common/Loading/Loading";
-import {
-  useInstanceDetailQuery,
-  usePatchInstanceCreate,
-  usePatchInstanceFileCreate,
-} from "@/hooks/queries/useAdminInstanceQuery";
+
 import { useParams } from "react-router-dom";
 import { useQueryClient } from "react-query";
 import { decrypt } from "@/hooks/useCrypto";
 import { QUERY_KEY } from "@/constants/queryKey";
 import AdminFormLayOut from "@/components/Admin/AdminLayOut/AdminFormLayOut/AdminFormLayOut";
+import {
+  useInstanceDetailQuery,
+  usePatchInstanceCreate,
+  usePatchInstanceFileCreate,
+} from "@/hooks/queries/useAdminInstanceQuery";
 
 type InstanceEditData = {
   topicId: number;
@@ -71,22 +72,13 @@ const InstanceEdit = () => {
     alert("인스턴스가 수정되었습니다.");
     queryClient.invalidateQueries(QUERY_KEY.ADMIN_INSTANCE_DETAIL);
   };
-  const onErrorUsePatchInstance = (errMessage: string) => {
-    alert(errMessage);
-  };
 
-  const onErrorUsePatchFileInstance = (errMessage: string) => {
-    alert(errMessage);
-  };
   const { mutate: instancePatch, isLoading: instancePatchIsLoading } =
     usePatchInstanceCreate({
       onSuccess: onSuccessUsePatchInstance,
-      onError: onErrorUsePatchInstance,
     });
   const { mutate: instanceFilePatch, isLoading: instanceFilePatchIsLoading } =
-    usePatchInstanceFileCreate({
-      onError: onErrorUsePatchFileInstance,
-    });
+    usePatchInstanceFileCreate();
   const isLoading = instancePatchIsLoading || instanceFilePatchIsLoading;
   const instanceSumbit = (values: InstanceEditData) => {
     valuesRef.current = values;
