@@ -21,13 +21,7 @@ type useInstanceListQueryType = {
 type useInstanceDetailQueryType = {
   instanceId?: number;
 };
-type useMutateType = {
-  onSuccess: (res: any) => void;
-  onError: (errorMessage: string) => void;
-};
-type useMutatePatchType = {
-  onError: (errorMessage: string) => void;
-};
+
 export const useInstanceListQuery = ({
   pageNumber,
   setTotalNumber,
@@ -61,10 +55,13 @@ export const useInstanceDetailQuery = ({
   return { data };
 };
 
+type PostInstanceCreateType = {
+  onSuccess: (res: any) => void;
+};
+
 export const usePostInstanceCreate = ({
   onSuccess,
-  onError,
-}: useMutateType) => {
+}: PostInstanceCreateType) => {
   const { mutate, isLoading } = useMutation(
     ({
       instanceTitle,
@@ -93,18 +90,15 @@ export const usePostInstanceCreate = ({
         onSuccess(res);
       },
       onError: (err: AxiosError<{ message?: string }>) => {
-        err.response?.data.message && onError(err?.response?.data?.message);
+        const errorMessage = err?.response?.data?.message;
+        alert(errorMessage || "예상치 못한 에러가 발생했습니다.");
       },
     }
   );
   return { mutate, isLoading };
 };
-type useMutatePostInstanceFileCreateType = {
-  onError: (errorMessage: string) => void;
-};
-export const usePostInstanceFileCreate = ({
-  onError,
-}: useMutatePostInstanceFileCreateType) => {
+
+export const usePostInstanceFileCreate = () => {
   const { mutate, isLoading } = useMutation(
     ({ instanceImg, instanceId }: instanceCreateFileApiType) =>
       postAdminInstanceFileApi({
@@ -114,16 +108,20 @@ export const usePostInstanceFileCreate = ({
     {
       onSuccess: () => {},
       onError: (err: AxiosError<{ message?: string }>) => {
-        err.response?.data.message && onError(err?.response?.data?.message);
+        const errorMessage = err?.response?.data?.message;
+        alert(errorMessage || "예상치 못한 에러가 발생했습니다.");
       },
     }
   );
   return { mutate, isLoading };
 };
+
+type PatchInstanceCreateType = {
+  onSuccess: (res: any) => void;
+};
 export const usePatchInstanceCreate = ({
   onSuccess,
-  onError,
-}: useMutateType) => {
+}: PatchInstanceCreateType) => {
   const { mutate, isLoading } = useMutation(
     ({
       topicIdId,
@@ -154,13 +152,14 @@ export const usePatchInstanceCreate = ({
         onSuccess(res);
       },
       onError: (err: AxiosError<{ message?: string }>) => {
-        err.response?.data.message && onError(err?.response?.data?.message);
+        const errorMessage = err?.response?.data?.message;
+        alert(errorMessage || "예상치 못한 에러가 발생했습니다.");
       },
     }
   );
   return { mutate, isLoading };
 };
-export const usePatchInstanceFileCreate = ({ onError }: useMutatePatchType) => {
+export const usePatchInstanceFileCreate = () => {
   const { mutate, isLoading } = useMutation(
     ({ instanceId, instanceImg }: editInstacneFileApiType) =>
       patchAdminInstanceFileEditApi({
@@ -169,7 +168,8 @@ export const usePatchInstanceFileCreate = ({ onError }: useMutatePatchType) => {
       }),
     {
       onError: (err: AxiosError<{ message?: string }>) => {
-        err.response?.data.message && onError(err?.response?.data?.message);
+        const errorMessage = err?.response?.data?.message;
+        alert(errorMessage || "예상치 못한 에러가 발생했습니다.");
       },
     }
   );
