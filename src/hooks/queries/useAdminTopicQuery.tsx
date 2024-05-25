@@ -54,11 +54,11 @@ export const useTopicDetailQuery = ({ topicId }: useTopicDetailQueryType) => {
   return { data };
 };
 
-interface useMutateType {
+interface PostTopicCreateType {
   onSuccess: (res: any) => void;
-  onError: (errorMessage: string) => void;
 }
-export const usePostTopicCreate = ({ onSuccess, onError }: useMutateType) => {
+
+export const usePostTopicCreate = ({ onSuccess }: PostTopicCreateType) => {
   const { mutate, isLoading } = useMutation(
     ({
       topicTitle,
@@ -79,16 +79,21 @@ export const usePostTopicCreate = ({ onSuccess, onError }: useMutateType) => {
         onSuccess(res);
       },
       onError: (err: AxiosError<{ message?: string }>) => {
-        err.response?.data.message && onError(err?.response?.data?.message);
+        const errorMessage = err?.response?.data?.message;
+        alert(errorMessage || "예상치 못한 에러가 발생했습니다.");
       },
     }
   );
   return { mutate, isLoading };
 };
+
+interface PostTopicFileCreateType {
+  onSuccess: (res: any) => void;
+}
+
 export const usePostTopicFileCreate = ({
   onSuccess,
-  onError,
-}: useMutateType) => {
+}: PostTopicFileCreateType) => {
   const { mutate, isLoading } = useMutation(
     ({ topicFile, topicId }: topicFileApiType) =>
       postAdminTopicFileApi({
@@ -100,7 +105,8 @@ export const usePostTopicFileCreate = ({
         onSuccess(res);
       },
       onError: (err: AxiosError<{ message?: string }>) => {
-        err.response?.data.message && onError(err?.response?.data?.message);
+        const errorMessage = err?.response?.data?.message;
+        alert(errorMessage || "예상치 못한 에러가 발생했습니다.");
       },
     }
   );
@@ -108,10 +114,11 @@ export const usePostTopicFileCreate = ({
 };
 type useMutatePatchTopicEditType = {
   onSuccess: () => void;
-  onError: (err: string) => void;
 };
 
-export const usePatchTopicEdit = ({ onError }: useMutatePatchTopicEditType) => {
+export const usePatchTopicEdit = ({
+  onSuccess,
+}: useMutatePatchTopicEditType) => {
   const { mutate, isLoading } = useMutation(
     ({
       topicId,
@@ -130,18 +137,25 @@ export const usePatchTopicEdit = ({ onError }: useMutatePatchTopicEditType) => {
         topicPoint: topicPoint,
       }),
     {
-      onSuccess: () => {},
+      onSuccess: () => {
+        onSuccess();
+      },
       onError: (err: AxiosError<{ message?: string }>) => {
-        err.response?.data.message && onError(err?.response?.data?.message);
+        const errorMessage = err?.response?.data?.message;
+        alert(errorMessage || "예상치 못한 에러가 발생했습니다.");
       },
     }
   );
   return { mutate, isLoading };
 };
+
+type PatchTopicFileEditType = {
+  onSuccess: (res: any) => void;
+};
+
 export const usePatchTopicFileEdit = ({
   onSuccess,
-  onError,
-}: useMutateType) => {
+}: PatchTopicFileEditType) => {
   const { mutate, isLoading } = useMutation(
     ({ topicFile, topicId }: topicPatchFileApiType) =>
       patchAdminTopicEditFileApi({
@@ -153,7 +167,8 @@ export const usePatchTopicFileEdit = ({
         onSuccess(res);
       },
       onError: (err: AxiosError<{ message?: string }>) => {
-        err.response?.data.message && onError(err?.response?.data?.message);
+        const errorMessage = err?.response?.data?.message;
+        alert(errorMessage || "예상치 못한 에러가 발생했습니다.");
       },
     }
   );

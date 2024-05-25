@@ -45,28 +45,18 @@ const TopicCreate = () => {
     }
   };
 
-  const onErrorPostTopic = (errMessage: string) => {
-    alert(errMessage);
-  };
-
   const onSuccessPostFileTopic = () => {
     alert("토픽이 생성되었습니다");
-  };
-
-  const onErrorPostFileTopic = (errMessage: string) => {
-    alert(errMessage);
   };
 
   const { mutate: topicCreate, isLoading: topicCreateIsLoading } =
     usePostTopicCreate({
       onSuccess: onSuccessPostTopic,
-      onError: onErrorPostTopic,
     });
 
   const { mutate: topicFileCreate, isLoading: topicFileCreateIsLoading } =
     usePostTopicFileCreate({
       onSuccess: onSuccessPostFileTopic,
-      onError: onErrorPostFileTopic,
     });
 
   const isLoading = topicCreateIsLoading || topicFileCreateIsLoading;
