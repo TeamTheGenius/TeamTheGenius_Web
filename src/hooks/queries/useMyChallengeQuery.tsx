@@ -2,12 +2,15 @@ import getMyChallengeActivity from "@/apis/getMyChallengeActivity";
 import getMyChallengeDone from "@/apis/getMyChallengeDone";
 import getMyChallengeDoneReward from "@/apis/getMyChallengeDoneReward";
 import getMyChallengePreActivity from "@/apis/getMyChallengePreActivity";
+import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import { QUERY_KEY } from "@/constants/queryKey";
+import { useModalStore } from "@/stores/modalStore";
 import {
   MyChallengeActivityDataType,
   MyChallengeDoneDataType,
   MyChallengePreActivityDataType,
 } from "@/types/myChallengeType";
+import { AxiosError } from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export const useGetMyPreActivityChallenges = () => {
@@ -39,13 +42,12 @@ interface GetChallengeSuccessRewardMutateType {
 }
 interface GetChallengeSuccessRewardType {
   onSuccess: (res: MyChallengeDoneDataType) => void;
-  onError: () => void;
 }
 
 export const useGetChallengeSuccessReward = ({
   onSuccess,
-  onError,
 }: GetChallengeSuccessRewardType) => {
+  const { setModal, closeModal } = useModalStore();
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation(
     ({ instanceId }: GetChallengeSuccessRewardMutateType) =>
@@ -55,8 +57,10 @@ export const useGetChallengeSuccessReward = ({
         queryClient.invalidateQueries(QUERY_KEY.MY_DONE_CHALLENGES);
         onSuccess(res);
       },
-      onError: () => {
-        onError();
+      onError: (error: AxiosError<{ message?: string }>) => {
+        setModal(
+          <CommonMutationErrorModal closeModal={closeModal} error={error} />
+        );
       },
     }
   );
