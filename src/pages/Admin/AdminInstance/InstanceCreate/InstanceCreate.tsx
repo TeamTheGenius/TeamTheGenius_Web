@@ -8,12 +8,12 @@ import Loading from "@/components/Common/Loading/Loading";
 
 import { useParams } from "react-router-dom";
 import { decrypt } from "@/hooks/useCrypto";
-import { useTopicDetailQuery } from "@/hooks/queries/useAdminTopicQuery";
 import AdminFormLayOut from "@/components/Admin/AdminLayOut/AdminFormLayOut/AdminFormLayOut";
 import {
   usePostInstanceCreate,
   usePostInstanceFileCreate,
 } from "@/hooks/queries/useAdminInstanceQuery";
+import { useTopicDetailQuery } from "@/hooks/queries/useAdminTopicQuery";
 
 type instanceCreateData = {
   topicId: number;
