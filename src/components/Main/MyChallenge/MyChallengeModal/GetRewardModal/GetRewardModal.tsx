@@ -1,10 +1,10 @@
 import { Modal } from "@/components/Common/Modal/Modal";
 import { useEffect } from "react";
 import GetRewardResultModal from "../GetRewardResultModal/GetRewardResultModal";
-import { useGetChallengeSuccessReward } from "@/hooks/queries/useMyChallengeQuery";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import { MyChallengeDoneDataType } from "@/types/myChallengeType";
 import { useModalStore } from "@/stores/modalStore";
+import { useGetChallengeSuccessReward } from "@/hooks/queries/useMyChallengeQuery";
 
 interface RewardModalProps {
   instanceId: number;
@@ -20,18 +20,12 @@ function GetRewardModal({ instanceId }: RewardModalProps) {
       />
     );
   };
-  const onErrorGetChallengeSuccessReward = () => {
-    <GetRewardResultModal
-      closeModal={closeModal}
-      content={`보상 획득에 실패하였습니다.`}
-    />;
-  };
+
   const {
     mutate: getChallengeSuccessRewardMutate,
     isLoading: getChallengeSucessRewardLoading,
   } = useGetChallengeSuccessReward({
     onSuccess: onSuccessGetChallengeSuccessReward,
-    onError: onErrorGetChallengeSuccessReward,
   });
 
   useEffect(() => {
