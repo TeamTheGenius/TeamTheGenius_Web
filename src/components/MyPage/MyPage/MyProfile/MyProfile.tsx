@@ -5,7 +5,6 @@ import MyPoint from "../MyPoint/MyPoint";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { FRAMEID } from "@/constants/localStorageKey";
 import { decrypt } from "@/hooks/useCrypto";
-import basicProfileImage from "@/assets/image/basic-profile-image-gray.png";
 import { useGetMyProfile } from "@/hooks/queries/useProfileQuery";
 
 function MyProfile() {
@@ -33,22 +32,14 @@ function MyProfile() {
                 frameStyle={`마이페이지_${frame[frameId]}`}
               />
             )}
-            {data.fileResponse.encodedFile === "none" ? (
-              <Profile.Image
-                imgSrc={basicProfileImage}
-                alt="프로필 이미지"
-                width="w-[10.2rem]"
-              />
-            ) : (
-              <Profile.Image
-                imgSrc={makeBase64IncodedImage({
-                  uri: data.fileResponse.encodedFile,
-                  format: "png",
-                })}
-                alt="프로필 이미지"
-                width="w-[10.2rem]"
-              />
-            )}
+            <Profile.Image
+              imgSrc={makeBase64IncodedImage({
+                uri: data.fileResponse.encodedFile,
+                format: "png",
+              })}
+              alt="프로필 이미지"
+              width="w-[10.2rem]"
+            />
           </Profile>
         </div>
         <div className="w-full max-w-[34.4rem]">
