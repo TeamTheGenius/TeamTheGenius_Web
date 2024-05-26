@@ -16,7 +16,6 @@ import { useMutation, useQuery } from "react-query";
 
 type useInstanceListQueryType = {
   pageNumber?: number;
-  setTotalNumber?: React.Dispatch<React.SetStateAction<number>>;
 };
 type useInstanceDetailQueryType = {
   instanceId?: number;
@@ -24,7 +23,6 @@ type useInstanceDetailQueryType = {
 
 export const useInstanceListQuery = ({
   pageNumber,
-  setTotalNumber,
 }: useInstanceListQueryType) => {
   const { data } = useQuery<any>({
     queryKey: [QUERY_KEY.ADMIN_INSTANCE_PAGE, pageNumber],
@@ -32,13 +30,7 @@ export const useInstanceListQuery = ({
       getAdminInstanceListPageApi({
         pageNumber: pageNumber,
       }),
-    onSuccess: (data) => {
-      if (setTotalNumber) {
-        setTotalNumber(data.totalElements);
-      }
-    },
     keepPreviousData: true,
-    suspense: true,
   });
   return { data };
 };

@@ -16,15 +16,11 @@ import { useMutation, useQuery } from "react-query";
 
 type useTopicListQueryType = {
   pageNumber?: number;
-  setTotalNumber?: React.Dispatch<React.SetStateAction<number>>;
 };
 type useTopicDetailQueryType = {
   topicId?: number;
 };
-export const useTopicListQuery = ({
-  pageNumber,
-  setTotalNumber,
-}: useTopicListQueryType) => {
+export const useTopicListQuery = ({ pageNumber }: useTopicListQueryType) => {
   const { data } = useQuery<any>({
     queryKey: [QUERY_KEY.ADMIN_TOPIC_PAGE, pageNumber],
     queryFn: () =>
@@ -32,12 +28,6 @@ export const useTopicListQuery = ({
         pageNumber: pageNumber,
       }),
     keepPreviousData: true,
-    suspense: true,
-    onSuccess: (data) => {
-      if (setTotalNumber) {
-        setTotalNumber(data.totalElements);
-      }
-    },
   });
   return { data };
 };
@@ -48,7 +38,6 @@ export const useTopicDetailQuery = ({ topicId }: useTopicDetailQueryType) => {
       getAdminDetailTopicApi({
         topicId: topicId,
       }),
-    suspense: true,
   });
 
   return { data };

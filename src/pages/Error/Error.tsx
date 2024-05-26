@@ -3,6 +3,7 @@ import Button from "@/components/Common/Button";
 import MobCard from "@/components/Common/MobCard";
 import "@/pages/Error/errorStyle.css";
 import { useLocation, useNavigate } from "react-router-dom";
+import { PATH } from "@/constants/path";
 export type ErrorHeaderType = {
   errNum?: number;
   errorTxt?: string;
@@ -13,7 +14,6 @@ export type ErrorHeaderType = {
 const Error = ({
   errNum,
   errorTxt,
-  onClick,
   buttonText,
   buttonExist,
 }: ErrorHeaderType) => {
@@ -26,30 +26,27 @@ const Error = ({
   }: ErrorHeaderType = location.state || {};
 
   const onClickButton = () => {
-    if (onClick) onClick();
-    else navigate(-1);
+    navigate(PATH.HOME);
   };
   return (
     <MobCard>
-      <div className="relative w-full h-[100vh]">
+      <div className="w-full h-full flex flex-col justify-center items-center">
         <ErrorHeader
           errNum={errNum || locationErrNum}
           errorTxt={errorTxt || locationErrorTxt}
         />
         {buttonExist === false ? null : (
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 box-shodow">
-            <div className="mx-[15.3rem] my-[1.9rem]">
-              <Button
-                content={buttonText || "뒤로 가기"}
-                width={"w-[46.7rem]"}
-                height={"h-[6.1rem]"}
-                backgroundColor={"bg-black"}
-                textSize={"text-[1.8rem]"}
-                textColor={"text-white"}
-                fontWeight={"font-medium"}
-                handleClick={onClickButton}
-              />
-            </div>
+          <div className="w-full flex justify-center items-center mt-[5rem]">
+            <Button
+              content={buttonText || "홈으로"}
+              width={"w-full max-w-[20rem]"}
+              height={"h-[6.1rem]"}
+              backgroundColor={"bg-black"}
+              textSize={"text-[1.8rem]"}
+              textColor={"text-white"}
+              fontWeight={"font-medium"}
+              handleClick={onClickButton}
+            />
           </div>
         )}
       </div>

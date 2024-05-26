@@ -21,7 +21,7 @@ const TopicListComponent = ({ adminList }: adminProps) => {
 
   return (
     <>
-      <ul className="flex flex-col gap-10 rounded-xl">
+      <ul className="flex flex-col gap-10 rounded-xl h-full">
         <>
           {adminList?.map((item: adminTopicDataType) => {
             const imageData = `data:image/jpeg;base64,${item.fileResponse.encodedFile}`;
