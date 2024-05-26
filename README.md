@@ -66,6 +66,8 @@ https://gitget.co.kr
 
 #### 메인 홈
 원하는 챌린지를 골라서 도전해보세요!
+#### 챌린지 상세
+어떤 챌린지인지 자세히 알아보세요!
 #### 마이 챌린지
 자신이 선택한 챌린지를 관리해보세요!
 #### 포인트 샵
@@ -79,16 +81,42 @@ github 연동으로 챌린지를 더욱 전문성있게 관리해보세요!
 
 ## 💻 개발 화면
 #### 메인 홈
+<img width="1279" alt="image" src="https://github.com/TeamTheGenius/TeamTheGenius_Web/assets/52223965/4ef53689-d5f7-49e1-a5b6-91fa4e372b27"> | <img width="271" alt="image" src="https://github.com/TeamTheGenius/TeamTheGenius_Web/assets/52223965/af4229d3-9098-4ef2-a3ce-c01376fddb2e">
+--- | --- | 
+<br/>
+
 #### 마이 챌린지
+<img width="1280" alt="image" src="https://github.com/TeamTheGenius/TeamTheGenius_Web/assets/52223965/55046fb4-f35a-482d-8046-194d4dbfea11"> | <img width="292" alt="image" src="https://github.com/TeamTheGenius/TeamTheGenius_Web/assets/52223965/80456872-f0e0-48c1-8ea0-2a155b1e1cd6">
+--- | --- |
+<br/>
+
+#### 챌린지 상세
+<img width="1265" alt="image" src="https://github.com/TeamTheGenius/TeamTheGenius_Web/assets/52223965/fcf0e795-3f59-44ec-adc3-b3cbcb63226b"> | <img width="293" alt="image" src="https://github.com/TeamTheGenius/TeamTheGenius_Web/assets/52223965/cfe215e6-c559-44b2-9b1d-db73125af871">
+--- | --- |
+<br/>
+
 #### 포인트 샵
-<img width="1280" alt="image" src="https://github.com/TeamTheGenius/TeamTheGenius_Web/assets/52223965/e9d7faec-e887-42c9-b6f3-11dc8ece531e">
+<img width="1280" alt="image" src="https://github.com/TeamTheGenius/TeamTheGenius_Web/assets/52223965/8e6d02cd-325e-4e25-95a6-b35a1b151536"> | <img width="268" alt="image" src="https://github.com/TeamTheGenius/TeamTheGenius_Web/assets/52223965/86d46783-ee06-42ce-9eb7-0ddf7779365a">
+--- | --- |
+<br/>
 
 #### 마이 페이지
-<img width="1277" alt="image" src="https://github.com/TeamTheGenius/TeamTheGenius_Web/assets/52223965/34db2397-cb17-42a2-babc-8e20bc0216ea">
+<img width="1280" alt="image" src="https://github.com/TeamTheGenius/TeamTheGenius_Web/assets/52223965/32048184-c53a-4d25-9a4d-da1abe7ddcc7"> | <img width="269" alt="image" src="https://github.com/TeamTheGenius/TeamTheGenius_Web/assets/52223965/dfaa1f8f-f1bb-4e36-93cb-377f3e2dc1d3">
+--- | --- |
+<br/>
 
 #### 인증 페이지
+![localhost_5173_certification_U2FsdGVkX1%2Fyz0yc8U5DeEY5SGPOsmdMqKYP0n6IxJY%3D_my-week (1)](https://github.com/TeamTheGenius/TeamTheGenius_Web/assets/52223965/ac177f97-0299-4144-a7d5-581b045897a4) | ![localhost_5173_certification_U2FsdGVkX1%2Fyz0yc8U5DeEY5SGPOsmdMqKYP0n6IxJY%3D_my-week](https://github.com/TeamTheGenius/TeamTheGenius_Web/assets/52223965/6301ae2c-e5d3-4a34-a1e7-338a2432e796)
+--- | --- |
+
+![localhost_5173_certification_U2FsdGVkX1%2Fyz0yc8U5DeEY5SGPOsmdMqKYP0n6IxJY%3D_my-week (2)](https://github.com/TeamTheGenius/TeamTheGenius_Web/assets/52223965/2530ff4f-0f83-4eeb-b0ec-fa1f59c48ea5) | ![localhost_5173_certification_U2FsdGVkX1%2Fyz0yc8U5DeEY5SGPOsmdMqKYP0n6IxJY%3D_my-week (3)](https://github.com/TeamTheGenius/TeamTheGenius_Web/assets/52223965/aed2c9f5-aa7f-4146-bb14-d8df075ed23b)
+--- | --- |
+<br/>
 
 #### github 등록
+<img width="1280" alt="image" src="https://github.com/TeamTheGenius/TeamTheGenius_Web/assets/52223965/9a204285-dd07-4080-ac90-0bae51fec0dd"> | <img width="295" alt="image" src="https://github.com/TeamTheGenius/TeamTheGenius_Web/assets/52223965/330c9fd8-febb-4718-bf32-ec63dc90998e">
+--- | --- |
+
 
 
 ## 👥 역할
