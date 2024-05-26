@@ -1,6 +1,7 @@
 import personIcon from "@/assets/icon/person-icon.svg";
 import { cls } from "@/utils/mergeTailwind";
 import heartIcon from "@/assets/icon/heart-icon.svg";
+import basicChallengeImage from "@/assets/image/basicChallengeImage.jpg";
 
 interface MainProps {
   children: React.ReactNode;
@@ -82,11 +83,18 @@ function Image({
       : "w-full max-w-[16.4rem] pb-[77%]",
   };
 
+  const onErrorImageLoad = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    event.currentTarget.src = basicChallengeImage;
+  };
+
   return (
     <div className={`relative flex ${additionalStyles[direction]}`}>
       <img
         src={imgSrc}
         alt={alt}
+        onError={onErrorImageLoad}
         className={cls(
           "w-full h-full rounded-[1rem] object-cover",
           direction === "vertical" ? "absolute top-0 left-0 " : ""
