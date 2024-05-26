@@ -1,6 +1,7 @@
 import christmasFrame from "@/assets/icon/profile-frame-christmas.svg";
 import powerOfDarkFrame from "@/assets/icon/profile-frame-power-of-dark.svg";
 import { cls } from "@/utils/mergeTailwind";
+import basicProfileImage from "@/assets/image/basic-profile-image-gray.png";
 
 interface ProfileProps {
   children: React.ReactNode;
@@ -81,12 +82,18 @@ function ImageFrame({ frame, frameStyle }: ImageFrameProps) {
 }
 
 function Image({ width, imgSrc, alt }: ImageProps) {
+  const onErrorImageLoad = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    event.currentTarget.src = basicProfileImage;
+  };
   return (
     <div className={`${width}`}>
       <div className="relative w-full pb-[100%]">
         <img
           src={imgSrc}
           alt={alt}
+          onError={onErrorImageLoad}
           className="w-full h-full absolute top-0 left-0 rounded-full object-cover"
         />
       </div>

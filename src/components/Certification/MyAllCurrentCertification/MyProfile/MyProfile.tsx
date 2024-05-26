@@ -2,7 +2,6 @@ import { Profile } from "@/components/Common/Profile/Profile";
 import { FRAMEID } from "@/constants/localStorageKey";
 import { decrypt } from "@/hooks/useCrypto";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
-import basicProfileImage from "@/assets/image/basic-profile-image-gray.png";
 import { useGetUserProfile } from "@/hooks/queries/useProfileQuery";
 
 interface Props {
@@ -27,22 +26,14 @@ function MyProfile({ decryptedUserId }: Props) {
               frameStyle={`인증전체현황_${frame[decryptedFrameId]}`}
             />
           )}
-          {userProfile.fileResponse.encodedFile === "none" ? (
-            <Profile.Image
-              imgSrc={basicProfileImage}
-              alt="프로필 이미지"
-              width="w-[13rem]"
-            />
-          ) : (
-            <Profile.Image
-              imgSrc={makeBase64IncodedImage({
-                uri: userProfile.fileResponse.encodedFile,
-                format: "jpg",
-              })}
-              alt={"프로필 이미지"}
-              width="w-[13rem]"
-            />
-          )}
+          <Profile.Image
+            imgSrc={makeBase64IncodedImage({
+              uri: userProfile.fileResponse.encodedFile,
+              format: "jpg",
+            })}
+            alt={"프로필 이미지"}
+            width="w-[13rem]"
+          />
         </div>
         <div className="mb-[0.4rem]">
           <Profile.NickName
