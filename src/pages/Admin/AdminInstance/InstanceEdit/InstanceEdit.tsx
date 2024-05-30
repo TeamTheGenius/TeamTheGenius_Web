@@ -77,15 +77,20 @@ const InstanceEdit = () => {
     usePatchInstanceCreate({
       onSuccess: onSuccessUsePatchInstance,
     });
+
   const { mutate: instanceFilePatch, isLoading: instanceFilePatchIsLoading } =
     usePatchInstanceFileCreate();
+
   const isLoading = instancePatchIsLoading || instanceFilePatchIsLoading;
+
   const instanceSumbit = (values: InstanceEditData) => {
     valuesRef.current = values;
+
     const startedAt = moment(values.ranger[0]._d).format("YYYY-MM-DDTHH:mm:ss");
-    const completedAt = moment(values.completedAt).format(
+    const completedAtFormat = moment(values.ranger[1]._d).format(
       "YYYY-MM-DDTHH:mm:ss"
     );
+
     const instanceData = {
       instanceId: decryptedTopicId,
       topicIdId: values.topicId,
@@ -95,7 +100,7 @@ const InstanceEdit = () => {
       instanceNotice: values.notice,
       instancePoint: values.pointPerPerson,
       instanceStartAt: startedAt,
-      instanceCompletedAt: completedAt,
+      instanceCompletedAt: completedAtFormat,
     };
 
     instancePatch(instanceData);
@@ -245,7 +250,7 @@ const SubmitButtom = () => {
           htmlType="submit"
           className="w-[10rem] h-[5rem] text-white bg-_neutral-70 text-_h3 hover:opacity-65"
         >
-          생성
+          수정
         </Button>
       </div>
     </>
