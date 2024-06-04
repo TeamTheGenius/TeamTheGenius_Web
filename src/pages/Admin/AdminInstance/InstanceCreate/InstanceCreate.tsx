@@ -265,7 +265,7 @@ const FormPoint = ({ point }: { point: number | undefined }) => {
 const FormRangePicker = () => {
   const { RangePicker } = DatePicker;
   const disabledDate = (current: any) => {
-    return current && current < moment().startOf("day");
+    return current && current <= moment().startOf("day");
   };
   return (
     <>
