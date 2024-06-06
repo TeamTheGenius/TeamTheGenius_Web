@@ -10,6 +10,8 @@ import {
   useGetTokenVerify,
   usePostTokenRegister,
 } from "@/hooks/queries/useGithubQuery";
+import { useQueryClient } from "react-query";
+import { QUERY_KEY } from "@/constants/queryKey";
 const GithubTokenInput = ({
   label,
   id,
@@ -18,15 +20,20 @@ const GithubTokenInput = ({
   value,
   onChange,
   githubBoolean,
+  repoListLoading,
   setGithubBoolean,
 }: GithubTokenInputType) => {
+  const queryClient = useQueryClient();
   const [tokenState, setTokenState] = useState("");
   const [tokenBoolean, setTokenBoolean] = useState(false);
-  const { data: githubTokenInputOk } = useGetTokenVerify();
+
+  const { data: githubTokenInputOk, isLoading: githubTokenInputOkLoading } =
+    useGetTokenVerify();
 
   const onSuccessUsePostTokenRegister = () => {
     setTokenBoolean(true);
     setGithubBoolean(true);
+    queryClient.invalidateQueries(QUERY_KEY.GITHUB_TOKEN);
   };
 
   const onErrorUsePostTokenRegister = (
@@ -63,7 +70,9 @@ const GithubTokenInput = ({
         <Label id={id} label={label} />
         <GitTokenCheckIcon githubTokenInputOk={githubTokenInputOk} />
       </div>
-      {postTokenRegisterLoading ? (
+      {postTokenRegisterLoading ||
+      githubTokenInputOkLoading ||
+      repoListLoading ? (
         <LoadingBox />
       ) : (
         <>

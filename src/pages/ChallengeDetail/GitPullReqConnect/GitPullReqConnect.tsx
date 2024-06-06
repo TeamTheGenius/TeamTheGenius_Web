@@ -46,7 +46,9 @@ const GitPullReqConnect = () => {
     usePostChallengeJoin();
 
   const { data: githubTokenOk } = useGetTokenVerify();
-  const { data: repoList } = useGetRepositories({ githubTokenOk });
+  const { data: repoList, isLoading: repoListLoading } = useGetRepositories({
+    githubTokenOk,
+  });
 
   const challengeRegiHandle = () => {
     postChallengeJoin({ instanceId: decryptNumber, repo: repoState });
@@ -71,6 +73,7 @@ const GitPullReqConnect = () => {
         <Header content="Github 연결 설정" />
         <div className="pt-[8.5rem] px-[2.2rem] flex justify-center items-center flex-col">
           <GithubTokenInput
+            repoListLoading={repoListLoading}
             label="1. Github Token"
             id="githubToken"
             name="githubToken"
