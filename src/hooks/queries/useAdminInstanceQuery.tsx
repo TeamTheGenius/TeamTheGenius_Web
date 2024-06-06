@@ -151,7 +151,13 @@ export const usePatchInstanceCreate = ({
   );
   return { mutate, isLoading };
 };
-export const usePatchInstanceFileCreate = () => {
+
+interface PatchInstanceFileCreateType {
+  onSuccess: () => void;
+}
+export const usePatchInstanceFileCreate = ({
+  onSuccess,
+}: PatchInstanceFileCreateType) => {
   const { mutate, isLoading } = useMutation(
     ({ instanceId, instanceImg }: editInstacneFileApiType) =>
       patchAdminInstanceFileEditApi({
@@ -159,6 +165,9 @@ export const usePatchInstanceFileCreate = () => {
         instanceImg: instanceImg,
       }),
     {
+      onSuccess: () => {
+        onSuccess();
+      },
       onError: (err: AxiosError<{ message?: string }>) => {
         const errorMessage = err?.response?.data?.message;
         alert(errorMessage || "예상치 못한 에러가 발생했습니다.");

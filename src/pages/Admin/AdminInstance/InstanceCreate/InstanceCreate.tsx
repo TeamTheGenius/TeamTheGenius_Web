@@ -1,11 +1,18 @@
-import { Button, DatePicker, Form, Image, Input, Select, Upload } from "antd";
+import {
+  Button,
+  DatePicker,
+  Form,
+  Image,
+  Input,
+  Select,
+  Upload,
+  UploadProps,
+} from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import "@/utils/antdCheck.module.css";
 import moment from "moment";
 import { useEffect, useRef, useState } from "react";
-import { fileType } from "@/types/adminType";
 import Loading from "@/components/Common/Loading/Loading";
-
 import { useParams } from "react-router-dom";
 import { decrypt } from "@/hooks/useCrypto";
 import AdminFormLayOut from "@/components/Admin/AdminLayOut/AdminFormLayOut/AdminFormLayOut";
@@ -51,7 +58,6 @@ const InstanceCreate = () => {
   const notice = adminDetail?.notice;
   const tags = adminDetail?.tags;
   const tagsArray = tags ? tags.split(",") : [];
-  const file = adminDetail?.fileResponse;
   const point = adminDetail?.pointPerPerson;
 
   const onSuccessUsePostInstance = (res: any) => {
@@ -62,16 +68,17 @@ const InstanceCreate = () => {
       };
       instanceFileCreate(instanceFile);
       alert("인스턴스가 생성되었습니다.");
+
+      form.setFieldsValue({
+        title: adminDetail?.title,
+        description: adminDetail?.description,
+        notice: adminDetail?.notice,
+        tags: tagsArray,
+        point: adminDetail?.pointPerPerson,
+        certMethod: "",
+        ranger: "",
+      });
     }
-    form.setFieldsValue({
-      title: adminDetail?.title,
-      description: adminDetail?.description,
-      notice: adminDetail?.notice,
-      tags: tagsArray,
-      point: adminDetail?.pointPerPerson,
-      certMethod: "",
-      ranger: "",
-    });
   };
 
   const { mutate: instanceCreate, isLoading: instanceCreateLoading } =
@@ -85,6 +92,11 @@ const InstanceCreate = () => {
 
   const instanceSumbit = (values: instanceCreateData) => {
     valuesRef.current = values;
+    if (!valuesRef.current?.fileResponse[0]?.originFileObj) {
+      alert("이미지를 설정해주세요");
+      return;
+    }
+
     const tagString = values.tags.join();
     const formmatStartDate = moment(values.ranger[0].$d).format(
       "YYYY-MM-DDT00:00:00"
@@ -131,7 +143,7 @@ const InstanceCreate = () => {
           >
             <FormTitle title={title} />
             <FormDesc description={description} notice={notice} />
-            <FormImg file={file} />
+            <FormImg />
             <FormInterest tags={tagsArray} />
             <FormPoint point={point} />
             <FormRangePicker />
@@ -187,27 +199,35 @@ const FormDesc = ({
     </>
   );
 };
-const FormImg = ({ file }: fileType) => {
+const FormImg = () => {
   const [visible, setVisible] = useState(false);
-
-  const imageData = `data:image/png;base64,${file?.encodedFile}`;
+  const [imageSrc, setImageSrc] = useState("");
 
   const normFile = (e: any) => {
     if (Array.isArray(e)) {
       return e;
     }
-    return e && e.fileList;
+    if (e && e.fileList && e.fileList.length > 0) {
+      const file = e.fileList[e.fileList.length - 1];
+      if (file && file.originFileObj) {
+        const imageUrl = URL.createObjectURL(file.originFileObj);
+        setImageSrc(imageUrl);
+      }
+    }
+    return e?.fileList;
   };
-  const props = {
-    name: "fileResponse",
-    beforeUpload: () => false,
+
+  const props: UploadProps = {
+    beforeUpload: () => {
+      return false;
+    },
   };
 
   return (
     <>
       <Form.Item
         name="fileResponse"
-        label="토픽 이미지 수정"
+        label="챌린지 이미지"
         valuePropName="fileResponse"
         getValueFromEvent={normFile}
         initialValue={""}
@@ -225,10 +245,10 @@ const FormImg = ({ file }: fileType) => {
         <Image
           width={200}
           style={{ display: "none" }}
-          src={imageData}
+          src={imageSrc}
           preview={{
             visible,
-            src: imageData,
+            src: imageSrc,
             onVisibleChange: (value) => {
               setVisible(value);
             },
@@ -238,6 +258,7 @@ const FormImg = ({ file }: fileType) => {
     </>
   );
 };
+
 const FormInterest = ({ tags }: { tags: string[] | undefined }) => {
   return (
     <>
