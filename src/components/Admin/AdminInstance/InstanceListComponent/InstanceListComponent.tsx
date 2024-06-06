@@ -40,45 +40,52 @@ const InstanceListComponent = ({
             const completedDate = moment(item.completedAt).format("YYYY-MM-DD");
             return (
               <li
-                className="flex justify-between w-full relative bg-_neutral-10"
+                className="flex gap-[1.5rem] p-[1rem] bg-_neutral-10"
                 key={item.instanceId}
               >
-                <InstanceTitle
-                  imageData={imageData}
-                  startDate={startDate}
-                  completedDate={completedDate}
-                  title={item.title}
+                <img
+                  src={imageData}
+                  alt={item.title}
+                  className="w-[22rem] h-[17rem] rounded-l-xl"
                 />
-                <div className="flex w-1/6 justify-between absolute right-10 bottom-8">
-                  <Button
-                    width="w-[10rem]"
-                    backgroundColor="bg-_neutral-70"
-                    fontWeight="font-normal"
-                    textColor="text-_neutral-10"
-                    height="h-[3.5rem]"
-                    textSize="text-_h3"
-                    handleClick={() => {
-                      instanceData(item);
-                    }}
-                    content="수정"
+
+                <div className="w-full flex flex-col justify-between">
+                  <InstanceTitle
+                    startDate={startDate}
+                    completedDate={completedDate}
+                    title={item.title}
                   />
-                  <Button
-                    width="w-[10rem]"
-                    backgroundColor="bg-_neutral-70"
-                    fontWeight="font-normal"
-                    textColor="text-_neutral-10"
-                    height="h-[3.5rem]"
-                    textSize="text-_h3"
-                    handleClick={() => {
-                      if (window.confirm("정말로 삭제하시겠습니까?")) {
-                        deleteAdminInstanceApi({
-                          queryClient: queryClient,
-                          instanceId: item.instanceId,
-                        });
-                      }
-                    }}
-                    content="삭제"
-                  />
+                  <div className="flex gap-[1rem] justify-end">
+                    <Button
+                      width="w-[5rem]"
+                      backgroundColor="bg-_neutral-70"
+                      fontWeight="font-normal"
+                      textColor="text-_neutral-10"
+                      height="h-[3rem]"
+                      textSize="text-[1.3rem]"
+                      handleClick={() => {
+                        instanceData(item);
+                      }}
+                      content="수정"
+                    />
+                    <Button
+                      width="w-[5rem]"
+                      backgroundColor="bg-_neutral-70"
+                      fontWeight="font-normal"
+                      textColor="text-_neutral-10"
+                      height="h-[3rem]"
+                      textSize="text-[1.3rem]"
+                      handleClick={() => {
+                        if (window.confirm("정말로 삭제하시겠습니까?")) {
+                          deleteAdminInstanceApi({
+                            queryClient: queryClient,
+                            instanceId: item.instanceId,
+                          });
+                        }
+                      }}
+                      content="삭제"
+                    />
+                  </div>
                 </div>
               </li>
             );

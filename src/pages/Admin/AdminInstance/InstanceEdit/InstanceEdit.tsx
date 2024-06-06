@@ -2,10 +2,8 @@ import { Button, Form, Image, Input, Upload, UploadProps } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
 import moment from "moment";
-
 import { fileType, instanceDeteilType } from "@/types/adminType";
 import Loading from "@/components/Common/Loading/Loading";
-
 import { useParams } from "react-router-dom";
 import { useQueryClient } from "react-query";
 import { decrypt } from "@/hooks/useCrypto";
@@ -69,6 +67,8 @@ const InstanceEdit = () => {
       };
       instanceFilePatch(instanceData);
     }
+  };
+  const onSuccessUsePatchIntanceFileCreate = () => {
     alert("인스턴스가 수정되었습니다.");
     queryClient.invalidateQueries(QUERY_KEY.ADMIN_INSTANCE_DETAIL);
   };
@@ -79,13 +79,19 @@ const InstanceEdit = () => {
     });
 
   const { mutate: instanceFilePatch, isLoading: instanceFilePatchIsLoading } =
-    usePatchInstanceFileCreate();
+    usePatchInstanceFileCreate({
+      onSuccess: onSuccessUsePatchIntanceFileCreate,
+    });
 
   const isLoading = instancePatchIsLoading || instanceFilePatchIsLoading;
 
   const instanceSumbit = (values: InstanceEditData) => {
     valuesRef.current = values;
 
+    if (!valuesRef?.current?.fileResponse[0]?.originFileObj && !file) {
+      alert("이미지를 선택해주세요");
+      return;
+    }
     const startedAt = moment(values.ranger[0]._d).format("YYYY-MM-DDTHH:mm:ss");
     const completedAtFormat = moment(values.ranger[1]._d).format(
       "YYYY-MM-DDTHH:mm:ss"
@@ -156,12 +162,22 @@ const FormDesc = () => {
 };
 const FormImg = ({ file }: fileType) => {
   const [visible, setVisible] = useState(false);
+  const [imageSrc, setImageSrc] = useState("");
 
-  const imageData = `data:image/png;base64,${file?.encodedFile}`;
+  useEffect(() => {
+    setImageSrc(`data:image/png;base64,${file?.encodedFile}`);
+  }, []);
 
   const normFile = (e: any) => {
     if (Array.isArray(e)) {
       return e;
+    }
+    if (e && e.fileList && e.fileList.length > 0) {
+      const file = e.fileList[e.fileList.length - 1];
+      if (file && file.originFileObj) {
+        const imageUrl = URL.createObjectURL(file.originFileObj);
+        setImageSrc(imageUrl);
+      }
     }
     return e?.fileList;
   };
@@ -192,10 +208,10 @@ const FormImg = ({ file }: fileType) => {
         <Image
           width={200}
           style={{ display: "none" }}
-          src={imageData}
+          src={imageSrc}
           preview={{
             visible,
-            src: imageData,
+            src: imageSrc,
             onVisibleChange: (value) => {
               setVisible(value);
             },
@@ -248,7 +264,7 @@ const SubmitButtom = () => {
       <div className="flex justify-center gap-32">
         <Button
           htmlType="submit"
-          className="w-[10rem] h-[5rem] text-white bg-_neutral-70 text-_h3 hover:opacity-65"
+          className="w-[10rem] h-[4rem] text-white bg-_neutral-70 text-_h4 hover:opacity-65"
         >
           수정
         </Button>

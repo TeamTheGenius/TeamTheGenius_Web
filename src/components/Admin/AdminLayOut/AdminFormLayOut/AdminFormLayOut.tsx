@@ -27,7 +27,7 @@ function AdminFormLayOut({
                 fontWeight=""
                 textColor="text-_neutral-10"
                 height="h-[3.5rem]"
-                textSize="text-_h3"
+                textSize="text-[1.5rem]"
                 handleClick={() => {
                   navigate(-1);
                 }}

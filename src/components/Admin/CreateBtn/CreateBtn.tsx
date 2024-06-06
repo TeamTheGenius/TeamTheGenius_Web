@@ -24,8 +24,8 @@ const CreateBtn = ({ tokken, topicId }: CreateBtnType) => {
         backgroundColor="bg-_neutral-70"
         fontWeight=""
         textColor="text-_neutral-10"
-        height="h-[3.5rem]"
-        textSize="text-_h3"
+        height="h-[3rem]"
+        textSize="text-[1.5rem]"
         handleClick={() => {
           createBtnOpen();
         }}
