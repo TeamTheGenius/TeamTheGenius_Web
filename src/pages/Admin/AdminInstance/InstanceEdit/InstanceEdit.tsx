@@ -248,7 +248,7 @@ const SubmitButtom = () => {
       <div className="flex justify-center gap-32">
         <Button
           htmlType="submit"
-          className="w-[10rem] h-[5rem] text-white bg-_neutral-70 text-_h3 hover:opacity-65"
+          className="w-[10rem] h-[4rem] text-white bg-_neutral-70 text-_h4 hover:opacity-65"
         >
           수정
         </Button>
