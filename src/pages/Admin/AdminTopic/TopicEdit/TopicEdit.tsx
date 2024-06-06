@@ -1,7 +1,6 @@
-import { UploadOutlined } from "@ant-design/icons";
-import { Button, Form, Image, Input, Select, Upload, UploadProps } from "antd";
-import { useEffect, useRef, useState } from "react";
-import { fileType, uploadDataType } from "@/types/adminType";
+import { Button, Form, Input, Select } from "antd";
+import { useEffect, useRef } from "react";
+import { uploadDataType } from "@/types/adminType";
 import Loading from "@/components/Common/Loading/Loading";
 import { useParams } from "react-router-dom";
 import { decrypt } from "@/hooks/useCrypto";
@@ -11,7 +10,6 @@ import AdminFormLayOut from "@/components/Admin/AdminLayOut/AdminFormLayOut/Admi
 import { interestsOption } from "@/data/InterestData";
 import {
   usePatchTopicEdit,
-  usePatchTopicFileEdit,
   useTopicDetailQuery,
 } from "@/hooks/queries/useAdminTopicQuery";
 
@@ -38,22 +36,11 @@ const TopicEdit = () => {
   const title = adminDetail?.title;
   const description = adminDetail?.description;
   const notice = adminDetail?.notice;
-  const file = adminDetail?.fileResponse;
   const tags = adminDetail?.tags;
   const tagsArray = tags ? tags.split(",") : [];
   const point = adminDetail?.pointPerPerson;
 
   const onSuccessUsePatchTopicEdit = () => {
-    if (valuesRef.current) {
-      const topicFileData = {
-        topicId: decryptedTopicId,
-        topicFile: valuesRef.current.fileResponse[0]?.originFileObj,
-      };
-      instanceFilePatch(topicFileData);
-    }
-  };
-
-  const onSuccessUsePatchTopicFileEdit = () => {
     alert("토픽이 수정되었습니다.");
     queryClient.invalidateQueries(QUERY_KEY.ADMIN_TOPIC_DETAIL);
   };
@@ -63,12 +50,7 @@ const TopicEdit = () => {
       onSuccess: onSuccessUsePatchTopicEdit,
     });
 
-  const { mutate: instanceFilePatch, isLoading: instanceFilePatchIsLoading } =
-    usePatchTopicFileEdit({
-      onSuccess: onSuccessUsePatchTopicFileEdit,
-    });
-
-  const isLoading = instancePatchIsLoading || instanceFilePatchIsLoading;
+  const isLoading = instancePatchIsLoading;
 
   const topicSubmit = (values: topicSubmitType) => {
     valuesRef.current = values;
@@ -109,7 +91,6 @@ const TopicEdit = () => {
             >
               <FormTitle title={title} />
               <FormDesc description={description} notice={notice} />
-              <FormImg file={file} />
               <FormInterest tags={tags} />
               <FormPoint point={point} />
               <SubmitButtom />
@@ -165,61 +146,6 @@ const FormDesc = ({
     </>
   );
 };
-const FormImg = ({ file }: fileType) => {
-  const [visible, setVisible] = useState(false);
-
-  const imageData = `data:image/png;base64,${file?.encodedFile}`;
-
-  const normFile = (e: any) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    if (e && e.fileList) {
-      return e.fileList;
-    }
-    return null;
-  };
-  const props: UploadProps = {
-    name: "fileResponse",
-    beforeUpload: () => {
-      return false;
-    },
-  };
-  return (
-    <>
-      <Form.Item
-        name="fileResponse"
-        label="토픽 이미지 수정"
-        valuePropName="fileResponse"
-        getValueFromEvent={normFile}
-        initialValue={""}
-      >
-        <Upload {...props}>
-          <div className="w-[5rem] h-[5rem]">
-            <Button icon={<UploadOutlined />}>사진을 선택해주세요</Button>
-          </div>
-        </Upload>
-      </Form.Item>
-      <Form.Item label="이미지 미리보기">
-        <Button type="dashed" onClick={() => setVisible(true)}>
-          이미지 미리보기
-        </Button>
-        <Image
-          width={200}
-          style={{ display: "none" }}
-          src={imageData}
-          preview={{
-            visible,
-            src: imageData,
-            onVisibleChange: (value) => {
-              setVisible(value);
-            },
-          }}
-        />
-      </Form.Item>
-    </>
-  );
-};
 const FormInterest = ({ tags }: { tags: string | undefined }) => {
   const tagsArray = tags ? tags.split(",") : [];
 
@@ -268,7 +194,7 @@ const SubmitButtom = () => {
       <div className="flex justify-center gap-32">
         <Button
           htmlType="submit"
-          className="w-[10rem] h-[5rem] text-white bg-_neutral-70 text-_h3 hover:opacity-65"
+          className="w-[10rem] h-[4rem] text-white bg-_neutral-70 text-_h4 hover:opacity-65"
         >
           수정
         </Button>

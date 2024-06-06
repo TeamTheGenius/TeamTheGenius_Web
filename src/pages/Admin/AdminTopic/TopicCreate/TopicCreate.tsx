@@ -1,20 +1,8 @@
 import AdminFormLayOut from "@/components/Admin/AdminLayOut/AdminFormLayOut/AdminFormLayOut";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import { interestsOption } from "@/data/InterestData";
-import {
-  usePostTopicCreate,
-  usePostTopicFileCreate,
-} from "@/hooks/queries/useAdminTopicQuery";
-import { UploadOutlined } from "@ant-design/icons";
-import {
-  Button,
-  Form,
-  Input,
-  Select,
-  Upload,
-  UploadProps,
-  message,
-} from "antd";
+import { usePostTopicCreate } from "@/hooks/queries/useAdminTopicQuery";
+import { Button, Form, Input, Select } from "antd";
 import { useRef, useState } from "react";
 
 type FormDataType = {
@@ -38,14 +26,7 @@ type FormDataType = {
 const TopicCreate = () => {
   const valuesRef = useRef<FormDataType | null>(null);
 
-  const onSuccessPostTopic = (res: number) => {
-    if (valuesRef.current) {
-      const topicFile = { topicFile: valuesRef.current.upload, topicId: res };
-      topicFileCreate(topicFile);
-    }
-  };
-
-  const onSuccessPostFileTopic = () => {
+  const onSuccessPostTopic = () => {
     alert("토픽이 생성되었습니다");
   };
 
@@ -54,12 +35,7 @@ const TopicCreate = () => {
       onSuccess: onSuccessPostTopic,
     });
 
-  const { mutate: topicFileCreate, isLoading: topicFileCreateIsLoading } =
-    usePostTopicFileCreate({
-      onSuccess: onSuccessPostFileTopic,
-    });
-
-  const isLoading = topicCreateIsLoading || topicFileCreateIsLoading;
+  const isLoading = topicCreateIsLoading;
 
   const topicSubmit = (values: FormDataType) => {
     valuesRef.current = values;
@@ -84,7 +60,6 @@ const TopicCreate = () => {
             <Form onFinish={topicSubmit} className="w-full max-w-[1200px]">
               <FormTitle />
               <FormDesc />
-              <FormImg />
               <FormInterest />
               <FormPoint />
               <SubmitButtom />
@@ -148,43 +123,6 @@ const FormDesc = () => {
         name="notice"
       >
         <Input.TextArea allowClear showCount onChange={noticeChange} />
-      </Form.Item>
-    </>
-  );
-};
-const FormImg = () => {
-  const normFile = (e: any) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
-
-  const props: UploadProps = {
-    name: "file",
-    beforeUpload: () => {
-      return false;
-    },
-    onChange(info) {
-      if (info.file.status === "done") {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-  };
-  return (
-    <>
-      <Form.Item
-        name="upload"
-        label="Upload"
-        valuePropName="fileList"
-        getValueFromEvent={normFile}
-        extra="이미지 업로드"
-      >
-        <Upload {...props}>
-          <Button icon={<UploadOutlined />}>챌린지 사진을 선택해주세요</Button>
-        </Upload>
       </Form.Item>
     </>
   );

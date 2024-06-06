@@ -24,7 +24,6 @@ const TopicListComponent = ({ adminList }: adminProps) => {
       <ul className="flex flex-col gap-10 rounded-xl h-full">
         <>
           {adminList?.map((item: adminTopicDataType) => {
-            const imageData = `data:image/jpeg;base64,${item.fileResponse.encodedFile}`;
             const InstanceLink = (i: number) => {
               const cryptoNumber = encrypt(i);
               const topicCryptoId = encrypt(item.topicId);
@@ -37,41 +36,41 @@ const TopicListComponent = ({ adminList }: adminProps) => {
             return (
               <li
                 key={item.topicId}
-                className="flex justify-between w-full relative bg-_neutral-10"
+                className="flex flex-col flex-wrap gap-[2rem]  p-[1rem] bg-_neutral-10"
               >
-                <TopicTitle imageData={imageData} title={item.title} />
-                <div className="flex w-2/5 justify-between absolute right-10 bottom-8">
+                <TopicTitle title={item.title} />
+                <div className="flex flex-wrap gap-[1rem] justify-end  right-10 bottom-8">
                   <Button
-                    width="w-[20rem]"
+                    width="w-[7rem]"
                     backgroundColor="bg-_neutral-70"
                     fontWeight="font-normal"
                     textColor="text-_neutral-10"
-                    height="h-[3.5rem]"
-                    textSize="text-_h3"
+                    height="h-[3rem]"
+                    textSize="text-[1.3rem]"
                     handleClick={() => {
                       InstanceLink(item.topicId);
                     }}
                     content="인스턴스"
                   />
                   <Button
-                    width="w-[10rem]"
+                    width="w-[5rem]"
                     backgroundColor="bg-_neutral-70"
                     fontWeight="font-normal"
                     textColor="text-_neutral-10"
-                    height="h-[3.5rem]"
-                    textSize="text-_h3"
+                    height="h-[3rem]"
+                    textSize="text-[1.3rem]"
                     handleClick={() => {
                       topicData(item);
                     }}
                     content="수정"
                   />
                   <Button
-                    width="w-[10rem]"
+                    width="w-[5rem]"
                     backgroundColor="bg-_neutral-70"
                     fontWeight="font-normal"
                     textColor="text-_neutral-10"
-                    height="h-[3.5rem]"
-                    textSize="text-_h3"
+                    height="h-[3rem]"
+                    textSize="text-[1.3rem]"
                     handleClick={() => {
                       if (window.confirm("정말로 삭제하시겠습니까?")) {
                         deleteAdminTopicApi({
@@ -83,12 +82,12 @@ const TopicListComponent = ({ adminList }: adminProps) => {
                     content="삭제"
                   />
                   <Button
-                    width="w-[10rem]"
+                    width="w-[5rem]"
                     backgroundColor="bg-_neutral-70"
                     fontWeight="font-normal"
                     textColor="text-_neutral-10"
-                    height="h-[3.5rem]"
-                    textSize="text-_h3"
+                    height="h-[3rem]"
+                    textSize="text-[1.3rem]"
                     handleClick={() => {
                       alert("업데이트 예정입니다.");
                     }}
