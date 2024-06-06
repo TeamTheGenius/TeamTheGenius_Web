@@ -1,7 +1,7 @@
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 
 export type GithubTokenInputType = {
-  repoListLoading: boolean;
+  repoListLoading?: boolean;
   label: string;
   id: string;
   name: string;
