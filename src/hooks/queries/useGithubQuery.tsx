@@ -55,12 +55,13 @@ export const usePostTokenRegister = ({
 };
 
 export const useGetTokenVerify = () => {
-  const { data } = useQuery<string>({
+  const { data, isLoading } = useQuery<string>({
     queryKey: [QUERY_KEY.GITHUB_TOKEN],
     queryFn: getGithubTokenApi,
     useErrorBoundary: false,
+    suspense: false,
   });
-  return { data };
+  return { data, isLoading };
 };
 
 interface GetVerifyRepositoryMutateType {
@@ -141,10 +142,11 @@ interface GetRepositoriesType {
   githubTokenOk: string | undefined;
 }
 export const useGetRepositories = ({ githubTokenOk }: GetRepositoriesType) => {
-  const { data } = useQuery<string[]>({
+  const { data, isLoading } = useQuery<string[]>({
     queryKey: [QUERY_KEY.GITHUB_REPOSITORIES],
     queryFn: getUserRepoApi,
     enabled: githubTokenOk === "OK",
+    suspense: false,
   });
-  return { data };
+  return { data, isLoading };
 };
