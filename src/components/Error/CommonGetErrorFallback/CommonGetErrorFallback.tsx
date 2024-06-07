@@ -5,6 +5,7 @@ import { FallbackProps } from "react-error-boundary";
 import { useNavigate } from "react-router-dom";
 import errorIcon from "@/assets/icon/error-icon.svg";
 import { useModalStore } from "@/stores/modalStore";
+import { FRAMEID, IDENTIFIER } from "@/constants/localStorageKey";
 
 function CommonGetErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   const { setModal, closeModal, isModalOpen } = useModalStore();
@@ -15,6 +16,8 @@ function CommonGetErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   };
 
   const onCliclMoveToLogin = () => {
+    localStorage.removeItem(IDENTIFIER);
+    localStorage.removeItem(FRAMEID);
     closeModal();
     navigate(PATH.LOGIN);
   };
