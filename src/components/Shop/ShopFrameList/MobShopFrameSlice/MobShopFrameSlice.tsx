@@ -23,7 +23,7 @@ const MobShopFrameSlice = () => {
           ? powerOfDarkFrame
           : "기본 이미지 경로",
     }));
-    setframeDataState(updatedFrameData);
+    setframeDataState(updatedFrameData?.slice(0, 2));
   };
 
   useEffect(() => {
