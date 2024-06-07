@@ -1,4 +1,5 @@
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
+import { FRAMEID, IDENTIFIER } from "@/constants/localStorageKey";
 import { PATH } from "@/constants/path";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +12,8 @@ interface Props {
 function CommonMutationErrorModal({ closeModal, error }: Props) {
   const navigate = useNavigate();
   const onCliclMoveToLogin = () => {
+    localStorage.removeItem(IDENTIFIER);
+    localStorage.removeItem(FRAMEID);
     closeModal();
     navigate(PATH.LOGIN);
   };
