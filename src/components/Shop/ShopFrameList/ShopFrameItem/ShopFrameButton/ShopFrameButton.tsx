@@ -3,24 +3,14 @@ import {
   usePostFrameItemEquiptment,
   usePostFrameItemUnEquiptment,
 } from "@/hooks/queries/useItemQuery";
-import { useModalStore } from "@/stores/modalStore";
 import { shopFrameListType } from "@/types/shopType";
 
 function ShopFrameButton({ item }: { item: shopFrameListType }) {
-  const { closeModal } = useModalStore();
-
   const {
     mutate: postFrameItemUnEquipment,
     mutateAsync: postFrameItemUnEquipmentAsync,
   } = usePostFrameItemUnEquiptment();
-
-  const onSuccessPostFrameItemEquiptment = () => {
-    closeModal();
-  };
-
-  const { mutate: postFrameItemEquiptment } = usePostFrameItemEquiptment({
-    onSuccess: onSuccessPostFrameItemEquiptment,
-  });
+  const { mutate: postFrameItemEquiptment } = usePostFrameItemEquiptment();
 
   const mountFrameHandle = async (itemId: number | undefined) => {
     if (!itemId) return null;
