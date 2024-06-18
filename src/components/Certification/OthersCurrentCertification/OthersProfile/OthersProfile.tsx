@@ -1,4 +1,5 @@
 import { Profile } from "@/components/Common/Profile/Profile";
+import { profileImageFrame } from "@/data/frameData";
 
 interface Props {
   imgSrc: string;
@@ -7,18 +8,13 @@ interface Props {
   frameId: number;
 }
 function OthersProfile({ imgSrc, alt, nickName, frameId }: Props) {
-  const frame: { [key: string]: "성탄절" | "어둠의힘" | "불태워라" } = {
-    1: "성탄절",
-    2: "어둠의힘",
-    5: "불태워라",
-  };
   return (
     <Profile>
       <div className="flex gap-[1rem] items-center">
         {frameId && (
           <Profile.ImageFrame
-            frame={frame[frameId]}
-            frameStyle={`참가자주간인증현황_${frame[frameId]}`}
+            frame={profileImageFrame[frameId]}
+            frameStyle={`참가자주간인증현황`}
           />
         )}
         <Profile.Image imgSrc={imgSrc} alt={alt} width="w-[4.8rem]" />

@@ -7,6 +7,7 @@ import React from "react";
 import { FRAMEID } from "@/constants/localStorageKey";
 import { decrypt } from "@/hooks/useCrypto";
 import { MyProfileDataType } from "@/types/profileType";
+import { profileImageFrame } from "@/data/frameData";
 
 function UserInfo({
   data,
@@ -20,15 +21,7 @@ function UserInfo({
   const [imgPreview, setimgPreview] = useState("");
   const frameGet = localStorage.getItem(FRAMEID);
   const frameId = decrypt(frameGet);
-  const frame: {
-    [key: string]: "성탄절" | "어둠의힘" | "불태워라" | "끈적이는" | "무섭지롱";
-  } = {
-    1: "성탄절",
-    2: "어둠의힘",
-    5: "불태워라",
-    6: "끈적이는",
-    7: "무섭지롱",
-  };
+
   const normFile = (e: any) => {
     setImageUrl(e);
     getBase64(e.file.originFileObj as any, (url) => {
@@ -73,8 +66,8 @@ function UserInfo({
             <Profile>
               {frameId && (
                 <Profile.ImageFrame
-                  frame={frame[frameId]}
-                  frameStyle={`마이페이지_${frame[frameId]}`}
+                  frame={profileImageFrame[frameId]}
+                  frameStyle={`마이페이지`}
                 />
               )}
               <Profile.Image
@@ -92,8 +85,8 @@ function UserInfo({
             <Profile>
               {frameId && (
                 <Profile.ImageFrame
-                  frame={frame[frameId]}
-                  frameStyle={`마이페이지_${frame[frameId]}`}
+                  frame={profileImageFrame[frameId]}
+                  frameStyle={`마이페이지`}
                 />
               )}
               <Profile.Image
