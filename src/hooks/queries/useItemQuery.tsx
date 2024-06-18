@@ -25,21 +25,17 @@ import ghostFrame from "@/assets/icon/profile-frame-ghost.svg";
 import pointTwiceItem from "@/assets/image/pass_0.svg";
 import passItem from "@/assets/image/pass_1.svg";
 
-interface PostFrameItemEquiptmentType {
-  onSuccess: () => void;
-}
-export const usePostFrameItemEquiptment = ({
-  onSuccess,
-}: PostFrameItemEquiptmentType) => {
+export const usePostFrameItemEquiptment = () => {
   const { setModal, closeModal } = useModalStore();
   const queryClient = useQueryClient();
+
   const { mutate } = useMutation(
     (itemId: number) => postItemEquipApi({ itemId }),
     {
       onSuccess: (data) => {
-        localStorage.setItem(FRAMEID, encrypt(data.itemId));
+        closeModal();
         queryClient.invalidateQueries(QUERY_KEY.SHOP_FRAME_ITEMS);
-        onSuccess();
+        localStorage.setItem(FRAMEID, encrypt(data.itemId));
       },
       onError: (error: AxiosError<{ message?: string }>) => {
         setModal(
@@ -48,12 +44,14 @@ export const usePostFrameItemEquiptment = ({
       },
     }
   );
+
   return { mutate };
 };
 
 export const usePostFrameItemUnEquiptment = () => {
   const { setModal, closeModal } = useModalStore();
   const queryClient = useQueryClient();
+
   const { mutate, mutateAsync } = useMutation(postItemUnEquipApi, {
     onSuccess: () => {
       localStorage.removeItem(FRAMEID);
@@ -65,6 +63,7 @@ export const usePostFrameItemUnEquiptment = () => {
       );
     },
   });
+
   return { mutate, mutateAsync };
 };
 
