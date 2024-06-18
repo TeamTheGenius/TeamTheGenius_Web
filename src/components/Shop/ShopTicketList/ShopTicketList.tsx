@@ -6,6 +6,7 @@ import { useGetPointAndPassItem } from "@/hooks/queries/useItemQuery";
 
 const ShopTicketList = () => {
   const { data } = useGetPointAndPassItem();
+
   return (
     <>
       <SubHeader content="아이템" />

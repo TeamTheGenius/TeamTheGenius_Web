@@ -12,7 +12,7 @@ const MobShopFrameSlice = () => {
       <div className="overflow-x-auto scrollbar-hide">
         <div className="max-w-[10rem] flex gap-[1rem]">
           {frameItemData?.map((item: shopFrameListType) => (
-            <ShopFrameItem item={item} />
+            <ShopFrameItem item={item} key={item.itemId} />
           ))}
         </div>
       </div>

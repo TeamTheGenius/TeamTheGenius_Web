@@ -246,15 +246,15 @@ export const useGetPointAndPassItem = () => {
     },
   ]);
 
-  const isLoading = queries.some((query) => query.isLoading);
-
   const data = queries.flatMap((query) => {
-    const itemsWithImage = query.data.map((item: shopTicketListType) => ({
-      ...item,
-      imgSrc: itemImage[item.itemId],
-    }));
-    return itemsWithImage || [];
+    if (query.isSuccess && query.data) {
+      return query.data.map((item: shopTicketListType) => ({
+        ...item,
+        imgSrc: itemImage[item.itemId],
+      }));
+    }
+    return [];
   });
 
-  return { data, isLoading };
+  return { data };
 };
