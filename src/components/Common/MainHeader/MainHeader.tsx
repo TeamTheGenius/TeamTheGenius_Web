@@ -25,7 +25,7 @@ function MainHeader({ headerText }: Props) {
 
           <Link
             to={PATH.HOME}
-            className="_md:hidden _ld:hidden cursor-pointer font-extralight text-[1.2rem] leading-_normal text-black"
+            className="_md:hidden  cursor-pointer font-extralight text-[1.2rem] leading-_normal text-black"
           >
             <img src={mobileLogo} className="_sm:shrink-0 h-full mr-auto"></img>
           </Link>

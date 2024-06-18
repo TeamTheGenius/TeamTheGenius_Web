@@ -16,9 +16,10 @@ function MyProfile() {
 
   const frameGet = localStorage.getItem(FRAMEID);
   const frameId = decrypt(frameGet);
-  const frame: { [key: string]: "성탄절" | "어둠의힘" } = {
+  const frame: { [key: string]: "성탄절" | "어둠의힘" | "불태워라" } = {
     1: "성탄절",
     2: "어둠의힘",
+    5: "불태워라",
   };
 
   return (

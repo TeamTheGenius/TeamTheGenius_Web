@@ -1,5 +1,6 @@
 import christmasFrame from "@/assets/icon/profile-frame-christmas.svg";
 import powerOfDarkFrame from "@/assets/icon/profile-frame-power-of-dark.svg";
+import fireFrame from "@/assets/icon/profile-frame-fire.svg";
 import { cls } from "@/utils/mergeTailwind";
 import basicProfileImage from "@/assets/image/basic-profile-image-gray.png";
 
@@ -32,38 +33,48 @@ interface IntroduceProps {
 }
 
 interface ImageFrameProps {
-  frame: "성탄절" | "어둠의힘";
+  frame: "성탄절" | "어둠의힘" | "불태워라";
   frameStyle:
     | "마이페이지_성탄절"
     | "마이페이지_어둠의힘"
+    | "마이페이지_불태워라"
     | "인증전체현황_성탄절"
     | "인증전체현황_어둠의힘"
+    | "인증전체현황_불태워라"
     | "참가자주간인증현황_성탄절"
-    | "참가자주간인증현황_어둠의힘";
+    | "참가자주간인증현황_어둠의힘"
+    | "참가자주간인증현황_불태워라";
 }
 
 function ImageFrame({ frame, frameStyle }: ImageFrameProps) {
   const frameImage = {
     성탄절: christmasFrame,
     어둠의힘: powerOfDarkFrame,
+    불태워라: fireFrame,
   };
 
   const FrameWidth = {
     마이페이지_성탄절: "w-[11.9rem]",
     마이페이지_어둠의힘: "w-[11.9rem]",
+    마이페이지_불태워라: "",
     인증전체현황_성탄절: "w-[14.9rem]",
     인증전체현황_어둠의힘: "w-[14.9rem]",
+    인증전체현황_불태워라: "",
     참가자주간인증현황_성탄절: "w-[5.6rem]",
     참가자주간인증현황_어둠의힘: "w-[5.6rem]",
+    참가자주간인증현황_불태워라: "",
   };
 
   const framePosition = {
     마이페이지_성탄절: "-top-[0.8rem] right-[0.8rem]",
     마이페이지_어둠의힘: "-top-[0.8rem] right-[0.85rem]",
+    마이페이지_불태워라: "",
     인증전체현황_성탄절: "-top-[0.95rem] right-[0.95rem]",
     인증전체현황_어둠의힘: "-top-[0.8rem] right-[0.95rem]",
+    인증전체현황_불태워라: "",
     참가자주간인증현황_성탄절: "-top-[2.8rem] right-[0.36rem]",
     참가자주간인증현황_어둠의힘: "-top-[2.8rem] right-[0.4rem]",
+    참가자주간인증현황_불태워라: "",
   };
 
   return (
