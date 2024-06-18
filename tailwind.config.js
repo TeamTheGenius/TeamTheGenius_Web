@@ -3,33 +3,47 @@ export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
   theme: {
     screens: {
-      _sm: { max: "396px" },
-      _md: { min: "396px", max: "582px" },
-      _ld: { min: "582px" }
+      _sm: { max: "395px" },
+      _md: { min: "396px" },
     },
     extend: {
       colors: {
         _primary: {
-          50: '#6054FF',
-          30: '#7579FF',
-          10: '#EDEEFF',
+          50: "#6054FF",
+          30: "#7579FF",
+          10: "#EDEEFF",
         },
         _accent: {
-          30: '#FF6584',
+          30: "#FF6584",
         },
         _neutral: {
-          70: '#3F3D56',
-          80: '#2F2E41',
-          10: '#E6E6E6',
-          50: '#858587',
+          70: "#3F3D56",
+          80: "#2F2E41",
+          10: "#E6E6E6",
+          50: "#858587",
         },
         _coral: {
-          70: `#FF4356`
-        }
+          70: `#FF4356`,
+        },
       },
       fontFamily: {
-        "SCoreDream": ["SCoreDream", "-apple-system", "BlinkMacSystemFont", "system-ui", "Roboto", "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "sans-serif"],
-        "RobotoMedium": ['RobotoMedium']
+        SCoreDream: [
+          "SCoreDream",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "system-ui",
+          "Roboto",
+          "Helvetica Neue",
+          "Segoe UI",
+          "Apple SD Gothic Neo",
+          "Noto Sans KR",
+          "Malgun Gothic",
+          "Apple Color Emoji",
+          "Segoe UI Emoji",
+          "Segoe UI Symbol",
+          "sans-serif",
+        ],
+        RobotoMedium: ["RobotoMedium"],
       },
 
       fontSize: {
@@ -42,10 +56,9 @@ export default {
       },
 
       lineHeight: {
-        _normal: 'normal',
-      }
+        _normal: "normal",
+      },
     },
   },
   plugins: [require("tailwind-scrollbar-hide")],
-}
-
+};

@@ -27,7 +27,7 @@ const Shop = () => {
                     <MyPoint />
                   </div>
 
-                  <div className="_md:hidden _ld:hidden w-full max-w-[44.5rem] _sm:max-w-[35rem] mt-[2.1rem] mb-[4rem]">
+                  <div className="_md:hidden w-full max-w-[44.5rem] _sm:max-w-[35rem] mt-[2.1rem] mb-[4rem]">
                     <MobShopFrameSlice />
                   </div>
 
@@ -35,7 +35,7 @@ const Shop = () => {
                     <ShopFrameList />
                   </div>
 
-                  <div className="w-full max-w-[44.5rem] _sm:max-w-[38rem] mt-[2.1rem] mb-[4rem]">
+                  <div className="w-full max-w-[44.5rem] _sm:max-w-[38rem] mb-[4rem]">
                     <ShopTicketList />
                   </div>
                 </div>

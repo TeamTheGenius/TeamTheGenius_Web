@@ -1,6 +1,6 @@
 import postItemEquipApi from "@/apis/postItemEquipApi";
 import { FRAMEID } from "@/constants/localStorageKey";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueries, useQuery, useQueryClient } from "react-query";
 import { encrypt } from "../useCrypto";
 import { QUERY_KEY } from "@/constants/queryKey";
 import postUseItem from "@/apis/postUseItem";
@@ -17,22 +17,25 @@ import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModa
 import { useNavigate } from "react-router-dom";
 import { PATH } from "@/constants/path";
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
+import christmasFrame from "@/assets/icon/profile-frame-christmas.svg";
+import powerOfDarkFrame from "@/assets/icon/profile-frame-power-of-dark.svg";
+import fireFrame from "@/assets/icon/profile-frame-fire.svg";
+import pinkStickyFrame from "@/assets/icon/profile-frame-pink-sticky.svg";
+import ghostFrame from "@/assets/icon/profile-frame-ghost.svg";
+import pointTwiceItem from "@/assets/image/pass_0.svg";
+import passItem from "@/assets/image/pass_1.svg";
 
-interface PostFrameItemEquiptmentType {
-  onSuccess: () => void;
-}
-export const usePostFrameItemEquiptment = ({
-  onSuccess,
-}: PostFrameItemEquiptmentType) => {
+export const usePostFrameItemEquiptment = () => {
   const { setModal, closeModal } = useModalStore();
   const queryClient = useQueryClient();
+
   const { mutate } = useMutation(
     (itemId: number) => postItemEquipApi({ itemId }),
     {
       onSuccess: (data) => {
-        localStorage.setItem(FRAMEID, encrypt(data.itemId));
+        closeModal();
         queryClient.invalidateQueries(QUERY_KEY.SHOP_FRAME_ITEMS);
-        onSuccess();
+        localStorage.setItem(FRAMEID, encrypt(data.itemId));
       },
       onError: (error: AxiosError<{ message?: string }>) => {
         setModal(
@@ -41,12 +44,14 @@ export const usePostFrameItemEquiptment = ({
       },
     }
   );
+
   return { mutate };
 };
 
 export const usePostFrameItemUnEquiptment = () => {
   const { setModal, closeModal } = useModalStore();
   const queryClient = useQueryClient();
+
   const { mutate, mutateAsync } = useMutation(postItemUnEquipApi, {
     onSuccess: () => {
       localStorage.removeItem(FRAMEID);
@@ -58,6 +63,7 @@ export const usePostFrameItemUnEquiptment = () => {
       );
     },
   });
+
   return { mutate, mutateAsync };
 };
 
@@ -178,11 +184,31 @@ export const usePostItemBuy = ({
   return { mutate, isLoading };
 };
 
+interface FrameType {
+  [key: number]: string;
+}
 export const useGetFrameItems = () => {
+  const frame: FrameType = {
+    1: christmasFrame,
+    2: powerOfDarkFrame,
+    5: fireFrame,
+    6: pinkStickyFrame,
+    7: ghostFrame,
+  };
+
+  const mapFrameImage = (frameItemData: shopFrameListType[]) => {
+    return frameItemData.map((item) => ({
+      ...item,
+      imgSrc: frame[item.itemId],
+    }));
+  };
+
   const { data, isLoading, isSuccess } = useQuery<shopFrameListType[]>({
     queryKey: [QUERY_KEY.SHOP_FRAME_ITEMS],
     queryFn: () => getItemFrameApi(),
+    select: (data) => mapFrameImage(data),
   });
+
   return { data, isLoading, isSuccess };
 };
 
@@ -200,4 +226,34 @@ export const useGetPointTwiceItems = () => {
     queryFn: () => getItemPointApi(),
   });
   return { data, isLoading, isSuccess };
+};
+
+interface MapItemType {
+  [key: number]: string;
+}
+
+export const useGetPointAndPassItem = () => {
+  const itemImage: MapItemType = { 3: passItem, 4: pointTwiceItem }; // 예시 이미지 맵
+  const queries = useQueries([
+    {
+      queryKey: [QUERY_KEY.SHOP_PASS_ITEM],
+      queryFn: () => getItemPassApi(),
+    },
+    {
+      queryKey: [QUERY_KEY.SHOP_POINT_TWICE_ITEM],
+      queryFn: () => getItemPointApi(),
+    },
+  ]);
+
+  const data = queries.flatMap((query) => {
+    if (query.isSuccess && query.data) {
+      return query.data.map((item: shopTicketListType) => ({
+        ...item,
+        imgSrc: itemImage[item.itemId],
+      }));
+    }
+    return [];
+  });
+
+  return { data };
 };

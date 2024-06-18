@@ -5,7 +5,7 @@ import ShopFrameName from "./ShopFrameName/ShopFrameName";
 import ShopFrameImg from "./ShopFrameImg/ShopFrameImg";
 function ShopFrameItem({ item }: shopFrameType) {
   return (
-    <div>
+    <div className="flex flex-col">
       <ShopFrameImg item={item} imgSrc={item.imgSrc} equip={item.equipStatus} />
       <ShopFrameName name={item.name} />
       <ShopFrameButton item={item} />

@@ -4,7 +4,6 @@ import {
   usePostFrameItemUnEquiptment,
 } from "@/hooks/queries/useItemQuery";
 
-import { useModalStore } from "@/stores/modalStore";
 import { shopFrameListType } from "@/types/shopType";
 import { breakLine } from "@/utils/breakLine";
 
@@ -13,18 +12,10 @@ type ShopCompleteFrameType = {
 };
 
 function ShopCompleteFrame({ item }: ShopCompleteFrameType) {
-  const { closeModal } = useModalStore();
-
   const { mutateAsync: postFrameItemUnEquipmentAsync } =
     usePostFrameItemUnEquiptment();
 
-  const onSuccessPostFrameItemEquipment = () => {
-    closeModal();
-  };
-
-  const { mutate: postFrameItemEquiptment } = usePostFrameItemEquiptment({
-    onSuccess: onSuccessPostFrameItemEquipment,
-  });
+  const { mutate: postFrameItemEquiptment } = usePostFrameItemEquiptment();
 
   const mountFrameHandle = async (itemId: number | undefined) => {
     if (!itemId) return null;
