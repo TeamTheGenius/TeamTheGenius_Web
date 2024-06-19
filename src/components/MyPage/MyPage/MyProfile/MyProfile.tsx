@@ -12,7 +12,7 @@ function MyProfile() {
   const { data } = useGetMyProfile();
 
   if (!data) {
-    return;
+    return null;
   }
 
   const frameGet = localStorage.getItem(FRAMEID);
@@ -63,7 +63,7 @@ function MyProfile() {
                 <SettingButton />
               </div>
             </div>
-            <div className="w-full flex justify-end h-full items-end">
+            <div className="w-full flex justify-end h-full items-end pr-[2rem]">
               <Temperature temperature={data.progressBar} />
             </div>
           </div>
