@@ -12,8 +12,7 @@ function ShopFrameButton({ item }: { item: shopFrameListType }) {
   } = usePostFrameItemUnEquiptment();
   const { mutate: postFrameItemEquiptment } = usePostFrameItemEquiptment();
 
-  const mountFrameHandle = async (itemId: number | undefined) => {
-    if (!itemId) return null;
+  const mountFrameHandle = async (itemId: number) => {
     await postFrameItemUnEquipmentAsync();
     postFrameItemEquiptment(itemId);
   };

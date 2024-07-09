@@ -32,9 +32,9 @@ export const usePostFrameItemEquiptment = () => {
   const { mutate } = useMutation(
     (itemId: number) => postItemEquipApi({ itemId }),
     {
-      onSuccess: (data) => {
+      onSuccess: async (data) => {
         closeModal();
-        queryClient.invalidateQueries(QUERY_KEY.SHOP_FRAME_ITEMS);
+        await queryClient.invalidateQueries(QUERY_KEY.SHOP_FRAME_ITEMS);
         localStorage.setItem(FRAMEID, encrypt(data.itemId));
       },
       onError: (error: AxiosError<{ message?: string }>) => {
@@ -53,9 +53,9 @@ export const usePostFrameItemUnEquiptment = () => {
   const queryClient = useQueryClient();
 
   const { mutate, mutateAsync } = useMutation(postItemUnEquipApi, {
-    onSuccess: () => {
+    onSuccess: async () => {
       localStorage.removeItem(FRAMEID);
-      queryClient.invalidateQueries(QUERY_KEY.SHOP_FRAME_ITEMS);
+      await queryClient.invalidateQueries(QUERY_KEY.SHOP_FRAME_ITEMS);
     },
     onError: (error: AxiosError<{ message?: string }>) => {
       setModal(
