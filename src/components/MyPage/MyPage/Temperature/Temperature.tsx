@@ -5,14 +5,6 @@ interface Props {
 }
 
 function Temperature({ temperature }: Props) {
-  temperature += 36.5;
-
-  if (temperature <= 0) {
-    temperature = 0;
-  } else if (temperature >= 100) {
-    temperature = 100;
-  }
-
   const temperatureColorConditions = [
     { max: 10, color: "#7EC7FC" },
     { max: 20, color: "#72EF86" },
