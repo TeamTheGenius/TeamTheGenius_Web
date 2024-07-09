@@ -21,9 +21,20 @@ import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 
 export const useGetMyProfile = () => {
+  const adjustTemperature = (data: MyProfileDataType) => {
+    let progressBar = data.progressBar + 36.5;
+    if (progressBar < 0) {
+      progressBar = 0;
+    } else if (progressBar > 100) {
+      progressBar = 100;
+    }
+    return { ...data, progressBar };
+  };
+
   const { data, isLoading } = useQuery<MyProfileDataType>({
     queryKey: [QUERY_KEY.MY_PROFILE],
-    queryFn: () => getMyPageProfile(),
+    queryFn: getMyPageProfile,
+    select: adjustTemperature,
   });
 
   return { data, isLoading };
