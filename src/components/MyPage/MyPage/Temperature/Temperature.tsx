@@ -6,17 +6,17 @@ interface Props {
 
 function Temperature({ temperature }: Props) {
   const temperatureColorConditions = [
-    { max: 10, color: "#7EC7FC" },
-    { max: 20, color: "#72EF86" },
-    { max: 36.5, color: "#FFEF5C" },
-    { max: 65, color: "#FFAD62" },
-    { max: 100, color: "#E76B6B" },
+    { max: 10, color: "bg-[#7EC7FC]" },
+    { max: 20, color: "bg-[#72EF86]" },
+    { max: 36.5, color: "bg-[#FFEF5C]" },
+    { max: 65, color: "bg-[#FFAD62]" },
+    { max: 100, color: "bg-[#E76B6B]" },
   ];
 
   const getTemperatureColor = () => {
     for (const condition of temperatureColorConditions) {
       if (temperature <= condition.max) {
-        return `bg-[${condition.color}]`;
+        return condition.color;
       }
     }
   };
