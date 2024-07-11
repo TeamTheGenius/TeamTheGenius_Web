@@ -2,7 +2,7 @@ import React, { useRef, useState, MouseEvent } from "react";
 
 interface Props {
   children: React.ReactNode;
-  setClickPossible: React.Dispatch<React.SetStateAction<boolean>>;
+  setClickPossible?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 function HorizontalScroll({ children, setClickPossible }: Props) {
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -21,7 +21,7 @@ function HorizontalScroll({ children, setClickPossible }: Props) {
     scrollRef.current?.classList.remove("cursor-grab");
 
     setTimeout(() => {
-      setClickPossible(true);
+      setClickPossible && setClickPossible(true);
     }, delay);
   };
 
@@ -31,7 +31,7 @@ function HorizontalScroll({ children, setClickPossible }: Props) {
 
       if (scrollRef.current && startX != undefined) {
         if (Math.abs(startX - e.pageX) > 5) {
-          setClickPossible(false);
+          setClickPossible && setClickPossible(false);
           scrollRef.current.scrollLeft = (startX || 0) - e.pageX;
         }
 
@@ -64,7 +64,7 @@ function HorizontalScroll({ children, setClickPossible }: Props) {
 
   return (
     <div
-      className="overflow-auto scrollbar-hide"
+      className="overflow-x-auto scrollbar-hide"
       onMouseDown={onDragStart}
       onMouseMove={isDrag ? onThrottleDragMove : undefined}
       onMouseUp={onDragEnd}

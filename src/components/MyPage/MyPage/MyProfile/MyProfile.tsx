@@ -6,20 +6,17 @@ import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { FRAMEID } from "@/constants/localStorageKey";
 import { decrypt } from "@/hooks/useCrypto";
 import { useGetMyProfile } from "@/hooks/queries/useProfileQuery";
+import { profileImageFrame } from "@/data/frameData";
 
 function MyProfile() {
   const { data } = useGetMyProfile();
 
   if (!data) {
-    return;
+    return null;
   }
 
   const frameGet = localStorage.getItem(FRAMEID);
   const frameId = decrypt(frameGet);
-  const frame: { [key: string]: "성탄절" | "어둠의힘" } = {
-    1: "성탄절",
-    2: "어둠의힘",
-  };
 
   return (
     <>
@@ -28,8 +25,8 @@ function MyProfile() {
           <Profile>
             {frameId && (
               <Profile.ImageFrame
-                frame={frame[frameId]}
-                frameStyle={`마이페이지_${frame[frameId]}`}
+                frame={profileImageFrame[frameId]}
+                frameStyle={`마이페이지`}
               />
             )}
             <Profile.Image
@@ -66,7 +63,7 @@ function MyProfile() {
                 <SettingButton />
               </div>
             </div>
-            <div className="w-full flex justify-end h-full items-end">
+            <div className="w-full flex justify-end h-full items-end pr-[2rem]">
               <Temperature temperature={data.progressBar} />
             </div>
           </div>

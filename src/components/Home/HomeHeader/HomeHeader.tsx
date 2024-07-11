@@ -55,7 +55,7 @@ function HomeHeader({ setSearchEnter }: Props) {
       <img
         onClick={onClickLogo}
         src={mobileLogo}
-        className="_md:hidden _ld:hidden cursor-pointer w-[14rem] mr-[0.7rem] _sm:w-[3.7rem] _sm:shrink-0 h-full flex justify-center items-center font-extralight text-[1.2rem] leading-_normal text-black"
+        className="_md:hidden cursor-pointer w-[14rem] mr-[0.7rem] _sm:w-[3.7rem] _sm:shrink-0 h-full flex justify-center items-center font-extralight text-[1.2rem] leading-_normal text-black"
       />
 
       <div className="flex items-center bg-[#EEE] w-full max-w-[54.2rem] h-full rounded-[0.5rem] px-[1.2rem]">

@@ -1,7 +1,7 @@
 import { instance } from "./axios/axios";
 import requests from "./axios/request";
 
-async function postItemEquipApi({ itemId }: { itemId?: number }) {
+const postItemEquipApi = async ({ itemId }: { itemId?: number }) => {
   const data = await instance
     .post(`${requests.fetchItemUse}/${itemId}`)
     .then((res) => {
@@ -11,5 +11,5 @@ async function postItemEquipApi({ itemId }: { itemId?: number }) {
       throw err;
     });
   return data;
-}
+};
 export default postItemEquipApi;

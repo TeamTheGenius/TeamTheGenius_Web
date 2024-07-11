@@ -25,13 +25,15 @@ function CurrentAchivementRate({
           <div className="absolute left-[85%] -translate-x-1/2 bottom-0 translate-y-10 w-0 h-0 border-b-[#FDEDE1] border-b-[1.5rem] border-l-[1.3rem] border-r-[1.3rem] border-l-transparent border-r-transparent" />
           <div
             className={cls(
-              "relative rounded-l-[1rem] h-full",
-              successPercent >= 85 ? "bg-[#37E788]" : " bg-_coral-70",
-              successPercent === 100 ? "rounded-r-[1rem]" : ""
+              "relative rounded-l-[1rem] h-full rounded-[1rem]",
+              successPercent >= 85 ? "bg-[#37E788]" : " bg-_coral-70"
             )}
             style={{ width: `${successPercent}%` }}
           >
-            <p className="text-[1.1rem] font-normal absolute bottom-0 translate-y-9 right-0 translate-x-1/2">
+            <p className="-translate-y-8 right-0 translate-x-1/2 absolute text-[1.1rem] font-medium">
+              {successPercent}%
+            </p>
+            <p className="text-[1.1rem] font-normal absolute bottom-0 translate-y-8 right-0 translate-x-1/2">
               {currentAttempt}/{totalAttempt}
             </p>
           </div>

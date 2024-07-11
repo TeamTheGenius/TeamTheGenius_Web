@@ -1,6 +1,7 @@
 import { Profile } from "@/components/Common/Profile/Profile";
 import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useGetUserProfile } from "@/hooks/queries/useProfileQuery";
+import { profileImageFrame } from "@/data/frameData";
 
 interface Props {
   decryptedUserId: number;
@@ -8,10 +9,6 @@ interface Props {
 function OthersProfile({ decryptedUserId }: Props) {
   const { data: userProfile } = useGetUserProfile(decryptedUserId);
 
-  const frame: { [key: string]: "성탄절" | "어둠의힘" } = {
-    1: "성탄절",
-    2: "어둠의힘",
-  };
   if (!userProfile) return null;
   return (
     <Profile>
@@ -19,8 +16,8 @@ function OthersProfile({ decryptedUserId }: Props) {
         <div className="mb-[1rem]">
           {userProfile.frameId && (
             <Profile.ImageFrame
-              frame={frame[userProfile.frameId]}
-              frameStyle={`인증전체현황_${frame[userProfile.frameId]}`}
+              frame={profileImageFrame[userProfile.frameId]}
+              frameStyle={`인증전체현황`}
             />
           )}
           <Profile.Image
