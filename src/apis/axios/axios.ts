@@ -1,13 +1,12 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
-const BASE_URL = "https://api.gitget.co.kr/api";
+const BASE_URL = "http://localhost:8080/api";
 
 const instanceConfig = {
   baseURL: BASE_URL,
   withCredentials: true,
 };
 
-export const noCookieinstance = axios.create({ baseURL: BASE_URL });
 export const instance = axios.create(instanceConfig);
 
 export const acceptInstance = axios.create({
@@ -31,3 +30,14 @@ export const multiInstance = axios.create({
     "Content-Type": "multipart/form-data",
   },
 });
+
+const jwtInterceptor = (response: AxiosResponse) => {
+  const accessToken = response.headers["authorization"];
+  localStorage.setItem("accessToken", accessToken);
+  return response;
+};
+
+instance.interceptors.response.use(jwtInterceptor);
+acceptInstance.interceptors.response.use(jwtInterceptor);
+jsonInstance.interceptors.response.use(jwtInterceptor);
+multiInstance.interceptors.response.use(jwtInterceptor);
