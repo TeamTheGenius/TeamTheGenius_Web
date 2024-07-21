@@ -32,7 +32,9 @@ export const multiInstance = axios.create({
 });
 
 const jwtInterceptor = (response: AxiosResponse) => {
+  console.log(response);
   const accessToken = response.headers["authorization"];
+  console.log(accessToken);
   localStorage.setItem("accessToken", accessToken);
   return response;
 };
