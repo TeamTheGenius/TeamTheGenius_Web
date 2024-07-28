@@ -19,7 +19,7 @@ const Payments = () => {
   const { setModal, closeModal } = useModalStore();
   const [selectedPoint, setSelectedPoint] = useState<string>("");
   const [amount, setAmount] = useState(0);
-  const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
+  const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
   const customerKey = nanoid();
 
   const paymentWidgetRef = useRef<PaymentWidgetInstance | null>(null);
