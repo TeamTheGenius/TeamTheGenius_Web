@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { noCookieinstance } from "./axios/axios";
+import { instance } from "./axios/axios";
 import requests from "./axios/request";
 
 type nickNameCheckApiType = {
@@ -11,7 +11,7 @@ export const getCheckNicknameApi = async ({ value }: nickNameCheckApiType) => {
     nickname: value,
   };
 
-  const data = await noCookieinstance
+  const data = await instance
     .get(`${requests.fetchCheckNickname}`, { params })
     .then((res: AxiosResponse) => {
       return res;
