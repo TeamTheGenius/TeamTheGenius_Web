@@ -1,3 +1,4 @@
+import { ACCESS_TOKEN } from "@/constants/localStorageKey";
 import axios, { AxiosResponse } from "axios";
 
 const BASE_URL = "http://localhost:8080/api";
@@ -35,14 +36,13 @@ export const multiInstance = axios.create({
 const jwtResponseInterceptor = (response: AxiosResponse) => {
   const isTokenReissued = response.headers["token-reissued"];
   if (isTokenReissued === "False") return response;
-
   const accessToken = response.headers["authorization"];
-  if (accessToken) localStorage.setItem("accessToken", accessToken);
+  if (accessToken) localStorage.setItem(ACCESS_TOKEN, accessToken);
   return response;
 };
 
 const jwtRequestInterceptor = (request: any) => {
-  const accessToken = localStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem(ACCESS_TOKEN);
   if (accessToken) request.headers.Authorization = accessToken;
   return request;
 };
