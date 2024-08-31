@@ -1,6 +1,6 @@
 import postAuthLogout from "@/apis/postAuthLogout";
 import postJWTApi from "@/apis/postJWTApi";
-import { FRAMEID, IDENTIFIER } from "@/constants/localStorageKey";
+import { ACCESS_TOKEN, FRAMEID, IDENTIFIER } from "@/constants/localStorageKey";
 import { PATH } from "@/constants/path";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +18,7 @@ export const usePostAuthLogout = () => {
     onSuccess: () => {
       localStorage.removeItem(IDENTIFIER);
       localStorage.removeItem(FRAMEID);
+      localStorage.removeItem(ACCESS_TOKEN);
       navigate(PATH.LOGIN);
     },
     onError: (error: AxiosError<{ message?: string }>) => {
