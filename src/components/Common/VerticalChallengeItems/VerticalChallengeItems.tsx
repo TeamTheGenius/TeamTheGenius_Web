@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import ChallengeItem from "../ChallengeItem/ChallengeItem";
 import { PATH } from "@/constants/path";
-import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { encrypt } from "@/hooks/useCrypto";
 
 interface ChallengeItemProps {
@@ -10,7 +9,7 @@ interface ChallengeItemProps {
   participantCnt: number;
   pointPerPerson: number;
   fileResponse: {
-    encodedFile: string;
+    accessURI: string;
   };
 }
 
@@ -32,10 +31,7 @@ function VerticalChallengeItems({ data }: Props) {
             onClick={() => onClick(encrypt(item.instanceId))}
           >
             <ChallengeItem.Image
-              imgSrc={makeBase64IncodedImage({
-                uri: item.fileResponse.encodedFile,
-                format: "jpg",
-              })}
+              imgSrc={item.fileResponse.accessURI}
               direction="vertical"
               alt="챌린지 이미지"
             >

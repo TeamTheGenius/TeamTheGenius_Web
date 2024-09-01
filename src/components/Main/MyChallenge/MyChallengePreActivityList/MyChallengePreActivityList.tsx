@@ -1,6 +1,5 @@
 import MyChallengeLinkWrap from "../MyChallengeLinkWrap/MyChallengeLinkWrap";
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
-import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import MyChallengeTitle from "../MyChallengeTitle/MyChallengeTitle";
 import MyChallengeLabel from "../MyChallengeLabel/MyChallengeLabel";
 import MyChallengeWrap from "../MyChallengeWrap/MyChallengeWrap";
@@ -30,10 +29,7 @@ function MyChallengePreActivityList() {
                 <div className="min-w-[16.4rem] w-[16.4rem] h-[12.6rem]">
                   <ChallengeItem>
                     <ChallengeItem.Image
-                      imgSrc={makeBase64IncodedImage({
-                        uri: item.fileResponse.encodedFile,
-                        format: "jpg",
-                      })}
+                      imgSrc={item.fileResponse.accessURI}
                       alt={"챌린지 이미지"}
                       direction="vertical"
                     >

@@ -3,7 +3,6 @@ import OthersProfile from "@/components/Certification/OthersCurrentCertification
 import ThisWeekCertification from "@/components/Certification/ThisWeekCertification/ThisWeekCertification";
 import Line from "@/components/Common/Line/Line";
 import { decrypt } from "@/hooks/useCrypto";
-import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useParams } from "react-router-dom";
@@ -40,10 +39,7 @@ function OthersCurrentCertification() {
                 <div>
                   <div className="flex justify-between mb-[2.3rem] _sm:mb-[1.7rem]">
                     <OthersProfile
-                      imgSrc={makeBase64IncodedImage({
-                        uri: post.profile.encodedFile,
-                        format: "jpg",
-                      })}
+                      imgSrc={post.profile.accessURI}
                       alt="프로필 이미지"
                       nickName={post.nickname}
                       frameId={post.frameId}

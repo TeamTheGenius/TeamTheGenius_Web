@@ -5,7 +5,6 @@ import GetRewardModal from "@/components/Main/MyChallenge/MyChallengeModal/GetRe
 import AskGetRewardTwiceModal from "@/components/Main/MyChallenge/MyChallengeModal/AskGetRewardTwiceModal/AskGetRewardTwiceModal";
 import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyChallengeTitle";
 import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyChallengeWrap";
-import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import React from "react";
 import { EmptyDataView } from "@/components/Common/EmptyDataView/EmptyDataView";
 import { useModalStore } from "@/stores/modalStore";
@@ -61,10 +60,7 @@ const MyChallengeDoneList = () => {
                 <div className="min-w-[16.4rem] w-[16.4rem]">
                   <ChallengeItem>
                     <ChallengeItem.Image
-                      imgSrc={makeBase64IncodedImage({
-                        uri: item.fileResponse.encodedFile,
-                        format: "jpg",
-                      })}
+                      imgSrc={item.fileResponse.accessURI}
                       alt={"챌린지 이미지"}
                       direction="vertical"
                     >

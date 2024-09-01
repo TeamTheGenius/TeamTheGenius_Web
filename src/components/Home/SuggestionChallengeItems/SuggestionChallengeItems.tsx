@@ -5,7 +5,6 @@ import HorizontalScroll from "../HorizontalScroll/HorizontalScroll";
 import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { encrypt } from "@/hooks/useCrypto";
 import { useGetRecommendInstance } from "@/hooks/queries/useHomeInstanceQuery";
 import EmptyDataComponent from "../EmptyDataComponent/EmptyDataComponent";
@@ -44,10 +43,7 @@ function SuggestionChallengeItems() {
                       onClick={() => onClick(item.instanceId, clickPossible)}
                     >
                       <ChallengeItem.Image
-                        imgSrc={makeBase64IncodedImage({
-                          uri: item.fileResponse.encodedFile,
-                          format: "jpg",
-                        })}
+                        imgSrc={item.fileResponse.accessURI}
                         alt="챌린지 사진"
                         direction="horizontal"
                       >

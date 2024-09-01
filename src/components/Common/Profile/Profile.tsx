@@ -11,7 +11,7 @@ interface ProfileProps {
 
 interface ImageProps {
   width: string;
-  imgSrc: string;
+  imgSrc: string | undefined;
   alt: string;
 }
 
