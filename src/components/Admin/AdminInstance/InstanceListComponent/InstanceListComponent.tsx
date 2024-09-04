@@ -35,7 +35,7 @@ const InstanceListComponent = ({
       <ul className="flex flex-col gap-10 rounded-xl h-full">
         <>
           {instanceFilterList.map((item: instanceListDataType) => {
-            const imageData = `data:image/png;base64,${item.fileResponse.encodedFile}`;
+            const imageData = item.fileResponse.accessURI;
             const startDate = moment(item.startedAt).format("YYYY-MM-DD");
             const completedDate = moment(item.completedAt).format("YYYY-MM-DD");
             return (
