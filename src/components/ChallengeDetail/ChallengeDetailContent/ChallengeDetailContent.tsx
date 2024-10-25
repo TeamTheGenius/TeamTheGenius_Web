@@ -3,7 +3,6 @@ import CoreInformation from "@/components/ChallengeDetail/CoreInformation/CoreIn
 import Image from "@/components/ChallengeDetail/Image/Image";
 import Information from "@/components/ChallengeDetail/Information/Information";
 import Line from "@/components/ChallengeDetail/Line/Line";
-import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import ParticipationCancelButton from "@/components/ChallengeDetail/ParticipationCancelButton/ParticipationCancelButton";
 import { useGetChallengeDetail } from "@/hooks/queries/useInstanceDetailQuery";
 
@@ -27,13 +26,7 @@ function ChallengeDetailContent({ decryptId }: Props) {
   return (
     <>
       <div className="max-w-[54.6rem] w-full flex flex-col gap-[2.3rem]">
-        <Image
-          imgSrc={makeBase64IncodedImage({
-            uri: data.fileResponse.encodedFile,
-            format: "jpg",
-          })}
-          alt={"챌린지 이미지"}
-        />
+        <Image imgSrc={data.fileResponse.accessURI} alt={"챌린지 이미지"} />
         <CoreInformation
           challengeTitle={data.title}
           applicant={data.participantCount}

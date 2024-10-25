@@ -9,7 +9,6 @@ import {
 
 import { encrypt } from "@/hooks/useCrypto";
 import { InstanceThumbnailDataType } from "@/types/homeInstance";
-import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useNavigate } from "react-router-dom";
@@ -64,10 +63,7 @@ function InfiniteInterestChallenge() {
                       onClick={() => onClickChallengeItem(post.instanceId)}
                     >
                       <ChallengeItem.Image
-                        imgSrc={makeBase64IncodedImage({
-                          uri: post.fileResponse.encodedFile,
-                          format: "jpg",
-                        })}
+                        imgSrc={post.fileResponse.accessURI}
                         alt={"챌린지 이미지"}
                         direction="vertical"
                         maxWidth="max-w-[16.5rem]"

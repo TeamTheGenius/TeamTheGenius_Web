@@ -1,5 +1,4 @@
 import { Profile } from "@/components/Common/Profile/Profile";
-import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useGetUserProfile } from "@/hooks/queries/useProfileQuery";
 import { profileImageFrame } from "@/data/frameData";
 
@@ -21,10 +20,7 @@ function OthersProfile({ decryptedUserId }: Props) {
             />
           )}
           <Profile.Image
-            imgSrc={makeBase64IncodedImage({
-              uri: userProfile.fileResponse.encodedFile,
-              format: "jpg",
-            })}
+            imgSrc={userProfile.fileResponse.accessURI}
             alt={"프로필 이미지"}
             width="w-[13rem]"
           />

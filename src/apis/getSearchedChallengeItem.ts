@@ -14,7 +14,7 @@ interface Data {
   participantCount: number;
   pointPerPerson: number;
   fileResponse: {
-    encodedFile: string;
+    accessURI: string;
   };
 }
 

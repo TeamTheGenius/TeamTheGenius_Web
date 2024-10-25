@@ -31,7 +31,7 @@ type InstanceEditData = {
   }[];
   fileResponse: {
     fileId: number;
-    encodedFile: string;
+    accessURI: string;
     originFileObj: any;
   }[];
 };
@@ -165,7 +165,7 @@ const FormImg = ({ file }: fileType) => {
   const [imageSrc, setImageSrc] = useState("");
 
   useEffect(() => {
-    setImageSrc(`data:image/png;base64,${file?.encodedFile}`);
+    setImageSrc(`${file?.accessURI}`);
   }, []);
 
   const normFile = (e: any) => {

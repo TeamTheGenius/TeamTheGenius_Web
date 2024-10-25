@@ -8,7 +8,7 @@ export interface MyChallengePreActivityDataType {
 }
 
 interface File {
-  encodedFile: string;
+  accessURI: string;
 }
 
 export interface MyChallengeDoneDataType {

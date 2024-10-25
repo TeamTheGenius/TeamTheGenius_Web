@@ -4,7 +4,7 @@ export interface InstanceThumbnailDataType {
   participantCnt: number;
   pointPerPerson: number;
   fileResponse: {
-    encodedFile: string;
+    accessURI: string;
   };
   likesId: number;
 }

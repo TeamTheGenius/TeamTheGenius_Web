@@ -29,7 +29,7 @@ export interface CertificationInstnaceDetailDataType {
 }
 
 interface File {
-  encodedFile: string;
+  accessURI: string;
 }
 
 export interface myWeekCertificationDataType {
@@ -43,7 +43,7 @@ export interface AllWeekCertificationDataType {
   certifications: CertificationDataType[];
   frameId: number;
   profile: {
-    encodedFile: string;
+    accessURI: string;
   };
 }
 
