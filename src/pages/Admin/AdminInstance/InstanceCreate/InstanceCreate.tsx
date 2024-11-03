@@ -38,7 +38,7 @@ type instanceCreateData = {
   }[];
   fileResponse: {
     fileId: number;
-    accessURI: string;
+    encodedFile: string;
     originFileObj: any;
   }[];
 };

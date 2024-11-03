@@ -2,6 +2,7 @@ export const PATH = {
   LOGIN: "/",
   SIGNUP: "/login/signup",
   AUTH: "/auth",
+  GUESTAUTH: "/guestauth",
   INTEREST: "/login/signup/interest",
   ERROR: "/error",
   MAIN: "/main",

@@ -1,6 +1,7 @@
 import { Profile } from "@/components/Common/Profile/Profile";
 import { FRAMEID } from "@/constants/localStorageKey";
 import { decrypt } from "@/hooks/useCrypto";
+import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { useGetUserProfile } from "@/hooks/queries/useProfileQuery";
 import { profileImageFrame } from "@/data/frameData";
 
@@ -24,7 +25,10 @@ function MyProfile({ decryptedUserId }: Props) {
             />
           )}
           <Profile.Image
-            imgSrc={userProfile.fileResponse.accessURI}
+            imgSrc={makeBase64IncodedImage({
+              uri: userProfile.fileResponse.encodedFile,
+              format: "jpg",
+            })}
             alt={"프로필 이미지"}
             width="w-[13rem]"
           />

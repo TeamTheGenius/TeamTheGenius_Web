@@ -1,6 +1,6 @@
 import postAuthLogout from "@/apis/postAuthLogout";
 import postJWTApi from "@/apis/postJWTApi";
-import { ACCESS_TOKEN, FRAMEID, IDENTIFIER } from "@/constants/localStorageKey";
+import { FRAMEID, IDENTIFIER } from "@/constants/localStorageKey";
 import { PATH } from "@/constants/path";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import { AxiosError } from "axios";
 import { AuthDataType } from "@/types/authType";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import { useModalStore } from "@/stores/modalStore";
+import postGuestApi from "@/apis/postGuestApi";
 
 export const usePostAuthLogout = () => {
   const navigate = useNavigate();
@@ -18,7 +19,6 @@ export const usePostAuthLogout = () => {
     onSuccess: () => {
       localStorage.removeItem(IDENTIFIER);
       localStorage.removeItem(FRAMEID);
-      localStorage.removeItem(ACCESS_TOKEN);
       navigate(PATH.LOGIN);
     },
     onError: (error: AxiosError<{ message?: string }>) => {
@@ -43,6 +43,20 @@ export const usePostAuth = () => {
     onError: () => {
       localStorage.removeItem(IDENTIFIER);
       localStorage.removeItem(FRAMEID);
+      navigate(PATH.LOGIN);
+    },
+  });
+  return { mutate, isLoading, mutateAsync };
+};
+
+export const usePostGuestAuth = () => {
+  const navigate = useNavigate();
+  const { mutate, isLoading, mutateAsync } = useMutation(postGuestApi, {
+    onSuccess: (data: AuthDataType) => {
+      console.log("mutation", data);
+    },
+    onError: () => {
+      // localStorage.removeItem(FRAMEID);
       navigate(PATH.LOGIN);
     },
   });

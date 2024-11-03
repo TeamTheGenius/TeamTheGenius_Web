@@ -4,6 +4,7 @@ import MyChallengeLinkWrap from "@/components/Main/MyChallenge/MyChallengeLinkWr
 import MyChallengeTitle from "@/components/Main/MyChallenge/MyChallengeTitle/MyChallengeTitle";
 import MyChallengeWrap from "@/components/Main/MyChallenge/MyChallengeWrap/MyChallengeWrap";
 import successStamp from "@/assets/icon/success-stamp.svg";
+import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import MyChallengePassItem from "@/components/Main/MyChallenge/MyChallengePass/MyChallengePassItem";
 import CertificationPassModal from "@/components/Main/MyChallenge/MyChallengeModal/CertificationPassModal/CertificationPassModal";
 import { useGetMyActivityChallenges } from "@/hooks/queries/useMyChallengeQuery";
@@ -70,7 +71,10 @@ const MyChallengeActivityList = () => {
                 <div className="min-w-[16.4rem] w-[16.4rem]">
                   <ChallengeItem>
                     <ChallengeItem.Image
-                      imgSrc={item.fileResponse.accessURI}
+                      imgSrc={makeBase64IncodedImage({
+                        uri: item.fileResponse.encodedFile,
+                        format: "jpg",
+                      })}
                       alt={"챌린지 이미지"}
                       direction="vertical"
                     >

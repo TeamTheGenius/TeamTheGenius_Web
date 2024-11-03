@@ -12,7 +12,7 @@ function GithubLoginButton() {
   return (
     <Button backgroundColor="bg-[#7446D4]" onClick={onClick}>
       <Button.Logo imageSrc={githubLogo} imageAlt="github logo" />
-      <Button.Coontent content="Github 로그인" textColor="text-white" />
+      <Button.Content content="Github 로그인" textColor="text-white" />
     </Button>
   );
 }

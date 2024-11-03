@@ -7,6 +7,7 @@ import Information from "../Information/Information";
 import Line from "../Line/Line";
 import ChallengeDetailLinkButton from "../ChallengeDetailLinkButton/ChallengeDetailLinkButton";
 import { useParams } from "react-router-dom";
+import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import Loading from "@/components/Common/Loading/Loading";
 import { decrypt } from "@/hooks/useCrypto";
 import { useGetCertificationInstanceDetail } from "@/hooks/queries/useCertificationQuery";
@@ -29,7 +30,10 @@ function ChallengeInformation() {
     <>
       <div className="relative">
         <ChallengeImage
-          imgSrc={data.fileResponse.accessURI}
+          imgSrc={makeBase64IncodedImage({
+            uri: data.fileResponse.encodedFile,
+            format: "jpg",
+          })}
           alt={"챌린지 이미지"}
         />
 

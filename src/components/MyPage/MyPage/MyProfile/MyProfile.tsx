@@ -2,6 +2,7 @@ import { Profile } from "@/components/Common/Profile/Profile";
 import SettingButton from "../SettingButton/SettingButton";
 import Temperature from "../Temperature/Temperature";
 import MyPoint from "../MyPoint/MyPoint";
+import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { FRAMEID } from "@/constants/localStorageKey";
 import { decrypt } from "@/hooks/useCrypto";
 import { useGetMyProfile } from "@/hooks/queries/useProfileQuery";
@@ -29,7 +30,10 @@ function MyProfile() {
               />
             )}
             <Profile.Image
-              imgSrc={data.fileResponse.accessURI}
+              imgSrc={makeBase64IncodedImage({
+                uri: data.fileResponse.encodedFile,
+                format: "png",
+              })}
               alt="프로필 이미지"
               width="w-[10.2rem]"
             />

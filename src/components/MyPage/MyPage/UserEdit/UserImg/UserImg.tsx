@@ -1,4 +1,5 @@
 import { Profile } from "@/components/Common/Profile/Profile";
+import { makeBase64IncodedImage } from "@/utils/makeBase64IncodedImage";
 import { Form, Upload, message } from "antd";
 import userImage from "@/assets/icon/image-edit.svg";
 import { useState } from "react";
@@ -89,7 +90,10 @@ function UserInfo({
                 />
               )}
               <Profile.Image
-                imgSrc={data?.fileResponse.accessURI}
+                imgSrc={makeBase64IncodedImage({
+                  uri: data?.fileResponse.encodedFile,
+                  format: "jpg",
+                })}
                 alt="프로필 이미지"
                 width="w-[10.2rem]"
               />

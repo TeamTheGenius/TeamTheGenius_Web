@@ -1,4 +1,3 @@
-import { ACCESS_TOKEN } from "@/constants/localStorageKey";
 import axios, { AxiosResponse } from "axios";
 
 const BASE_URL = "http://localhost:8080/api";
@@ -6,7 +5,6 @@ const BASE_URL = "http://localhost:8080/api";
 const instanceConfig = {
   baseURL: BASE_URL,
   withCredentials: true,
-  Authrization: localStorage.getItem("accessToken"),
 };
 
 export const instance = axios.create(instanceConfig);
@@ -33,26 +31,13 @@ export const multiInstance = axios.create({
   },
 });
 
-const jwtResponseInterceptor = (response: AxiosResponse) => {
-  const isTokenReissued = response.headers["token-reissued"];
-  if (isTokenReissued === "False") return response;
+const jwtInterceptor = (response: AxiosResponse) => {
   const accessToken = response.headers["authorization"];
-  if (accessToken) localStorage.setItem(ACCESS_TOKEN, accessToken);
+  localStorage.setItem("accessToken", accessToken);
   return response;
 };
 
-const jwtRequestInterceptor = (request: any) => {
-  const accessToken = localStorage.getItem(ACCESS_TOKEN);
-  if (accessToken) request.headers.Authorization = accessToken;
-  return request;
-};
-
-instance.interceptors.response.use(jwtResponseInterceptor);
-acceptInstance.interceptors.response.use(jwtResponseInterceptor);
-jsonInstance.interceptors.response.use(jwtResponseInterceptor);
-multiInstance.interceptors.response.use(jwtResponseInterceptor);
-
-instance.interceptors.request.use(jwtRequestInterceptor);
-acceptInstance.interceptors.request.use(jwtRequestInterceptor);
-jsonInstance.interceptors.request.use(jwtRequestInterceptor);
-multiInstance.interceptors.request.use(jwtRequestInterceptor);
+instance.interceptors.response.use(jwtInterceptor);
+acceptInstance.interceptors.response.use(jwtInterceptor);
+jsonInstance.interceptors.response.use(jwtInterceptor);
+multiInstance.interceptors.response.use(jwtInterceptor);

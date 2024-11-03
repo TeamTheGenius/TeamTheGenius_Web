@@ -1,6 +1,6 @@
-import requests from "./axios/request";
 import { multiInstance } from "./axios/axios";
 import { uploadFileTye } from "@/types/adminType";
+import requests from "./axios/request";
 type postAdminTopicFileApiTpye = {
   topicFile: uploadFileTye[];
   topicId?: number;

@@ -6,7 +6,7 @@ import postInterestEditApi from "@/apis/postInterestEditApi";
 import postUserInfoEdit from "@/apis/postUserInfoEdit";
 import postUserProfile from "@/apis/postUserProfile";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
-import { ACCESS_TOKEN, FRAMEID, IDENTIFIER } from "@/constants/localStorageKey";
+import { FRAMEID, IDENTIFIER } from "@/constants/localStorageKey";
 import { PATH } from "@/constants/path";
 import { QUERY_KEY } from "@/constants/queryKey";
 import { useModalStore } from "@/stores/modalStore";
@@ -58,7 +58,6 @@ export const useDeleteUser = () => {
       onSuccess: () => {
         localStorage.removeItem(IDENTIFIER);
         localStorage.removeItem(FRAMEID);
-        localStorage.removeItem(ACCESS_TOKEN);
         navigate(PATH.LOGIN);
       },
       onError: (error: AxiosError<{ message?: string }>) => {
