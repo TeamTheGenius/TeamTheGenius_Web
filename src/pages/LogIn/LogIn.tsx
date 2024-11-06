@@ -1,7 +1,6 @@
 import LoginMobCard from "@/components/Common/LoginMobCard";
 import Comment from "@/components/LogIn/Comment/Comment";
 import GithubLoginButton from "@/components/LogIn/GithubLoginButton";
-import GuestLoginButton from "@/components/LogIn/GuestLogin";
 import TermsOfService from "@/components/LogIn/TermsOfService/TermsOfService";
 import { IDENTIFIER } from "@/constants/localStorageKey";
 import { PATH } from "@/constants/path";
@@ -22,9 +21,6 @@ function LogIn() {
         <Comment />
         <div className="w-full mx-auto mt-[25.2rem]">
           <GithubLoginButton />
-          <div className="mt-10">
-            <GuestLoginButton />
-          </div>
         </div>
         <div className="mb-[28.6rem]" />
         <TermsOfService />

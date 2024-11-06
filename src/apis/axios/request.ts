@@ -1,7 +1,6 @@
 const requests = {
   fetchAuth: `/auth`,
   fetchAuthSignup: `/auth/signup`,
-  fetchAuthGuest: `/auth/guest`,
   fetchFile: `/file`,
   fetchLogout: `/logout`,
   fetchTopic: `/admin/topic`,

@@ -58,7 +58,6 @@ import TopicEdit from "./pages/Admin/AdminTopic/TopicEdit/TopicEdit";
 import InstanceEdit from "./pages/Admin/AdminInstance/InstanceEdit/InstanceEdit";
 import CommonGetErrorFallback from "./components/Error/CommonGetErrorFallback/CommonGetErrorFallback";
 import Modal from "./pages/Modal/Modal";
-import GuestAuth from "./pages/Auth/GuestAuth";
 
 function App() {
   const queryClient = new QueryClient({
@@ -89,7 +88,6 @@ function App() {
                   <Route path={PATH.LOGIN} element={<LogIn />} />
                   <Route path={PATH.SIGNUP} element={<SignUp />} />
                   <Route path={PATH.AUTH} element={<Auth />} />
-                  <Route path={PATH.GUESTAUTH} element={<GuestAuth />} />
                   <Route path={PATH.INTEREST} element={<Interest />} />
                   <Route path={PATH.ERROR} element={<Error />} />
                   <Route element={<PrivateRoute />}>
