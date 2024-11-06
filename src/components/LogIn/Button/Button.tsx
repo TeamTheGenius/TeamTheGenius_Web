@@ -48,7 +48,7 @@ function ButtonContent({ content, textColor, className }: ButtonContentProps) {
 
 export const Button = Object.assign(ButtonMain, {
   Logo: ButtonLogo,
-  Coontent: ButtonContent,
+  Content: ButtonContent,
 });
 
 export default Button;

@@ -9,6 +9,7 @@ import { AxiosError } from "axios";
 import { AuthDataType } from "@/types/authType";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import { useModalStore } from "@/stores/modalStore";
+import postGuestApi from "@/apis/postGuestApi";
 
 export const usePostAuthLogout = () => {
   const navigate = useNavigate();
@@ -43,6 +44,20 @@ export const usePostAuth = () => {
     onError: () => {
       localStorage.removeItem(IDENTIFIER);
       localStorage.removeItem(FRAMEID);
+      navigate(PATH.LOGIN);
+    },
+  });
+  return { mutate, isLoading, mutateAsync };
+};
+
+export const usePostGuestAuth = () => {
+  const navigate = useNavigate();
+  const { mutate, isLoading, mutateAsync } = useMutation(postGuestApi, {
+    onSuccess: (data: AuthDataType) => {
+      console.log("mutation", data);
+    },
+    onError: () => {
+      // localStorage.removeItem(FRAMEID);
       navigate(PATH.LOGIN);
     },
   });
