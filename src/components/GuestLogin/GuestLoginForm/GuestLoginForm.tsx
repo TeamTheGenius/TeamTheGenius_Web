@@ -5,8 +5,8 @@ import Button from "@/components/Common/Button";
 import { GuestLoginModal } from "../GuestLoginModal";
 import IdInput from "./IdInput/IdInput";
 import PwInput from "./PwInput/PwInput";
-import { usePostGuestAuth } from "@/hooks/queries/useAuthQuery";
-import { AuthDataType } from "@/types/authType";
+import { usePostGuestLogin } from "@/hooks/queries/useUserQuery";
+import { GuestAuthDataType } from "@/types/authType";
 import { useNavigate } from "react-router-dom";
 import { PATH } from "@/constants/path";
 
@@ -34,11 +34,11 @@ function GuestLOginForm() {
     setPwState(e.target.value);
   };
 
-  const { mutateAsync, isLoading } = usePostGuestAuth();
+  const { mutateAsync, isLoading } = usePostGuestLogin();
 
-  const onSuccessPostAuth = (res: AuthDataType) => {
+  const onSuccessPostAuth = (res: GuestAuthDataType) => {
     if (res.role === "USER") {
-      navigate(PATH.HOME);
+      navigate(PATH.AUTH);
     } else {
       setModal(
         <GuestLoginModal
@@ -55,7 +55,7 @@ function GuestLOginForm() {
 
   const handleGuestLogin = async () => {
     const data = await mutateAsync({ id: idState, password: pwState });
-    console.log("guest auth data", data);
+
     onSuccessPostAuth(data);
   };
 
