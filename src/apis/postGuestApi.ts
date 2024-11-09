@@ -1,10 +1,15 @@
 import requests from "./axios/request";
 import { acceptInstance } from "./axios/axios";
 
-const postGuestApi = async () => {
+type postGuestApiType = {
+  id: string;
+  password: string;
+};
+
+const postGuestApi = async ({ id, password }: postGuestApiType) => {
   const body = {
-    id: "guest",
-    password: "1234",
+    id: id,
+    password: password,
   };
 
   const data = await acceptInstance

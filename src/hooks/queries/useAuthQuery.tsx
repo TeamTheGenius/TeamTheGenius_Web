@@ -10,6 +10,7 @@ import { AuthDataType } from "@/types/authType";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import { useModalStore } from "@/stores/modalStore";
 import postGuestApi from "@/apis/postGuestApi";
+import { GuestLoginModal } from "@/components/GuestLogin/GuestLoginModal";
 
 export const usePostAuthLogout = () => {
   const navigate = useNavigate();
@@ -51,16 +52,33 @@ export const usePostAuth = () => {
 };
 
 export const usePostGuestAuth = () => {
-  const navigate = useNavigate();
-  const { mutate, isLoading, mutateAsync } = useMutation(postGuestApi, {
-    onSuccess: (data: AuthDataType) => {
-      console.log("mutation", data);
-    },
-    onError: () => {
-      // localStorage.removeItem(FRAMEID);
-      navigate(PATH.LOGIN);
-    },
-  });
+  const { setModal, closeModal } = useModalStore();
+  const { mutate, isLoading, mutateAsync } = useMutation(
+    ({ id, password }: { id: string; password: string }) =>
+      postGuestApi({ id, password }),
+    {
+      onSuccess: (data: AuthDataType) => {
+        console.log("mutation", data);
+        if (data.frameId) {
+          localStorage.setItem(FRAMEID, encrypt(data.frameId));
+        } else {
+          localStorage.setItem(FRAMEID, "");
+        }
+      },
+      onError: () => {
+        setModal(
+          <GuestLoginModal
+            modalHandle={closeModal}
+            isLoading={isLoading}
+            editBoolean={true}
+            success="아이디 및 비밀번호가 틀립니다."
+            fail="Error"
+            buttonText="확인하기"
+          />
+        );
+      },
+    }
+  );
   return { mutate, isLoading, mutateAsync };
 };
 

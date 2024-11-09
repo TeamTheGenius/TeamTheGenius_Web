@@ -1,6 +1,7 @@
 export const PATH = {
   LOGIN: "/",
   SIGNUP: "/login/signup",
+  GUESTLOGIN: "/login/guest-login",
   AUTH: "/auth",
   GUESTAUTH: "/guestauth",
   INTEREST: "/login/signup/interest",

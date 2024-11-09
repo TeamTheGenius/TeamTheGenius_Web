@@ -60,6 +60,7 @@ import CommonGetErrorFallback from "./components/Error/CommonGetErrorFallback/Co
 import Modal from "./pages/Modal/Modal";
 import GuestAuth from "./pages/Auth/GuestAuth";
 import LogIn from "./pages/LogIn/LogIn";
+import GuestLogin from "./pages/GuestLogin/GuestLogin";
 
 function App() {
   const queryClient = new QueryClient({
@@ -88,6 +89,7 @@ function App() {
                 <Modal />
                 <Routes>
                   <Route path={PATH.LOGIN} element={<LogIn />} />
+                  <Route path={PATH.GUESTLOGIN} element={<GuestLogin />} />
                   <Route path={PATH.SIGNUP} element={<SignUp />} />
                   <Route path={PATH.AUTH} element={<Auth />} />
                   <Route path={PATH.GUESTAUTH} element={<GuestAuth />} />

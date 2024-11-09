@@ -1,7 +1,7 @@
 import LoginMobCard from "@/components/Common/LoginMobCard";
-import GuestLoginButton from "@/components/GuestLogin";
+import GuestLoginButton from "@/components/LogIn/GuestLoginButton/GuestLoginButton";
 import Comment from "@/components/LogIn/Comment/Comment";
-import GithubLoginButton from "@/components/LogIn/GithubLoginButton";
+import GithubLoginButton from "@/components/LogIn/GithubLoginButton/GithubLoginButton";
 import TermsOfService from "@/components/LogIn/TermsOfService/TermsOfService";
 import { IDENTIFIER } from "@/constants/localStorageKey";
 import { PATH } from "@/constants/path";

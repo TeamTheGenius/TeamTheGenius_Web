@@ -6,7 +6,7 @@ function GuestLoginButton() {
   const navigate = useNavigate();
 
   const handleGuestLogin = async () => {
-    navigate(PATH.GUESTAUTH); // API 호출 성공 시 페이지 이동
+    navigate(PATH.GUESTLOGIN);
   };
 
   return (
