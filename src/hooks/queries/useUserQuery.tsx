@@ -1,5 +1,5 @@
 import signUpApi from "@/apis/postSignUpApi";
-import { IDENTIFIER } from "@/constants/localStorageKey";
+import { FRAMEID, IDENTIFIER } from "@/constants/localStorageKey";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { AxiosError, AxiosResponse } from "axios";
 import { useMutation } from "react-query";
@@ -10,6 +10,9 @@ import { useNavigate } from "react-router-dom";
 import { PATH } from "@/constants/path";
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
+import postGuestApi from "@/apis/postGuestApi";
+import { GuestAuthDataType } from "@/types/authType";
+import { GuestLoginModal } from "@/components/GuestLogin/GuestLoginModal";
 
 interface PostSignUpMutateType {
   identifier: string;
@@ -75,4 +78,36 @@ export const useGetCheckNickName = ({
     }
   );
   return { mutate, isLoading };
+};
+
+export const usePostGuestLogin = () => {
+  const { setModal, closeModal } = useModalStore();
+  const { mutate, isLoading, mutateAsync } = useMutation(
+    ({ id, password }: { id: string; password: string }) =>
+      postGuestApi({ id, password }),
+    {
+      onSuccess: (data: GuestAuthDataType) => {
+        const identifier = data.identifier;
+        localStorage.setItem(IDENTIFIER, encrypt(identifier));
+        if (data.frameId) {
+          localStorage.setItem(FRAMEID, encrypt(data.frameId));
+        } else {
+          localStorage.setItem(FRAMEID, "");
+        }
+      },
+      onError: () => {
+        setModal(
+          <GuestLoginModal
+            modalHandle={closeModal}
+            isLoading={isLoading}
+            editBoolean={true}
+            success="아이디 및 비밀번호가 틀립니다."
+            fail="Error"
+            buttonText="확인하기"
+          />
+        );
+      },
+    }
+  );
+  return { mutate, isLoading, mutateAsync };
 };
