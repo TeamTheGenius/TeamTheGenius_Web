@@ -10,7 +10,7 @@ function GuestLoginButton() {
   };
 
   return (
-    <Button backgroundColor="bg-[#D4A646]" onClick={handleGuestLogin}>
+    <Button backgroundColor="bg-[#333333]" onClick={handleGuestLogin}>
       <Button.Content content="GUEST 로그인" textColor="text-white" />
     </Button>
   );
