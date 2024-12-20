@@ -1,7 +1,7 @@
 import { ACCESS_TOKEN } from "@/constants/localStorageKey";
 import axios, { AxiosResponse } from "axios";
 
-const BASE_URL = "http://localhost:8080/api";
+const BASE_URL = `${import.meta.env.VITE_API_URL}/api`;
 
 const instanceConfig = {
   baseURL: BASE_URL,

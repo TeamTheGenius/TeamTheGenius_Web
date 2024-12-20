@@ -21,7 +21,7 @@ const postPaymentSuccess = async ({
   };
 
   await instance
-    .post("http://localhost:8080/api/payment/toss/success", body, {
+    .post(`${import.meta.env.VITE_API_URL}/api/payment/toss/success`, body, {
       headers: {
         Authorization: encryptedSecretKey,
       },
