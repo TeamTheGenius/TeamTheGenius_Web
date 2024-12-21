@@ -3,14 +3,13 @@ import CreateBtn from "@/components/Admin/CreateBtn/CreateBtn";
 import { useInstanceListQuery } from "@/hooks/queries/useAdminInstanceQuery";
 import { useTopicDetailQuery } from "@/hooks/queries/useAdminTopicQuery";
 import { decrypt } from "@/hooks/useCrypto";
-import { Pagination } from "antd";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import InstanceListComponent from "../InstanceListComponent";
+import { Pagination } from "@/components/Common/Pagination";
 
 function AdminInstanceContent() {
-  const [pageNumber, setPageNumber] = useState<number>(0);
-  const [totalNumber, setTotalNumber] = useState<number>(0);
+  const [pageNumber, setPageNumber] = useState<number>(1);
   const location = useLocation();
 
   const topicId = location.state.topicId;
@@ -27,10 +26,6 @@ function AdminInstanceContent() {
     setPageNumber(page);
   };
 
-  useEffect(() => {
-    setTotalNumber(instanceContent.totalElements);
-  }, [instanceContent]);
-
   return (
     <>
       <AdminListLayOut.MainContent>
@@ -43,13 +38,15 @@ function AdminInstanceContent() {
         </>
       </AdminListLayOut.MainContent>
       <AdminListLayOut.PageNation>
-        <Pagination
-          current={pageNumber}
-          pageSize={5}
-          total={totalNumber}
-          onChange={handlePageChange}
-          className="mt-10"
-        />
+        {instanceContent.totalElements > 0 && (
+          <Pagination
+            currentPage={pageNumber}
+            totalPages={instanceContent.totalPages}
+            limit={5}
+            onPageChange={handlePageChange}
+            className="mt-10"
+          />
+        )}
       </AdminListLayOut.PageNation>
     </>
   );
