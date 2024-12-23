@@ -3,7 +3,7 @@ export type adminTopicEditApiType = {
   topicDesc: string;
   topicNotice: string;
   topicTags: string;
-  topicPoint: number;
+  topicPoint: string;
   topicFile?: any;
   topicId?: number;
 };

@@ -1,6 +1,6 @@
 import "@/utils/antdCheck.module.css";
 import moment from "moment";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import { ko } from "date-fns/locale";
@@ -48,27 +48,14 @@ const InstanceCreate = () => {
     isLoading: instanceFileCreateLoading,
   } = usePostInstanceFileCreate();
 
-  const defaultValues = useMemo<Partial<InstanceCreateData>>(
-    () => ({
-      title: adminDetail?.title || "",
-      description: adminDetail?.description || "",
-      notice: adminDetail?.notice || "",
-      tags: adminDetail?.tags?.split(",") || [],
-      pointPerPerson: adminDetail?.pointPerPerson || 0,
-      certMethod: "",
-      dateRange: [null, null],
-      image: null,
-    }),
-    [adminDetail]
-  );
-
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     control,
     formState: { errors },
-  } = useForm<InstanceCreateData>({ defaultValues });
+  } = useForm<InstanceCreateData>();
 
   const image = watch("image");
 
@@ -149,6 +136,21 @@ const InstanceCreate = () => {
 
   const isLoading = instanceCreateLoading || instanceFileCreateLoading;
 
+  useEffect(() => {
+    if (adminDetail) {
+      reset({
+        title: adminDetail.title,
+        description: adminDetail.description,
+        notice: adminDetail.notice,
+        tags: adminDetail.tags?.split(",") || [],
+        pointPerPerson: adminDetail.pointPerPerson,
+        certMethod: "",
+        dateRange: [null, null],
+        image: null,
+      });
+    }
+  }, [adminDetail, reset]);
+
   if (isLoading) return <Loading />;
 
   return (
@@ -202,12 +204,6 @@ const InstanceCreate = () => {
             label="이미지 업로드"
             registration={register("image", {
               required: "사진을 첨부해주세요",
-              onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-                if (!e.target.files?.length) {
-                  e.preventDefault();
-                  return false;
-                }
-              },
             })}
             error={errors.image}
             required

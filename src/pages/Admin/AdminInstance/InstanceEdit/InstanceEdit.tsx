@@ -54,32 +54,14 @@ const InstanceEdit = () => {
     [instanceDetail?.fileResponse?.source, decryptedInstanceId]
   );
 
-  const defaultValues = useMemo<Partial<InstanceEditData>>(
-    () => ({
-      title: instanceDetail?.title,
-      description: instanceDetail?.description,
-      notice: instanceDetail?.notice,
-      tags: instanceDetail?.tags?.split(",") || [],
-      certMethod: instanceDetail?.certificationMethod,
-      pointPerPerson: instanceDetail?.pointPerPerson,
-      dateRange: [
-        instanceDetail?.startedAt ? new Date(instanceDetail.startedAt) : null,
-        instanceDetail?.completedAt
-          ? new Date(instanceDetail.completedAt)
-          : null,
-      ],
-      image: null,
-    }),
-    [instanceDetail]
-  );
-
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     control,
     formState: { errors },
-  } = useForm<InstanceEditData>({ defaultValues });
+  } = useForm<InstanceEditData>();
 
   const image = watch("image");
 
@@ -156,6 +138,26 @@ const InstanceEdit = () => {
       if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
   }, [image, instanceDetail?.fileResponse?.source]);
+
+  useEffect(() => {
+    if (instanceDetail) {
+      reset({
+        title: instanceDetail.title,
+        description: instanceDetail.description,
+        notice: instanceDetail.notice,
+        tags: instanceDetail.tags?.split(",") || [],
+        certMethod: instanceDetail.certificationMethod,
+        pointPerPerson: instanceDetail.pointPerPerson,
+        dateRange: [
+          instanceDetail.startedAt ? new Date(instanceDetail.startedAt) : null,
+          instanceDetail.completedAt
+            ? new Date(instanceDetail.completedAt)
+            : null,
+        ],
+        image: null,
+      });
+    }
+  }, [instanceDetail, reset]);
 
   return (
     <>
