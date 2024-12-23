@@ -1,3 +1,4 @@
+import InterestBtn from "@/components/Interest/InterestButton/InterestBtn";
 import {
   InputHTMLAttributes,
   ReactNode,
@@ -5,6 +6,8 @@ import {
   TextareaHTMLAttributes,
 } from "react";
 import { FieldError, Merge, UseFormRegisterReturn } from "react-hook-form";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
@@ -150,6 +153,67 @@ export const Select = ({
       {error && (
         <p className="mt-1 text-md text-red-500 text-right">{error.message}</p>
       )}
+    </div>
+  );
+};
+
+interface CheckboxOption {
+  label: string;
+  value: string;
+}
+
+interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
+  options: CheckboxOption[];
+  error?: FieldError | Merge<FieldError, (FieldError | undefined)[]>;
+  registration: UseFormRegisterReturn;
+  checkedValues: string[];
+}
+
+export const Checkbox = ({
+  options,
+  checkedValues,
+  error,
+  registration,
+  ...props
+}: CheckboxProps) => {
+  return (
+    <div>
+      <ul className="flex flex-wrap gap-2">
+        {options.map((option) => (
+          <li key={option.value}>
+            <label className="cursor-pointer">
+              <input
+                type="checkbox"
+                value={option.value}
+                className="hidden"
+                {...registration}
+                {...props}
+              />
+              <span className="inline-block">
+                <InterestBtn
+                  bgColor={
+                    checkedValues.some((item) => item === option.value)
+                      ? "bg-[#282828]"
+                      : "bg-[#dddddd]"
+                  }
+                  textColor={
+                    checkedValues.some((item) => item === option.value)
+                      ? "text-white"
+                      : "text-black"
+                  }
+                  checkText={option.label}
+                  icon={
+                    checkedValues.some((item) => item === option.value)
+                      ? faCheck
+                      : faPlus
+                  }
+                />
+              </span>
+            </label>
+          </li>
+        ))}
+      </ul>
+      {error && <p className="text-red-500 mt-1 text-sm">{error.message}</p>}
     </div>
   );
 };

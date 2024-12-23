@@ -1,6 +1,6 @@
 type bottomButtonType = {
   content: string;
-  onClick: any;
+  onClick?: any;
   btnColor: string;
   btnMaxWidth: string;
   btnTextColor: string;
