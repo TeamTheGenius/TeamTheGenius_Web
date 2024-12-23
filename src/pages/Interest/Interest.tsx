@@ -1,11 +1,8 @@
-import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { CheckboxValueType } from "antd/es/checkbox/Group";
 import LoginMobCard from "@/components/Common/LoginMobCard";
 import Button from "@/components/Common/Button";
-import InterestCheck from "@/components/Interest/InterestCheck/InterestCheck";
+import { interestsOption } from "@/data/InterestData";
 import InterestHeader from "@/components/Interest/InterestHeader/InterestHeader";
-import { interestsData } from "@/data/InterestData";
 import basicOrangeProfileImage from "@/assets/image/basic-profile-image-orange.png";
 import basicGrayProfileImage from "@/assets/image/basic-profile-image-gray.png";
 import basicPinkProfileImage from "@/assets/image/basic-profile-image-pink.png";
@@ -15,19 +12,23 @@ import Loading from "@/components/Common/Loading/Loading";
 import { usePostAuth } from "@/hooks/queries/useAuthQuery";
 import { usePostProfileImage } from "@/hooks/queries/useFileQuery";
 import { usePostSignUp } from "@/hooks/queries/useUserQuery";
+import { Checkbox } from "@/components/Common/Form";
+import { useForm } from "react-hook-form";
 
-type Interest = {
-  id: number;
-  name: string;
-};
+interface InterestTagForm {
+  interests: string[];
+}
 
 const Interest = () => {
-  const [checkedValues, setCheckedValues] = useState<CheckboxValueType[]>([]);
   const location = useLocation();
   const locationState = location.state;
-  const InterestValue: Interest[] = interestsData;
   const { mutateAsync: postSignUpMutateAsync, isLoading: postSignUpLoading } =
     usePostSignUp();
+
+  const { register, watch, handleSubmit } = useForm<InterestTagForm>({
+    defaultValues: { interests: [] },
+  });
+  const watchedInterests = watch("interests");
 
   const {
     mutate: postSignUpProfileImageMutate,
@@ -49,12 +50,12 @@ const Interest = () => {
     return imagePaths[randomIndex];
   };
 
-  const handleSignUp = async () => {
+  const handleSignUp = async (formData: InterestTagForm) => {
     const data = await postSignUpMutateAsync({
       identifier: locationState.gitNickName,
       nickname: locationState.nickName,
       information: locationState.myInfo,
-      interest: checkedValues,
+      interest: formData.interests,
     });
     await mutateAsync();
     postSignUpProfileImageMutate({
@@ -67,15 +68,15 @@ const Interest = () => {
     return <Loading />;
   }
   return (
-    <>
+    <form onSubmit={handleSubmit(handleSignUp)}>
       <LoginMobCard>
         <div className="mb-[22rem]">
           <InterestHeader />
         </div>
-        <InterestCheck
-          InterestValue={InterestValue}
-          setCheckedValues={setCheckedValues}
-          checkedValues={checkedValues}
+        <Checkbox
+          options={interestsOption}
+          registration={register("interests")}
+          checkedValues={watchedInterests}
         />
         <div className="flex flex-col justify-between h-40 mt-[22rem]">
           <Button
@@ -86,11 +87,10 @@ const Interest = () => {
             textSize={"text-[1.7rem]"}
             textColor={"text-white"}
             fontWeight={"font-medium"}
-            handleClick={handleSignUp}
           />
         </div>
       </LoginMobCard>
-    </>
+    </form>
   );
 };
 export default Interest;

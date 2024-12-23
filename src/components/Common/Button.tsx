@@ -6,7 +6,7 @@ interface Props {
   textSize: string;
   fontWeight: string;
   textColor: string;
-  handleClick: () => void;
+  handleClick?: () => void;
 }
 
 function Button({
