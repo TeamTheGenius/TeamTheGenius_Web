@@ -1,7 +1,6 @@
 import { AdminListLayOut } from "@/components/Admin/AdminLayOut/AdminListLayOut/AdminListLayOut";
 import CreateBtn from "@/components/Admin/CreateBtn/CreateBtn";
 import { useInstanceListQuery } from "@/hooks/queries/useAdminInstanceQuery";
-import { useTopicDetailQuery } from "@/hooks/queries/useAdminTopicQuery";
 import { decrypt } from "@/hooks/useCrypto";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -15,11 +14,9 @@ function AdminInstanceContent() {
   const topicId = location.state.topicId;
   const decryptTopicId = decrypt(topicId);
 
-  const { data: topicDetail } = useTopicDetailQuery({
-    topicId: decryptTopicId,
-  });
   const { data: instanceContent } = useInstanceListQuery({
     pageNumber: pageNumber - 1,
+    topicId: decryptTopicId,
   });
 
   const handlePageChange = (page: number) => {
@@ -31,10 +28,7 @@ function AdminInstanceContent() {
       <AdminListLayOut.MainContent>
         <>
           <CreateBtn tokken="instance" topicId={topicId} />
-          <InstanceListComponent
-            instanceList={instanceContent.content}
-            topicDetail={topicDetail}
-          />
+          <InstanceListComponent instanceList={instanceContent.content} />
         </>
       </AdminListLayOut.MainContent>
       <AdminListLayOut.PageNation>

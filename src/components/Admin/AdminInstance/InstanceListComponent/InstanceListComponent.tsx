@@ -1,7 +1,7 @@
 import Button from "@/components/Common/Button";
 import moment from "moment";
 import deleteAdminInstanceApi from "@/apis/deleteAdminInstanceApi";
-import { adminTopicDataType, instanceListDataType } from "@/types/adminType";
+import { instanceListDataType } from "@/types/adminType";
 import InstanceTitle from "./InstanceTitle/InstanceTitle";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "react-query";
@@ -9,14 +9,10 @@ import { encrypt } from "@/hooks/useCrypto";
 import { PATH } from "@/constants/path";
 
 type instanceListPropsType = {
-  instanceList: any;
-  topicDetail?: adminTopicDataType;
+  instanceList: instanceListDataType[];
 };
 
-const InstanceListComponent = ({
-  instanceList,
-  topicDetail,
-}: instanceListPropsType) => {
+const InstanceListComponent = ({ instanceList }: instanceListPropsType) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -25,16 +21,11 @@ const InstanceListComponent = ({
     navigate(`${PATH.ADMIN_INSTANCE}/${InstanceCryptoId}/edit`);
   };
 
-  const topicPropsId = topicDetail?.topicId;
-  const instanceFilterList = instanceList.filter(
-    (item: instanceListDataType) => item.topicId === topicPropsId
-  );
-
   return (
     <>
       <ul className="flex flex-col gap-10 rounded-xl h-full">
         <>
-          {instanceFilterList.map((item: instanceListDataType) => {
+          {instanceList.map((item: instanceListDataType) => {
             const imageData = item.fileResponse.accessURI;
             const startDate = moment(item.startedAt).format("YYYY-MM-DD");
             const completedDate = moment(item.completedAt).format("YYYY-MM-DD");
