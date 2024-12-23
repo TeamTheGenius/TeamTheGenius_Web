@@ -3,6 +3,6 @@ interface Params {
   format: string;
 }
 
-export const makeBase64IncodedImage = ({ uri, format }: Params) => {
+export const makeBase64URL = ({ uri, format }: Params) => {
   return `data:image/${format};base64,${uri}`;
 };

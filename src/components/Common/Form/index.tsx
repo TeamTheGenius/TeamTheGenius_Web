@@ -10,7 +10,8 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
   label: string;
   error?: FieldError;
-  registration?: UseFormRegisterReturn; // optional로 변경
+  information?: string;
+  registration?: UseFormRegisterReturn;
   children?: ReactNode;
 }
 
@@ -19,10 +20,10 @@ export const Input = ({
   label,
   error,
   registration,
+  information,
   children,
   ...props
 }: InputProps) => {
-  // registration이 있을 때만 destructuring
   const { ref, ...restRegistration } = registration || {};
 
   return (
@@ -49,6 +50,9 @@ export const Input = ({
       </div>
       {error && (
         <p className="mt-1 text-md text-red-500 text-right">{error.message}</p>
+      )}
+      {information && (
+        <p className="mt-1 text-md text-blue-500 text-right">{information}</p>
       )}
     </div>
   );

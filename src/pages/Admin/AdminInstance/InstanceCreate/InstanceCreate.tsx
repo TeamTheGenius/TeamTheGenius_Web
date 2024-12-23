@@ -1,13 +1,13 @@
 import "@/utils/antdCheck.module.css";
 import moment from "moment";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import { ko } from "date-fns/locale";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Loading from "@/components/Common/Loading/Loading";
-import { decrypt } from "@/hooks/useCrypto";
+import { decrypt, encrypt } from "@/hooks/useCrypto";
 import AdminFormLayOut from "@/components/Admin/AdminLayOut/AdminFormLayOut/AdminFormLayOut";
 import {
   usePostInstanceCreate,
@@ -18,23 +18,18 @@ import { Input, Select, TextArea } from "@/components/Common/Form/index";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import { useModalStore } from "@/stores/modalStore";
 import { interestsOption } from "@/data/InterestData";
-import { makeFileToBase64Image } from "@/utils/makeFileToBase64Image";
 
 type DateRange = [Date | null, Date | null];
 
 interface InstanceCreateData {
-  topicId: number;
-  instanceId: number;
   title: string;
   description: string;
   certMethod: string;
   pointPerPerson: number;
   tags: string[];
   notice: string;
-  startedAt: string;
-  completedAt: string;
   dateRange: DateRange;
-  image: FileList;
+  image: FileList | null;
 }
 
 const InstanceCreate = () => {
@@ -42,30 +37,35 @@ const InstanceCreate = () => {
   const decryptTopicId = decrypt(id);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { setModal } = useModalStore();
+  const navigate = useNavigate();
 
   const { data: adminDetail } = useTopicDetailQuery({
     topicId: decryptTopicId,
   });
 
-  const { mutate: instanceFileCreate, isLoading: instanceFileCreateLoading } =
-    usePostInstanceFileCreate();
+  const {
+    mutateAsync: instanceFileCreate,
+    isLoading: instanceFileCreateLoading,
+  } = usePostInstanceFileCreate();
 
-  const defaultValues: Partial<InstanceCreateData> = {
-    title: adminDetail?.title || "",
-    description: adminDetail?.description || "",
-    notice: adminDetail?.notice || "",
-    tags: adminDetail?.tags?.split(",") || [],
-    pointPerPerson: adminDetail?.pointPerPerson || 0,
-    certMethod: "",
-    dateRange: [null, null],
-    image: adminDetail.accessURI || "",
-  };
+  const defaultValues = useMemo<Partial<InstanceCreateData>>(
+    () => ({
+      title: adminDetail?.title || "",
+      description: adminDetail?.description || "",
+      notice: adminDetail?.notice || "",
+      tags: adminDetail?.tags?.split(",") || [],
+      pointPerPerson: adminDetail?.pointPerPerson || 0,
+      certMethod: "",
+      dateRange: [null, null],
+      image: null,
+    }),
+    [adminDetail]
+  );
 
   const {
     register,
     handleSubmit,
     watch,
-    reset,
     control,
     formState: { errors },
   } = useForm<InstanceCreateData>({ defaultValues });
@@ -78,18 +78,19 @@ const InstanceCreate = () => {
     return tomorrow;
   };
 
-  const formatDateRange = (data: InstanceCreateData) => ({
-    formmatStartDate: moment(data.dateRange[0]).format("YYYY-MM-DDT00:00:00"),
-    formmatEndDate: moment(data.dateRange[1]).format("YYYY-MM-DDT23:59:59"),
+  const formatDateRange = (dateRange: DateRange) => ({
+    formmatStartDate: moment(dateRange[0]).format("YYYY-MM-DDT00:00:00"),
+    formmatEndDate: moment(dateRange[1]).format("YYYY-MM-DDT23:59:59"),
   });
 
-  const onSuccessUsePostInstance = (res: any) => {
-    const file = watch("image")?.[0];
+  const onSuccessUsePostInstance = async (res: number) => {
+    const file = image?.[0];
     if (!file) return;
 
-    instanceFileCreate({ instanceImg: file, instanceId: res });
+    await instanceFileCreate({ instanceImg: file, instanceId: res });
+    const encryptedInstanceId = encrypt(res);
     alert("인스턴스가 생성되었습니다.");
-    reset();
+    navigate(`/admin/instance/${encryptedInstanceId}/edit`);
   };
 
   const { mutate: instanceCreate, isLoading: instanceCreateLoading } =
@@ -103,7 +104,9 @@ const InstanceCreate = () => {
       return;
     }
 
-    const { formmatStartDate, formmatEndDate } = formatDateRange(data);
+    const { formmatStartDate, formmatEndDate } = formatDateRange(
+      data.dateRange
+    );
 
     const instanceData = {
       topicId: decryptTopicId,
@@ -130,15 +133,18 @@ const InstanceCreate = () => {
 
   useEffect(() => {
     const file = image?.[0];
-    const loadPreview = async () => {
-      try {
-        const result = await makeFileToBase64Image(file);
-        setImagePreview(result);
-      } catch (error) {
-        alert(error);
-      }
+
+    if (!file) {
+      setImagePreview(null);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(file);
+    setImagePreview(objectUrl);
+
+    return () => {
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
-    loadPreview();
   }, [image]);
 
   const isLoading = instanceCreateLoading || instanceFileCreateLoading;
@@ -149,7 +155,7 @@ const InstanceCreate = () => {
     <AdminFormLayOut title="인스턴스 생성 페이지" instanceTokken={true}>
       <form
         onSubmit={handleSubmit(instanceSumbit)}
-        className="w-full flex flex-col gap-4"
+        className="w-full flex flex-col gap-6"
       >
         <Input
           id="title"
@@ -196,6 +202,12 @@ const InstanceCreate = () => {
             label="이미지 업로드"
             registration={register("image", {
               required: "사진을 첨부해주세요",
+              onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+                if (!e.target.files?.length) {
+                  e.preventDefault();
+                  return false;
+                }
+              },
             })}
             error={errors.image}
             required
@@ -219,6 +231,7 @@ const InstanceCreate = () => {
           multiple
           disabled
         />
+
         <Input
           id="pointPerPerson"
           label="포인트"
@@ -228,6 +241,7 @@ const InstanceCreate = () => {
           error={errors.pointPerPerson}
           required
         />
+
         <Controller
           name="dateRange"
           control={control}
