@@ -27,6 +27,38 @@ html {
   overflow: hidden;
 }
 
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.react-datepicker-popper .react-datepicker {
+  font-size: 1.2rem;
+  width: 100%;
+}
+
+.react-datepicker-popper .react-datepicker__header {
+  padding: 1rem;
+}
+
+.react-datepicker-popper .react-datepicker__month {
+  margin: 1rem;
+}
+
+.react-datepicker-popper .react-datepicker__day-name,
+.react-datepicker-popper .react-datepicker__day {
+  width: 4rem;
+  height: 4rem;
+  line-height: 4rem;
+}
+
+.react-datepicker-popper .react-datepicker__current-month {
+  font-size: 1.6rem;
+}
+
+.react-datepicker-popper .react-datepicker__navigation {
+  top: 1rem;
+}
+
 @font-face {
   font-family: "RobotoMedium";
   src: url("./assets/font/subset-Roboto-Medium.ttf") format("truetype");

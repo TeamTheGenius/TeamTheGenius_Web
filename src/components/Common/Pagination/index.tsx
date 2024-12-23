@@ -60,8 +60,8 @@ export const Pagination = ({
         fill="currentColor"
       >
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M7.58342 9.07L0 2.07287L1.72002 0L11.55 9.07L1.72002 18.14L0 16.0671L7.58342 9.07Z"
           fill="currentColor"
         />

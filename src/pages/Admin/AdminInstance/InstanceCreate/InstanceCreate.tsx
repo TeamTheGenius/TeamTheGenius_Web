@@ -1,19 +1,12 @@
-import {
-  Button,
-  DatePicker,
-  Form,
-  Image,
-  Input,
-  Select,
-  Upload,
-  UploadProps,
-} from "antd";
-import { UploadOutlined } from "@ant-design/icons";
 import "@/utils/antdCheck.module.css";
 import moment from "moment";
-import { useEffect, useRef, useState } from "react";
-import Loading from "@/components/Common/Loading/Loading";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Controller, useForm } from "react-hook-form";
+import { ko } from "date-fns/locale";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import Loading from "@/components/Common/Loading/Loading";
 import { decrypt } from "@/hooks/useCrypto";
 import AdminFormLayOut from "@/components/Admin/AdminLayOut/AdminFormLayOut/AdminFormLayOut";
 import {
@@ -21,8 +14,15 @@ import {
   usePostInstanceFileCreate,
 } from "@/hooks/queries/useAdminInstanceQuery";
 import { useTopicDetailQuery } from "@/hooks/queries/useAdminTopicQuery";
+import { Input, Select, TextArea } from "@/components/Common/Form/index";
+import { ModalLayer } from "@/components/Common/Modal/Modal";
+import { useModalStore } from "@/stores/modalStore";
+import { interestsOption } from "@/data/InterestData";
+import { makeFileToBase64Image } from "@/utils/makeFileToBase64Image";
 
-type instanceCreateData = {
+type DateRange = [Date | null, Date | null];
+
+interface InstanceCreateData {
   topicId: number;
   instanceId: number;
   title: string;
@@ -33,86 +33,86 @@ type instanceCreateData = {
   notice: string;
   startedAt: string;
   completedAt: string;
-  ranger: {
-    $d: string;
-  }[];
-  fileResponse: {
-    fileId: number;
-    accessURI: string;
-    originFileObj: any;
-  }[];
-};
+  dateRange: DateRange;
+  image: FileList;
+}
 
 const InstanceCreate = () => {
   const { id } = useParams();
-  const [form] = Form.useForm();
   const decryptTopicId = decrypt(id);
-  const valuesRef = useRef<instanceCreateData | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const { setModal } = useModalStore();
 
   const { data: adminDetail } = useTopicDetailQuery({
     topicId: decryptTopicId,
   });
 
-  const title = adminDetail?.title;
-  const description = adminDetail?.description;
-  const notice = adminDetail?.notice;
-  const tags = adminDetail?.tags;
-  const tagsArray = tags ? tags.split(",") : [];
-  const point = adminDetail?.pointPerPerson;
+  const { mutate: instanceFileCreate, isLoading: instanceFileCreateLoading } =
+    usePostInstanceFileCreate();
+
+  const defaultValues: Partial<InstanceCreateData> = {
+    title: adminDetail?.title || "",
+    description: adminDetail?.description || "",
+    notice: adminDetail?.notice || "",
+    tags: adminDetail?.tags?.split(",") || [],
+    pointPerPerson: adminDetail?.pointPerPerson || 0,
+    certMethod: "",
+    dateRange: [null, null],
+    image: adminDetail.accessURI || "",
+  };
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm<InstanceCreateData>({ defaultValues });
+
+  const image = watch("image");
+
+  const getTomorrowDate = (today: Date) => {
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    return tomorrow;
+  };
+
+  const formatDateRange = (data: InstanceCreateData) => ({
+    formmatStartDate: moment(data.dateRange[0]).format("YYYY-MM-DDT00:00:00"),
+    formmatEndDate: moment(data.dateRange[1]).format("YYYY-MM-DDT23:59:59"),
+  });
 
   const onSuccessUsePostInstance = (res: any) => {
-    if (valuesRef.current) {
-      const instanceFile = {
-        instanceImg: valuesRef.current.fileResponse[0]?.originFileObj,
-        instanceId: res,
-      };
-      instanceFileCreate(instanceFile);
-      alert("인스턴스가 생성되었습니다.");
+    const file = watch("image")?.[0];
+    if (!file) return;
 
-      form.setFieldsValue({
-        title: adminDetail?.title,
-        description: adminDetail?.description,
-        notice: adminDetail?.notice,
-        tags: tagsArray,
-        point: adminDetail?.pointPerPerson,
-        certMethod: "",
-        ranger: "",
-      });
-    }
+    instanceFileCreate({ instanceImg: file, instanceId: res });
+    alert("인스턴스가 생성되었습니다.");
+    reset();
   };
 
   const { mutate: instanceCreate, isLoading: instanceCreateLoading } =
     usePostInstanceCreate({
       onSuccess: onSuccessUsePostInstance,
     });
-  const { mutate: instanceFileCreate, isLoading: instanceFileCreateLoading } =
-    usePostInstanceFileCreate();
 
-  const isLoading = instanceCreateLoading || instanceFileCreateLoading;
-
-  const instanceSumbit = (values: instanceCreateData) => {
-    valuesRef.current = values;
-    if (!valuesRef.current?.fileResponse[0]?.originFileObj) {
+  const instanceSumbit = (data: InstanceCreateData) => {
+    if (!data?.image?.[0]) {
       alert("이미지를 설정해주세요");
       return;
     }
 
-    const tagString = values.tags.join();
-    const formmatStartDate = moment(values.ranger[0].$d).format(
-      "YYYY-MM-DDT00:00:00"
-    );
+    const { formmatStartDate, formmatEndDate } = formatDateRange(data);
 
-    const formmatEndDate = moment(values.ranger[1].$d).format(
-      "YYYY-MM-DDT23:59:59"
-    );
     const instanceData = {
       topicId: decryptTopicId,
-      instanceTitle: values.title,
-      instanceDesc: values.description,
-      instanceNotice: values.notice,
-      instanceCertMethod: values.certMethod,
-      instanceTags: tagString,
-      instancePoint: values.pointPerPerson,
+      instanceTitle: data.title,
+      instanceDesc: data.description,
+      instanceNotice: data.notice,
+      instanceCertMethod: data.certMethod,
+      instanceTags: data.tags.join(),
+      instancePoint: data.pointPerPerson,
       instanceRangeStart: formmatStartDate,
       instanceRangeEnd: formmatEndDate,
     };
@@ -120,194 +120,144 @@ const InstanceCreate = () => {
     instanceCreate(instanceData);
   };
 
+  const openImagePreview = () => {
+    setModal(
+      <ModalLayer>
+        <img src={imagePreview || ""} alt="선택한 이미지" />
+      </ModalLayer>
+    );
+  };
+
   useEffect(() => {
-    form.setFieldsValue({
-      title: adminDetail?.title,
-      description: adminDetail?.description,
-      notice: adminDetail?.notice,
-      tags: tagsArray,
-      point: adminDetail?.pointPerPerson,
-    });
-  }, [adminDetail, form]);
-
-  return (
-    <div>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <AdminFormLayOut title={"인스턴스 생성 페이지"} instanceTokken={true}>
-          <Form
-            form={form}
-            onFinish={instanceSumbit}
-            className="w-full max-w-[1200px]"
-          >
-            <FormTitle title={title} />
-            <FormDesc description={description} notice={notice} />
-            <FormImg />
-            <FormInterest tags={tagsArray} />
-            <FormPoint point={point} />
-            <FormRangePicker />
-            <SubmitButtom />
-          </Form>
-        </AdminFormLayOut>
-      )}
-    </div>
-  );
-};
-
-const FormTitle = ({ title }: { title: string | undefined }) => {
-  return (
-    <>
-      <Form.Item label="제목" name="title" initialValue={title}>
-        <Input />
-      </Form.Item>
-    </>
-  );
-};
-const FormDesc = ({
-  description,
-  notice,
-}: {
-  description: string | undefined;
-  notice: string | undefined;
-}) => {
-  const [certMethod, setCertMethod] = useState("");
-  const certMethodHandle = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setCertMethod(e.target.value);
-  };
-  return (
-    <>
-      <Form.Item
-        label="간단한 소개"
-        name="description"
-        initialValue={description}
-      >
-        <Input.TextArea allowClear showCount />
-      </Form.Item>
-      <Form.Item label="유의사항" name="notice" initialValue={notice}>
-        <Input.TextArea allowClear showCount />
-      </Form.Item>
-      <Form.Item
-        label="인증방법"
-        validateStatus={certMethod ? "success" : "error"}
-        hasFeedback
-        help={certMethod ? null : "인증방법을 입력해주세요"}
-        name="certMethod"
-      >
-        <Input.TextArea allowClear showCount onChange={certMethodHandle} />
-      </Form.Item>
-    </>
-  );
-};
-const FormImg = () => {
-  const [visible, setVisible] = useState(false);
-  const [imageSrc, setImageSrc] = useState("");
-
-  const normFile = (e: any) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    if (e && e.fileList && e.fileList.length > 0) {
-      const file = e.fileList[e.fileList.length - 1];
-      if (file && file.originFileObj) {
-        const imageUrl = URL.createObjectURL(file.originFileObj);
-        setImageSrc(imageUrl);
+    const file = image?.[0];
+    const loadPreview = async () => {
+      try {
+        const result = await makeFileToBase64Image(file);
+        setImagePreview(result);
+      } catch (error) {
+        alert(error);
       }
-    }
-    return e?.fileList;
-  };
+    };
+    loadPreview();
+  }, [image]);
 
-  const props: UploadProps = {
-    beforeUpload: () => {
-      return false;
-    },
-  };
+  const isLoading = instanceCreateLoading || instanceFileCreateLoading;
+
+  if (isLoading) return <Loading />;
 
   return (
-    <>
-      <Form.Item
-        name="fileResponse"
-        label="챌린지 이미지"
-        valuePropName="fileResponse"
-        getValueFromEvent={normFile}
-        initialValue={""}
+    <AdminFormLayOut title="인스턴스 생성 페이지" instanceTokken={true}>
+      <form
+        onSubmit={handleSubmit(instanceSumbit)}
+        className="w-full flex flex-col gap-4"
       >
-        <Upload {...props}>
-          <div className="w-[5rem] h-[5rem]">
-            <Button icon={<UploadOutlined />}>사진을 선택해주세요</Button>
-          </div>
-        </Upload>
-      </Form.Item>
-      <Form.Item label="이미지 미리보기">
-        <Button type="dashed" onClick={() => setVisible(true)}>
-          이미지 미리보기
-        </Button>
-        <Image
-          width={200}
-          style={{ display: "none" }}
-          src={imageSrc}
-          preview={{
-            visible,
-            src: imageSrc,
-            onVisibleChange: (value) => {
-              setVisible(value);
-            },
-          }}
+        <Input
+          id="title"
+          label="제목"
+          registration={register("title", { required: "제목을 입력해주세요" })}
+          error={errors.title}
+          required
         />
-      </Form.Item>
-    </>
+        <TextArea
+          id="description"
+          label="간단한 소개"
+          registration={register("description", {
+            required: "간단 소개를 입력해주세요",
+          })}
+          error={errors.description}
+          required
+          rows={4}
+        />
+        <TextArea
+          id="notice"
+          label="유의사항"
+          registration={register("notice", {
+            required: "유의사항을 입력해주세요",
+          })}
+          error={errors.notice}
+          required
+          rows={4}
+        />
+        <TextArea
+          id="certMethod"
+          label="인증방법"
+          registration={register("certMethod", {
+            required: "인증방법을 입력해주세요",
+          })}
+          error={errors.certMethod}
+          required
+          rows={4}
+        />
+        <div className="flex gap-4">
+          <Input
+            type="file"
+            accept="image/*"
+            id="image"
+            label="이미지 업로드"
+            registration={register("image", {
+              required: "사진을 첨부해주세요",
+            })}
+            error={errors.image}
+            required
+          />
+          {imagePreview && (
+            <button
+              type="button"
+              className="text-[1.2rem] bg-gray-200 border rounded-lg p-4 shrink-0"
+              onClick={openImagePreview}
+            >
+              미리보기
+            </button>
+          )}
+        </div>
+        <Select
+          id="tags"
+          label="관심사 선택"
+          options={interestsOption}
+          registration={register("tags")}
+          error={errors.tags}
+          multiple
+          disabled
+        />
+        <Input
+          id="pointPerPerson"
+          label="포인트"
+          registration={register("pointPerPerson", {
+            required: "포인트를 입력해주세요",
+          })}
+          error={errors.pointPerPerson}
+          required
+        />
+        <Controller
+          name="dateRange"
+          control={control}
+          render={({ field, fieldState: { error } }) => (
+            <Input id="dateRange" label="챌린지 기간" error={error} required>
+              <DatePicker
+                id="dateRange"
+                locale={ko}
+                minDate={getTomorrowDate(new Date())}
+                startDate={field.value?.[0] || undefined}
+                endDate={field.value?.[1] || undefined}
+                dateFormat="yyyy-MM-dd"
+                onChange={(range: DateRange) => {
+                  field.onChange(range);
+                }}
+                placeholderText="Start Date ~ End Date"
+                className="border-gray-300 border rounded-lg py-2 text-center w-full"
+                selectsRange={true}
+              />
+            </Input>
+          )}
+        />
+        <div className="flex justify-center gap-32">
+          <button className="rounded-xl w-[10rem] h-[5rem] text-white bg-_neutral-70 text-_h3 hover:opacity-65">
+            생성
+          </button>
+        </div>
+      </form>
+    </AdminFormLayOut>
   );
 };
 
-const FormInterest = ({ tags }: { tags: string[] | undefined }) => {
-  return (
-    <>
-      <Form.Item name="tags" label="관심사 선택" initialValue={tags}>
-        <Select mode="multiple" disabled>
-          {tags?.map((option: string, i: number) => (
-            <Select.Option key={i} value={option}>
-              {option}
-            </Select.Option>
-          ))}
-        </Select>
-      </Form.Item>
-    </>
-  );
-};
-const FormPoint = ({ point }: { point: number | undefined }) => {
-  return (
-    <>
-      <Form.Item label="포인트" name="pointPerPerson" initialValue={point}>
-        <Input />
-      </Form.Item>
-    </>
-  );
-};
-const FormRangePicker = () => {
-  const { RangePicker } = DatePicker;
-  const disabledDate = (current: any) => {
-    return current && current < moment().startOf("day").add(1, "day");
-  };
-  return (
-    <>
-      <Form.Item name="ranger" label="챌린지 기간">
-        <RangePicker format="YYYY-MM-DD" disabledDate={disabledDate} />
-      </Form.Item>
-    </>
-  );
-};
-const SubmitButtom = () => {
-  return (
-    <>
-      <div className="flex justify-center gap-32">
-        <Button
-          htmlType="submit"
-          className="w-[10rem] h-[5rem] text-white bg-_neutral-70 text-_h3 hover:opacity-65"
-        >
-          생성
-        </Button>
-      </div>
-    </>
-  );
-};
 export default InstanceCreate;
