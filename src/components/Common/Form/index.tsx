@@ -130,7 +130,7 @@ export const Select = ({
       <div className="flex gap-4 text-[1.4rem]">
         <label
           htmlFor={id}
-          className="flex shrink-0 justify-center items-center"
+          className="flex shrink-0 justify-center items-center  text-[1.6rem] font-medium"
         >
           {label}
           {props.required && <span className="text-red-500 ml-1">*</span>}
