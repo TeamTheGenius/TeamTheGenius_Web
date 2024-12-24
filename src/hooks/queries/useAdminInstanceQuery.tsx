@@ -16,6 +16,7 @@ import { useMutation, useQuery } from "react-query";
 
 type useInstanceListQueryType = {
   pageNumber?: number;
+  topicId: number;
 };
 type useInstanceDetailQueryType = {
   instanceId?: number;
@@ -23,12 +24,14 @@ type useInstanceDetailQueryType = {
 
 export const useInstanceListQuery = ({
   pageNumber,
+  topicId,
 }: useInstanceListQueryType) => {
   const { data } = useQuery<any>({
     queryKey: [QUERY_KEY.ADMIN_INSTANCE_PAGE, pageNumber],
     queryFn: () =>
       getAdminInstanceListPageApi({
         pageNumber: pageNumber,
+        topicId,
       }),
     keepPreviousData: true,
   });
@@ -91,7 +94,7 @@ export const usePostInstanceCreate = ({
 };
 
 export const usePostInstanceFileCreate = () => {
-  const { mutate, isLoading } = useMutation(
+  const { mutateAsync, isLoading } = useMutation(
     ({ instanceImg, instanceId }: instanceCreateFileApiType) =>
       postAdminInstanceFileApi({
         instanceId: instanceId,
@@ -105,7 +108,7 @@ export const usePostInstanceFileCreate = () => {
       },
     }
   );
-  return { mutate, isLoading };
+  return { mutateAsync, isLoading };
 };
 
 type PatchInstanceCreateType = {

@@ -45,7 +45,7 @@ function PopularChallengeItems() {
                       onClick={() => onClick(item.instanceId, clickPossible)}
                     >
                       <ChallengeItem.Image
-                        imgSrc={item.fileResponse.accessURI}
+                        imgSrc={item.fileResponse.source}
                         alt="챌린지 사진"
                         direction="horizontal"
                       >

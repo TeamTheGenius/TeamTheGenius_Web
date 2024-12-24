@@ -1,13 +1,12 @@
 import { AdminListLayOut } from "@/components/Admin/AdminLayOut/AdminListLayOut/AdminListLayOut";
 import CreateBtn from "@/components/Admin/CreateBtn/CreateBtn";
-import { Pagination } from "antd";
 import TopicListComponents from "@/components/Admin/AdminTopic/TopicListComponent/TopicListComponent";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTopicListQuery } from "@/hooks/queries/useAdminTopicQuery";
+import { Pagination } from "@/components/Common/Pagination";
 
 function AdminTopicContent() {
-  const [pageNumber, setPageNumber] = useState<number>(0);
-  const [totalNumber, setTotalNumber] = useState<number>(0);
+  const [pageNumber, setPageNumber] = useState<number>(1);
 
   const { data: adminData } = useTopicListQuery({
     pageNumber: pageNumber - 1,
@@ -18,10 +17,6 @@ function AdminTopicContent() {
     setPageNumber(page);
   };
 
-  useEffect(() => {
-    setTotalNumber(adminData.totalElements);
-  }, [adminData]);
-
   return (
     <>
       <AdminListLayOut.MainContent>
@@ -31,13 +26,15 @@ function AdminTopicContent() {
         </>
       </AdminListLayOut.MainContent>
       <AdminListLayOut.PageNation>
-        <Pagination
-          current={pageNumber}
-          pageSize={5}
-          total={totalNumber}
-          onChange={handlePageChange}
-          className="mt-10"
-        />
+        {adminData.totalElements > 0 && (
+          <Pagination
+            currentPage={pageNumber}
+            totalPages={adminData.totalPages}
+            limit={5}
+            onPageChange={handlePageChange}
+            className="mt-10"
+          />
+        )}
       </AdminListLayOut.PageNation>
     </>
   );

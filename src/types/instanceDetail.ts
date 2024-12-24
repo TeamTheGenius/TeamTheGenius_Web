@@ -22,5 +22,5 @@ interface Likes {
 }
 
 interface File {
-  accessURI: string;
+  source: string;
 }

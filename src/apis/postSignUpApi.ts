@@ -1,11 +1,10 @@
-import { CheckboxValueType } from "antd/es/checkbox/Group";
 import requests from "./axios/request";
 import { acceptInstance } from "./axios/axios";
 type SignUpApiParams = {
   identifier: string;
   nickname: string;
   information: string;
-  interest: CheckboxValueType[];
+  interest: string[];
 };
 
 const signUpApi = async ({

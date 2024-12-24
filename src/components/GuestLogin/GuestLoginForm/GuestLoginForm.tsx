@@ -1,38 +1,26 @@
-import { useState } from "react";
-import { useFormik } from "formik";
-import { useModalStore } from "@/stores/modalStore";
 import Button from "@/components/Common/Button";
 import { GuestLoginModal } from "../GuestLoginModal";
-import IdInput from "./IdInput/IdInput";
-import PwInput from "./PwInput/PwInput";
 import { usePostGuestLogin } from "@/hooks/queries/useUserQuery";
 import { GuestAuthDataType } from "@/types/authType";
 import { useNavigate } from "react-router-dom";
 import { PATH } from "@/constants/path";
+import { useForm } from "react-hook-form";
+import { Input } from "@/components/Common/Form";
+import { useModalStore } from "@/stores/modalStore";
+
+interface GuestLoginForm {
+  id: string;
+  password: string;
+}
 
 function GuestLOginForm() {
-  const { setModal, closeModal } = useModalStore();
-  const [idState, setIdState] = useState("");
-  const [pwState, setPwState] = useState("");
   const navigate = useNavigate();
-
-  const formik = useFormik({
-    initialValues: {
-      nickName: "",
-      myInfo: "",
-    },
-    onSubmit: () => {},
-  });
-
-  const handleIdChange = (e: any) => {
-    formik.handleChange(e);
-    setIdState(e.target.value);
-  };
-
-  const handlePwChange = (e: any) => {
-    formik.handleChange(e);
-    setPwState(e.target.value);
-  };
+  const { setModal, closeModal } = useModalStore();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<GuestLoginForm>();
 
   const { mutateAsync, isLoading } = usePostGuestLogin();
 
@@ -45,7 +33,7 @@ function GuestLOginForm() {
           modalHandle={closeModal}
           isLoading={isLoading}
           editBoolean={true}
-          success="아이디 및 비밀번호가 틀립니다."
+          success="아이디 또는는 비밀번호가 틀립니다."
           fail="Error"
           buttonText="확인하기"
         />
@@ -53,40 +41,52 @@ function GuestLOginForm() {
     }
   };
 
-  const handleGuestLogin = async () => {
-    const data = await mutateAsync({ id: idState, password: pwState });
-
+  const handleGuestLogin = async (formData: GuestLoginForm) => {
+    const data = await mutateAsync({
+      id: formData.id,
+      password: formData.password,
+    });
     onSuccessPostAuth(data);
   };
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <ul className="mb-[15rem]">
-        <IdInput
-          label="아이디"
-          required="required"
-          margin="mb-[5rem]"
+    <form onSubmit={handleSubmit(handleGuestLogin)}>
+      <div className="mb-[15rem] flex flex-col gap-10">
+        <Input
           id="id"
-          name="id"
+          label="아이디"
+          required
           placeholder="아이디를 입력해주세요."
           maxLength={15}
-          value={idState}
-          setValue={setIdState}
-          onChange={handleIdChange}
+          registration={register("id", {
+            pattern: {
+              value: /^[a-z0-9]{4,20}$/,
+              message: "영문 소문자, 숫자 4~20자로 입력해주세요",
+            },
+          })}
+          error={errors.id}
         />
-        <PwInput
+
+        <Input
+          type="password"
+          id="password"
           label="비밀번호"
-          required="required"
-          margin="mb-[5rem]"
-          id="pw"
-          name="pw"
-          placeholder="비밀번호를 입력해주세요"
-          maxLength={15}
-          value={pwState}
-          setValue={setPwState}
-          onChange={handlePwChange}
+          required
+          placeholder="아이디를 입력해주세요."
+          maxLength={20}
+          registration={register("password", {
+            /*             pattern: {
+              value: /^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{4,20}$/,
+              message: "영문, 숫자를 포함한 8~20자로 입력해주세요",
+            }, */
+            pattern: {
+              value: /^[a-zA-Z0-9!@#$%^&*]{4,20}$/,
+              message: "영문, 숫자, 특수문자를 조합하여 4~20자로 입력해주세요",
+            },
+          })}
+          error={errors.password}
         />
-      </ul>
+      </div>
       <Button
         content={"로그인하기"}
         width={"w-full"}
@@ -95,7 +95,6 @@ function GuestLOginForm() {
         textSize={"text-[1.7rem]"}
         textColor={"text-white"}
         fontWeight={"font-medium"}
-        handleClick={handleGuestLogin}
       />
     </form>
   );

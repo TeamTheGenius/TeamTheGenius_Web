@@ -1,13 +1,6 @@
-import { Form } from "antd";
-import { ChangeEvent, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import BottomButton from "@/components/Common/BottomButton/BottomButton";
-import UserPreview from "@/components/MyPage/MyPage/UserEdit/UserPreview/UserPreview";
-import InfoInput from "@/components/MyPage/MyPage/UserEdit/InfoInput/InfoInput";
-import formikUtil from "@/utils/useEditFormik";
-import UserInfo from "@/components/MyPage/MyPage/UserEdit/UserImg/UserImg";
 import UserName from "@/components/MyPage/MyPage/UserEdit/UserName/UserName";
-import NickNameInput from "@/components/Common/NickNameInput/NickNameInput";
-import { EditModal } from "@/components/MyPage/EditModal/EditModal";
 import {
   useGetMyProfile,
   usePostMyProfile,
@@ -15,38 +8,63 @@ import {
 import CommonMutationErrorModal from "@/components/Error/CommonMutationErrorModal/CommonMutationErrorModal";
 import { usePatchProfileImage } from "@/hooks/queries/useFileQuery";
 import { useQueryClient } from "react-query";
-import { useNavigate } from "react-router-dom";
 import { QUERY_KEY } from "@/constants/queryKey";
-import { PATH } from "@/constants/path";
 import { useModalStore } from "@/stores/modalStore";
+import { Controller, useForm, useWatch } from "react-hook-form";
+import { Input, TextArea } from "@/components/Common/Form";
+import { useGetCheckNickName } from "@/hooks/queries/useUserQuery";
+import Button from "@/components/Common/Button";
+import ProfileImage from "../../MyPage/UserEdit/UserImg/UserImg";
+import { makeBase64URL } from "@/utils/makeBase64URL";
+import userImage from "@/assets/icon/image-edit.svg";
+import CommonModal from "@/components/Common/CommonModal/CommonModal";
+
+interface UserInformationFormType {
+  nickname: string;
+  information: string;
+  image: FileList | null;
+}
 
 function UserInformationEditForm() {
   const { setModal, closeModal } = useModalStore();
-  const [signUpBoolean, setsignUpBoolean] = useState(true);
-  const [nickCheck, setNickCheck] = useState("");
-  const [nickName, setNickName] = useState("");
-  const [myInfo, setMyInfo] = useState("");
-  const [infoShow, setInfoShow] = useState(0);
-  const [nickNameShow, setNickNameShow] = useState(0);
-  const [imageUrl, setImageUrl] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isNicknameChecked, setIsNicknameChecked] = useState(false);
+  const [nicknameInfo, setNicknameInfo] = useState("");
+  const [imagePreview, setImagePreview] = useState("");
+  const selectedProfileFileList = useRef<HTMLInputElement>(null);
 
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
-
-  const { data } = useGetMyProfile();
-  const { formik } = formikUtil();
-
+  const { data: profileData } = useGetMyProfile();
   const { mutateAsync: postMyProfileMutate } = usePostMyProfile();
-
   const { mutateAsync: patchProfileImage } = usePatchProfileImage();
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    clearErrors,
+    reset,
+    control,
+    trigger,
+    formState: { errors },
+  } = useForm<UserInformationFormType>();
+
+  const changedNickname = useWatch({
+    control,
+    name: "nickname",
+  });
+
+  const changedImage = useWatch({
+    control,
+    name: "image",
+  });
+
   const changeMyInformation = async ({
     file,
     userId,
     myInfo,
     nickName,
   }: {
-    file: string;
+    file: File | null;
     userId: number;
     myInfo: string;
     nickName: string;
@@ -57,13 +75,13 @@ function UserInformationEditForm() {
         patchProfileImage({ userId, file }),
       ]);
       queryClient.invalidateQueries(QUERY_KEY.MY_PROFILE);
-      setNickCheck("");
-      setNickName("");
-      setInfoShow(0);
-      setNickNameShow(0);
-      setIsLoading(false);
-      closeModal();
-      navigate(PATH.MY_PAGE);
+      setModal(
+        <CommonModal
+          content="수정 완료"
+          buttonContent="확인"
+          onClick={closeModal}
+        />
+      );
     } catch (error: any) {
       setModal(
         <CommonMutationErrorModal error={error} closeModal={closeModal} />
@@ -71,151 +89,183 @@ function UserInformationEditForm() {
     }
   };
 
-  const handleNickNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    formik.handleChange(e);
-    setNickName(e.target.value);
+  const { mutate: getCheckNinkNameMutate } = useGetCheckNickName({
+    onSuccess: () => {
+      setIsNicknameChecked(true);
+      setNicknameInfo("사용 가능한 닉네임입니다.");
+    },
+    onError: () => {
+      setIsNicknameChecked(false);
+      setError("nickname", {
+        type: "manual",
+        message: "이미 사용 중인 닉네임입니다.",
+      });
+    },
+  });
+
+  useEffect(() => {
+    reset({
+      nickname: profileData?.nickname,
+      information: profileData?.information,
+      image: null,
+    });
+  }, [profileData, reset]);
+
+  useEffect(() => {
+    trigger("nickname");
+    setNicknameInfo("");
+    setIsNicknameChecked(false);
+    clearErrors("nickname");
+  }, [changedNickname, clearErrors, trigger]);
+
+  const checkNickname = () => {
+    if (errors.nickname) return;
+    getCheckNinkNameMutate({ value: changedNickname });
   };
-  const handleMyInfoChange = (e: any) => {
-    formik.handleChange(e);
-    setMyInfo(e.target.value);
+
+  const editHandle = (data: UserInformationFormType) => {
+    if (!profileData) return;
+    if (profileData?.nickname === data.nickname || isNicknameChecked) {
+      changeMyInformation({
+        file: data.image?.[0] || null,
+        userId: profileData.userId,
+        myInfo: data.information,
+        nickName: data.nickname,
+      });
+    }
   };
-  const editModalOpen = () => {
-    setIsLoading(false);
-    setModal(
-      <EditModal
-        modalHandle={editHandle}
-        isLoading={isLoading}
-        editBoolean={true}
-        success="유저정보를 수정하시겠습니까?"
-        fail="Error"
-        buttonText="확인하기"
-      />
+
+  useEffect(() => {
+    const file = changedImage?.[0];
+
+    if (!file) {
+      setImagePreview(
+        makeBase64URL({
+          uri: profileData?.fileResponse?.source,
+          format: "jpg",
+        })
+      );
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(file);
+    setImagePreview(objectUrl);
+
+    return () => {
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
+  }, [profileData?.fileResponse?.source, changedImage]);
+
+  const validateFileSize = (files: FileList | null) => {
+    if (!files?.length) return true;
+    const maxSize = 5 * 1024 * 1024;
+    return (
+      files[0].size <= maxSize || "파일첨부 사이즈는 5MB 이내로 가능합니다."
     );
   };
-  const editHandle = () => {
-    setIsLoading(true);
-    const valueMyInfo = formik.values.myInfo;
 
-    const finalNickName = nickName || data?.nickname;
-    const finalMyinfo = valueMyInfo || data?.information;
-
-    if (finalNickName && signUpBoolean) {
-      if (/[^ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-zA-Z0-9]/.test(finalNickName)) {
-        setModal(
-          <EditModal
-            modalHandle={closeModal}
-            isLoading={isLoading}
-            editBoolean={true}
-            success="닉네임에는 특수문자를 사용할 수 없습니다."
-            fail="Error"
-            buttonText="확인하기"
-          />
-        );
-      }
-    }
-    if (signUpBoolean && finalMyinfo && finalNickName && data) {
-      changeMyInformation({
-        file: imageUrl,
-        userId: data.userId,
-        myInfo: finalMyinfo,
-        nickName: finalNickName,
-      });
-      postMyProfileMutate({ myInfo: finalMyinfo, nickName: finalNickName });
-    }
-    setIsLoading(false);
-
-    if (!signUpBoolean && finalNickName !== data?.nickname) {
-      setModal(
-        <EditModal
-          modalHandle={closeModal}
-          isLoading={isLoading}
-          editBoolean={true}
-          success="닉네임 중복체크 해주세요"
-          fail="Error"
-          buttonText="확인하기"
-        />
-      );
-    }
-    if (isLoading) {
-      closeModal();
-    }
-  };
   return (
     <>
-      <Form>
-        <UserInfo data={data} setImageUrl={setImageUrl} imageUrl={imageUrl} />
-      </Form>
-      <UserName data={data} />
       <form
-        onSubmit={formik.handleSubmit}
-        className="w-full flex justify-center"
+        onSubmit={handleSubmit(editHandle)}
+        className="w-full flex flex-col gap-4"
       >
-        <ul className="w-5/6 _sm:w-11/12 _md:w-11/12">
-          {nickNameShow === 0 ? (
-            <UserPreview
-              label="닉네임"
-              id="nickName"
-              value={data?.nickname}
-              setShow={setNickNameShow}
-              setNickName={setNickName}
-            />
-          ) : (
-            <NickNameInput
-              label="닉네임"
-              required="required"
-              margin="mb-[5rem]"
-              id="nickName"
-              name="nickName"
-              placeholder="2 ~ 15자 입력 가능합니다."
-              formikNickName={formik.values.nickName}
-              userValue={data?.nickname}
-              maxLength={15}
-              signUpBoolean={signUpBoolean}
-              setsignUpBoolean={setsignUpBoolean}
-              value={nickName}
-              nickCheck={nickCheck}
-              setNickCheck={setNickCheck}
-              setValue={setNickName}
-              onChange={handleNickNameChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched.nickName && formik.errors.nickName
-                  ? formik.errors.nickName
-                  : null
-              }
-            />
-          )}
-          {infoShow === 0 ? (
-            <UserPreview
-              label="한 줄 소개"
-              id="myInfoPreveiw"
-              value={data?.information}
-              setShow={setInfoShow}
-              setMyInfo={setMyInfo}
-            />
-          ) : (
-            <InfoInput
-              label="한 줄 소개"
-              required={null}
-              margin={null}
-              id="myInfo"
-              name="myInfo"
-              placeholder="자신을 소개해주세요. (100자까지)"
-              maxLength={100}
-              value={myInfo}
-              onChange={handleMyInfoChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched.myInfo && formik.errors.myInfo
-                  ? formik.errors.myInfo
-                  : null
-              }
-            />
-          )}
-        </ul>
+        <div className="flex flex-col gap-6 justify-center items-center">
+          <button
+            type="button"
+            className="w-[10rem] h-[10rem]  rounded-full"
+            onClick={() => selectedProfileFileList?.current?.click()}
+          >
+            <div className="relative">
+              <ProfileImage image={imagePreview} />
+              <img
+                src={userImage}
+                alt="이미지 수정 아이콘"
+                className="absolute right-0 bottom-0 z-50"
+              />
+            </div>
+          </button>
+
+          <Controller
+            name="image"
+            control={control}
+            rules={{
+              validate: {
+                fileSize: validateFileSize,
+              },
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <>
+                <input
+                  type="file"
+                  accept="image/jpeg, image/png, image/gif"
+                  id="image"
+                  className="hidden"
+                  ref={selectedProfileFileList}
+                  onChange={(e) => {
+                    field.onChange(e.target.files);
+                  }}
+                />
+                {error && (
+                  <span className="text-red-500 text-[1.2rem]">
+                    {error.message}
+                  </span>
+                )}
+              </>
+            )}
+          />
+
+          <UserName data={profileData} />
+        </div>
+
+        <div className="flex gap-5">
+          <Input
+            id="nickname"
+            label="닉네임"
+            registration={register("nickname", {
+              required: "닉네임을 입력해주세요",
+              pattern: {
+                value: /^[가-힣a-zA-Z0-9]{2,15}$/,
+                message: "특수문자를 제외한 2~15자 까지 입력 가능합니다.",
+              },
+            })}
+            placeholder="특수문자를 제외한 2~15자 까지 입력 가능합니다."
+            maxLength={15}
+            required
+          />
+
+          <Button
+            type="button"
+            content="중복확인"
+            handleClick={checkNickname}
+            disabled={
+              !changedNickname ||
+              changedNickname === profileData?.nickname ||
+              Boolean(errors.nickname)
+            }
+            className="w-[7rem] h-[3.5rem] shrink-0 bg-[#6893FF] disabled:bg-[#dddddd] text-white text-[1.3rem] font-medium "
+          />
+        </div>
+        <span className="text-right text-red-500 ">
+          {errors?.nickname?.message}
+        </span>
+        <span className="text-right text-blue-500">{nicknameInfo}</span>
+
+        <TextArea
+          id="information"
+          label="한 줄 소개"
+          registration={register("information", {
+            maxLength: {
+              value: 100,
+              message: "최대 100자까지 입력 가능합니다.",
+            },
+          })}
+          placeholder="나를 표현하는 한 마디를 적어주세요."
+          maxLength={100}
+          rows={5}
+        />
         <BottomButton
-          onClick={editModalOpen}
-          content="수정완료"
+          content="수정하기"
           borderColor="border-black"
           btnMaxWidth="max-w-[46.7rem]"
           btnHeight="h-[5.1rem]"

@@ -1,6 +1,6 @@
 type bottomButtonType = {
   content: string;
-  onClick: any;
+  onClick?: any;
   btnColor: string;
   btnMaxWidth: string;
   btnTextColor: string;
@@ -30,7 +30,7 @@ const BottomButton = ({
           type="submit"
           onClick={() => {
             {
-              onClick();
+              onClick && onClick();
             }
           }}
         >

@@ -1,7 +1,0 @@
-.checkboxHidden > .ant-checkbox {
-  display: none;
-}
-.checkboxHidden > .ant-checkbox:hover {
-  border-color: blue;
-  background-color: yellow;
-}

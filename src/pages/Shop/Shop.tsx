@@ -1,6 +1,5 @@
 import MyPoint from "@/components/MyPage/MyPage/MyPoint/MyPoint";
 import MobShopFrameSlice from "@/components/Shop/ShopFrameList/MobShopFrameSlice/MobShopFrameSlice";
-import "@/pages/Shop/swiperCustomStyle.css";
 import { Suspense } from "react";
 import ShopFrameList from "@/components/Shop/ShopFrameList/ShopFrameList";
 import ShopTicketList from "@/components/Shop/ShopTicketList/ShopTicketList";

@@ -9,7 +9,7 @@ interface ChallengeItemProps {
   participantCnt: number;
   pointPerPerson: number;
   fileResponse: {
-    accessURI: string;
+    source: string;
   };
 }
 
@@ -31,7 +31,7 @@ function VerticalChallengeItems({ data }: Props) {
             onClick={() => onClick(encrypt(item.instanceId))}
           >
             <ChallengeItem.Image
-              imgSrc={item.fileResponse.accessURI}
+              imgSrc={item.fileResponse.source}
               direction="vertical"
               alt="챌린지 이미지"
             >

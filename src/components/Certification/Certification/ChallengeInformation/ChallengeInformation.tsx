@@ -29,7 +29,7 @@ function ChallengeInformation() {
     <>
       <div className="relative">
         <ChallengeImage
-          imgSrc={data.fileResponse.accessURI}
+          imgSrc={data.fileResponse.source}
           alt={"챌린지 이미지"}
         />
 

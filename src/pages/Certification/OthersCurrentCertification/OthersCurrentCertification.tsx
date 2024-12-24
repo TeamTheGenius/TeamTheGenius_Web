@@ -39,7 +39,7 @@ function OthersCurrentCertification() {
                 <div>
                   <div className="flex justify-between mb-[2.3rem] _sm:mb-[1.7rem]">
                     <OthersProfile
-                      imgSrc={post.profile.accessURI}
+                      imgSrc={post.profile.source}
                       alt="프로필 이미지"
                       nickName={post.nickname}
                       frameId={post.frameId}

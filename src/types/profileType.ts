@@ -6,7 +6,7 @@ export interface MyProfileDataType {
   point: number;
   progressBar: number;
   fileResponse: {
-    accessURI: string;
+    source: string;
   };
 }
 
@@ -14,7 +14,7 @@ export interface UserDataType {
   identifier: string;
   nickname: string;
   fileResponse: {
-    accessURI: "none" | string;
+    source: "none" | string;
   };
   frameId: number;
 }

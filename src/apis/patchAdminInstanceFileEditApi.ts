@@ -3,7 +3,7 @@ import { multiInstance } from "./axios/axios";
 
 type editInstacneType = {
   instanceId: number;
-  instanceImg?: File;
+  instanceImg?: File | null;
 };
 
 const patchAdminInstanceFileEditApi = async ({

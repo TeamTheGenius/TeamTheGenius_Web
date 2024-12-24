@@ -15,7 +15,6 @@ import {
   MyProfileDataType,
   UserDataType,
 } from "@/types/profileType";
-import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { AxiosError } from "axios";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -89,7 +88,7 @@ export const usePostMyProfileInterestTag = ({
 }: usePostMyProfileInterestTagParams) => {
   const { setModal, closeModal } = useModalStore();
   const { mutate, isLoading } = useMutation(
-    (checkedValues: CheckboxValueType[]) =>
+    (checkedValues: string[]) =>
       postInterestEditApi({ interestEditData: checkedValues }),
     {
       onSuccess: () => onSuccess(),

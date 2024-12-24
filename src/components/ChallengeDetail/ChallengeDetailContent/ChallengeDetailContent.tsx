@@ -26,7 +26,7 @@ function ChallengeDetailContent({ decryptId }: Props) {
   return (
     <>
       <div className="max-w-[54.6rem] w-full flex flex-col gap-[2.3rem]">
-        <Image imgSrc={data.fileResponse.accessURI} alt={"챌린지 이미지"} />
+        <Image imgSrc={data.fileResponse.source} alt={"챌린지 이미지"} />
         <CoreInformation
           challengeTitle={data.title}
           applicant={data.participantCount}

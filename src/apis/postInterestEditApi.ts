@@ -1,9 +1,8 @@
-import { CheckboxValueType } from "antd/es/checkbox/Group";
 import requests from "./axios/request";
 import { instance } from "./axios/axios";
 
 type postInterestEditApiType = {
-  interestEditData: CheckboxValueType[];
+  interestEditData: string[];
 };
 const postInterestEditApi = async ({
   interestEditData,

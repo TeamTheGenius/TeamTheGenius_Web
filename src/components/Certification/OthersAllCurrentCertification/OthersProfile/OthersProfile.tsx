@@ -20,7 +20,7 @@ function OthersProfile({ decryptedUserId }: Props) {
             />
           )}
           <Profile.Image
-            imgSrc={userProfile.fileResponse.accessURI}
+            imgSrc={userProfile.fileResponse.source}
             alt={"프로필 이미지"}
             width="w-[13rem]"
           />

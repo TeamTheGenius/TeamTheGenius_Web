@@ -6,6 +6,7 @@ const requests = {
   fetchLogout: `/logout`,
   fetchTopic: `/admin/topic`,
   fetchInstance: `/admin/instance`,
+  fetchTopicInstnaces: `/admin/topic/instances`,
   fetchChallenges: `/challenges`,
   fetchChallengesLatest: `/challenges/latest`,
   fetchChallengesActivity: `/challenges/my/activity`,

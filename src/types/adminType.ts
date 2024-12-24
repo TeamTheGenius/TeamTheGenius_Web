@@ -3,7 +3,7 @@ export type adminTopicEditApiType = {
   topicDesc: string;
   topicNotice: string;
   topicTags: string;
-  topicPoint: number;
+  topicPoint: string;
   topicFile?: any;
   topicId?: number;
 };
@@ -37,7 +37,7 @@ export type adminTopicDataType = {
   topicId: number;
   fileResponse: {
     fileId: number;
-    accessURI: string;
+    source: string;
   };
 };
 export type topicDeteilType = {
@@ -49,13 +49,13 @@ export type topicDeteilType = {
   pointPerPerson: number;
   fileResponse: {
     fileId: number;
-    accessURI: string;
+    source: string;
   };
 };
 export type topicListType = {
   topicId: number;
   title: string;
-  fileResponse: { fileId: number; accessURI: string };
+  fileResponse: { fileId: number; source: string };
 };
 export type instanceListDataType = {
   topicId: number;
@@ -63,7 +63,7 @@ export type instanceListDataType = {
   title: string;
   startedAt: string;
   completedAt: string;
-  fileResponse: { fileId: number; accessURI: string };
+  fileResponse: { fileId: number; source: string };
 };
 export type instanceDeteilType = {
   topicId: number;
@@ -77,7 +77,7 @@ export type instanceDeteilType = {
   completedAt: string;
   fileResponse: {
     fileId: number;
-    accessURI: string;
+    source: string;
   };
 };
 export type instanceCreateApiType = {
@@ -96,7 +96,7 @@ export type instanceCreateFileApiType = {
   instanceImg: File;
 };
 export type fileType = {
-  file?: { fileId?: number; accessURI?: string };
+  file?: { fileId?: number; source?: string };
 };
 export type fileDataType = {
   lastModified: number;
@@ -140,5 +140,5 @@ export type editInstacneApiType = {
 };
 export type editInstacneFileApiType = {
   instanceId: number;
-  instanceImg?: File;
+  instanceImg?: File | null;
 };

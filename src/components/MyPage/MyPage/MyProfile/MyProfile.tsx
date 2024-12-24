@@ -29,7 +29,7 @@ function MyProfile() {
               />
             )}
             <Profile.Image
-              imgSrc={data.fileResponse.accessURI}
+              imgSrc={data.fileResponse.source}
               alt="프로필 이미지"
               width="w-[10.2rem]"
             />
