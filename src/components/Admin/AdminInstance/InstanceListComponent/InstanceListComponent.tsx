@@ -26,7 +26,7 @@ const InstanceListComponent = ({ instanceList }: instanceListPropsType) => {
       <ul className="flex flex-col gap-10 rounded-xl h-full">
         <>
           {instanceList.map((item: instanceListDataType) => {
-            const imageData = item.fileResponse.accessURI;
+            const imageData = item.fileResponse.source;
             const startDate = format(item.startedAt, "yyyy-MM-dd");
             const completedDate = format(item.completedAt, "yyyy-MM-dd");
             return (

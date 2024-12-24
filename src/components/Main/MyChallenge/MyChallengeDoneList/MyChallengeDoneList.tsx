@@ -60,7 +60,7 @@ const MyChallengeDoneList = () => {
                 <div className="min-w-[16.4rem] w-[16.4rem]">
                   <ChallengeItem>
                     <ChallengeItem.Image
-                      imgSrc={item.fileResponse.accessURI}
+                      imgSrc={item.fileResponse.source}
                       alt={"챌린지 이미지"}
                       direction="vertical"
                     >

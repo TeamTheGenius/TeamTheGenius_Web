@@ -3,7 +3,7 @@ export interface LikedChallengeDataType {
   title: string;
   pointPerPerson: number;
   fileResponse: {
-    accessURI: string;
+    source: string;
   };
   likesId: number;
 }

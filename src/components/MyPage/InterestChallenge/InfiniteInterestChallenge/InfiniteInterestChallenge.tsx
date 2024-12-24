@@ -63,7 +63,7 @@ function InfiniteInterestChallenge() {
                       onClick={() => onClickChallengeItem(post.instanceId)}
                     >
                       <ChallengeItem.Image
-                        imgSrc={post.fileResponse.accessURI}
+                        imgSrc={post.fileResponse.source}
                         alt={"챌린지 이미지"}
                         direction="vertical"
                         maxWidth="max-w-[16.5rem]"
