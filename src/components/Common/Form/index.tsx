@@ -66,6 +66,7 @@ interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label: string;
   error?: FieldError;
   registration: UseFormRegisterReturn;
+  information?: string;
 }
 
 export const TextArea = ({
@@ -73,6 +74,7 @@ export const TextArea = ({
   label,
   error,
   registration,
+  information,
   ...props
 }: TextAreaProps) => {
   const { ref, ...restRegistration } = registration;
@@ -82,7 +84,7 @@ export const TextArea = ({
       <div className="flex gap-4 text-[1.4rem]">
         <label
           htmlFor={id}
-          className="flex shrink-0 justify-center items-center text-[1.6rem] font-medium"
+          className="flex shrink-0 justify-center text-[1.6rem] font-medium"
         >
           {label}
           {props.required && <span className="text-red-500 ml-1">*</span>}
@@ -97,6 +99,9 @@ export const TextArea = ({
       </div>
       {error && (
         <p className="mt-1 text-md text-red-500 text-right">{error.message}</p>
+      )}
+      {information && (
+        <p className="mt-1 text-md text-blue-500 text-right">{information}</p>
       )}
     </div>
   );

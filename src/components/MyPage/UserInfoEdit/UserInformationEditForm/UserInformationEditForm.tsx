@@ -217,7 +217,7 @@ function UserInformationEditForm() {
 
           <Button
             type="button"
-            content="중복 확인"
+            content="중복확인"
             handleClick={checkNickname}
             disabled={
               !changedNickname ||
