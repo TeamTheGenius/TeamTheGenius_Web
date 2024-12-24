@@ -1,6 +1,5 @@
 import signUpApi from "@/apis/postSignUpApi";
 import { FRAMEID, IDENTIFIER } from "@/constants/localStorageKey";
-import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { AxiosError, AxiosResponse } from "axios";
 import { useMutation } from "react-query";
 import { encrypt } from "../useCrypto";
@@ -18,7 +17,7 @@ interface PostSignUpMutateType {
   identifier: string;
   nickname: string;
   information: string;
-  interest: CheckboxValueType[];
+  interest: string[];
 }
 
 export const usePostSignUp = () => {
@@ -70,9 +69,11 @@ export const useGetCheckNickName = ({
         onSuccess(res);
       },
       onError: (err: AxiosError<{ message?: string }>) => {
-        setModal(
-          <CommonMutationErrorModal error={err} closeModal={closeModal} />
-        );
+        if (err?.response?.data?.message !== "이미 존재하는 닉네임입니다.") {
+          setModal(
+            <CommonMutationErrorModal error={err} closeModal={closeModal} />
+          );
+        }
         onError();
       },
     }

@@ -1,7 +1,8 @@
 import requests from "./axios/request";
 import { multiInstance } from "./axios/axios";
+
 type PostSignUpProfileImageParams = {
-  files: any;
+  files: File;
   userId: number;
 };
 
@@ -10,19 +11,15 @@ const patchProfileImage = async ({
   userId,
 }: PostSignUpProfileImageParams) => {
   if (!files) return;
-  const formData = new FormData();
-  const realFile = files?.file?.originFileObj;
-  const blob = new Blob([realFile], { type: files?.file?.type });
-  formData.append("files", blob, `profile-image.jpg`);
 
-  const data = await multiInstance
-    .patch(`${requests.fetchFile}/${userId}?type=profile`, formData)
-    .then((res) => {
-      return res;
-    })
-    .catch((err) => {
-      throw err;
-    });
+  const formData = new FormData();
+  formData.append("files", files, `profile-image.jpg`);
+
+  const data = await multiInstance.patch(
+    `${requests.fetchFile}/${userId}?type=profile`,
+    formData
+  );
+
   return data;
 };
 

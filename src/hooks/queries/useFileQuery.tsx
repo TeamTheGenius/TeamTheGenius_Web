@@ -27,7 +27,7 @@ export const usePostProfileImage = () => {
 };
 
 interface PatchProfileImageMutationType {
-  file: string;
+  file: File;
   userId: number;
 }
 

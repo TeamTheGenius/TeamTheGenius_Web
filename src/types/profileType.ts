@@ -6,7 +6,7 @@ export interface MyProfileDataType {
   point: number;
   progressBar: number;
   fileResponse: {
-    accessURI: string;
+    source: string;
   };
 }
 

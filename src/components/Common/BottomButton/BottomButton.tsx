@@ -30,7 +30,7 @@ const BottomButton = ({
           type="submit"
           onClick={() => {
             {
-              onClick();
+              onClick && onClick();
             }
           }}
         >
