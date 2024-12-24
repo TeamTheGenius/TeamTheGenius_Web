@@ -140,5 +140,5 @@ export type editInstacneApiType = {
 };
 export type editInstacneFileApiType = {
   instanceId: number;
-  instanceImg?: File;
+  instanceImg?: File | null;
 };

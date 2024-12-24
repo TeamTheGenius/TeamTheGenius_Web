@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Loading from "@/components/Common/Loading/Loading";
 import { useParams } from "react-router-dom";
 import { useQueryClient } from "react-query";
@@ -19,7 +19,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale";
 import { makeBase64URL } from "@/utils/makeBase64URL";
-import { makeBase64ToFileList } from "@/utils/makeBase64ToFile";
 
 type DateRange = [Date | null, Date | null];
 
@@ -45,19 +44,11 @@ const InstanceEdit = () => {
     instanceId: decryptedInstanceId,
   });
 
-  const originalFileList = useMemo(
-    () =>
-      makeBase64ToFileList(
-        instanceDetail?.fileResponse?.source,
-        `instance_${decryptedInstanceId}_original`
-      ),
-    [instanceDetail?.fileResponse?.source, decryptedInstanceId]
-  );
-
   const {
     register,
     handleSubmit,
     watch,
+    trigger,
     reset,
     control,
     formState: { errors },
@@ -68,7 +59,7 @@ const InstanceEdit = () => {
   const onSuccessUsePatchInstance = () => {
     const instanceData = {
       instanceId: decryptedInstanceId,
-      instanceImg: image?.[0] || originalFileList?.[0],
+      instanceImg: image?.[0] || null,
     };
     instanceFilePatch(instanceData);
   };
@@ -90,11 +81,6 @@ const InstanceEdit = () => {
   const isLoading = instancePatchIsLoading || instanceFilePatchIsLoading;
 
   const instanceSumbit = (data: InstanceEditData) => {
-    if (!data?.image?.[0] && !originalFileList?.[0]) {
-      alert("이미지를 선택해주세요");
-      return;
-    }
-
     const instanceData = {
       instanceId: decryptedInstanceId,
       topicIdId: instanceDetail.topicId,
@@ -119,8 +105,8 @@ const InstanceEdit = () => {
   };
 
   useEffect(() => {
+    trigger("image");
     const file = image?.[0];
-
     if (!file) {
       setImagePreview(
         makeBase64URL({
@@ -137,7 +123,7 @@ const InstanceEdit = () => {
     return () => {
       if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
-  }, [image, instanceDetail?.fileResponse?.source]);
+  }, [image, instanceDetail?.fileResponse?.source, trigger]);
 
   useEffect(() => {
     if (instanceDetail) {
@@ -158,6 +144,14 @@ const InstanceEdit = () => {
       });
     }
   }, [instanceDetail, reset]);
+
+  const validateFileSize = (files: FileList | null) => {
+    if (!files?.length) return true;
+    const maxSize = 5 * 1024 * 1024;
+    return (
+      files[0].size <= maxSize || "파일첨부 사이즈는 5MB 이내로 가능합니다."
+    );
+  };
 
   return (
     <>
@@ -218,7 +212,11 @@ const InstanceEdit = () => {
                 accept="image/*"
                 id="image"
                 label="이미지 업로드"
-                registration={register("image")}
+                registration={register("image", {
+                  validate: {
+                    fileSize: validateFileSize,
+                  },
+                })}
                 error={errors.image}
                 information="선택된 파일이 없으면 기존 인스턴스 이미지가 적용됩니다."
               />

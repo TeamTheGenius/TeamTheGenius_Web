@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import BottomButton from "@/components/Common/BottomButton/BottomButton";
 import UserName from "@/components/MyPage/MyPage/UserEdit/UserName/UserName";
 import {
@@ -17,7 +17,7 @@ import Button from "@/components/Common/Button";
 import ProfileImage from "../../MyPage/UserEdit/UserImg/UserImg";
 import { makeBase64URL } from "@/utils/makeBase64URL";
 import userImage from "@/assets/icon/image-edit.svg";
-import { makeBase64ToFileList } from "@/utils/makeBase64ToFile";
+import CommonModal from "@/components/Common/CommonModal/CommonModal";
 
 interface UserInformationFormType {
   nickname: string;
@@ -36,15 +36,6 @@ function UserInformationEditForm() {
   const { data: profileData } = useGetMyProfile();
   const { mutateAsync: postMyProfileMutate } = usePostMyProfile();
   const { mutateAsync: patchProfileImage } = usePatchProfileImage();
-
-  const originalFileList = useMemo(
-    () =>
-      makeBase64ToFileList(
-        profileData?.fileResponse.source || "",
-        `profile_original`
-      ),
-    [profileData?.fileResponse?.source]
-  );
 
   const {
     register,
@@ -73,7 +64,7 @@ function UserInformationEditForm() {
     myInfo,
     nickName,
   }: {
-    file: File;
+    file: File | null;
     userId: number;
     myInfo: string;
     nickName: string;
@@ -84,6 +75,13 @@ function UserInformationEditForm() {
         patchProfileImage({ userId, file }),
       ]);
       queryClient.invalidateQueries(QUERY_KEY.MY_PROFILE);
+      setModal(
+        <CommonModal
+          content="수정 완료"
+          buttonContent="확인"
+          onClick={closeModal}
+        />
+      );
     } catch (error: any) {
       setModal(
         <CommonMutationErrorModal error={error} closeModal={closeModal} />
@@ -129,7 +127,7 @@ function UserInformationEditForm() {
     if (!profileData) return;
     if (profileData?.nickname === data.nickname || isNicknameChecked) {
       changeMyInformation({
-        file: data.image?.[0] || originalFileList?.[0],
+        file: data.image?.[0] || null,
         userId: profileData.userId,
         myInfo: data.information,
         nickName: data.nickname,
@@ -158,6 +156,14 @@ function UserInformationEditForm() {
     };
   }, [profileData?.fileResponse?.source, changedImage]);
 
+  const validateFileSize = (files: FileList | null) => {
+    if (!files?.length) return true;
+    const maxSize = 5 * 1024 * 1024;
+    return (
+      files[0].size <= maxSize || "파일첨부 사이즈는 5MB 이내로 가능합니다."
+    );
+  };
+
   return (
     <>
       <form
@@ -166,6 +172,7 @@ function UserInformationEditForm() {
       >
         <div className="flex flex-col gap-6 justify-center items-center">
           <button
+            type="button"
             className="w-[10rem] h-[10rem]  rounded-full"
             onClick={() => selectedProfileFileList?.current?.click()}
           >
@@ -182,17 +189,29 @@ function UserInformationEditForm() {
           <Controller
             name="image"
             control={control}
-            render={({ field }) => (
-              <input
-                type="file"
-                accept="image/*"
-                id="image"
-                className="hidden"
-                ref={selectedProfileFileList}
-                onChange={(e) => {
-                  field.onChange(e.target.files);
-                }}
-              />
+            rules={{
+              validate: {
+                fileSize: validateFileSize,
+              },
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <>
+                <input
+                  type="file"
+                  accept="image/jpeg, image/png, image/gif"
+                  id="image"
+                  className="hidden"
+                  ref={selectedProfileFileList}
+                  onChange={(e) => {
+                    field.onChange(e.target.files);
+                  }}
+                />
+                {error && (
+                  <span className="text-red-500 text-[1.2rem]">
+                    {error.message}
+                  </span>
+                )}
+              </>
             )}
           />
 
@@ -246,7 +265,7 @@ function UserInformationEditForm() {
           rows={5}
         />
         <BottomButton
-          content="수정완료"
+          content="수정하기"
           borderColor="border-black"
           btnMaxWidth="max-w-[46.7rem]"
           btnHeight="h-[5.1rem]"

@@ -2,7 +2,7 @@ import requests from "./axios/request";
 import { multiInstance } from "./axios/axios";
 
 type PostSignUpProfileImageParams = {
-  files: File;
+  files: File | null;
   userId: number;
 };
 

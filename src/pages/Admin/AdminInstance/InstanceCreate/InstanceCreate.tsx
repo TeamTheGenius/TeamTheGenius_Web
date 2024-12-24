@@ -52,6 +52,7 @@ const InstanceCreate = () => {
     handleSubmit,
     watch,
     reset,
+    trigger,
     control,
     formState: { errors },
   } = useForm<InstanceCreateData>();
@@ -119,6 +120,7 @@ const InstanceCreate = () => {
   };
 
   useEffect(() => {
+    trigger("image");
     const file = image?.[0];
 
     if (!file) {
@@ -132,7 +134,7 @@ const InstanceCreate = () => {
     return () => {
       if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
-  }, [image]);
+  }, [image, trigger]);
 
   const isLoading = instanceCreateLoading || instanceFileCreateLoading;
 
@@ -150,6 +152,14 @@ const InstanceCreate = () => {
       });
     }
   }, [adminDetail, reset]);
+
+  const validateFileSize = (files: FileList | null) => {
+    if (!files?.length) return true;
+    const maxSize = 5 * 1024 * 1024;
+    return (
+      files[0].size <= maxSize || "파일첨부 사이즈는 5MB 이내로 가능합니다."
+    );
+  };
 
   if (isLoading) return <Loading />;
 
@@ -199,11 +209,14 @@ const InstanceCreate = () => {
         <div className="flex gap-4">
           <Input
             type="file"
-            accept="image/*"
+            accept="image/jpeg, image/png, image/gif"
             id="image"
             label="이미지 업로드"
             registration={register("image", {
               required: "사진을 첨부해주세요",
+              validate: {
+                fileSize: validateFileSize,
+              },
             })}
             error={errors.image}
             required

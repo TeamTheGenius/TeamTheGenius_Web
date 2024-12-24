@@ -54,7 +54,7 @@ export const Input = ({
         <p className="mt-1 text-md text-red-500 text-right">{error.message}</p>
       )}
       {information && (
-        <p className="mt-1 text-md text-blue-500 text-right">{information}</p>
+        <p className="mt-1 text-md text-gray-500 text-right">{information}</p>
       )}
     </div>
   );
