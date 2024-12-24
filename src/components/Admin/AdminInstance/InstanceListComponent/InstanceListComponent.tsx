@@ -1,5 +1,4 @@
 import Button from "@/components/Common/Button";
-import moment from "moment";
 import deleteAdminInstanceApi from "@/apis/deleteAdminInstanceApi";
 import { instanceListDataType } from "@/types/adminType";
 import InstanceTitle from "./InstanceTitle/InstanceTitle";
@@ -7,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "react-query";
 import { encrypt } from "@/hooks/useCrypto";
 import { PATH } from "@/constants/path";
+import { format } from "date-fns";
 
 type instanceListPropsType = {
   instanceList: instanceListDataType[];
@@ -27,8 +27,8 @@ const InstanceListComponent = ({ instanceList }: instanceListPropsType) => {
         <>
           {instanceList.map((item: instanceListDataType) => {
             const imageData = item.fileResponse.accessURI;
-            const startDate = moment(item.startedAt).format("YYYY-MM-DD");
-            const completedDate = moment(item.completedAt).format("YYYY-MM-DD");
+            const startDate = format(item.startedAt, "yyyy-MM-dd");
+            const completedDate = format(item.completedAt, "yyyy-MM-dd");
             return (
               <li
                 className="flex gap-[1.5rem] p-[1rem] bg-_neutral-10"

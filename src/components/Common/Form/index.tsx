@@ -28,7 +28,6 @@ export const Input = ({
   ...props
 }: InputProps) => {
   const { ref, ...restRegistration } = registration || {};
-
   return (
     <div className="w-full flex flex-col gap-2">
       <div className="flex gap-4 text-[1.4rem]">

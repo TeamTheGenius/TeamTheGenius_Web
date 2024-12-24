@@ -1,4 +1,3 @@
-import moment from "moment";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
@@ -17,6 +16,7 @@ import { Input, Select, TextArea } from "@/components/Common/Form/index";
 import { ModalLayer } from "@/components/Common/Modal/Modal";
 import { useModalStore } from "@/stores/modalStore";
 import { interestsOption } from "@/data/InterestData";
+import { format } from "date-fns";
 
 type DateRange = [Date | null, Date | null];
 
@@ -64,10 +64,13 @@ const InstanceCreate = () => {
     return tomorrow;
   };
 
-  const formatDateRange = (dateRange: DateRange) => ({
-    formmatStartDate: moment(dateRange[0]).format("YYYY-MM-DDT00:00:00"),
-    formmatEndDate: moment(dateRange[1]).format("YYYY-MM-DDT23:59:59"),
-  });
+  const formatDateRange = (dateRange: DateRange) => {
+    if (!dateRange[0] || !dateRange[1]) return null;
+    return {
+      formmatStartDate: format(dateRange[0], "yyyy-MM-dd'T'00:00:00"),
+      formmatEndDate: format(dateRange[1], "yyyy-MM-dd'T'23:59:59"),
+    };
+  };
 
   const onSuccessUsePostInstance = async (res: number) => {
     const file = image?.[0];
@@ -85,14 +88,12 @@ const InstanceCreate = () => {
     });
 
   const instanceSumbit = (data: InstanceCreateData) => {
-    if (!data?.image?.[0]) {
-      alert("이미지를 설정해주세요");
+    const dateFormat = formatDateRange(data.dateRange);
+    if (!dateFormat) {
       return;
     }
 
-    const { formmatStartDate, formmatEndDate } = formatDateRange(
-      data.dateRange
-    );
+    const { formmatStartDate, formmatEndDate } = dateFormat;
 
     const instanceData = {
       topicId: decryptTopicId,
@@ -255,6 +256,7 @@ const InstanceCreate = () => {
                 placeholderText="Start Date ~ End Date"
                 className="border-gray-300 border rounded-lg py-2 text-center w-full"
                 selectsRange={true}
+                required
               />
             </Input>
           )}
