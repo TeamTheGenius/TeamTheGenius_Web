@@ -1,3 +1,5 @@
+import { APIImage } from "./apiImageType";
+
 export interface MyProfileDataType {
   userId: number;
   identifier: string;
@@ -5,17 +7,16 @@ export interface MyProfileDataType {
   information: string;
   point: number;
   progressBar: number;
-  fileResponse: {
-    source: string;
-  };
+  fileResponse: APIImage;
 }
 
 export interface UserDataType {
   identifier: string;
   nickname: string;
-  fileResponse: {
+  fileResponse: APIImage;
+  /*   fileResponse: {
     source: "none" | string;
-  };
+  }; */
   frameId: number;
 }
 

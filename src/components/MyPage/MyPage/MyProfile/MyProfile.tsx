@@ -6,6 +6,7 @@ import { FRAMEID } from "@/constants/localStorageKey";
 import { decrypt } from "@/hooks/useCrypto";
 import { useGetMyProfile } from "@/hooks/queries/useProfileQuery";
 import { profileImageFrame } from "@/data/frameData";
+import { makeAPIImage } from "@/helpers/makeAPIImage";
 
 function MyProfile() {
   const { data } = useGetMyProfile();
@@ -29,7 +30,7 @@ function MyProfile() {
               />
             )}
             <Profile.Image
-              imgSrc={data.fileResponse.source}
+              imgSrc={makeAPIImage(data.fileResponse)}
               alt="프로필 이미지"
               width="w-[10.2rem]"
             />

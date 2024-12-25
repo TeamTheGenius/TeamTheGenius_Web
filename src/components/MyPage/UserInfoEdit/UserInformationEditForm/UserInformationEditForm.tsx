@@ -18,6 +18,7 @@ import ProfileImage from "../../MyPage/UserEdit/UserImg/UserImg";
 import { makeBase64URL } from "@/utils/makeBase64URL";
 import userImage from "@/assets/icon/image-edit.svg";
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
+import { makeAPIImage } from "@/helpers/makeAPIImage";
 
 interface UserInformationFormType {
   nickname: string;
@@ -136,15 +137,11 @@ function UserInformationEditForm() {
   };
 
   useEffect(() => {
+    if (!profileData) return;
     const file = changedImage?.[0];
 
     if (!file) {
-      setImagePreview(
-        makeBase64URL({
-          uri: profileData?.fileResponse?.source,
-          format: "jpg",
-        })
-      );
+      setImagePreview(makeAPIImage(profileData.fileResponse));
       return;
     }
 
@@ -154,7 +151,7 @@ function UserInformationEditForm() {
     return () => {
       if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
-  }, [profileData?.fileResponse?.source, changedImage]);
+  }, [profileData, changedImage]);
 
   const validateFileSize = (files: FileList | null) => {
     if (!files?.length) return true;

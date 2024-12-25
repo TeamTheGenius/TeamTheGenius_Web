@@ -8,6 +8,7 @@ import { useState } from "react";
 import { encrypt } from "@/hooks/useCrypto";
 import { useGetPopularInstance } from "@/hooks/queries/useHomeInstanceQuery";
 import EmptyDataComponent from "../EmptyDataComponent/EmptyDataComponent";
+import { makeAPIImage } from "@/helpers/makeAPIImage";
 
 function PopularChallengeItems() {
   const [clickPossible, setClickPossible] = useState<boolean>(true);
@@ -45,7 +46,7 @@ function PopularChallengeItems() {
                       onClick={() => onClick(item.instanceId, clickPossible)}
                     >
                       <ChallengeItem.Image
-                        imgSrc={item.fileResponse.source}
+                        imgSrc={makeAPIImage(item.fileResponse)}
                         alt="챌린지 사진"
                         direction="horizontal"
                       >

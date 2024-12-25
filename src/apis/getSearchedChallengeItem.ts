@@ -1,3 +1,4 @@
+import { APIImage } from "@/types/apiImageType";
 import { acceptInstance } from "./axios/axios";
 import requests from "./axios/request";
 
@@ -13,9 +14,7 @@ interface Data {
   keyword: string;
   participantCount: number;
   pointPerPerson: number;
-  fileResponse: {
-    source: string;
-  };
+  fileResponse: APIImage;
 }
 
 const getSearchedChallengeItem = async ({
@@ -44,9 +43,7 @@ const getSearchedChallengeItem = async ({
 
       const { last } = res.data.data;
       const { pageNumber } = res.data.data.pageable;
-      return (
-        { posts: transformedContent, isLast: last, page: pageNumber } || {}
-      );
+      return { posts: transformedContent, isLast: last, page: pageNumber };
     });
   return data || {};
 };

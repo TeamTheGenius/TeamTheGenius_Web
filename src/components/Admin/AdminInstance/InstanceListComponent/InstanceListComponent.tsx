@@ -7,6 +7,7 @@ import { useQueryClient } from "react-query";
 import { encrypt } from "@/hooks/useCrypto";
 import { PATH } from "@/constants/path";
 import { format } from "date-fns";
+import { makeAPIImage } from "@/helpers/makeAPIImage";
 
 type instanceListPropsType = {
   instanceList: instanceListDataType[];
@@ -26,7 +27,7 @@ const InstanceListComponent = ({ instanceList }: instanceListPropsType) => {
       <ul className="flex flex-col gap-10 rounded-xl h-full">
         <>
           {instanceList.map((item: instanceListDataType) => {
-            const imageData = item.fileResponse.source;
+            const imageData = makeAPIImage(item.fileResponse);
             const startDate = format(item.startedAt, "yyyy-MM-dd");
             const completedDate = format(item.completedAt, "yyyy-MM-dd");
             return (

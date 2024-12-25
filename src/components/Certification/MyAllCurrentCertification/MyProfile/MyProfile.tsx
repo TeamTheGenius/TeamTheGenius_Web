@@ -3,6 +3,7 @@ import { FRAMEID } from "@/constants/localStorageKey";
 import { decrypt } from "@/hooks/useCrypto";
 import { useGetUserProfile } from "@/hooks/queries/useProfileQuery";
 import { profileImageFrame } from "@/data/frameData";
+import { makeAPIImage } from "@/helpers/makeAPIImage";
 
 interface Props {
   decryptedUserId: number;
@@ -24,7 +25,7 @@ function MyProfile({ decryptedUserId }: Props) {
             />
           )}
           <Profile.Image
-            imgSrc={userProfile.fileResponse.source}
+            imgSrc={makeAPIImage(userProfile.fileResponse)}
             alt={"프로필 이미지"}
             width="w-[13rem]"
           />

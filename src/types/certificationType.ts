@@ -1,3 +1,5 @@
+import { APIImage } from "./apiImageType";
+
 export interface CertificationDataType {
   certificationId: number;
   certificationAttempt: number;
@@ -25,11 +27,7 @@ export interface CertificationInstnaceDetailDataType {
   certificationMethod: string;
   startDate: string;
   completedDate: string;
-  fileResponse: File;
-}
-
-interface File {
-  source: string;
+  fileResponse: APIImage;
 }
 
 export interface myWeekCertificationDataType {
@@ -42,9 +40,7 @@ export interface AllWeekCertificationDataType {
   nickname: string;
   certifications: CertificationDataType[];
   frameId: number;
-  profile: {
-    source: string;
-  };
+  profile: APIImage;
 }
 
 export interface TotalCertificationDataType {

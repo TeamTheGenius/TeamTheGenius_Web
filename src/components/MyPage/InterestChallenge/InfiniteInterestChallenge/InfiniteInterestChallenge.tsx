@@ -2,6 +2,7 @@ import ChallengeItem from "@/components/Common/ChallengeItem/ChallengeItem";
 import { EmptyDataView } from "@/components/Common/EmptyDataView/EmptyDataView";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import { PATH } from "@/constants/path";
+import { makeAPIImage } from "@/helpers/makeAPIImage";
 import {
   useDeleteLikesChallenge,
   useGetInfiniteLikedChallenges,
@@ -51,7 +52,7 @@ function InfiniteInterestChallenge() {
           </div>
         )}
         {!!data?.pages[0].posts.length && (
-          <div className="pt-[3rem] _sm:pt-[1.6rem] w-full max-w-[51.5rem] _sm:max-w-[34.9rem] grid grid-cols-3 gap-x-[1rem] _sm:grid-cols-2">
+          <div className="w-full max-w-[72.2rem] grid grid-cols-4 gap-x-[2.2rem] gap-y-[0.3rem] _md:grid-cols-3 _sm:grid-cols-2">
             {data?.pages.map((page, pageIndex) =>
               page.posts.map(
                 (post: InstanceThumbnailDataType, postIndex: number) => (
@@ -63,11 +64,9 @@ function InfiniteInterestChallenge() {
                       onClick={() => onClickChallengeItem(post.instanceId)}
                     >
                       <ChallengeItem.Image
-                        imgSrc={post.fileResponse.source}
+                        imgSrc={makeAPIImage(post.fileResponse)}
                         alt={"챌린지 이미지"}
                         direction="vertical"
-                        maxWidth="max-w-[16.5rem]"
-                        paddingBottom="pb-[72.7%]"
                       >
                         <ChallengeItem.Heart
                           onClick={(e) => onClickHeart(e, post.likesId)}

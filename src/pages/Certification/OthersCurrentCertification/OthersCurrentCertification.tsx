@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import { AllWeekCertificationDataType } from "@/types/certificationType";
 import LoadingBox from "@/components/Common/Loading/LoadingBox/LoadingBox";
 import { useGetAllCertificationWeek } from "@/hooks/queries/useCertificationQuery";
+import { makeAPIImage } from "@/helpers/makeAPIImage";
 
 function OthersCurrentCertification() {
   const { id } = useParams();
@@ -39,7 +40,7 @@ function OthersCurrentCertification() {
                 <div>
                   <div className="flex justify-between mb-[2.3rem] _sm:mb-[1.7rem]">
                     <OthersProfile
-                      imgSrc={post.profile.source}
+                      imgSrc={makeAPIImage(post.profile)}
                       alt="프로필 이미지"
                       nickName={post.nickname}
                       frameId={post.frameId}

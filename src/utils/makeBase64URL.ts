@@ -1,6 +1,6 @@
 interface Params {
   uri?: string;
-  format: string;
+  format?: string;
 }
 
 export const makeBase64URL = ({ uri, format }: Params) => {

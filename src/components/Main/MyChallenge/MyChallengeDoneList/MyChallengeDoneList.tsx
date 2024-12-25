@@ -9,6 +9,7 @@ import React from "react";
 import { EmptyDataView } from "@/components/Common/EmptyDataView/EmptyDataView";
 import { useModalStore } from "@/stores/modalStore";
 import { useGetMyDoneChallenges } from "@/hooks/queries/useMyChallengeQuery";
+import { makeAPIImage } from "@/helpers/makeAPIImage";
 
 const MyChallengeDoneList = () => {
   const { setModal } = useModalStore();
@@ -60,7 +61,7 @@ const MyChallengeDoneList = () => {
                 <div className="min-w-[16.4rem] w-[16.4rem]">
                   <ChallengeItem>
                     <ChallengeItem.Image
-                      imgSrc={item.fileResponse.source}
+                      imgSrc={makeAPIImage(item.fileResponse)}
                       alt={"챌린지 이미지"}
                       direction="vertical"
                     >

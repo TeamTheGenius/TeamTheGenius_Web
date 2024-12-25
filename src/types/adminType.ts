@@ -1,3 +1,5 @@
+import { APIImage } from "./apiImageType";
+
 export type adminTopicEditApiType = {
   topicTitle: string;
   topicDesc: string;
@@ -35,10 +37,7 @@ export type uploadFileTye = {
 export type adminTopicDataType = {
   title: string;
   topicId: number;
-  fileResponse: {
-    fileId: number;
-    source: string;
-  };
+  fileResponse: APIImage;
 };
 export type topicDeteilType = {
   topicId: number;
@@ -47,15 +46,12 @@ export type topicDeteilType = {
   description: string;
   notice: string;
   pointPerPerson: number;
-  fileResponse: {
-    fileId: number;
-    source: string;
-  };
+  fileResponse: APIImage;
 };
 export type topicListType = {
   topicId: number;
   title: string;
-  fileResponse: { fileId: number; source: string };
+  fileResponse: APIImage;
 };
 export type instanceListDataType = {
   topicId: number;
@@ -63,7 +59,7 @@ export type instanceListDataType = {
   title: string;
   startedAt: string;
   completedAt: string;
-  fileResponse: { fileId: number; source: string };
+  fileResponse: APIImage;
 };
 export type instanceDeteilType = {
   topicId: number;
@@ -75,10 +71,7 @@ export type instanceDeteilType = {
   pointPerPerson: number;
   startedAt: string;
   completedAt: string;
-  fileResponse: {
-    fileId: number;
-    source: string;
-  };
+  fileResponse: APIImage;
 };
 export type instanceCreateApiType = {
   instanceTitle: string;
@@ -96,7 +89,7 @@ export type instanceCreateFileApiType = {
   instanceImg: File;
 };
 export type fileType = {
-  file?: { fileId?: number; source?: string };
+  file?: APIImage;
 };
 export type fileDataType = {
   lastModified: number;
