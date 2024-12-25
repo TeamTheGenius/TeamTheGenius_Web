@@ -15,7 +15,6 @@ import { Input, TextArea } from "@/components/Common/Form";
 import { useGetCheckNickName } from "@/hooks/queries/useUserQuery";
 import Button from "@/components/Common/Button";
 import ProfileImage from "../../MyPage/UserEdit/UserImg/UserImg";
-import { makeBase64URL } from "@/utils/makeBase64URL";
 import userImage from "@/assets/icon/image-edit.svg";
 import CommonModal from "@/components/Common/CommonModal/CommonModal";
 import { makeAPIImage } from "@/helpers/makeAPIImage";

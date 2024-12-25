@@ -18,7 +18,6 @@ import { interestsOption } from "@/data/InterestData";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale";
-import { makeBase64URL } from "@/utils/makeBase64URL";
 import { makeAPIImage } from "@/helpers/makeAPIImage";
 
 type DateRange = [Date | null, Date | null];
