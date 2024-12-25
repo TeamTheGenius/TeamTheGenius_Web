@@ -1,9 +1,9 @@
+import { APIImage } from "./apiImageType";
+
 export interface LikedChallengeDataType {
   instanceId: number;
   title: string;
   pointPerPerson: number;
-  fileResponse: {
-    source: string;
-  };
+  fileResponse: APIImage;
   likesId: number;
 }

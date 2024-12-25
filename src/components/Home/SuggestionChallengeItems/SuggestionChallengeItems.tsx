@@ -8,6 +8,7 @@ import { useState } from "react";
 import { encrypt } from "@/hooks/useCrypto";
 import { useGetRecommendInstance } from "@/hooks/queries/useHomeInstanceQuery";
 import EmptyDataComponent from "../EmptyDataComponent/EmptyDataComponent";
+import { makeAPIImage } from "@/helpers/makeAPIImage";
 
 function SuggestionChallengeItems() {
   const [clickPossible, setClickPossible] = useState<boolean>(true);
@@ -43,7 +44,7 @@ function SuggestionChallengeItems() {
                       onClick={() => onClick(item.instanceId, clickPossible)}
                     >
                       <ChallengeItem.Image
-                        imgSrc={item.fileResponse.source}
+                        imgSrc={makeAPIImage(item.fileResponse)}
                         alt="챌린지 사진"
                         direction="horizontal"
                       >

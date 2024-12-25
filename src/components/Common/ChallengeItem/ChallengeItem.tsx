@@ -80,7 +80,7 @@ function Image({
     horizontal: "w-[18.8rem] h-[12.6rem]",
     vertical: maxWidth
       ? `w-full ${maxWidth} ${paddingBottom}`
-      : "w-full max-w-[16.4rem] pb-[77%]",
+      : "w-full pb-[70%]",
   };
 
   const onErrorImageLoad = (

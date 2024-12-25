@@ -4,6 +4,7 @@ import Image from "@/components/ChallengeDetail/Image/Image";
 import Information from "@/components/ChallengeDetail/Information/Information";
 import Line from "@/components/ChallengeDetail/Line/Line";
 import ParticipationCancelButton from "@/components/ChallengeDetail/ParticipationCancelButton/ParticipationCancelButton";
+import { makeAPIImage } from "@/helpers/makeAPIImage";
 import { useGetChallengeDetail } from "@/hooks/queries/useInstanceDetailQuery";
 
 interface Props {
@@ -26,7 +27,7 @@ function ChallengeDetailContent({ decryptId }: Props) {
   return (
     <>
       <div className="max-w-[54.6rem] w-full flex flex-col gap-[2.3rem]">
-        <Image imgSrc={data.fileResponse.source} alt={"챌린지 이미지"} />
+        <Image imgSrc={makeAPIImage(data.fileResponse)} alt={"챌린지 이미지"} />
         <CoreInformation
           challengeTitle={data.title}
           applicant={data.participantCount}

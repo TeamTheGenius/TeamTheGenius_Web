@@ -1,3 +1,5 @@
+import { APIImage } from "./apiImageType";
+
 export interface ChallengeDetailDataType {
   instanceId: number;
   title: string;
@@ -11,7 +13,7 @@ export interface ChallengeDetailDataType {
   certificationMethod: string;
   joinStatus: "NO" | "YES";
   likesInfo: Likes;
-  fileResponse: File;
+  fileResponse: APIImage;
   progress: "PREACTIVITY" | "ACTIVITY" | "DONE";
 }
 
@@ -19,8 +21,4 @@ interface Likes {
   likesId: number;
   isLiked: boolean;
   likesCount: number;
-}
-
-interface File {
-  source: string;
 }

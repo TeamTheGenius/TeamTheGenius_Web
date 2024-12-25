@@ -11,6 +11,7 @@ import CertificationModal from "@/components/Main/MyChallenge/MyChallengeModal/C
 import { EmptyDataView } from "@/components/Common/EmptyDataView/EmptyDataView";
 import { PATH } from "@/constants/path";
 import { useModalStore } from "@/stores/modalStore";
+import { makeAPIImage } from "@/helpers/makeAPIImage";
 
 interface PassItemModal {
   e: React.MouseEvent;
@@ -70,7 +71,7 @@ const MyChallengeActivityList = () => {
                 <div className="min-w-[16.4rem] w-[16.4rem]">
                   <ChallengeItem>
                     <ChallengeItem.Image
-                      imgSrc={item.fileResponse.source}
+                      imgSrc={makeAPIImage(item.fileResponse)}
                       alt={"챌린지 이미지"}
                       direction="vertical"
                     >

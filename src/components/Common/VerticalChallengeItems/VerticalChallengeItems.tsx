@@ -2,15 +2,15 @@ import { useNavigate } from "react-router-dom";
 import ChallengeItem from "../ChallengeItem/ChallengeItem";
 import { PATH } from "@/constants/path";
 import { encrypt } from "@/hooks/useCrypto";
+import { APIImage } from "@/types/apiImageType";
+import { makeAPIImage } from "@/helpers/makeAPIImage";
 
 interface ChallengeItemProps {
   instanceId: number;
   title: string;
   participantCnt: number;
   pointPerPerson: number;
-  fileResponse: {
-    source: string;
-  };
+  fileResponse: APIImage;
 }
 
 interface Props {
@@ -31,7 +31,7 @@ function VerticalChallengeItems({ data }: Props) {
             onClick={() => onClick(encrypt(item.instanceId))}
           >
             <ChallengeItem.Image
-              imgSrc={item.fileResponse.source}
+              imgSrc={makeAPIImage(item.fileResponse)}
               direction="vertical"
               alt="챌린지 이미지"
             >

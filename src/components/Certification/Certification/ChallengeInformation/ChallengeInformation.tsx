@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import Loading from "@/components/Common/Loading/Loading";
 import { decrypt } from "@/hooks/useCrypto";
 import { useGetCertificationInstanceDetail } from "@/hooks/queries/useCertificationQuery";
+import { makeAPIImage } from "@/helpers/makeAPIImage";
 
 function ChallengeInformation() {
   const { id } = useParams();
@@ -29,7 +30,7 @@ function ChallengeInformation() {
     <>
       <div className="relative">
         <ChallengeImage
-          imgSrc={data.fileResponse.source}
+          imgSrc={makeAPIImage(data.fileResponse)}
           alt={"챌린지 이미지"}
         />
 

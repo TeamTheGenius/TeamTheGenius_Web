@@ -1,14 +1,12 @@
+import { APIImage } from "./apiImageType";
+
 export interface MyChallengePreActivityDataType {
   instanceId: number;
   title: string;
   remainDays: number;
   participantCount: number;
   pointPerPerson: number;
-  fileResponse: File;
-}
-
-interface File {
-  source: string;
+  fileResponse: APIImage;
 }
 
 export interface MyChallengeDoneDataType {
@@ -21,7 +19,7 @@ export interface MyChallengeDoneDataType {
   rewardedPoints: number;
   achievementRate: number;
   itemId: number;
-  fileResponse: File;
+  fileResponse: APIImage;
 }
 
 export interface MyChallengeActivityDataType {
@@ -33,5 +31,5 @@ export interface MyChallengeActivityDataType {
   numOfPassItem: number;
   canUsePassItem: boolean;
   itemId: number;
-  fileResponse: File;
+  fileResponse: APIImage;
 }

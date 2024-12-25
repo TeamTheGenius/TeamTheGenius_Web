@@ -27,7 +27,7 @@ function InfiniteNewChallenge() {
           </EmptyDataView>
         </div>
       )}
-      <div className="w-full max-w-[72.2rem] grid grid-cols-4 gap-x-[2.2rem] gap-y-[0.3rem] _md:grid-cols-3 _sm:grid-cols-2">
+      <div className=" w-full max-w-[72.2rem] grid grid-cols-4 gap-x-[2.2rem] gap-y-[0.3rem] _md:grid-cols-3 _sm:grid-cols-2">
         {data?.pages.map((page) => (
           <VerticalChallengeItems key={page.page} data={page.posts} />
         ))}

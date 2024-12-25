@@ -6,6 +6,7 @@ import MyChallengeWrap from "../MyChallengeWrap/MyChallengeWrap";
 import { useGetMyPreActivityChallenges } from "@/hooks/queries/useMyChallengeQuery";
 import { EmptyDataView } from "@/components/Common/EmptyDataView/EmptyDataView";
 import { PATH } from "@/constants/path";
+import { makeAPIImage } from "@/helpers/makeAPIImage";
 
 function MyChallengePreActivityList() {
   const { data } = useGetMyPreActivityChallenges();
@@ -29,7 +30,7 @@ function MyChallengePreActivityList() {
                 <div className="min-w-[16.4rem] w-[16.4rem] h-[12.6rem]">
                   <ChallengeItem>
                     <ChallengeItem.Image
-                      imgSrc={item.fileResponse.source}
+                      imgSrc={makeAPIImage(item.fileResponse)}
                       alt={"챌린지 이미지"}
                       direction="vertical"
                     >

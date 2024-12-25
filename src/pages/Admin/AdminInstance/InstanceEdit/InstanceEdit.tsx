@@ -18,7 +18,7 @@ import { interestsOption } from "@/data/InterestData";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale";
-import { makeBase64URL } from "@/utils/makeBase64URL";
+import { makeAPIImage } from "@/helpers/makeAPIImage";
 
 type DateRange = [Date | null, Date | null];
 
@@ -108,12 +108,7 @@ const InstanceEdit = () => {
     trigger("image");
     const file = image?.[0];
     if (!file) {
-      setImagePreview(
-        makeBase64URL({
-          uri: instanceDetail?.fileResponse?.source,
-          format: "jpg",
-        })
-      );
+      setImagePreview(makeAPIImage(instanceDetail.fileResponse));
       return;
     }
 
@@ -123,7 +118,7 @@ const InstanceEdit = () => {
     return () => {
       if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
-  }, [image, instanceDetail?.fileResponse?.source, trigger]);
+  }, [image, instanceDetail, trigger]);
 
   useEffect(() => {
     if (instanceDetail) {
