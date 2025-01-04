@@ -72,7 +72,7 @@ function GuestLOginForm() {
           id="password"
           label="비밀번호"
           required
-          placeholder="아이디를 입력해주세요."
+          placeholder="비밀번호를 입력해주세요."
           maxLength={20}
           registration={register("password", {
             /*             pattern: {
